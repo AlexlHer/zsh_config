@@ -1,0 +1,27 @@
+
+## --- Alias section ---
+
+# File and Dir colors for ls and other outputs
+export LS_OPTIONS='--color=auto'
+eval "$(dircolors -b)"
+
+alias ls='ls $LS_OPTIONS'
+alias ll='ls -l $LS_OPTIONS'
+alias la='ls -la $LS_OPTIONS'
+
+alias grep='grep --color=always'
+
+alias gits='git status'
+alias gita='git add'
+alias gitc='git commit'
+
+alias cpf='cp'
+alias cp='cp -i'
+
+alias mvf='mv'
+alias mv='mv -i'
+
+alias df='df -h'
+alias free='free -m'
+
+alias tarx='tar -Ipixz xf'
