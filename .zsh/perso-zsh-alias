@@ -14,6 +14,8 @@ alias grep='grep --color=always'
 alias gits='git status'
 alias gita='git add'
 alias gitc='git commit'
+alias gitco='git checkout'
+alias gitka='gitk --all'
 
 alias cpf='cp'
 alias cp='cp -i'
@@ -25,3 +27,8 @@ alias df='df -h'
 alias free='free -m'
 
 alias tarx='tar -Ipixz xf'
+
+alias wine32='WINEPREFIX=~/.wine32 wine'
+alias winetricks32='WINEPREFIX=~/.wine32 winetricks'
+
+alias restartkde='killall plasmashell & kstart5 plasmashell'
