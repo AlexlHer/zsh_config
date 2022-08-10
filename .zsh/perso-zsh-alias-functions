@@ -24,3 +24,8 @@ dum(){
   local CMDD=`du -ahc --time --max-depth=$DEPTH`
   grep --color=always -E -- "$(echo $CMDD | tail -n1)|$" <(echo $CMDD | sort -h)
 }
+
+# "Find" alias with symlinks follow.
+dinf(){
+  find -L . -name $1 2> /dev/null
+}
