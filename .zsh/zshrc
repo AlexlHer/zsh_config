@@ -1,22 +1,50 @@
 
+## ----- Main zshrc -----
+
+
+
+# ---------------------------------------------------------------
+# -------------------------- Sources ----------------------------
+# ---------------------------------------------------------------
+
 # Source manjaro-zsh-configuration
-if [[ -e ~/.zsh/manjaro-zsh-config ]]; then
+if [[ -e ~/.zsh/manjaro-zsh-config ]]
+then
   source ~/.zsh/manjaro-zsh-config
 fi
 
 # Source perso alias
-if [[ -e ~/.zsh/perso-zsh-alias ]]; then
+if [[ -e ~/.zsh/perso-zsh-alias ]]
+then
   source ~/.zsh/perso-zsh-alias
 fi
 
 # Source perso functions
-if [[ -e ~/.zsh/perso-zsh-alias-functions ]]; then
+if [[ -e ~/.zsh/perso-zsh-alias-functions ]]
+then
   source ~/.zsh/perso-zsh-alias-functions
 fi
 
-# Portable HoMyPosh
-if [[ -e ~/.zsh/oh-my-posh/oh-my-posh ]]; then
-  if [[ -e ~/.zsh/oh-my-posh/themes/HoMyZSH.json ]]; then
-    eval "$(~/.zsh/oh-my-posh/oh-my-posh init zsh --config ~/.zsh/oh-my-posh/themes/HoMyZSH.json)"
+
+
+# ---------------------------------------------------------------
+# -------------------------- OhMyPosh ---------------------------
+# ---------------------------------------------------------------
+
+# OhMyPosh System
+if [[ -x "$(command -v oh-my-posh)" ]]
+then
+  if [[ -e ~/.zsh/oh-my-posh/themes/OhMyZSH.json ]]
+  then
+    eval "$(oh-my-posh init zsh --config ~/.zsh/oh-my-posh/themes/OhMyZSH.json)"
+  fi
+
+# Portable OhMyPosh
+elif [[ -e ~/.zsh/oh-my-posh/oh-my-posh ]]
+then
+  if [[ -e ~/.zsh/oh-my-posh/themes/OhMyZSH.json ]]
+  then
+    eval "$(~/.zsh/oh-my-posh/oh-my-posh init zsh --config ~/.zsh/oh-my-posh/themes/OhMyZSH.json)"
   fi
 fi
+

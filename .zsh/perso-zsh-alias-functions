@@ -1,6 +1,8 @@
 
 ## --- Functions section ---
 
+
+
 # Compress with pixz.
 tarc(){
   tar -Ipixz -cf $1.tar.xz $1
