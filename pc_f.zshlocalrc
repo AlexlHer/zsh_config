@@ -1,0 +1,168 @@
+
+## ----- For PC.F Only -----
+
+
+
+# ---------------------------------------------------------------
+# --------------------------- Path ------------------------------
+# ---------------------------------------------------------------
+
+export PATH=~/.arm/forge/22.1.1/bin:$PATH
+
+
+
+# ---------------------------------------------------------------
+# -------------------- Arcane Functions -------------------------
+# ---------------------------------------------------------------
+
+initarc(){
+  WORK_DIR=~/work/arcane
+  LARGE_DIR=~/build_install
+
+  ARCANE_TYPE_BUILD=${1}
+
+  ARCANE_SOURCE_DIR=${WORK_DIR}/framework
+  ARCANE_BUILD_DIR=${LARGE_DIR}/build_arc/${ARCANE_TYPE_BUILD}
+  ARCANE_INSTALL_PATH=${LARGE_DIR}/install_arc/${ARCANE_TYPE_BUILD}
+  mkdir -p ${ARCANE_BUILD_DIR}
+  mkdir -p ${ARCANE_INSTALL_PATH}
+
+  cd ${ARCANE_BUILD_DIR}
+}
+
+initarcfork(){
+  WORK_DIR=~/work/arcane
+  LARGE_DIR=~/build_install
+
+  ARCANE_TYPE_BUILD=${1}
+
+  ARCANE_SOURCE_DIR=${WORK_DIR}/forks/framework
+  ARCANE_BUILD_DIR=${LARGE_DIR}/build_arc_fork/${ARCANE_TYPE_BUILD}
+  ARCANE_INSTALL_PATH=${LARGE_DIR}/install_arc_fork/${ARCANE_TYPE_BUILD}
+  mkdir -p ${ARCANE_BUILD_DIR}
+  mkdir -p ${ARCANE_INSTALL_PATH}
+
+  cd ${ARCANE_BUILD_DIR}
+}
+
+initqama(){
+  WORK_DIR=~/work/arcane
+  LARGE_DIR=~/build_install
+
+  ARCANE_TYPE_BUILD=${1}
+  ARCANE_INSTALL_PATH=${LARGE_DIR}/install_arc/${ARCANE_TYPE_BUILD}
+
+  QS_BUILD_TYPE=${1}
+  QS_SOURCE_DIR=${WORK_DIR}/arcane-benchs/quicksilver
+  QS_BUILD_DIR=${LARGE_DIR}/build_qs/${QS_BUILD_TYPE}
+  mkdir -p ${QS_BUILD_DIR}
+
+  QS_EXE=${QS_BUILD_DIR}/src/Quicksilver
+  QS_ARC=${QS_SOURCE_DIR}/data/tests/ExampleFull.arc
+
+  cd ${QS_BUILD_DIR}
+}
+
+configarc(){
+  if [[ -v ARCANE_BUILD_DIR ]];
+  then
+    cmake \
+      -S ${ARCANE_SOURCE_DIR} \
+      -B ${ARCANE_BUILD_DIR} \
+      -GNinja \
+      -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \
+      -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
+      -DARCANEDOC_LEGACY_THEME=OFF
+  
+    chmod u+x ${ARCANE_BUILD_DIR}/bin/*
+  else
+    echo "Lancer initarc avant"
+  fi
+}
+
+configarcgpu(){
+  if [[ -v ARCANE_BUILD_DIR ]];
+  then
+  cmake \
+    -S ${ARCANE_SOURCE_DIR} \
+    -B ${ARCANE_BUILD_DIR} \
+    -GNinja \
+    -DARCANE_ACCELERATOR_MODE=CUDANVCC -DCMAKE_CUDA_COMPILER=`which nvcc` \
+    -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \
+    -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD}
+
+  chmod u+x ${ARCANE_BUILD_DIR}/bin/*
+  else
+    echo "Lancer initarc avant"
+  fi
+}
+
+configarcolddoc(){
+  if [[ -v ARCANE_BUILD_DIR ]];
+  then
+  cmake \
+    -S ${ARCANE_SOURCE_DIR} \
+    -B ${ARCANE_BUILD_DIR} \
+    -GNinja \
+    -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \
+    -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
+    -DARCANEDOC_LEGACY_THEME=ON
+
+  chmod u+x ${ARCANE_BUILD_DIR}/bin/*
+  else
+    echo "Lancer initarc avant"
+  fi
+}
+
+configqama(){
+  if [[ -v QS_BUILD_DIR ]];
+  then
+  cmake \
+    -S ${QS_SOURCE_DIR} \
+    -B ${QS_BUILD_DIR} \
+    -GNinja \
+    -DCMAKE_PREFIX_PATH=${ARCANE_INSTALL_PATH} \
+    -DCMAKE_BUILD_TYPE=${QS_BUILD_TYPE}
+  else
+    echo "Lancer initqama avant"
+  fi
+}
+
+biarc(){
+  chmod u+x ${ARCANE_BUILD_DIR}/bin/*
+  cmake --build ${ARCANE_BUILD_DIR} --target install
+}
+
+docarc(){
+  chmod u+x ${ARCANE_BUILD_DIR}/bin/*
+  cmake --build ${ARCANE_BUILD_DIR} --target ${1}doc
+}
+
+
+
+# ---------------------------------------------------------------
+# ------------------ Proton/Wine Functions ----------------------
+# ---------------------------------------------------------------
+
+runproton(){
+  source ~/.proton/proton_vars.sh
+  "$PROTON_EXE" run ${1}
+}
+
+
+
+# ---------------------------------------------------------------
+# ----------------------- Ytb aliases ---------------------------
+# ---------------------------------------------------------------
+
+alias ytmp3='yt-dlp -f bestaudio --extract-audio --audio-format mp3 --audio-quality 0'
+alias ytmp4='yt-dlp -f bestvideo+bestaudio --recode-video mp4'
+
+
+
+# ---------------------------------------------------------------
+# ------------------- Pacman/YAY aliases ------------------------
+# ---------------------------------------------------------------
+
+alias pmup='sudo pacman -Syu'
+alias yup='yay -Syu'
