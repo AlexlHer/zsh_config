@@ -11,9 +11,19 @@
 export LS_OPTIONS='--color=auto'
 eval "$(dircolors -b)"
 
-alias ls='ls $LS_OPTIONS'
-alias ll='ls -l $LS_OPTIONS'
-alias la='ls -la $LS_OPTIONS'
+## --- With EXA-LS ---
+if [[ -x "$(command -v exa)" ]]
+then
+  alias ls='exa --icons'
+  alias l='exa --icons --color-scale --time-style long-iso --git -BghHl'
+  alias la='exa --icons --color-scale --time-style long-iso --git -BghHla'
+
+## --- Without EXA-LS ---
+else
+  alias ls='ls $LS_OPTIONS'
+  alias l='ls -l $LS_OPTIONS'
+  alias la='ls -la $LS_OPTIONS'
+fi
 
 # ---------------------------------------------------------------
 # ----------------------- GREP aliases --------------------------
@@ -72,3 +82,12 @@ alias winetricks32='WINEPREFIX=~/.wine32 winetricks'
 # ---------------------------------------------------------------
 
 alias restartkde='killall plasmashell & kstart5 plasmashell'
+
+
+
+# ---------------------------------------------------------------
+# ---------------------- Podman aliases -------------------------
+# ---------------------------------------------------------------
+
+alias pm='podman'
+alias docker='podman'

@@ -8,6 +8,12 @@ tarc(){
   tar -Ipixz -cf $1.tar.xz $1
 }
 
+# (EXA-LS Only) Color $1 or 3 last edited files.
+ll(){
+  local DEPTH="${1:-1}"
+  exa --icons --color-scale --time-style long-iso --git -BghHl -TL $DEPTH
+}
+
 # Color $1 or 3 last edited files.
 lll(){
   local NUM_FILES="${1:-3}"
