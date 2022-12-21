@@ -18,6 +18,13 @@ then
   alias l='exa --icons --color-scale --time-style long-iso --git -BghHl'
   alias la='exa --icons --color-scale --time-style long-iso --git -BghHla'
 
+## --- With Portable EXA-LS ---
+elif [[ -e ~/.zsh/progs/exa/exa ]]
+then
+  alias ls='~/.zsh/progs/exa/exa --icons'
+  alias l='~/.zsh/progs/exa/exa --icons --color-scale --time-style long-iso --git -BghHl'
+  alias la='~/.zsh/progs/exa/exa --icons --color-scale --time-style long-iso --git -BghHla'
+
 ## --- Without EXA-LS ---
 else
   alias ls='ls $LS_OPTIONS'
@@ -41,6 +48,7 @@ alias gits='git status'
 alias gita='git add'
 alias gitc='git commit'
 alias gitco='git checkout'
+alias gitw='git switch -c'
 alias gitka='gitk --all'
 
 
@@ -64,7 +72,8 @@ alias free='free -m'
 # ------------------------ TAR aliases --------------------------
 # ---------------------------------------------------------------
 
-alias tarx='tar -Ipixz xf'
+alias tarcxz='tar -Ipixz -cf'
+alias tarxxz='tar -Ipixz -xf'
 
 
 

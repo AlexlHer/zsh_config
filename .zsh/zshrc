@@ -34,17 +34,17 @@ fi
 # OhMyPosh System
 if [[ -x "$(command -v oh-my-posh)" ]]
 then
-  if [[ -e ~/.zsh/oh-my-posh/themes/OhMyZSH.json ]]
+  if [[ -e ~/.zsh/progs/oh-my-posh/themes/OhMyZSH.json ]]
   then
-    eval "$(oh-my-posh init zsh --config ~/.zsh/oh-my-posh/themes/OhMyZSH.json)"
+    eval "$(oh-my-posh init zsh --config ~/.zsh/progs/oh-my-posh/themes/OhMyZSH.json)"
   fi
 
 # Portable OhMyPosh
-elif [[ -e ~/.zsh/oh-my-posh/oh-my-posh ]]
+elif [[ -e ~/.zsh/progs/oh-my-posh/oh-my-posh ]]
 then
-  if [[ -e ~/.zsh/oh-my-posh/themes/OhMyZSH.json ]]
+  if [[ -e ~/.zsh/progs/oh-my-posh/themes/OhMyZSH.json ]]
   then
-    eval "$(~/.zsh/oh-my-posh/oh-my-posh init zsh --config ~/.zsh/oh-my-posh/themes/OhMyZSH.json)"
+    eval "$(~/.zsh/progs/oh-my-posh/oh-my-posh init zsh --config ~/.zsh/progs/oh-my-posh/themes/OhMyZSH.json)"
   fi
 fi
 
