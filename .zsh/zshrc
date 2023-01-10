@@ -14,15 +14,15 @@ then
 fi
 
 # Source perso alias
-if [[ -e ~/.zsh/perso-zsh-alias ]]
+if [[ -e ~/.zsh/zsh-aliases ]]
 then
-  source ~/.zsh/perso-zsh-alias
+  source ~/.zsh/zsh-aliases
 fi
 
 # Source perso functions
-if [[ -e ~/.zsh/perso-zsh-alias-functions ]]
+if [[ -e ~/.zsh/zsh-functions ]]
 then
-  source ~/.zsh/perso-zsh-alias-functions
+  source ~/.zsh/zsh-functions
 fi
 
 
