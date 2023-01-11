@@ -31,6 +31,18 @@ then
   source ~/.zsh/zsh-functions
 fi
 
+# Source variable export
+if [[ -e ~/.zsh/zsh-export ]]
+then
+  source ~/.zsh/zsh-export
+fi
+
+# Source Arcane specific functions
+if [[ -e ~/.zsh/zsh-arcane ]]
+then
+  source ~/.zsh/zsh-arcane
+fi
+
 
 
 # ---------------------------------------------------------------

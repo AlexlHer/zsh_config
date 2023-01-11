@@ -4,43 +4,50 @@
 
 
 # (EXA-LS Only) Color $1 or 3 last edited files.
-ll(){
+ll()
+{
   local DEPTH="${1:-1}"
   _coal_eval "l -TL $DEPTH"
 }
 
 # Color $1 or 3 last edited files.
-lll(){
+lll()
+{
   local NUM_FILES="${1:-3}"
   grep --color=always -E -- "$(ls -rtl | tail -n$NUM_FILES)|$" <(l)
 }
 
 # Color $1 or 3 last edited files (cache edition).
-lla(){
+lla()
+{
   local NUM_FILES="${1:-3}"
   grep --color=always -E -- "$(ls -rtla | tail -n$NUM_FILES)|$" <(la)
 }
 
 # Size of folders/files with custom depth.
-dum(){
+dum()
+{
   local DEPTH="${1:-0}"
   local CMDD=`du -ahc --time --max-depth=$DEPTH`
   grep --color=always -E -- "$(echo $CMDD | tail -n1)|$" <(echo $CMDD | sort -h)
 }
 
 # "Find" alias with symlinks follow.
-dinf(){
+dinf()
+{
   _coal_eval "find -L . -name $1 2> /dev/null"
 }
 
 # Define "CLang" to CMake default compiler.
-uclang(){
+uclang()
+{
   _coal_eval "export CC=clang"
   _coal_eval "export CXX=clang++"
 }
 
 # Define "GCC" to CMake default compiler.
-ugcc(){
+ugcc()
+{
   _coal_eval "export CC=gcc"
   _coal_eval "export CXX=g++"
 }
