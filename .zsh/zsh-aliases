@@ -50,6 +50,7 @@ alias gits='_coal "git status" ; git status'
 alias gita='_coal "git add" ; git add'
 alias gitc='_coal "git commit" ; git commit'
 alias gitco='_coal "git checkout" ; git checkout'
+alias gitp='_coal "git push" ; git push'
 alias gitw='_coal "git switch -c" ; git switch -c'
 alias gitka='_coal "gitk --all" ; gitk --all'
 
