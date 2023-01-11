@@ -44,12 +44,12 @@ alias grep='grep --color=always'
 # ------------------------ GIT aliases --------------------------
 # ---------------------------------------------------------------
 
-alias gits='git status'
-alias gita='git add'
-alias gitc='git commit'
-alias gitco='git checkout'
-alias gitw='git switch -c'
-alias gitka='gitk --all'
+alias gits='_coal "git status" ; git status'
+alias gita='_coal "git add" ; git add'
+alias gitc='_coal "git commit" ; git commit'
+alias gitco='_coal "git checkout" ; git checkout'
+alias gitw='_coal "git switch -c" ; git switch -c'
+alias gitka='_coal "gitk --all" ; gitk --all'
 
 
 
@@ -57,14 +57,14 @@ alias gitka='gitk --all'
 # ----------------------- CP/MV aliases -------------------------
 # ---------------------------------------------------------------
 
-alias cpf='cp'
-alias cp='cp -i'
+alias cpf='_coal "cp" ; cp'
+alias cp='_coal "cp -i" ; cp -i'
 
-alias mvf='mv'
-alias mv='mv -i'
+alias mvf='_coal "mv" ; mv'
+alias mv='_coal "mv -i" ; mv -i'
 
-alias df='df -h'
-alias free='free -m'
+alias df='_coal "df -h" ; df -h'
+alias free='_coal "free -m" ; free -m'
 
 
 
@@ -72,8 +72,8 @@ alias free='free -m'
 # ------------------------ TAR aliases --------------------------
 # ---------------------------------------------------------------
 
-alias tarcxz='tar -Ipixz -cf'
-alias tarxxz='tar -Ipixz -xf'
+alias tarcxz='_coal "tar -Ipixz -cf" ; tar -Ipixz -cf'
+alias tarxxz='_coal "tar -Ipixz -xf" ; tar -Ipixz -xf'
 
 
 
@@ -81,8 +81,8 @@ alias tarxxz='tar -Ipixz -xf'
 # ----------------------- WINE aliases --------------------------
 # ---------------------------------------------------------------
 
-alias wine32='WINEPREFIX=~/.wine32 wine'
-alias winetricks32='WINEPREFIX=~/.wine32 winetricks'
+alias wine32='_coal "WINEPREFIX=~/.wine32 wine" ; WINEPREFIX=~/.wine32 wine'
+alias winetricks32='_coal "WINEPREFIX=~/.wine32 winetricks" ; WINEPREFIX=~/.wine32 winetricks'
 
 
 
@@ -90,7 +90,7 @@ alias winetricks32='WINEPREFIX=~/.wine32 winetricks'
 # ------------------------ KDE aliases --------------------------
 # ---------------------------------------------------------------
 
-alias restartkde='killall plasmashell & kstart5 plasmashell'
+alias restartkde='_coal_eval "killall plasmashell & kstart5 plasmashell"'
 
 
 
@@ -98,5 +98,5 @@ alias restartkde='killall plasmashell & kstart5 plasmashell'
 # ---------------------- Podman aliases -------------------------
 # ---------------------------------------------------------------
 
-alias pm='podman'
-alias docker='podman'
+alias pm='_coal "podman" ; podman'
+alias docker='_coal "podman" ; podman'

@@ -8,6 +8,8 @@
 # ---------------------------------------------------------------
 
 export PATH=~/.arm/forge/22.1.1/bin:$PATH
+export WORK_DIR=~/work
+export BUILD_DIR=~/build_install
 
 
 
@@ -16,14 +18,11 @@ export PATH=~/.arm/forge/22.1.1/bin:$PATH
 # ---------------------------------------------------------------
 
 initarc(){
-  WORK_DIR=~/work/arcane
-  LARGE_DIR=~/build_install
-
   ARCANE_TYPE_BUILD=${1}
+  ARCANE_SOURCE_DIR=${WORK_DIR}/arcane/framework
+  ARCANE_BUILD_DIR=${BUILD_DIR}/build_arcane/${ARCANE_TYPE_BUILD}
+  ARCANE_INSTALL_PATH=${BUILD_DIR}/install_arcane/${ARCANE_TYPE_BUILD}
 
-  ARCANE_SOURCE_DIR=${WORK_DIR}/framework
-  ARCANE_BUILD_DIR=${LARGE_DIR}/build_arc/${ARCANE_TYPE_BUILD}
-  ARCANE_INSTALL_PATH=${LARGE_DIR}/install_arc/${ARCANE_TYPE_BUILD}
   mkdir -p ${ARCANE_BUILD_DIR}
   mkdir -p ${ARCANE_INSTALL_PATH}
 
@@ -31,14 +30,11 @@ initarc(){
 }
 
 initarcfork(){
-  WORK_DIR=~/work/arcane
-  LARGE_DIR=~/build_install
-
   ARCANE_TYPE_BUILD=${1}
+  ARCANE_SOURCE_DIR=${WORK_DIR}/arcane/forks/framework
+  ARCANE_BUILD_DIR=${BUILD_DIR}/build_arcane_fork/${ARCANE_TYPE_BUILD}
+  ARCANE_INSTALL_PATH=${BUILD_DIR}/install_arcane_fork/${ARCANE_TYPE_BUILD}
 
-  ARCANE_SOURCE_DIR=${WORK_DIR}/forks/framework
-  ARCANE_BUILD_DIR=${LARGE_DIR}/build_arc_fork/${ARCANE_TYPE_BUILD}
-  ARCANE_INSTALL_PATH=${LARGE_DIR}/install_arc_fork/${ARCANE_TYPE_BUILD}
   mkdir -p ${ARCANE_BUILD_DIR}
   mkdir -p ${ARCANE_INSTALL_PATH}
 
@@ -46,25 +42,39 @@ initarcfork(){
 }
 
 initqama(){
-  WORK_DIR=~/work/arcane
-  LARGE_DIR=~/build_install
-
   ARCANE_TYPE_BUILD=${1}
-  ARCANE_INSTALL_PATH=${LARGE_DIR}/install_arc/${ARCANE_TYPE_BUILD}
+  ARCANE_INSTALL_PATH=${BUILD_DIR}/install_arcane/${ARCANE_TYPE_BUILD}
 
   QS_BUILD_TYPE=${1}
-  QS_SOURCE_DIR=${WORK_DIR}/arcane-benchs/quicksilver
-  QS_BUILD_DIR=${LARGE_DIR}/build_qs/${QS_BUILD_TYPE}
-  mkdir -p ${QS_BUILD_DIR}
-
+  QS_SOURCE_DIR=${WORK_DIR}/arcane/arcane-benchs/quicksilver
+  QS_BUILD_DIR=${BUILD_DIR}/build_qs/${QS_BUILD_TYPE}
   QS_EXE=${QS_BUILD_DIR}/src/Quicksilver
   QS_ARC=${QS_SOURCE_DIR}/data/tests/ExampleFull.arc
+
+  mkdir -p ${QS_BUILD_DIR}
 
   cd ${QS_BUILD_DIR}
 }
 
 configarc(){
-  if [[ -v ARCANE_BUILD_DIR ]];
+  if [[ -v ARCANE_BUILD_DIR ]]
+  then
+    cmake \
+      -S ${ARCANE_SOURCE_DIR} \
+      -B ${ARCANE_BUILD_DIR} \
+      -GNinja \
+      -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \
+      -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD}
+  
+    chmod u+x ${ARCANE_BUILD_DIR}/bin/*
+  else
+    echo "Lancer initarc avant"
+    exit 1
+  fi
+}
+
+configarcgpu(){
+  if [[ -v ARCANE_BUILD_DIR ]]
   then
     cmake \
       -S ${ARCANE_SOURCE_DIR} \
@@ -72,70 +82,50 @@ configarc(){
       -GNinja \
       -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \
       -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
-      -DARCANEDOC_LEGACY_THEME=OFF
-  
+      -DARCANE_ACCELERATOR_MODE=CUDANVCC -DCMAKE_CUDA_COMPILER=nvcc
+
     chmod u+x ${ARCANE_BUILD_DIR}/bin/*
   else
     echo "Lancer initarc avant"
-  fi
-}
-
-configarcgpu(){
-  if [[ -v ARCANE_BUILD_DIR ]];
-  then
-  cmake \
-    -S ${ARCANE_SOURCE_DIR} \
-    -B ${ARCANE_BUILD_DIR} \
-    -GNinja \
-    -DARCANE_ACCELERATOR_MODE=CUDANVCC -DCMAKE_CUDA_COMPILER=`which nvcc` \
-    -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \
-    -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD}
-
-  chmod u+x ${ARCANE_BUILD_DIR}/bin/*
-  else
-    echo "Lancer initarc avant"
-  fi
-}
-
-configarcolddoc(){
-  if [[ -v ARCANE_BUILD_DIR ]];
-  then
-  cmake \
-    -S ${ARCANE_SOURCE_DIR} \
-    -B ${ARCANE_BUILD_DIR} \
-    -GNinja \
-    -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \
-    -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
-    -DARCANEDOC_LEGACY_THEME=ON
-
-  chmod u+x ${ARCANE_BUILD_DIR}/bin/*
-  else
-    echo "Lancer initarc avant"
+    exit 1
   fi
 }
 
 configqama(){
-  if [[ -v QS_BUILD_DIR ]];
+  if [[ -v QS_BUILD_DIR ]]
   then
-  cmake \
-    -S ${QS_SOURCE_DIR} \
-    -B ${QS_BUILD_DIR} \
-    -GNinja \
-    -DCMAKE_PREFIX_PATH=${ARCANE_INSTALL_PATH} \
-    -DCMAKE_BUILD_TYPE=${QS_BUILD_TYPE}
+    cmake \
+      -S ${QS_SOURCE_DIR} \
+      -B ${QS_BUILD_DIR} \
+      -GNinja \
+      -DCMAKE_PREFIX_PATH=${ARCANE_INSTALL_PATH} \
+      -DCMAKE_BUILD_TYPE=${QS_BUILD_TYPE}
   else
     echo "Lancer initqama avant"
+    exit 1
   fi
 }
 
 biarc(){
-  chmod u+x ${ARCANE_BUILD_DIR}/bin/*
-  cmake --build ${ARCANE_BUILD_DIR} --target install
+  if [[ -v ARCANE_BUILD_DIR ]]
+  then
+    chmod u+x ${ARCANE_BUILD_DIR}/bin/*
+    cmake --build ${ARCANE_BUILD_DIR} --target install
+  else
+    echo "Lancer initqama avant"
+    exit 1
+  fi
 }
 
 docarc(){
-  chmod u+x ${ARCANE_BUILD_DIR}/bin/*
-  cmake --build ${ARCANE_BUILD_DIR} --target ${1}doc
+  if [[ -v ARCANE_BUILD_DIR ]]
+  then
+    chmod u+x ${ARCANE_BUILD_DIR}/bin/*
+    cmake --build ${ARCANE_BUILD_DIR} --target ${1}doc
+  else
+    echo "Lancer initqama avant"
+    exit 1
+  fi
 }
 
 
@@ -164,5 +154,5 @@ alias ytmp4='yt-dlp -f bestvideo+bestaudio --recode-video mp4'
 # ------------------- Pacman/YAY aliases ------------------------
 # ---------------------------------------------------------------
 
-alias pmup='sudo pacman -Syu'
-alias yup='yay -Syu'
+alias pmup='_coal_eval "sudo pacman -Syu"'
+alias yup='_coal_eval "yay -Syu"'

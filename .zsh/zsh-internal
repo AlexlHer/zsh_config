@@ -1,0 +1,14 @@
+
+## --- Internal section ---
+## --- Function for zsh-aliases and zsh-functions ---
+
+
+# Note: Eval first param = break autocompletion.
+_coal(){
+  echo "\033[0;102m\033[30m   ${1} \033[0m"
+}
+
+_coal_eval(){
+  echo "\033[0;102m\033[30m   ${1} \033[0m"
+  eval ${1}
+}

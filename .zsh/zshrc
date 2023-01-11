@@ -7,6 +7,12 @@
 # -------------------------- Sources ----------------------------
 # ---------------------------------------------------------------
 
+# Source internal
+if [[ -e ~/.zsh/zsh-internal ]]
+then
+  source ~/.zsh/zsh-internal
+fi
+
 # Source manjaro-zsh-configuration
 if [[ -e ~/.zsh/manjaro-zsh-config ]]
 then
@@ -47,4 +53,3 @@ then
     eval "$(~/.zsh/progs/oh-my-posh/oh-my-posh init zsh --config ~/.zsh/progs/oh-my-posh/themes/OhMyZSH.json)"
   fi
 fi
-

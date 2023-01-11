@@ -9,7 +9,8 @@
 
 export LOCAL_PROG=~/local_prog/
 export PATH=/usr/local/cmake-3.24.1/bin:/usr/local/doxygen-1.9.5/bin:${LOCAL_PROG}/node-v18.9.0-linux-x64/bin:$PATH
-
+export WORK_DIR=~/work
+export BUILD_DIR=~/build_install
 
 
 # ---------------------------------------------------------------
@@ -18,9 +19,9 @@ export PATH=/usr/local/cmake-3.24.1/bin:/usr/local/doxygen-1.9.5/bin:${LOCAL_PRO
 
 initarc(){
   ARCANE_TYPE_BUILD=${1}
-  ARCANE_SOURCE_DIR=~/Documents/arcane/framework
-  ARCANE_BUILD_DIR=~/build_install/build_arcane/${ARCANE_TYPE_BUILD}
-  ARCANE_INSTALL_PATH=~/build_install/install_arcane/${ARCANE_TYPE_BUILD}
+  ARCANE_SOURCE_DIR=${WORK_DIR}/arcane/framework
+  ARCANE_BUILD_DIR=${BUILD_DIR}/build_arcane/${ARCANE_TYPE_BUILD}
+  ARCANE_INSTALL_PATH=${BUILD_DIR}/install_arcane/${ARCANE_TYPE_BUILD}
 
   mkdir -p ${ARCANE_BUILD_DIR}
   mkdir -p ${ARCANE_INSTALL_PATH}
@@ -28,30 +29,11 @@ initarc(){
   cd ${ARCANE_BUILD_DIR}
 }
 
-configarc(){
-  cmake \
-  -S ${ARCANE_SOURCE_DIR} \
-  -B ${ARCANE_BUILD_DIR} \
-  -GNinja \
-  -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \
-  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
-  -DCMAKE_BUILD_TYPE=${ARCANE_TYPE_BUILD}
-}
-
-biarc(){
-  cmake --build ${ARCANE_BUILD_DIR} --target install
-}
-
-docarc(){
-  cmake --build ${ARCANE_BUILD_DIR} --target ${1}doc
-}
-
-
-initarcf(){
+initarcfork(){
   ARCANE_TYPE_BUILD=${1}
-  ARCANE_SOURCE_DIR=~/Documents/forks/framework
-  ARCANE_BUILD_DIR=~/build_install/build_arcane_fork/${ARCANE_TYPE_BUILD}
-  ARCANE_INSTALL_PATH=~/build_install/install_arcane_fork/${ARCANE_TYPE_BUILD}
+  ARCANE_SOURCE_DIR=${WORK_DIR}/arcane/forks/framework
+  ARCANE_BUILD_DIR=${BUILD_DIR}/build_arcane_fork/${ARCANE_TYPE_BUILD}
+  ARCANE_INSTALL_PATH=${BUILD_DIR}/install_arcane_fork/${ARCANE_TYPE_BUILD}
 
   mkdir -p ${ARCANE_BUILD_DIR}
   mkdir -p ${ARCANE_INSTALL_PATH}
@@ -59,26 +41,90 @@ initarcf(){
   cd ${ARCANE_BUILD_DIR}
 }
 
-initqs(){
+initqama(){
   ARCANE_TYPE_BUILD=${1}
-  ARCANE_INSTALL_PATH=~/build_install/install_arcane/${ARCANE_TYPE_BUILD}
+  ARCANE_INSTALL_PATH=${BUILD_DIR}/install_arcane/${ARCANE_TYPE_BUILD}
 
-  QS_BUILD_TYPE=${ARCANE_TYPE_BUILD}
-  QS_PROJECT_DIR=~/Documents/arcane/arcane-benchs/quicksilver
-  QS_SOURCE_DIR=${QS_PROJECT_DIR}
-  QS_BUILD_DIR=~/build_install/build_qs/${QS_BUILD_TYPE}
+  QS_BUILD_TYPE=${1}
+  QS_SOURCE_DIR=${WORK_DIR}/arcane/arcane-benchs/quicksilver
+  QS_BUILD_DIR=${BUILD_DIR}/build_qs/${QS_BUILD_TYPE}
   QS_EXE=${QS_BUILD_DIR}/src/Quicksilver
-  QS_ARC=${QS_PROJECT_DIR}/data/tests/ExampleFull.arc
+  QS_ARC=${QS_SOURCE_DIR}/data/tests/ExampleFull.arc
+
   mkdir -p ${QS_BUILD_DIR}
 
   cd ${QS_BUILD_DIR}
 }
 
-configqs(){
-  cmake \
-  -S ${QS_SOURCE_DIR} \
-  -B ${QS_BUILD_DIR} \
-  -GNinja \
-  -DCMAKE_PREFIX_PATH=${ARCANE_INSTALL_PATH} \
-  -DCMAKE_BUILD_TYPE=${QS_BUILD_TYPE}
+configarc(){
+  if [[ -v ARCANE_BUILD_DIR ]]
+  then
+    cmake \
+      -S ${ARCANE_SOURCE_DIR} \
+      -B ${ARCANE_BUILD_DIR} \
+      -GNinja \
+      -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \
+      -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD}
+  
+    chmod u+x ${ARCANE_BUILD_DIR}/bin/*
+  else
+    echo "Lancer initarc avant"
+    exit 1
+  fi
 }
+
+configarcgpu(){
+  if [[ -v ARCANE_BUILD_DIR ]]
+  then
+    cmake \
+      -S ${ARCANE_SOURCE_DIR} \
+      -B ${ARCANE_BUILD_DIR} \
+      -GNinja \
+      -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \
+      -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
+      -DARCANE_ACCELERATOR_MODE=CUDANVCC -DCMAKE_CUDA_COMPILER=nvcc
+
+    chmod u+x ${ARCANE_BUILD_DIR}/bin/*
+  else
+    echo "Lancer initarc avant"
+    exit 1
+  fi
+}
+
+configqama(){
+  if [[ -v QS_BUILD_DIR ]]
+  then
+    cmake \
+      -S ${QS_SOURCE_DIR} \
+      -B ${QS_BUILD_DIR} \
+      -GNinja \
+      -DCMAKE_PREFIX_PATH=${ARCANE_INSTALL_PATH} \
+      -DCMAKE_BUILD_TYPE=${QS_BUILD_TYPE}
+  else
+    echo "Lancer initqama avant"
+    exit 1
+  fi
+}
+
+biarc(){
+  if [[ -v ARCANE_BUILD_DIR ]]
+  then
+    chmod u+x ${ARCANE_BUILD_DIR}/bin/*
+    cmake --build ${ARCANE_BUILD_DIR} --target install
+  else
+    echo "Lancer initqama avant"
+    exit 1
+  fi
+}
+
+docarc(){
+  if [[ -v ARCANE_BUILD_DIR ]]
+  then
+    chmod u+x ${ARCANE_BUILD_DIR}/bin/*
+    cmake --build ${ARCANE_BUILD_DIR} --target ${1}doc
+  else
+    echo "Lancer initqama avant"
+    exit 1
+  fi
+}
+
