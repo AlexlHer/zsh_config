@@ -4,6 +4,15 @@
 
 
 # ---------------------------------------------------------------
+# -------------------------- Aliases ----------------------------
+# ---------------------------------------------------------------
+
+alias gitarc='cd ${WORK_DIR}/arcane/framework'
+alias gitqama='cd ${WORK_DIR}/arcane/arcane-benchs'
+
+
+
+# ---------------------------------------------------------------
 # ----------------------- Init functions ------------------------
 # ---------------------------------------------------------------
 
@@ -69,7 +78,7 @@ configarc()
     chmod u+x ${ARCANE_BUILD_DIR}/bin/*
   else
     echo "Lancer initarc avant"
-    exit 1
+    return 1
   fi
 }
 
@@ -88,7 +97,7 @@ configarcgpu()
     chmod u+x ${ARCANE_BUILD_DIR}/bin/*
   else
     echo "Lancer initarc avant"
-    exit 1
+    return 1
   fi
 }
 
@@ -104,7 +113,7 @@ configqama()
       -DCMAKE_BUILD_TYPE=${QS_BUILD_TYPE}
   else
     echo "Lancer initqama avant"
-    exit 1
+    return 1
   fi
 }
 
@@ -121,8 +130,8 @@ biarc()
     chmod u+x ${ARCANE_BUILD_DIR}/bin/*
     cmake --build ${ARCANE_BUILD_DIR} --target install
   else
-    echo "Lancer initqama avant"
-    exit 1
+    echo "Lancer initarc avant"
+    return 1
   fi
 }
 
@@ -133,7 +142,7 @@ docarc()
     chmod u+x ${ARCANE_BUILD_DIR}/bin/*
     cmake --build ${ARCANE_BUILD_DIR} --target ${1}doc
   else
-    echo "Lancer initqama avant"
-    exit 1
+    echo "Lancer initarc avant"
+    return 1
   fi
 }
