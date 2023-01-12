@@ -15,15 +15,17 @@ eval "$(dircolors -b)"
 if [[ -x "$(command -v exa)" ]]
 then
   alias ls='exa --icons'
-  alias l='exa --icons --color-scale --time-style long-iso --git -BghHl'
-  alias la='exa --icons --color-scale --time-style long-iso --git -BghHla'
+  alias l='exa --icons --color-scale --time-style long-iso -BghHl'
+  alias la='exa --icons --color-scale --time-style long-iso -BghHla'
+  local EXA_AVAILABLE=1
 
 ## --- With Portable EXA-LS ---
 elif [[ -e ~/.zsh/progs/exa/exa ]]
 then
   alias ls='~/.zsh/progs/exa/exa --icons'
-  alias l='~/.zsh/progs/exa/exa --icons --color-scale --time-style long-iso --git -BghHl'
-  alias la='~/.zsh/progs/exa/exa --icons --color-scale --time-style long-iso --git -BghHla'
+  alias l='~/.zsh/progs/exa/exa --icons --color-scale --time-style long-iso -BghHl'
+  alias la='~/.zsh/progs/exa/exa --icons --color-scale --time-style long-iso -BghHla'
+  local EXA_AVAILABLE=1
 
 ## --- Without EXA-LS ---
 else
