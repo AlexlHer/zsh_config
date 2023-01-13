@@ -20,11 +20,11 @@ then
   local EXA_AVAILABLE=1
 
 ## --- With Portable EXA-LS ---
-elif [[ -e ~/.zsh/progs/exa/exa ]]
+elif [[ -e $ZSH_DIR/progs/exa/exa ]]
 then
-  alias ls='~/.zsh/progs/exa/exa --icons'
-  alias l='~/.zsh/progs/exa/exa --icons --color-scale --time-style long-iso -BghHl'
-  alias la='~/.zsh/progs/exa/exa --icons --color-scale --time-style long-iso -BghHla'
+  alias ls='$ZSH_DIR/progs/exa/exa --icons'
+  alias l='$ZSH_DIR/progs/exa/exa --icons --color-scale --time-style long-iso -BghHl'
+  alias la='$ZSH_DIR/progs/exa/exa --icons --color-scale --time-style long-iso -BghHla'
   local EXA_AVAILABLE=1
 
 ## --- Without EXA-LS ---

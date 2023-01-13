@@ -4,7 +4,7 @@
 ## rename this file to ".zsh".
 
 
-
+# ZSH config directory.
 export ZSH_DIR=~/.zsh
 
 # Source of true zshrc.

@@ -17,4 +17,5 @@ cp ~/.zsh/home.zshrc ~/.zshrc
 
 # Edit "zshrc" to select specific local zsh.
 # Search "[HERE]" to find lines.
+vim ~/.zsh/zshrc
 ```
