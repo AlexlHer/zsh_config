@@ -1,7 +1,7 @@
 # My ZSH Configuration
 ## Installation
 
-```sh
+```zsh
 # Goto home:
 cd
 
@@ -18,4 +18,12 @@ cp ~/.zsh/home.zshrc ~/.zshrc
 # Edit "zshrc" to select specific local zsh.
 # Search "[HERE]" to find lines.
 vim ~/.zsh/zshrc
+```
+
+## Update
+```zsh
+cd ~/.zsh
+git stash
+git pull
+git stash pop
 ```
