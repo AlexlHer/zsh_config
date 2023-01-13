@@ -1,6 +1,6 @@
 
 ## --- Internal section ---
-## --- Function for zsh-aliases and zsh-functions ---
+## --- Function for _aliases.zsh and _functions.zsh ---
 
 
 
