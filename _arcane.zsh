@@ -83,6 +83,7 @@ configarc()
     echo "  -DCMAKE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD}"
+    echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
     _pensil_end
 
     cmake \
@@ -94,7 +95,7 @@ configarc()
       -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
       -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD}
   
-    _ecal_eval "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
+    chmod u+x ${ARCANE_BUILD_DIR}/bin/*
   else
     echo "Lancer initarc avant"
     return 1
@@ -115,6 +116,7 @@ configarcgpu()
     echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCANE_ACCELERATOR_MODE=CUDANVCC -DCMAKE_CUDA_COMPILER=nvcc"
+    echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
     _pensil_end
 
     cmake \
@@ -127,7 +129,7 @@ configarcgpu()
       -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \
       -DARCANE_ACCELERATOR_MODE=CUDANVCC -DCMAKE_CUDA_COMPILER=nvcc
 
-    _ecal_eval "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
+    chmod u+x ${ARCANE_BUILD_DIR}/bin/*
   else
     echo "Lancer initarc avant"
     return 1
