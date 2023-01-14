@@ -80,7 +80,9 @@ configarc()
     echo "  -B ${ARCANE_BUILD_DIR} \\"
     echo "  -GNinja \\"
     echo "  -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \\"
-    echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD}"
+    echo "  -DCMAKE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
+    echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
+    echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD}"
     _pensil_end
 
     cmake \
@@ -88,7 +90,9 @@ configarc()
       -B ${ARCANE_BUILD_DIR} \
       -GNinja \
       -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \
-      -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD}
+      -DCMAKE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
+      -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
+      -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD}
   
     _ecal_eval "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
   else
@@ -107,7 +111,9 @@ configarcgpu()
     echo "  -B ${ARCANE_BUILD_DIR} \\"
     echo "  -GNinja \\"
     echo "  -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \\"
+    echo "  -DCMAKE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
+    echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCANE_ACCELERATOR_MODE=CUDANVCC -DCMAKE_CUDA_COMPILER=nvcc"
     _pensil_end
 
@@ -116,7 +122,9 @@ configarcgpu()
       -B ${ARCANE_BUILD_DIR} \
       -GNinja \
       -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \
+      -DCMAKE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
       -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
+      -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \
       -DARCANE_ACCELERATOR_MODE=CUDANVCC -DCMAKE_CUDA_COMPILER=nvcc
 
     _ecal_eval "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
