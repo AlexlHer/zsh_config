@@ -21,8 +21,8 @@ initarc()
   _pensil_begin
   _ecal_eval "ARCANE_TYPE_BUILD=${1}"
   _ecal_eval "ARCANE_SOURCE_DIR=${WORK_DIR}/arcane/framework"
-  _ecal_eval "ARCANE_BUILD_DIR=${BUILD_DIR}/build_arcane/${ARCANE_TYPE_BUILD}"
-  _ecal_eval "ARCANE_INSTALL_PATH=${BUILD_DIR}/install_arcane/${ARCANE_TYPE_BUILD}"
+  _ecal_eval "ARCANE_BUILD_DIR=${BUILD_DIR}/build_framework/${ARCANE_TYPE_BUILD}"
+  _ecal_eval "ARCANE_INSTALL_PATH=${BUILD_DIR}/install_framework/${ARCANE_TYPE_BUILD}"
   echo ""
   _ecal_eval "mkdir -p ${ARCANE_BUILD_DIR}"
   _ecal_eval "mkdir -p ${ARCANE_INSTALL_PATH}"
@@ -36,8 +36,8 @@ initarcfork()
   _pensil_begin
   _ecal_eval "ARCANE_TYPE_BUILD=${1}"
   _ecal_eval "ARCANE_SOURCE_DIR=${WORK_DIR}/arcane/forks/framework"
-  _ecal_eval "ARCANE_BUILD_DIR=${BUILD_DIR}/build_arcane_fork/${ARCANE_TYPE_BUILD}"
-  _ecal_eval "ARCANE_INSTALL_PATH=${BUILD_DIR}/install_arcane_fork/${ARCANE_TYPE_BUILD}"
+  _ecal_eval "ARCANE_BUILD_DIR=${BUILD_DIR}/build_framework_fork/${ARCANE_TYPE_BUILD}"
+  _ecal_eval "ARCANE_INSTALL_PATH=${BUILD_DIR}/install_framework_fork/${ARCANE_TYPE_BUILD}"
   echo ""
   _ecal_eval "mkdir -p ${ARCANE_BUILD_DIR}"
   _ecal_eval "mkdir -p ${ARCANE_INSTALL_PATH}"
@@ -50,11 +50,11 @@ initqama()
 {
   _pensil_begin
   _ecal_eval "ARCANE_TYPE_BUILD=${1}"
-  _ecal_eval "ARCANE_INSTALL_PATH=${BUILD_DIR}/install_arcane/${ARCANE_TYPE_BUILD}"
+  _ecal_eval "ARCANE_INSTALL_PATH=${BUILD_DIR}/install_framework/${ARCANE_TYPE_BUILD}"
   echo ""
   _ecal_eval "QS_BUILD_TYPE=${1}"
   _ecal_eval "QS_SOURCE_DIR=${WORK_DIR}/arcane/arcane-benchs/quicksilver"
-  _ecal_eval "QS_BUILD_DIR=${BUILD_DIR}/build_qama/${QS_BUILD_TYPE}"
+  _ecal_eval "QS_BUILD_DIR=${BUILD_DIR}/build_arcane-benchs/${QS_BUILD_TYPE}"
   _ecal_eval "QS_EXE=${QS_BUILD_DIR}/src/Quicksilver"
   _ecal_eval "QS_ARC=${QS_SOURCE_DIR}/data/tests/ExampleFull.arc"
   echo ""
