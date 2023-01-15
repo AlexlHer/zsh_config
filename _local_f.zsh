@@ -27,8 +27,8 @@ runproton()
 # ----------------------- Ytb aliases ---------------------------
 # ---------------------------------------------------------------
 
-alias ytmp3='yt-dlp -f bestaudio --extract-audio --audio-format mp3 --audio-quality 0'
-alias ytmp4='yt-dlp -f bestvideo+bestaudio --recode-video mp4'
+alias ytmp3='yt-dlp -f bestaudio --extract-audio --audio-format mp3 --audio-quality 0 -o "%(title)s.%(ext)s"'
+alias ytmp4='yt-dlp -f bestvideo+bestaudio --recode-video mp4 -o "%(title)s.%(ext)s"'
 
 
 
