@@ -82,7 +82,7 @@ uclang()
   _coal_eval "export CXX=clang++"
   if [[ -x "$(command -v mold)" ]]
   then
-  _coal_eval "export CCFLAGS='-fuse-ld=mold'"
+  _coal_eval "export CFLAGS='-fuse-ld=mold'"
   _coal_eval "export CXXFLAGS='-fuse-ld=mold'"
   fi
 }
@@ -94,7 +94,7 @@ ugcc()
   _coal_eval "export CXX=g++"
   if [[ -x "$(command -v mold)" ]]
   then
-  _coal_eval "export CCFLAGS='-fuse-ld=mold'"
+  _coal_eval "export CFLAGS='-fuse-ld=mold'"
   _coal_eval "export CXXFLAGS='-fuse-ld=mold'"
   fi
 }
