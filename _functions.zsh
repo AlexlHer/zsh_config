@@ -80,6 +80,11 @@ uclang()
 {
   _coal_eval "export CC=clang"
   _coal_eval "export CXX=clang++"
+  if [[ -x "$(command -v mold)" ]]
+  then
+  _coal_eval "export CCFLAGS='-fuse-ld=mold'"
+  _coal_eval "export CXXFLAGS='-fuse-ld=mold'"
+  fi
 }
 
 # Define "GCC" to CMake default compiler.
@@ -87,6 +92,11 @@ ugcc()
 {
   _coal_eval "export CC=gcc"
   _coal_eval "export CXX=g++"
+  if [[ -x "$(command -v mold)" ]]
+  then
+  _coal_eval "export CCFLAGS='-fuse-ld=mold'"
+  _coal_eval "export CXXFLAGS='-fuse-ld=mold'"
+  fi
 }
 
 
