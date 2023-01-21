@@ -80,6 +80,8 @@ configarc()
     echo "  -B ${ARCANE_BUILD_DIR} \\"
     echo "  -GNinja \\"
     echo "  -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \\"
+    echo "  -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \\"
+    echo "  -DCMAKE_C_COMPILER_LAUNCHER=ccache \\"
     echo "  -DCMAKE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD}"
@@ -91,6 +93,8 @@ configarc()
       -B ${ARCANE_BUILD_DIR} \
       -GNinja \
       -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \
+      -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+      -DCMAKE_C_COMPILER_LAUNCHER=ccache \
       -DCMAKE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
       -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
       -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD}
@@ -112,6 +116,8 @@ configarcgpu()
     echo "  -B ${ARCANE_BUILD_DIR} \\"
     echo "  -GNinja \\"
     echo "  -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \\"
+    echo "  -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \\"
+    echo "  -DCMAKE_C_COMPILER_LAUNCHER=ccache \\"
     echo "  -DCMAKE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \\"
@@ -124,6 +130,8 @@ configarcgpu()
       -B ${ARCANE_BUILD_DIR} \
       -GNinja \
       -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \
+      -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+      -DCMAKE_C_COMPILER_LAUNCHER=ccache \
       -DCMAKE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
       -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
       -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \

@@ -15,7 +15,6 @@
           },
           "style": "diamond",
           "leading_diamond": "\ue0b6",
-          "trailing_diamond": "\ue0b0",
           "template": " \ue23a {{ if gt .Code 0 }}\uf00d {{ .Meaning }}{{ else }}\uf42e{{ end }} "
         },
         {
@@ -27,10 +26,20 @@
             "always_enabled": true,
             "style": "austin"
           },
+          "style": "powerline",
+          "powerline_symbol": "\ue0b0",
+          "template": " \uf250 {{ .FormattedMs }} "
+        },
+        {
+          "type": "time",
+          "background": "#ff00f2",
+          "foreground": "#000000",
+          "properties": {
+            "time_format": "\uf43a 15:04:05"
+          },
           "style": "diamond",
-          "leading_diamond": "<transparent,background>\ue0b0</>",
-          "trailing_diamond": "\ue0b4",
-          "template": " \uf43a {{ .FormattedMs }} "
+          "powerline_symbol": "\ue0b0",
+          "trailing_diamond": "\ue0b4"
         }
       ]
     },
@@ -60,7 +69,7 @@
           "style": "diamond",
           "leading_diamond": "\ue0b6",
           "trailing_diamond": "\ue0b4",
-          "template": "{{ .UpstreamIcon }}{{ .HEAD }}{{ .BranchStatus }}{{ if .Working.Changed }} \uF044 {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uF046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} \uF692 {{ .StashCount }}{{ end }}"
+          "template": " {{ .UpstreamIcon }} {{ .HEAD }} {{ .BranchStatus }} {{ if .Working.Changed }}\uF044 {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uF046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} \uF692 {{ .StashCount }}{{ end }} "
         }
       ]
     },
@@ -70,15 +79,6 @@
       "newline": true,
       "segments": [
         {
-          "type": "os",
-          "background": "#ff00f2",
-          "foreground": "#000000",
-          "style": "diamond",
-          "leading_diamond": "\ue0b6",
-          "trailing_diamond": "\ue0b0",
-          "template": " {{.Icon}} "
-        },
-        {
           "type": "path",
           "background": "#00ff00",
           "foreground": "#000000",
@@ -87,7 +87,7 @@
             "style": "agnoster_full"
           },
           "style": "diamond",
-          "leading_diamond": "<transparent,background>\ue0b0</>",
+          "leading_diamond": "\ue0b6",
           "trailing_diamond": "\ue0b4",
           "template": " \ue5ff {{ .Path }} "
         }
@@ -127,7 +127,6 @@
         }
       ]
     }
-
   ],
   "final_space": true,
   "version": 2
