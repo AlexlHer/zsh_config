@@ -8,7 +8,7 @@
 # ---------------------------------------------------------------
 
 alias gitarc='_coal_eval "cd ${WORK_DIR}/arcane/framework"'
-alias gitqama='_coal_eval "cd ${WORK_DIR}/arcane/arcane-benchs"'
+alias gitbenchs='_coal_eval "cd ${WORK_DIR}/arcane/arcane-benchs"'
 
 
 
@@ -46,21 +46,22 @@ initarcfork()
   _pensil_end
 }
 
-initqama()
+initbenchs()
 {
   _pensil_begin
   _ecal_eval "ARCANE_TYPE_BUILD=${1}"
   _ecal_eval "ARCANE_INSTALL_PATH=${BUILD_DIR}/install_framework/${ARCANE_TYPE_BUILD}"
   echo ""
-  _ecal_eval "QS_BUILD_TYPE=${1}"
-  _ecal_eval "QS_SOURCE_DIR=${WORK_DIR}/arcane/arcane-benchs/quicksilver"
-  _ecal_eval "QS_BUILD_DIR=${BUILD_DIR}/build_arcane-benchs/${QS_BUILD_TYPE}"
-  _ecal_eval "QS_EXE=${QS_BUILD_DIR}/src/Quicksilver"
-  _ecal_eval "QS_ARC=${QS_SOURCE_DIR}/data/tests/ExampleFull.arc"
+  _ecal_eval "AB_BUILD_TYPE=${1}"
+  _ecal_eval "AB_SOURCE_DIR=${WORK_DIR}/arcane/arcane-benchs"
+  _ecal_eval "AB_BUILD_DIR=${BUILD_DIR}/build_arcane-benchs/${AB_BUILD_TYPE}"
+  _ecal_eval "AB_INSTALL_PATH=${BUILD_DIR}/install_arcane-benchs/${AB_BUILD_TYPE}"
+  _ecal_eval "AB_EXE=${AB_BUILD_DIR}/qama/src/qama"
+  _ecal_eval "AB_ARC=${AB_SOURCE_DIR}/qama/data/tests/ExampleFull.arc"
   echo ""
-  _ecal_eval "mkdir -p ${QS_BUILD_DIR}"
+  _ecal_eval "mkdir -p ${AB_BUILD_DIR}"
   echo ""
-  _ecal_eval "cd ${QS_BUILD_DIR}"
+  _ecal_eval "cd ${AB_BUILD_DIR}"
   _pensil_end
 }
 
@@ -144,27 +145,29 @@ configarcgpu()
   fi
 }
 
-configqama()
+configbenchs()
 {
-  if [[ -v QS_BUILD_DIR ]]
+  if [[ -v AB_BUILD_DIR ]]
   then
     _pensil_begin
     echo "cmake \\"
-    echo "  -S ${QS_SOURCE_DIR} \\"
-    echo "  -B ${QS_BUILD_DIR} \\"
+    echo "  -S ${AB_SOURCE_DIR} \\"
+    echo "  -B ${AB_BUILD_DIR} \\"
     echo "  -GNinja \\"
+    echo "  -DCMAKE_INSTALL_PREFIX=${AB_INSTALL_PATH} \\"
     echo "  -DCMAKE_PREFIX_PATH=${ARCANE_INSTALL_PATH} \\"
-    echo "  -DCMAKE_BUILD_TYPE=${QS_BUILD_TYPE}"
+    echo "  -DCMAKE_BUILD_TYPE=${AB_BUILD_TYPE}"
     _pensil_end
 
     cmake \
-      -S ${QS_SOURCE_DIR} \
-      -B ${QS_BUILD_DIR} \
+      -S ${AB_SOURCE_DIR} \
+      -B ${AB_BUILD_DIR} \
       -GNinja \
+      -DCMAKE_INSTALL_PREFIX=${AB_INSTALL_PATH} \
       -DCMAKE_PREFIX_PATH=${ARCANE_INSTALL_PATH} \
-      -DCMAKE_BUILD_TYPE=${QS_BUILD_TYPE}
+      -DCMAKE_BUILD_TYPE=${AB_BUILD_TYPE}
   else
-    echo "Lancer initqama avant"
+    echo "Lancer initbenchs avant"
     return 1
   fi
 }
