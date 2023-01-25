@@ -10,6 +10,9 @@
 # Source internal
 source ${ZSH_DIR}/_internal.zsh
 
+# Source variable export
+source ${ZSH_DIR}/_export.zsh
+
 # Source manjaro-zsh-configuration
 source ${ZSH_DIR}/_manjaro_config.zsh
 
@@ -18,9 +21,6 @@ source ${ZSH_DIR}/_aliases.zsh
 
 # Source perso functions
 source ${ZSH_DIR}/_functions.zsh
-
-# Source variable export
-source ${ZSH_DIR}/_export.zsh
 
 # Source Arcane specific functions
 source ${ZSH_DIR}/_arcane.zsh
