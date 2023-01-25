@@ -44,7 +44,17 @@
       ]
     },
     {
-      "type": "newline"
+      "type": "prompt",
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "type": "text",
+          "foreground": "#21c7c7",
+          "style": "plain",
+          "template": "‎"
+        }
+      ]
     },
     {
       "type": "prompt",
