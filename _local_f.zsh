@@ -9,6 +9,7 @@
 
 export PATH="\
 ${HOME}/.arm/forge/22.1.2/bin\
+:${HOME}/.local/ParaView_5.11.0-49/bin\
 :${PATH}"
 
 

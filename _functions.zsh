@@ -118,6 +118,11 @@ ctr()
   _coal_eval "ctest -R \"${ARG1}\" --output-on-failure ${*:2}"
 }
 
+ctn()
+{
+  _coal_eval "ctest -N ${*:1}"
+}
+
 ctnr()
 {
   local ARG1="${1:-0}"

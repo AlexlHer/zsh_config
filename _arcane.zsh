@@ -202,9 +202,13 @@ docarc()
   then
     _pensil_begin
     echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
+    echo "cmake --build ${ARCANE_BUILD_DIR}"
+    echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
     echo "cmake --build ${ARCANE_BUILD_DIR} --target ${1}doc"
     _pensil_end
 
+    chmod u+x ${ARCANE_BUILD_DIR}/bin/*
+    cmake --build ${ARCANE_BUILD_DIR}
     chmod u+x ${ARCANE_BUILD_DIR}/bin/*
     cmake --build ${ARCANE_BUILD_DIR} --target ${1}doc
 
