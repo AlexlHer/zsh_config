@@ -145,6 +145,47 @@ configarcgpu()
   fi
 }
 
+configarcldoc()
+{
+  if [[ -v ARCANE_BUILD_DIR ]]
+  then
+    _pensil_begin
+    echo "cmake \\"
+    echo "  -S ${ARCANE_SOURCE_DIR} \\"
+    echo "  -B ${ARCANE_BUILD_DIR} \\"
+    echo "  -GNinja \\"
+    echo "  -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \\"
+    echo "  -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \\"
+    echo "  -DCMAKE_C_COMPILER_LAUNCHER=ccache \\"
+    echo "  -DCMAKE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
+    echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
+    echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \\"
+    echo "  -DARCANEDOC_LEGACY_THEME=ON \\"
+    echo "  -DARCANEDOC_OFFLINE=ON"
+
+    echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
+    _pensil_end
+
+    cmake \
+      -S ${ARCANE_SOURCE_DIR} \
+      -B ${ARCANE_BUILD_DIR} \
+      -GNinja \
+      -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \
+      -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+      -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+      -DCMAKE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
+      -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
+      -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \
+      -DARCANEDOC_LEGACY_THEME=ON \
+      -DARCANEDOC_OFFLINE=ON
+  
+    chmod u+x ${ARCANE_BUILD_DIR}/bin/*
+  else
+    echo "Lancer initarc avant"
+    return 1
+  fi
+}
+
 configbenchs()
 {
   if [[ -v AB_BUILD_DIR ]]
