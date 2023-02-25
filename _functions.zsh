@@ -134,3 +134,48 @@ cta()
   local ARG1="${1:-1}"
   _coal_eval "ctest -j${ARG1} --repeat until-pass:3 --output-on-failure ${*:2}"
 }
+
+
+
+# ---------------------------------------------------------------
+# ------------------ Proton/Wine Functions ----------------------
+# ---------------------------------------------------------------
+
+runproton()
+{
+  source ${ZSH_DIR}/scripts/proton_vars.sh
+  "${PROTON_EXE}" run ${1}
+}
+
+
+
+# ---------------------------------------------------------------
+# ----------------------- Age Functions -------------------------
+# ---------------------------------------------------------------
+
+agee()
+{
+  if [[ -v 1 ]]
+  then
+    mkdir -p /tmp/age
+    age -d -i ${SSH_PRI} -o /tmp/age/keys.txt ${ZSH_DIR}/keys/keys.txt
+    age -e -R /tmp/age/keys.txt -a -o ${1}.age ${1}
+    rm /tmp/age/keys.txt
+
+  else
+    echo "Need input file."
+
+  fi
+}
+
+aged()
+{
+  if [[ -v 1 ]]
+  then
+    age -d -i ${SSH_PRI} -o ${1}.dec ${1}
+
+  else
+    echo "Need encrypted input file."
+
+  fi
+}

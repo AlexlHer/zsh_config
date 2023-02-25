@@ -115,3 +115,24 @@ alias restartkde='_coal_eval "killall plasmashell & kstart5 plasmashell"'
 
 alias pm='_coal "podman" ; podman'
 alias docker='_coal "podman" ; podman'
+
+
+
+# ---------------------------------------------------------------
+# ------------------- Pacman/YAY aliases ------------------------
+# ---------------------------------------------------------------
+
+alias pmup='_coal_eval "sudo pacman -Syu"'
+alias yup='_coal_eval "yay -Syu"'
+
+
+
+# ---------------------------------------------------------------
+# ----------------------- Ytb aliases ---------------------------
+# ---------------------------------------------------------------
+
+alias ytmp3='_coal "yt-dlp -f bestaudio --extract-audio --audio-format mp3 --audio-quality 0 -o \"%(title)s.%(ext)s\"" ; \
+yt-dlp -f bestaudio --extract-audio --audio-format mp3 --audio-quality 0 -o "%(title)s.%(ext)s"'
+
+alias ytmp4='_coal "yt-dlp -f bestvideo+bestaudio --recode-video mp4 -o \"%(title)s.%(ext)s\"" ; \
+yt-dlp -f bestvideo+bestaudio --recode-video mp4 -o "%(title)s.%(ext)s"'
