@@ -8,7 +8,7 @@
 # ---------------------------------------------------------------
 
 export PATH="\
-${HOME}/.arm/forge/22.1.2/bin\
+${HOME}/.arm/forge/22.1.3/bin\
 :${HOME}/.local/ParaView/bin\
 :${PATH}"
 
