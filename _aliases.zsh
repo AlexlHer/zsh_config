@@ -105,7 +105,7 @@ alias winetricks32='_coal "WINEPREFIX=~/.wine32 winetricks" ; WINEPREFIX=~/.wine
 # ------------------------ KDE aliases --------------------------
 # ---------------------------------------------------------------
 
-alias restartkde='_coal_eval "killall plasmashell & kstart5 plasmashell"'
+alias restartkde='_coal_eval "kstart5 plasmashell -- --replace"'
 
 
 
@@ -122,7 +122,10 @@ alias docker='_coal "podman" ; podman'
 # ------------------- Pacman/YAY aliases ------------------------
 # ---------------------------------------------------------------
 
-alias pmup='_coal_eval "sudo pacman -Syu"'
+alias pa='_coal "sudo pacman" ; sudo pacman'
+alias pas='_coal_eval "sudo pacman -S"'
+alias pass='_coal_eval "sudo pacman -Ss"'
+alias paup='_coal_eval "sudo pacman -Syu"'
 alias yup='_coal_eval "yay -Syu"'
 
 
