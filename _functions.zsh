@@ -143,7 +143,7 @@ cta()
 
 runproton()
 {
-  source ${ZSH_DIR}/scripts/proton_vars.sh
+  source ${_PZC_PZC_DIR}/scripts/proton_vars.sh
   "${PROTON_EXE}" run ${1}
 }
 
@@ -160,7 +160,7 @@ then
     if [[ -v 1 ]]
     then
       mkdir -p /tmp/age
-      ${_PZC_AGE_PATH} -d -i ${SSH_PRI} -o /tmp/age/keys.txt ${ZSH_DIR}/keys/keys.txt
+      ${_PZC_AGE_PATH} -d -i ${_PZC_SSH_PRI} -o /tmp/age/keys.txt ${_PZC_PZC_DIR}/keys/keys.txt
       ${_PZC_AGE_PATH} -e -R /tmp/age/keys.txt -a -o ${1}.age ${1}
       rm /tmp/age/keys.txt
 
@@ -174,7 +174,7 @@ then
   {
     if [[ -v 1 ]]
     then
-      ${_PZC_AGE_PATH} -d -i ${SSH_PRI} -o ${1}.dec ${1}
+      ${_PZC_AGE_PATH} -d -i ${_PZC_SSH_PRI} -o ${1}.dec ${1}
 
     else
       echo "Error: Need encrypted input file."

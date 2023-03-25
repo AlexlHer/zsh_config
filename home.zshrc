@@ -10,8 +10,8 @@
 # ----- SSH keys location -----
 # -----------------------------
 # [TODO] Uncomment and complete if you want to use 'agee' and 'aged' functions.
-#export SSH_PUB=
-#export SSH_PRI=
+#export _PZC_SSH_PUB=
+#export _PZC_SSH_PRI=
 
 
 # -----------------------------
@@ -54,20 +54,20 @@
 # ----------- PC ID -----------
 # -----------------------------
 # [TODO] Uncomment if you are AlexlHer :-).
-#export PC_ID="f"
-#export PC_ID="p"
-#export PC_ID="c"
+#export _PZC_PC_ID="f"
+#export _PZC_PC_ID="p"
+#export _PZC_PC_ID="c"
 
 
 
 
-# ZSH config directory.
-export ZSH_DIR=${HOME}/.zsh
+# Personnal ZSH config directory.
+export _PZC_PZC_DIR=${HOME}/.pzc
 
 # Source of true zshrc.
-if [[ -e ${ZSH_DIR}/zshrc ]]
+if [[ -e ${_PZC_PZC_DIR}/zshrc ]]
 then
-  source ${ZSH_DIR}/zshrc
+  source ${_PZC_PZC_DIR}/zshrc
 
 else
   echo "Error: Main zshrc not found... Minimal execution."

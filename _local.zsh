@@ -8,24 +8,24 @@
 # ---------------------------------------------------------------
 
 # Source of specific local zsh config
-if [[ -v PC_ID ]]
+if [[ -v _PZC_PC_ID ]]
 then
-  if [[ -e ${ZSH_DIR}/_local_${PC_ID}.zsh ]]
+  if [[ -e ${_PZC_PZC_DIR}/_local_${_PZC_PC_ID}.zsh ]]
   then
-    source ${ZSH_DIR}/_local_${PC_ID}.zsh
+    source ${_PZC_PZC_DIR}/_local_${_PZC_PC_ID}.zsh
 
-  elif [[ -e ${ZSH_DIR}/_local_${PC_ID}.txt ]]
+  elif [[ -e ${_PZC_PZC_DIR}/_local_${_PZC_PC_ID}.txt ]]
   then
     if [[ -v _PZC_AGE_PATH ]]
     then
       echo "Info: Local config decryption in progress..."
-      if [[ -v SSH_PRI ]]
+      if [[ -v _PZC_SSH_PRI ]]
       then
-        ${_PZC_AGE_PATH} -d -i ${SSH_PRI} -o ${ZSH_DIR}/_local_${PC_ID}.zsh ${ZSH_DIR}/_local_${PC_ID}.txt
-        if [[ -e ${ZSH_DIR}/_local_${PC_ID}.zsh ]]
+        ${_PZC_AGE_PATH} -d -i ${_PZC_SSH_PRI} -o ${_PZC_PZC_DIR}/_local_${_PZC_PC_ID}.zsh ${_PZC_PZC_DIR}/_local_${_PZC_PC_ID}.txt
+        if [[ -e ${_PZC_PZC_DIR}/_local_${_PZC_PC_ID}.zsh ]]
         then
-          source ${ZSH_DIR}/_local_${PC_ID}.zsh
-          echo "Info: _local_${PC_ID}.zsh created and sourced."
+          source ${_PZC_PZC_DIR}/_local_${_PZC_PC_ID}.zsh
+          echo "Info: _local_${_PZC_PC_ID}.zsh created and sourced."
 
         else
           echo "Warning: Unknown error, please retry."
@@ -41,11 +41,11 @@ then
     fi
 
   else
-    echo "Warning: _local_${PC_ID}.zsh not found."
+    echo "Warning: _local_${_PZC_PC_ID}.zsh not found."
 
   fi
 
 else
-  echo "Warning: PC_ID is not defined. Check .zshrc."
+  echo "Warning: _PZC_PC_ID is not defined. Check .zshrc."
 
 fi

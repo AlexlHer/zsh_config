@@ -8,28 +8,28 @@
 # ---------------------------------------------------------------
 
 # Source external program needed
-source ${ZSH_DIR}/_external.zsh
+source ${_PZC_PZC_DIR}/_external.zsh
 
 # Source manjaro-zsh-configuration
-source ${ZSH_DIR}/_manjaro_config.zsh
+source ${_PZC_PZC_DIR}/_manjaro_config.zsh
 
 # Source internal
-source ${ZSH_DIR}/_internal.zsh
+source ${_PZC_PZC_DIR}/_internal.zsh
 
 # Source variable export
-source ${ZSH_DIR}/_export.zsh
+source ${_PZC_PZC_DIR}/_export.zsh
 
 # Source perso alias
-source ${ZSH_DIR}/_aliases.zsh
+source ${_PZC_PZC_DIR}/_aliases.zsh
 
 # Source perso functions
-source ${ZSH_DIR}/_functions.zsh
+source ${_PZC_PZC_DIR}/_functions.zsh
 
 # Source local config
-source ${ZSH_DIR}/_local.zsh
+source ${_PZC_PZC_DIR}/_local.zsh
 
 # Source Arcane specific functions
-source ${ZSH_DIR}/_arcane.zsh
+source ${_PZC_PZC_DIR}/_arcane.zsh
 
 
 

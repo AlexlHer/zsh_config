@@ -21,9 +21,9 @@ then
   then
     _PZC_OMP_PATH=oh-my-posh
 
-  elif [[ -e ${ZSH_DIR}/progs/oh-my-posh/oh-my-posh ]]
+  elif [[ -e ${_PZC_PZC_DIR}/progs/oh-my-posh/oh-my-posh ]]
   then
-    _PZC_OMP_PATH=${ZSH_DIR}/progs/oh-my-posh/oh-my-posh
+    _PZC_OMP_PATH=${_PZC_PZC_DIR}/progs/oh-my-posh/oh-my-posh
 
   else
     echo "Warning: oh-my-posh is not installed (https://github.com/JanDeDobbeleer/oh-my-posh)"
@@ -43,9 +43,9 @@ fi
 if [[ ! -v _PZC_OMP_THEME_PATH ]]
 then
 
-  if [[ -e ${ZSH_DIR}/progs/oh-my-posh/themes/OhMyZSH.json ]]
+  if [[ -e ${_PZC_PZC_DIR}/progs/oh-my-posh/themes/OhMyZSH.json ]]
   then
-    _PZC_OMP_THEME_PATH=${ZSH_DIR}/progs/oh-my-posh/themes/OhMyZSH.json
+    _PZC_OMP_THEME_PATH=${_PZC_PZC_DIR}/progs/oh-my-posh/themes/OhMyZSH.json
 
   else
     echo "Warning: Default oh-my-posh theme is not found (https://github.com/JanDeDobbeleer/oh-my-posh)"
@@ -77,9 +77,9 @@ then
   then
     _PZC_AGE_PATH=rage
 
-  elif [[ -e ${ZSH_DIR}/progs/age/age ]]
+  elif [[ -e ${_PZC_PZC_DIR}/progs/age/age ]]
   then
-    _PZC_AGE_PATH=${ZSH_DIR}/progs/age/age
+    _PZC_AGE_PATH=${_PZC_PZC_DIR}/progs/age/age
     
   else
     echo "Warning: age is not installed (https://github.com/FiloSottile/age)"
@@ -108,9 +108,9 @@ then
   then
     _PZC_EXA_PATH=exa
 
-  elif [[ -e ${ZSH_DIR}/progs/exa/exa ]]
+  elif [[ -e ${_PZC_PZC_DIR}/progs/exa/exa ]]
   then
-    _PZC_EXA_PATH=${ZSH_DIR}/progs/exa/exa
+    _PZC_EXA_PATH=${_PZC_PZC_DIR}/progs/exa/exa
     
   else
     echo "Warning: exa is not installed (https://github.com/ogham/exa)"
@@ -138,9 +138,9 @@ then
   then
     _PZC_MOLD_PATH=mold
 
-  elif [[ -e ${ZSH_DIR}/progs/mold/mold ]]
+  elif [[ -e ${_PZC_PZC_DIR}/progs/mold/mold ]]
   then
-    _PZC_MOLD_PATH=${ZSH_DIR}/progs/mold/mold
+    _PZC_MOLD_PATH=${_PZC_PZC_DIR}/progs/mold/mold
     
   else
     echo "Warning: mold is not installed (https://github.com/rui314/mold)"

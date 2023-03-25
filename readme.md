@@ -1,19 +1,18 @@
-# My ZSH Configuration
+# Personal ZSH Configuration
 ## Installation
 
 ```zsh
 # Goto home:
 cd
 
-# Remove ~/.zsh folder and ~/.zshrc:
-rm -r ~/.zsh
-rm ~/.zshrc
+# Move ~/.zshrc:
+mv ~/.zshrc ~/.zshrc.old
 
 # Clone this repo in your home:
-git clone git@github.com:AlexlHer/zsh_config.git .zsh
+git clone git@github.com:AlexlHer/zsh_config.git .pzc
 
-# Copy ~/.zsh/home.zshrc to ~/.zshrc:
-cp ~/.zsh/home.zshrc ~/.zshrc
+# Copy ~/.pzc/home.zshrc to ~/.zshrc:
+cp ~/.pzc/home.zshrc ~/.zshrc
 
 # Edit "~/.zshrc":
 # Search "[TODO]" to find lines to edit.
@@ -22,7 +21,7 @@ vim ~/.zshrc
 
 ## Update
 ```zsh
-cd ~/.zsh
+cd ~/.pzc
 git stash
 git pull
 git stash pop
