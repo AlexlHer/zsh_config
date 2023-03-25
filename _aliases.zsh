@@ -123,10 +123,10 @@ alias docker='_coal "podman" ; podman'
 # ---------------------------------------------------------------
 
 alias pa='_coal "sudo pacman" ; sudo pacman'
-alias pas='_coal_eval "sudo pacman -S"'
-alias pass='_coal_eval "sudo pacman -Ss"'
-alias paup='_coal_eval "sudo pacman -Syu"'
-alias yup='_coal_eval "yay -Syu"'
+alias pas='_coal "sudo pacman -S" ; sudo pacman -S'
+alias pass='_coal "sudo pacman -Ss" ; sudo pacman -Ss'
+alias paup='_coal "sudo pacman -Syu" ; sudo pacman -Syu'
+alias yup='_coal_eval "yay -Syua"'
 
 
 
