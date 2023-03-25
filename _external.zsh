@@ -7,37 +7,50 @@
 # -------------------------- OhMyPosh ---------------------------
 # ---------------------------------------------------------------
 
-if [[ -x "$(command -v oh-my-posh)" ]]
+if [[ -v _PZC_OMP_PATH ]] && [[ ! -e ${_PZC_OMP_PATH} ]]
 then
-  _PZC_OMP_PATH=oh-my-posh
-
-elif [[ -e ${ZSH_DIR}/progs/oh-my-posh/oh-my-posh ]]
-then
-  _PZC_OMP_PATH=${ZSH_DIR}/progs/oh-my-posh/oh-my-posh
-
-else
-  echo "Warning: oh-my-posh is not installed (https://github.com/JanDeDobbeleer/oh-my-posh)"
+  echo "Warning: your oh-my-posh is not found. Search other oh-my-posh."
+  unset _PZC_OMP_PATH
 
 fi
 
-
-if [[ -v _PZC_OMP_THEME_PATH ]]
+if [[ ! -v _PZC_OMP_PATH ]]
 then
-  if [[ ! -e ${_PZC_OMP_THEME_PATH} ]]
+
+  if [[ -x "$(command -v oh-my-posh)" ]]
   then
-    echo "Warning: your oh-my-posh theme is not found. Set default theme."
-    _PZC_OMP_THEME_PATH=${ZSH_DIR}/progs/oh-my-posh/themes/OhMyZSH.json
-    
-  fi
+    _PZC_OMP_PATH=oh-my-posh
 
-else
-  _PZC_OMP_THEME_PATH=${ZSH_DIR}/progs/oh-my-posh/themes/OhMyZSH.json
+  elif [[ -e ${ZSH_DIR}/progs/oh-my-posh/oh-my-posh ]]
+  then
+    _PZC_OMP_PATH=${ZSH_DIR}/progs/oh-my-posh/oh-my-posh
+
+  else
+    echo "Warning: oh-my-posh is not installed (https://github.com/JanDeDobbeleer/oh-my-posh)"
+
+  fi
 fi
 
-if [[ ! -e ${_PZC_OMP_THEME_PATH} ]]
+
+
+if [[ -v _PZC_OMP_THEME_PATH ]] && [[ ! -e ${_PZC_OMP_THEME_PATH} ]]
 then
-  echo "Warning: Default oh-my-posh theme is not found (https://github.com/JanDeDobbeleer/oh-my-posh)"
+  echo "Warning: your oh-my-posh theme is not found. Search default oh-my-posh theme."
   unset _PZC_OMP_THEME_PATH
+
+fi
+
+if [[ ! -v _PZC_OMP_THEME_PATH ]]
+then
+
+  if [[ -e ${ZSH_DIR}/progs/oh-my-posh/themes/OhMyZSH.json ]]
+  then
+    _PZC_OMP_THEME_PATH=${ZSH_DIR}/progs/oh-my-posh/themes/OhMyZSH.json
+
+  else
+    echo "Warning: Default oh-my-posh theme is not found (https://github.com/JanDeDobbeleer/oh-my-posh)"
+
+  fi
 fi
 
 
@@ -46,21 +59,32 @@ fi
 # -------------------------- Age/Rage ---------------------------
 # ---------------------------------------------------------------
 
-if [[ -x "$(command -v age)" ]]
+if [[ -v _PZC_AGE_PATH ]] && [[ ! -e ${_PZC_AGE_PATH} ]]
 then
-  _PZC_AGE_PATH=age
+  echo "Warning: your age is not found. Search other age."
+  unset _PZC_AGE_PATH
 
-elif [[ -x "$(command -v rage)" ]]
+fi
+
+if [[ ! -v _PZC_AGE_PATH ]]
 then
-  _PZC_AGE_PATH=rage
 
-elif [[ -e ${ZSH_DIR}/progs/age/age ]]
-then
-  _PZC_AGE_PATH=${ZSH_DIR}/progs/age/age
-  
-else
-  echo "Warning: age is not installed (https://github.com/FiloSottile/age)"
+  if [[ -x "$(command -v age)" ]]
+  then
+    _PZC_AGE_PATH=age
 
+  elif [[ -x "$(command -v rage)" ]]
+  then
+    _PZC_AGE_PATH=rage
+
+  elif [[ -e ${ZSH_DIR}/progs/age/age ]]
+  then
+    _PZC_AGE_PATH=${ZSH_DIR}/progs/age/age
+    
+  else
+    echo "Warning: age is not installed (https://github.com/FiloSottile/age)"
+
+  fi
 fi
 
 
@@ -69,17 +93,29 @@ fi
 # --------------------------- EXA-LS ----------------------------
 # ---------------------------------------------------------------
 
-if [[ -x "$(command -v exa)" ]]
+if [[ -v _PZC_EXA_PATH ]] && [[ ! -e ${_PZC_EXA_PATH} ]]
 then
-  _PZC_EXA_PATH=exa
+  echo "Warning: your exa is not found. Search other exa."
+  unset _PZC_EXA_PATH
 
-elif [[ -e ${ZSH_DIR}/progs/exa/exa ]]
+fi
+
+if [[ ! -v _PZC_EXA_PATH ]]
 then
-  _PZC_EXA_PATH=${ZSH_DIR}/progs/exa/exa
-  
-else
-  echo "Warning: exa is not installed (https://github.com/ogham/exa)"
 
+
+  if [[ -x "$(command -v exa)" ]]
+  then
+    _PZC_EXA_PATH=exa
+
+  elif [[ -e ${ZSH_DIR}/progs/exa/exa ]]
+  then
+    _PZC_EXA_PATH=${ZSH_DIR}/progs/exa/exa
+    
+  else
+    echo "Warning: exa is not installed (https://github.com/ogham/exa)"
+
+  fi
 fi
 
 
@@ -88,15 +124,26 @@ fi
 # ---------------------------- Mold -----------------------------
 # ---------------------------------------------------------------
 
-if [[ -x "$(command -v mold)" ]]
+if [[ -v _PZC_MOLD_PATH ]] && [[ ! -e ${_PZC_MOLD_PATH} ]]
 then
-  _PZC_MOLD_PATH=mold
+  echo "Warning: your mold is not found. Search other mold."
+  unset _PZC_MOLD_PATH
 
-elif [[ -e ${ZSH_DIR}/progs/mold/mold ]]
+fi
+
+if [[ ! -v _PZC_MOLD_PATH ]]
 then
-  _PZC_MOLD_PATH=${ZSH_DIR}/progs/mold/mold
-  
-else
-  echo "Warning: mold is not installed (https://github.com/rui314/mold)"
 
+  if [[ -x "$(command -v mold)" ]]
+  then
+    _PZC_MOLD_PATH=mold
+
+  elif [[ -e ${ZSH_DIR}/progs/mold/mold ]]
+  then
+    _PZC_MOLD_PATH=${ZSH_DIR}/progs/mold/mold
+    
+  else
+    echo "Warning: mold is not installed (https://github.com/rui314/mold)"
+
+  fi
 fi
