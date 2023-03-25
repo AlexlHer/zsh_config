@@ -8,7 +8,7 @@
 # ---------------------------------------------------------------
 
 # If EXA-LS is installed.
-if [[ $EXA_AVAILABLE = 1 ]]
+if [[ -v _PZC_EXA_PATH ]]
 then
   # Color $1 or 3 last edited files.
   ll()
@@ -80,7 +80,7 @@ uclang()
 {
   _coal_eval "export CC=clang"
   _coal_eval "export CXX=clang++"
-  if [[ -x "$(command -v mold)" ]]
+  if [[ -v _PZC_MOLD_PATH ]]
   then
   _coal_eval "export CFLAGS='-fuse-ld=mold'"
   _coal_eval "export CXXFLAGS='-fuse-ld=mold'"
@@ -92,7 +92,7 @@ ugcc()
 {
   _coal_eval "export CC=gcc"
   _coal_eval "export CXX=g++"
-  if [[ -x "$(command -v mold)" ]]
+  if [[ -v _PZC_MOLD_PATH ]]
   then
   _coal_eval "export CFLAGS='-fuse-ld=mold'"
   _coal_eval "export CXXFLAGS='-fuse-ld=mold'"
@@ -153,29 +153,32 @@ runproton()
 # ----------------------- Age Functions -------------------------
 # ---------------------------------------------------------------
 
-agee()
-{
-  if [[ -v 1 ]]
-  then
-    mkdir -p /tmp/age
-    age -d -i ${SSH_PRI} -o /tmp/age/keys.txt ${ZSH_DIR}/keys/keys.txt
-    age -e -R /tmp/age/keys.txt -a -o ${1}.age ${1}
-    rm /tmp/age/keys.txt
+if [[ -v _PZC_AGE_PATH ]]
+then
+  agee()
+  {
+    if [[ -v 1 ]]
+    then
+      mkdir -p /tmp/age
+      ${_PZC_AGE_PATH} -d -i ${SSH_PRI} -o /tmp/age/keys.txt ${ZSH_DIR}/keys/keys.txt
+      ${_PZC_AGE_PATH} -e -R /tmp/age/keys.txt -a -o ${1}.age ${1}
+      rm /tmp/age/keys.txt
 
-  else
-    echo "Need input file."
+    else
+      echo "Error: Need input file."
 
-  fi
-}
+    fi
+  }
 
-aged()
-{
-  if [[ -v 1 ]]
-  then
-    age -d -i ${SSH_PRI} -o ${1}.dec ${1}
+  aged()
+  {
+    if [[ -v 1 ]]
+    then
+      ${_PZC_AGE_PATH} -d -i ${SSH_PRI} -o ${1}.dec ${1}
 
-  else
-    echo "Need encrypted input file."
+    else
+      echo "Error: Need encrypted input file."
 
-  fi
-}
+    fi
+  }
+fi

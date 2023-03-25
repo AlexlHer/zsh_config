@@ -16,27 +16,27 @@ then
 
   elif [[ -e ${ZSH_DIR}/_local_${PC_ID}.txt ]]
   then
-    echo "Local config decryption in progress..."
-    if [[ -x "$(command -v age)" ]]
+    if [[ -v _PZC_AGE_PATH ]]
     then
+      echo "Info: Local config decryption in progress..."
       if [[ -v SSH_PRI ]]
       then
-        age -d -i ${SSH_PRI} -o ${ZSH_DIR}/_local_${PC_ID}.zsh ${ZSH_DIR}/_local_${PC_ID}.txt
+        ${_PZC_AGE_PATH} -d -i ${SSH_PRI} -o ${ZSH_DIR}/_local_${PC_ID}.zsh ${ZSH_DIR}/_local_${PC_ID}.txt
         if [[ -e ${ZSH_DIR}/_local_${PC_ID}.zsh ]]
         then
           source ${ZSH_DIR}/_local_${PC_ID}.zsh
-          echo "_local_${PC_ID}.zsh created and sourced."
+          echo "Info: _local_${PC_ID}.zsh created and sourced."
 
         else
-          echo "Unknown error, please retry."
+          echo "Warning: Unknown error, please retry."
 
         fi
       else
-        echo "Private SSH key not found, not possible to decrypt local config. Check .zshrc."
+        echo "Warning: Private SSH key not found, not possible to decrypt local config. Check .zshrc."
 
       fi
     else
-      echo "Age not found, not possible to decrypt local config."
+      echo "Warning: Age not found, not possible to decrypt local config."
       
     fi
 

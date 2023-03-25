@@ -4,8 +4,6 @@
 ## rename this file to ".zshrc".
 
 
-# ZSH config directory.
-export ZSH_DIR=${HOME}/.zsh
 
 # PC ID
 # [TODO] Uncomment
@@ -18,6 +16,15 @@ export ZSH_DIR=${HOME}/.zsh
 #export SSH_PUB=
 #export SSH_PRI=
 
+# OH-MY-POSH theme path
+# [TODO] Complete if you have custom oh-my-posh theme
+#export _PZC_OMP_THEME_PATH=
+
+
+
+
+# ZSH config directory.
+export ZSH_DIR=${HOME}/.zsh
 
 # Source of true zshrc.
 if [[ -e ${ZSH_DIR}/zshrc ]]

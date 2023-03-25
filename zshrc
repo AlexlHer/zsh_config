@@ -7,6 +7,9 @@
 # -------------------------- Sources ----------------------------
 # ---------------------------------------------------------------
 
+# Source external program needed
+source ${ZSH_DIR}/_external.zsh
+
 # Source manjaro-zsh-configuration
 source ${ZSH_DIR}/_manjaro_config.zsh
 
@@ -34,22 +37,7 @@ source ${ZSH_DIR}/_arcane.zsh
 # -------------------------- OhMyPosh ---------------------------
 # ---------------------------------------------------------------
 
-# OhMyPosh System
-if [[ -x "$(command -v oh-my-posh)" ]]
+if [[ -v _PZC_OMP_PATH ]] && [[ -v _PZC_OMP_THEME_PATH ]]
 then
-
-  if [[ -e ${ZSH_DIR}/progs/oh-my-posh/themes/OhMyZSH.json ]]
-  then
-    eval "$(oh-my-posh init zsh --config ${ZSH_DIR}/progs/oh-my-posh/themes/OhMyZSH.json)"
-  fi
-
-# Portable OhMyPosh
-elif [[ -e ${ZSH_DIR}/progs/oh-my-posh/oh-my-posh ]]
-then
-
-  if [[ -e ${ZSH_DIR}/progs/oh-my-posh/themes/OhMyZSH.json ]]
-  then
-    eval "$(${ZSH_DIR}/progs/oh-my-posh/oh-my-posh init zsh --config ${ZSH_DIR}/progs/oh-my-posh/themes/OhMyZSH.json)"
-  fi
-
+  eval "$(${_PZC_OMP_PATH} init zsh --config ${_PZC_OMP_THEME_PATH})"
 fi

@@ -12,20 +12,11 @@ export LS_OPTIONS='--color=auto'
 eval "$(dircolors -b)"
 
 ## --- With EXA-LS ---
-if [[ -x "$(command -v exa)" ]]
+if [[ -v _PZC_EXA_PATH ]]
 then
-  alias ls='exa --icons'
-  alias l='exa --icons --color-scale --time-style long-iso -BghHl'
-  alias la='exa --icons --color-scale --time-style long-iso -BghHla'
-  local EXA_AVAILABLE=1
-
-## --- With Portable EXA-LS ---
-elif [[ -e $ZSH_DIR/progs/exa/exa ]]
-then
-  alias ls='$ZSH_DIR/progs/exa/exa --icons'
-  alias l='$ZSH_DIR/progs/exa/exa --icons --color-scale --time-style long-iso -BghHl'
-  alias la='$ZSH_DIR/progs/exa/exa --icons --color-scale --time-style long-iso -BghHla'
-  local EXA_AVAILABLE=1
+  alias ls='${_PZC_EXA_PATH} --icons'
+  alias l='${_PZC_EXA_PATH} --icons --color-scale --time-style long-iso -BghHl'
+  alias la='${_PZC_EXA_PATH} --icons --color-scale --time-style long-iso -BghHla'
 
 ## --- Without EXA-LS ---
 else
