@@ -6,32 +6,30 @@
 
 # Note: Eval first param = break autocompletion.
 # COlor ALias
-_coal()
+_pzc_coal()
 {
   echo "\033[0;102m\033[30m   ${1} \033[0m"
 }
 
-_coal_eval()
+_pzc_coal_eval()
 {
   echo "\033[0;102m\033[30m   ${1} \033[0m"
   eval ${1}
 }
 
 # ECho ALias
-_ecal_eval()
+_pzc_ecal_eval()
 {
   echo "${1}"
   eval ${1}
 }
 
-_pensil_begin()
+_pzc_pensil_begin()
 {
   echo "\033[0;102m\033[30m   \033[0m"
 }
 
-_pensil_end()
+_pzc_pensil_end()
 {
   echo "\033[0;102m\033[30m   \033[0m"
 }
-
-local EXA_AVAILABLE=0

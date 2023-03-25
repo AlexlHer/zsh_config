@@ -7,8 +7,8 @@
 # -------------------------- Aliases ----------------------------
 # ---------------------------------------------------------------
 
-alias gitarc='_coal_eval "cd ${WORK_DIR}/arcane/framework"'
-alias gitbenchs='_coal_eval "cd ${WORK_DIR}/arcane/arcane-benchs"'
+alias gitarc='_pzc_coal_eval "cd ${WORK_DIR}/arcane/framework"'
+alias gitbenchs='_pzc_coal_eval "cd ${WORK_DIR}/arcane/arcane-benchs"'
 
 
 
@@ -18,51 +18,51 @@ alias gitbenchs='_coal_eval "cd ${WORK_DIR}/arcane/arcane-benchs"'
 
 initarc()
 {
-  _pensil_begin
-  _ecal_eval "ARCANE_TYPE_BUILD=${1}"
-  _ecal_eval "ARCANE_SOURCE_DIR=${WORK_DIR}/arcane/framework"
-  _ecal_eval "ARCANE_BUILD_DIR=${BUILD_DIR}/build_framework/${ARCANE_TYPE_BUILD}"
-  _ecal_eval "ARCANE_INSTALL_PATH=${BUILD_DIR}/install_framework/${ARCANE_TYPE_BUILD}"
+  _pzc_pensil_begin
+  _pzc_ecal_eval "ARCANE_TYPE_BUILD=${1}"
+  _pzc_ecal_eval "ARCANE_SOURCE_DIR=${WORK_DIR}/arcane/framework"
+  _pzc_ecal_eval "ARCANE_BUILD_DIR=${BUILD_DIR}/build_framework/${ARCANE_TYPE_BUILD}"
+  _pzc_ecal_eval "ARCANE_INSTALL_PATH=${BUILD_DIR}/install_framework/${ARCANE_TYPE_BUILD}"
   echo ""
-  _ecal_eval "mkdir -p ${ARCANE_BUILD_DIR}"
-  _ecal_eval "mkdir -p ${ARCANE_INSTALL_PATH}"
+  _pzc_ecal_eval "mkdir -p ${ARCANE_BUILD_DIR}"
+  _pzc_ecal_eval "mkdir -p ${ARCANE_INSTALL_PATH}"
   echo ""
-  _ecal_eval "cd ${ARCANE_BUILD_DIR}"
-  _pensil_end
+  _pzc_ecal_eval "cd ${ARCANE_BUILD_DIR}"
+  _pzc_pensil_end
 }
 
 initarcfork()
 {
-  _pensil_begin
-  _ecal_eval "ARCANE_TYPE_BUILD=${1}"
-  _ecal_eval "ARCANE_SOURCE_DIR=${WORK_DIR}/arcane/forks/framework"
-  _ecal_eval "ARCANE_BUILD_DIR=${BUILD_DIR}/build_framework_fork/${ARCANE_TYPE_BUILD}"
-  _ecal_eval "ARCANE_INSTALL_PATH=${BUILD_DIR}/install_framework_fork/${ARCANE_TYPE_BUILD}"
+  _pzc_pensil_begin
+  _pzc_ecal_eval "ARCANE_TYPE_BUILD=${1}"
+  _pzc_ecal_eval "ARCANE_SOURCE_DIR=${WORK_DIR}/arcane/forks/framework"
+  _pzc_ecal_eval "ARCANE_BUILD_DIR=${BUILD_DIR}/build_framework_fork/${ARCANE_TYPE_BUILD}"
+  _pzc_ecal_eval "ARCANE_INSTALL_PATH=${BUILD_DIR}/install_framework_fork/${ARCANE_TYPE_BUILD}"
   echo ""
-  _ecal_eval "mkdir -p ${ARCANE_BUILD_DIR}"
-  _ecal_eval "mkdir -p ${ARCANE_INSTALL_PATH}"
+  _pzc_ecal_eval "mkdir -p ${ARCANE_BUILD_DIR}"
+  _pzc_ecal_eval "mkdir -p ${ARCANE_INSTALL_PATH}"
   echo ""
-  _ecal_eval "cd ${ARCANE_BUILD_DIR}"
-  _pensil_end
+  _pzc_ecal_eval "cd ${ARCANE_BUILD_DIR}"
+  _pzc_pensil_end
 }
 
 initbenchs()
 {
-  _pensil_begin
-  _ecal_eval "ARCANE_TYPE_BUILD=${1}"
-  _ecal_eval "ARCANE_INSTALL_PATH=${BUILD_DIR}/install_framework/${ARCANE_TYPE_BUILD}"
+  _pzc_pensil_begin
+  _pzc_ecal_eval "ARCANE_TYPE_BUILD=${1}"
+  _pzc_ecal_eval "ARCANE_INSTALL_PATH=${BUILD_DIR}/install_framework/${ARCANE_TYPE_BUILD}"
   echo ""
-  _ecal_eval "AB_BUILD_TYPE=${1}"
-  _ecal_eval "AB_SOURCE_DIR=${WORK_DIR}/arcane/arcane-benchs"
-  _ecal_eval "AB_BUILD_DIR=${BUILD_DIR}/build_arcane-benchs/${AB_BUILD_TYPE}"
-  _ecal_eval "AB_INSTALL_PATH=${BUILD_DIR}/install_arcane-benchs/${AB_BUILD_TYPE}"
-  _ecal_eval "AB_EXE=${AB_BUILD_DIR}/qama/src/qama"
-  _ecal_eval "AB_ARC=${AB_SOURCE_DIR}/qama/data/tests/ExampleFull.arc"
+  _pzc_ecal_eval "AB_BUILD_TYPE=${1}"
+  _pzc_ecal_eval "AB_SOURCE_DIR=${WORK_DIR}/arcane/arcane-benchs"
+  _pzc_ecal_eval "AB_BUILD_DIR=${BUILD_DIR}/build_arcane-benchs/${AB_BUILD_TYPE}"
+  _pzc_ecal_eval "AB_INSTALL_PATH=${BUILD_DIR}/install_arcane-benchs/${AB_BUILD_TYPE}"
+  _pzc_ecal_eval "AB_EXE=${AB_BUILD_DIR}/qama/src/qama"
+  _pzc_ecal_eval "AB_ARC=${AB_SOURCE_DIR}/qama/data/tests/ExampleFull.arc"
   echo ""
-  _ecal_eval "mkdir -p ${AB_BUILD_DIR}"
+  _pzc_ecal_eval "mkdir -p ${AB_BUILD_DIR}"
   echo ""
-  _ecal_eval "cd ${AB_BUILD_DIR}"
-  _pensil_end
+  _pzc_ecal_eval "cd ${AB_BUILD_DIR}"
+  _pzc_pensil_end
 }
 
 
@@ -75,7 +75,7 @@ configarc()
 {
   if [[ -v ARCANE_BUILD_DIR ]]
   then
-    _pensil_begin
+    _pzc_pensil_begin
     echo "cmake \\"
     echo "  -S ${ARCANE_SOURCE_DIR} \\"
     echo "  -B ${ARCANE_BUILD_DIR} \\"
@@ -89,7 +89,7 @@ configarc()
     echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD}"
     echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
-    _pensil_end
+    _pzc_pensil_end
 
     cmake \
       -S ${ARCANE_SOURCE_DIR} \
@@ -115,7 +115,7 @@ configarcgpu()
 {
   if [[ -v ARCANE_BUILD_DIR ]]
   then
-    _pensil_begin
+    _pzc_pensil_begin
     echo "cmake \\"
     echo "  -S ${ARCANE_SOURCE_DIR} \\"
     echo "  -B ${ARCANE_BUILD_DIR} \\"
@@ -130,7 +130,7 @@ configarcgpu()
     echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCANE_ACCELERATOR_MODE=CUDANVCC -DCMAKE_CUDA_COMPILER=nvcc"
     echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
-    _pensil_end
+    _pzc_pensil_end
 
     cmake \
       -S ${ARCANE_SOURCE_DIR} \
@@ -157,7 +157,7 @@ configarcldoc()
 {
   if [[ -v ARCANE_BUILD_DIR ]]
   then
-    _pensil_begin
+    _pzc_pensil_begin
     echo "cmake \\"
     echo "  -S ${ARCANE_SOURCE_DIR} \\"
     echo "  -B ${ARCANE_BUILD_DIR} \\"
@@ -174,7 +174,7 @@ configarcldoc()
     echo "  -DARCANEDOC_OFFLINE=ON"
 
     echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
-    _pensil_end
+    _pzc_pensil_end
 
     cmake \
       -S ${ARCANE_SOURCE_DIR} \
@@ -202,7 +202,7 @@ configbenchs()
 {
   if [[ -v AB_BUILD_DIR ]]
   then
-    _pensil_begin
+    _pzc_pensil_begin
     echo "cmake \\"
     echo "  -S ${AB_SOURCE_DIR} \\"
     echo "  -B ${AB_BUILD_DIR} \\"
@@ -212,7 +212,7 @@ configbenchs()
     echo "  -DCMAKE_INSTALL_PREFIX=${AB_INSTALL_PATH} \\"
     echo "  -DCMAKE_PREFIX_PATH=${ARCANE_INSTALL_PATH} \\"
     echo "  -DCMAKE_BUILD_TYPE=${AB_BUILD_TYPE}"
-    _pensil_end
+    _pzc_pensil_end
 
     cmake \
       -S ${AB_SOURCE_DIR} \
@@ -239,10 +239,10 @@ biarc()
 {
   if [[ -v ARCANE_BUILD_DIR ]]
   then
-    _pensil_begin
+    _pzc_pensil_begin
     echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
     echo "cmake --build ${ARCANE_BUILD_DIR} --target install"
-    _pensil_end
+    _pzc_pensil_end
 
     chmod u+x ${ARCANE_BUILD_DIR}/bin/*
     cmake --build ${ARCANE_BUILD_DIR} --target install
@@ -257,12 +257,12 @@ docarc()
 {
   if [[ -v ARCANE_BUILD_DIR ]]
   then
-    _pensil_begin
+    _pzc_pensil_begin
     echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
     echo "cmake --build ${ARCANE_BUILD_DIR}"
     echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
     echo "cmake --build ${ARCANE_BUILD_DIR} --target ${1}doc"
-    _pensil_end
+    _pzc_pensil_end
 
     chmod u+x ${ARCANE_BUILD_DIR}/bin/*
     cmake --build ${ARCANE_BUILD_DIR}

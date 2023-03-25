@@ -14,7 +14,7 @@ then
   ll()
   {
     local DEPTH="${1:-1}"
-    _coal_eval 'l -TL "${DEPTH}"'
+    _pzc_coal_eval 'l -TL "${DEPTH}"'
   }
 
   # Color $1 or 3 last edited files.
@@ -65,7 +65,7 @@ dum()
 # "Find" alias with symlinks follow.
 dinf()
 {
-  _coal 'find -L . -name "${1}" 2> /dev/null'
+  _pzc_coal 'find -L . -name "${1}" 2> /dev/null'
   find -L . -name "${1}" 2> /dev/null
 }
 
@@ -78,24 +78,24 @@ dinf()
 # Define "CLang" to CMake default compiler.
 uclang()
 {
-  _coal_eval "export CC=clang"
-  _coal_eval "export CXX=clang++"
+  _pzc_coal_eval "export CC=clang"
+  _pzc_coal_eval "export CXX=clang++"
   if [[ -v _PZC_MOLD_PATH ]]
   then
-  _coal_eval "export CFLAGS='-fuse-ld=mold'"
-  _coal_eval "export CXXFLAGS='-fuse-ld=mold'"
+  _pzc_coal_eval "export CFLAGS='-fuse-ld=mold'"
+  _pzc_coal_eval "export CXXFLAGS='-fuse-ld=mold'"
   fi
 }
 
 # Define "GCC" to CMake default compiler.
 ugcc()
 {
-  _coal_eval "export CC=gcc"
-  _coal_eval "export CXX=g++"
+  _pzc_coal_eval "export CC=gcc"
+  _pzc_coal_eval "export CXX=g++"
   if [[ -v _PZC_MOLD_PATH ]]
   then
-  _coal_eval "export CFLAGS='-fuse-ld=mold'"
-  _coal_eval "export CXXFLAGS='-fuse-ld=mold'"
+  _pzc_coal_eval "export CFLAGS='-fuse-ld=mold'"
+  _pzc_coal_eval "export CXXFLAGS='-fuse-ld=mold'"
   fi
 }
 
@@ -109,30 +109,30 @@ cti()
 {
   local ARG1="${1:-0}"
   local ARG2="${2:-${ARG1}}"
-  _coal_eval "ctest -I ${ARG1},${ARG2},1 --output-on-failure ${*:3}"
+  _pzc_coal_eval "ctest -I ${ARG1},${ARG2},1 --output-on-failure ${*:3}"
 }
 
 ctr()
 {
   local ARG1="${1:-0}"
-  _coal_eval "ctest -R \"${ARG1}\" --output-on-failure ${*:2}"
+  _pzc_coal_eval "ctest -R \"${ARG1}\" --output-on-failure ${*:2}"
 }
 
 ctn()
 {
-  _coal_eval "ctest -N ${*:1}"
+  _pzc_coal_eval "ctest -N ${*:1}"
 }
 
 ctnr()
 {
   local ARG1="${1:-0}"
-  _coal_eval "ctest -N -R \"${ARG1}\" ${*:2}"
+  _pzc_coal_eval "ctest -N -R \"${ARG1}\" ${*:2}"
 }
 
 cta()
 {
   local ARG1="${1:-1}"
-  _coal_eval "ctest -j${ARG1} --repeat until-pass:3 --output-on-failure ${*:2}"
+  _pzc_coal_eval "ctest -j${ARG1} --repeat until-pass:3 --output-on-failure ${*:2}"
 }
 
 
