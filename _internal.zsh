@@ -33,3 +33,36 @@ _pzc_pensil_end()
 {
   echo "\033[0;102m\033[30m   \033[0m"
 }
+
+
+_pzc_info()
+{
+  if [[ ${_PZC_LOG_INFO} = 1 ]]
+  then
+    echo "\033[0;102m\033[30m   Info: ${1} \033[0m"
+  fi
+}
+
+_pzc_warning()
+{
+  if [[ ${_PZC_LOG_WARNING} = 1 ]]
+  then
+    echo "\033[0;103m\033[30m   Warning: ${1} \033[0m"
+  fi
+}
+
+_pzc_error()
+{
+  if [[ ${_PZC_LOG_ERROR} = 1 ]]
+  then
+    echo "\033[0;101m\033[30m   Error: ${1} \033[0m"
+  fi
+}
+
+_pzc_debug()
+{
+  if [[ ${_PZC_LOG_DEBUG} = 1 ]]
+  then
+    echo "\033[0;104m\033[30m   Debug: ${1} \033[0m"
+  fi
+}

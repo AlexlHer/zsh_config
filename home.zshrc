@@ -6,65 +6,76 @@
 
 
 
-# -----------------------------
-# ----- SSH keys location -----
-# -----------------------------
+# ----------------------------------
+# -------- SSH keys location -------
+# ----------------------------------
 # [TODO] Uncomment and complete if you want to use 'agee' and 'aged' functions.
-#export _PZC_SSH_PUB=
-#export _PZC_SSH_PRI=
+#local _PZC_SSH_PUB=
+#local _PZC_SSH_PRI=
 
 
-# -----------------------------
-# --- OH-MY-POSH theme path ---
-# -----------------------------
+# ----------------------------------
+# ------ OH-MY-POSH theme path -----
+# ----------------------------------
 # [TODO] Uncomment and complete if you have a custom oh-my-posh theme.
-#export _PZC_OMP_THEME_PATH=
+#local _PZC_OMP_THEME_PATH=
 
 
-# -----------------------------
-# ------ OH-MY-POSH path ------
-# -----------------------------
+# ----------------------------------
+# --------- OH-MY-POSH path --------
+# ----------------------------------
 # [TODO] Uncomment and complete if you have a custom installation of oh-my-posh (which is not in PATH).
-#export _PZC_OMP_PATH=
+#local _PZC_OMP_PATH=
 
 
-# -----------------------------
-# ------- AGE/RAGE path -------
-# -----------------------------
+# ----------------------------------
+# ---------- AGE/RAGE path ---------
+# ----------------------------------
 # [TODO] Uncomment and complete if you have a custom installation of age or rage (which is not in PATH).
-#export _PZC_AGE_PATH=
+#local _PZC_AGE_PATH=
 
 
-# -----------------------------
-# -------- EXA-LS path --------
-# -----------------------------
+# ----------------------------------
+# ----------- EXA-LS path ----------
+# ----------------------------------
 # [TODO] Uncomment and complete if you have a custom installation of EXA-LS (which is not in PATH).
-#export _PZC_EXA_PATH=
+#local _PZC_EXA_PATH=
 
 
-# -----------------------------
-# --------- MOLD path ---------
-# -----------------------------
+# ----------------------------------
+# ------------ MOLD path -----------
+# ----------------------------------
 # [TODO] Uncomment and complete if you have a custom installation of mold (which is not in PATH).
-#export _PZC_MOLD_PATH=
+#local _PZC_MOLD_PATH=
 
 
-
-# -----------------------------
-# ----------- PC ID -----------
-# -----------------------------
+# ----------------------------------
+# -------------- PC ID -------------
+# ----------------------------------
 # [TODO] Uncomment if you are AlexlHer :-).
-#export _PZC_PC_ID="f"
-#export _PZC_PC_ID="p"
-#export _PZC_PC_ID="c"
+#local _PZC_PC_ID="f"
+#local _PZC_PC_ID="p"
+#local _PZC_PC_ID="c"
 
 
+# ----------------------------------
+# ------- Log verbose level --------
+# ----------------------------------
+local _PZC_LOG_INFO=1
+local _PZC_LOG_WARNING=1
+local _PZC_LOG_ERROR=1
+local _PZC_LOG_DEBUG=0
 
 
-# Personnal ZSH config directory.
-export _PZC_PZC_DIR=${HOME}/.pzc
+# ----------------------------------
+# - Personnal ZSH config directory -
+# ----------------------------------
+local _PZC_PZC_DIR=${HOME}/.pzc
 
-# Source of true zshrc.
+
+# ----------------------------------
+# ------ Source of true zshrc ------
+# ----------------------------------
 if [[ -e ${_PZC_PZC_DIR}/zshrc ]]
 then
   source ${_PZC_PZC_DIR}/zshrc

@@ -1,6 +1,5 @@
 # Personal ZSH Configuration
 ## Installation
-
 ```zsh
 # Goto home:
 cd
@@ -28,7 +27,7 @@ git stash pop
 ```
 
 ## Optional progs
+- oh-my-posh
 - exa
 - age (needed to decrypt local files)
-- oh-my-posh
 - mold

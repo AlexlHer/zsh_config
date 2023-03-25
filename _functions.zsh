@@ -10,6 +10,8 @@
 # If EXA-LS is installed.
 if [[ -v _PZC_EXA_PATH ]]
 then
+  _pzc_debug "Define functions for EXA-LS."
+
   # Color $1 or 3 last edited files.
   ll()
   {
@@ -32,6 +34,8 @@ then
   }
 
 else
+  _pzc_debug "Define functions for LS (not EXA-LS)."
+
   # Color $1 or 3 last edited files.
   lll()
   {
@@ -155,6 +159,7 @@ runproton()
 
 if [[ -v _PZC_AGE_PATH ]]
 then
+  _pzc_debug "Define functions for AGE/RAGE."
   agee()
   {
     if [[ -v 1 ]]
@@ -165,7 +170,7 @@ then
       rm /tmp/age/keys.txt
 
     else
-      echo "Error: Need input file."
+      _pzc_error "Need input file."
 
     fi
   }
@@ -177,7 +182,7 @@ then
       ${_PZC_AGE_PATH} -d -i ${_PZC_SSH_PRI} -o ${1}.dec ${1}
 
     else
-      echo "Error: Need encrypted input file."
+      _pzc_error "Need encrypted input file."
 
     fi
   }

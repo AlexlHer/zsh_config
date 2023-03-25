@@ -106,7 +106,7 @@ configarc()
   
     chmod u+x ${ARCANE_BUILD_DIR}/bin/*
   else
-    echo "Lancer initarc avant"
+    _pzc_error "Lancer initarc avant."
     return 1
   fi
 }
@@ -148,7 +148,7 @@ configarcgpu()
 
     chmod u+x ${ARCANE_BUILD_DIR}/bin/*
   else
-    echo "Lancer initarc avant"
+    _pzc_error "Lancer initarc avant."
     return 1
   fi
 }
@@ -193,7 +193,7 @@ configarcldoc()
   
     chmod u+x ${ARCANE_BUILD_DIR}/bin/*
   else
-    echo "Lancer initarc avant"
+    _pzc_error "Lancer initarc avant."
     return 1
   fi
 }
@@ -224,7 +224,7 @@ configbenchs()
       -DCMAKE_PREFIX_PATH=${ARCANE_INSTALL_PATH} \
       -DCMAKE_BUILD_TYPE=${AB_BUILD_TYPE}
   else
-    echo "Lancer initbenchs avant"
+    _pzc_error "Lancer initbenchs avant."
     return 1
   fi
 }
@@ -248,7 +248,7 @@ biarc()
     cmake --build ${ARCANE_BUILD_DIR} --target install
 
   else
-    echo "Lancer initarc avant"
+    _pzc_error "Lancer initarc avant."
     return 1
   fi
 }
@@ -270,7 +270,7 @@ docarc()
     cmake --build ${ARCANE_BUILD_DIR} --target ${1}doc
 
   else
-    echo "Lancer initarc avant"
+    _pzc_error "Lancer initarc avant."
     return 1
   fi
 }

@@ -14,12 +14,14 @@ eval "$(dircolors -b)"
 ## --- With EXA-LS ---
 if [[ -v _PZC_EXA_PATH ]]
 then
+  _pzc_debug "Aliases for EXA-LS."
   alias ls='${_PZC_EXA_PATH} --icons'
   alias l='${_PZC_EXA_PATH} --icons --color-scale --time-style long-iso -BghHl'
   alias la='${_PZC_EXA_PATH} --icons --color-scale --time-style long-iso -BghHla'
 
 ## --- Without EXA-LS ---
 else
+  _pzc_debug "Aliases for LS (not EXA-LS)."
   alias ls='ls $LS_OPTIONS'
   alias l='ls -l $LS_OPTIONS'
   alias la='ls -la $LS_OPTIONS'
@@ -69,8 +71,8 @@ alias free='_pzc_coal "free -m" ; free -m'
 # ------------------------ CD aliases ---------------------------
 # ---------------------------------------------------------------
 
-alias cdbi='cd ${BUILD_DIR}'
-alias cdw='cd ${WORK_DIR}'
+alias cdbi='_pzc_coal_eval "cd ${BUILD_DIR}"'
+alias cdw='_pzc_coal_eval "cd ${WORK_DIR}"'
 
 
 
