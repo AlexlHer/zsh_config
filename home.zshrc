@@ -5,6 +5,10 @@
 
 
 
+# ==================================
+# ==================================
+
+
 
 # ----------------------------------
 # -------- SSH keys location -------
@@ -50,12 +54,42 @@
 
 
 # ----------------------------------
+# ---------- TODOlist path ---------
+# ----------------------------------
+# [TODO] Uncomment and complete if you have a todolist.
+#local _PZC_TODOLIST_PATH=
+
+# [TODO] Uncomment and edit if your todolist is encrypted (1) or not (0).
+#local _PZC_TODOLIST_ENC=0
+
+
+# ----------------------------------
+# ----------- File editor ----------
+# ----------------------------------
+# [TODO] Uncomment and edit if you want to use an other file editor than 'vim'.
+#local _PZC_FILE_EDITOR=vim
+
+
+# ----------------------------------
+# --------- TMP directory ----------
+# ----------------------------------
+# [TODO] Uncomment and edit if you have an other tmp dir than '/tmp'.
+#local _PZC_TMP_DIR=/tmp
+
+
+# ----------------------------------
 # -------------- PC ID -------------
 # ----------------------------------
 # [TODO] Uncomment if you are AlexlHer :-).
 #local _PZC_PC_ID="f"
 #local _PZC_PC_ID="p"
 #local _PZC_PC_ID="c"
+
+
+
+# ==================================
+# ==================================
+
 
 
 # ----------------------------------

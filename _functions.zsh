@@ -164,10 +164,10 @@ then
   {
     if [[ -v 1 ]]
     then
-      mkdir -p /tmp/age
-      ${_PZC_AGE_PATH} -d -i ${_PZC_SSH_PRI} -o /tmp/age/keys.txt ${_PZC_PZC_DIR}/keys/keys.txt
-      ${_PZC_AGE_PATH} -e -R /tmp/age/keys.txt -a -o ${1}.age ${1}
-      rm /tmp/age/keys.txt
+      mkdir -p ${_PZC_TMP_DIR}/age
+      ${_PZC_AGE_PATH} -d -i ${_PZC_SSH_PRI} -o ${_PZC_TMP_DIR}/age/keys.txt ${_PZC_PZC_DIR}/keys/keys.txt
+      ${_PZC_AGE_PATH} -e -R ${_PZC_TMP_DIR}/age/keys.txt -a -o ${1}.age ${1}
+      rm ${_PZC_TMP_DIR}/age/keys.txt
 
     else
       _pzc_error "Need input file."
@@ -187,3 +187,61 @@ then
     fi
   }
 fi
+
+
+
+# ---------------------------------------------------------------
+# ----------------------- Todo function -------------------------
+# ---------------------------------------------------------------
+
+todo()
+{
+  if [[ -v _PZC_TODOLIST_PATH ]] && [[ -e ${_PZC_TODOLIST_PATH} ]]
+  then
+
+    if [[ ${_PZC_TODOLIST_ENC} = 1 ]]
+    then
+
+      if [[ -v _PZC_AGE_PATH ]]
+      then
+        _pzc_info "Create backup."
+        \cp ${_PZC_TODOLIST_PATH} ${_PZC_TODOLIST_PATH}.old
+        \cp ${_PZC_TODOLIST_PATH} ${_PZC_TMP_DIR}/todolist_enc.old
+
+        _pzc_info "Decrypting file."
+        aged ${_PZC_TMP_DIR}/todolist_enc.old
+
+        _pzc_info "Launch ${_PZC_FILE_EDITOR}"
+        ${_PZC_FILE_EDITOR} ${_PZC_TMP_DIR}/todolist_enc.old.dec
+
+        _pzc_info "Encrypting new file."
+        agee ${_PZC_TMP_DIR}/todolist_enc.old.dec
+        rm ${_PZC_TMP_DIR}/todolist_enc.old.dec
+
+        _pzc_info "Move new encrypted file."
+        \mv ${_PZC_TMP_DIR}/todolist_enc.old.dec.age ${_PZC_TODOLIST_PATH}
+
+      else
+        _pzc_warning "Age not found, not possible to decrypt your TODOlist."
+
+      fi
+
+    else
+      _pzc_info "Create backup."
+      \cp ${_PZC_TODOLIST_PATH} ${_PZC_TODOLIST_PATH}.old
+
+      _pzc_info "Launch ${_PZC_FILE_EDITOR}"
+      ${_PZC_FILE_EDITOR} ${_PZC_TODOLIST_PATH}
+
+    fi
+
+  elif [[ ! -e ${_PZC_TODOLIST_PATH} ]]
+  then
+    _pzc_warning "Your TODOlist is not found."
+    _pzc_debug "_PZC_TODOLIST_PATH = ${_PZC_TODOLIST_PATH}"
+
+  else
+    _pzc_warning "_PZC_TODOLIST_PATH not define. Check your .zshrc."
+
+  fi
+}

@@ -4,6 +4,29 @@
 
 
 # ---------------------------------------------------------------
+# ------------------------ Check editor -------------------------
+# ---------------------------------------------------------------
+
+if [[ ! -v _PZC_FILE_EDITOR ]]
+then
+  _pzc_debug "_PZC_FILE_EDITOR is not set. Default editor is set to vim."
+  local _PZC_FILE_EDITOR=vim
+fi
+
+
+# ---------------------------------------------------------------
+# -------------------------- Check tmp --------------------------
+# ---------------------------------------------------------------
+
+if [[ ! -v _PZC_TMP_DIR ]]
+then
+  _pzc_debug "_PZC_TMP_DIR is not set. Default directory is set to '/tmp'."
+  local _PZC_TMP_DIR=/tmp
+fi
+
+
+
+# ---------------------------------------------------------------
 # -------------------------- OhMyPosh ---------------------------
 # ---------------------------------------------------------------
 
@@ -64,36 +87,46 @@ fi
 # -------------------------- Age/Rage ---------------------------
 # ---------------------------------------------------------------
 
-if [[ -v _PZC_AGE_PATH ]] && [[ ! -e ${_PZC_AGE_PATH} ]]
-then
-  _pzc_warning "Your age is not found. Search other age."
-  _pzc_debug "_PZC_AGE_PATH = ${_PZC_AGE_PATH} (unset)"
-  unset _PZC_AGE_PATH
-
-fi
-
-if [[ ! -v _PZC_AGE_PATH ]]
+if [[ -v _PZC_SSH_PUB ]] && [[ -e ${_PZC_SSH_PUB} ]] && [[ -v _PZC_SSH_PRI ]] && [[ -e ${_PZC_SSH_PRI} ]]
 then
 
-  if [[ -x "$(command -v age)" ]]
+  if [[ -v _PZC_AGE_PATH ]] && [[ ! -e ${_PZC_AGE_PATH} ]]
   then
-    _PZC_AGE_PATH=age
-    _pzc_debug "_PZC_AGE_PATH = ${_PZC_AGE_PATH} (in PATH) (AGE)"
-
-  elif [[ -x "$(command -v rage)" ]]
-  then
-    _PZC_AGE_PATH=rage
-    _pzc_debug "_PZC_AGE_PATH = ${_PZC_AGE_PATH} (in PATH) (RAGE)"
-
-  elif [[ -e ${_PZC_PZC_DIR}/progs/age/age ]]
-  then
-    _PZC_AGE_PATH=${_PZC_PZC_DIR}/progs/age/age
-    _pzc_debug "_PZC_AGE_PATH = ${_PZC_AGE_PATH} (in pzc) (AGE)"
-    
-  else
-    _pzc_warning "Age is not installed (https://github.com/FiloSottile/age)."
+    _pzc_warning "Your age is not found. Search other age."
+    _pzc_debug "_PZC_AGE_PATH = ${_PZC_AGE_PATH} (unset)"
+    unset _PZC_AGE_PATH
 
   fi
+
+  if [[ ! -v _PZC_AGE_PATH ]]
+  then
+
+    if [[ -x "$(command -v age)" ]]
+    then
+      _PZC_AGE_PATH=age
+      _pzc_debug "_PZC_AGE_PATH = ${_PZC_AGE_PATH} (in PATH) (AGE)"
+
+    elif [[ -x "$(command -v rage)" ]]
+    then
+      _PZC_AGE_PATH=rage
+      _pzc_debug "_PZC_AGE_PATH = ${_PZC_AGE_PATH} (in PATH) (RAGE)"
+
+    elif [[ -e ${_PZC_PZC_DIR}/progs/age/age ]]
+    then
+      _PZC_AGE_PATH=${_PZC_PZC_DIR}/progs/age/age
+      _pzc_debug "_PZC_AGE_PATH = ${_PZC_AGE_PATH} (in pzc) (AGE)"
+      
+    else
+      _pzc_warning "Age is not installed (https://github.com/FiloSottile/age)."
+
+    fi
+  fi
+else
+  _pzc_warning "Public key and/or private key not defined in .zshrc."
+  unset _PZC_AGE_PATH
+  _pzc_debug "_PZC_SSH_PUB = ${_PZC_SSH_PUB}"
+  _pzc_debug "_PZC_SSH_PRI = ${_PZC_SSH_PRI}"
+
 fi
 
 
