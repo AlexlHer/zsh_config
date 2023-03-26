@@ -214,7 +214,7 @@ todo()
         _pzc_info "Decrypting file."
         aged ${_PZC_TMP_DIR}/todolist_enc.old
 
-        _pzc_info "Launch ${_PZC_FILE_EDITOR}"
+        _pzc_info "Launch ${_PZC_FILE_EDITOR}..."
         ${_PZC_FILE_EDITOR} ${_PZC_TMP_DIR}/todolist_enc.old.dec
 
         _pzc_info "Encrypting new file."
@@ -225,26 +225,28 @@ todo()
         \mv ${_PZC_TMP_DIR}/todolist_enc.old.dec.age ${_PZC_TODOLIST_PATH}
 
       else
-        _pzc_warning "Age not found, not possible to decrypt your TODOlist."
-
+        _pzc_error "Age not found, not possible to decrypt your TODOlist."
+        return 1
       fi
 
     else
       _pzc_info "Create backup."
       \cp ${_PZC_TODOLIST_PATH} ${_PZC_TODOLIST_PATH}.old
 
-      _pzc_info "Launch ${_PZC_FILE_EDITOR}"
+      _pzc_info "Launch ${_PZC_FILE_EDITOR}..."
       ${_PZC_FILE_EDITOR} ${_PZC_TODOLIST_PATH}
 
     fi
 
   elif [[ ! -e ${_PZC_TODOLIST_PATH} ]]
   then
-    _pzc_warning "Your TODOlist is not found."
+    _pzc_error "Your TODOlist is not found."
     _pzc_debug "_PZC_TODOLIST_PATH = ${_PZC_TODOLIST_PATH}"
+    return 1
 
   else
-    _pzc_warning "_PZC_TODOLIST_PATH not define. Check your .zshrc."
+    _pzc_error "_PZC_TODOLIST_PATH not define. Check your .zshrc."
+    return 1
 
   fi
 }

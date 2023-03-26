@@ -230,7 +230,7 @@ then
       
     else
       _PZC_MOLD_AVAILABLE=0
-      _pzc_info "Mold is not installed (https://github.com/rui314/mold). You can disable mold search in .zshrc."
+      _pzc_warning "Mold is not installed (https://github.com/rui314/mold). You can disable mold search in .zshrc."
 
     fi
   fi
