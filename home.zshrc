@@ -19,36 +19,44 @@
 
 
 # ----------------------------------
-# ------ OH-MY-POSH theme path -----
+# ----------- OH-MY-POSH -----------
 # ----------------------------------
-# [TODO] Uncomment and complete if you have a custom oh-my-posh theme.
+# [TODO] If you want to use Oh-My-Posh, set this variable to 1.
+local _PZC_OMP_AVAILABLE=1
+
+# [TODO] Uncomment and complete if you have a custom installation of Oh-My-Posh (which is not in PATH).
+#local _PZC_OMP_PATH=
+
+# [TODO] Uncomment and complete if you have a custom Oh-My-Posh theme.
 #local _PZC_OMP_THEME_PATH=
 
 
 # ----------------------------------
-# --------- OH-MY-POSH path --------
+# ------------ AGE/RAGE ------------
 # ----------------------------------
-# [TODO] Uncomment and complete if you have a custom installation of oh-my-posh (which is not in PATH).
-#local _PZC_OMP_PATH=
+# [TODO] If you want to use age or rage, set this variable to 1.
+local _PZC_AGE_AVAILABLE=1
 
-
-# ----------------------------------
-# ---------- AGE/RAGE path ---------
-# ----------------------------------
 # [TODO] Uncomment and complete if you have a custom installation of age or rage (which is not in PATH).
 #local _PZC_AGE_PATH=
 
 
 # ----------------------------------
-# ----------- EXA-LS path ----------
+# ------------- EXA-LS -------------
 # ----------------------------------
+# [TODO] If you want to use exa-ls, set this variable to 1.
+local _PZC_EXA_AVAILABLE=1
+
 # [TODO] Uncomment and complete if you have a custom installation of EXA-LS (which is not in PATH).
 #local _PZC_EXA_PATH=
 
 
 # ----------------------------------
-# ------------ MOLD path -----------
+# --------------- MOLD -------------
 # ----------------------------------
+# [TODO] If you want to use mold, set this variable to 1.
+local _PZC_MOLD_AVAILABLE=1
+
 # [TODO] Uncomment and complete if you have a custom installation of mold (which is not in PATH).
 #local _PZC_MOLD_PATH=
 

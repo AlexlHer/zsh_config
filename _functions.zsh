@@ -8,7 +8,7 @@
 # ---------------------------------------------------------------
 
 # If EXA-LS is installed.
-if [[ -v _PZC_EXA_PATH ]]
+if [[ ${_PZC_EXA_AVAILABLE} = 1 ]]
 then
   _pzc_debug "Define functions for EXA-LS."
 
@@ -84,10 +84,10 @@ uclang()
 {
   _pzc_coal_eval "export CC=clang"
   _pzc_coal_eval "export CXX=clang++"
-  if [[ -v _PZC_MOLD_PATH ]]
+  if [[ ${_PZC_MOLD_AVAILABLE} = 1 ]]
   then
-  _pzc_coal_eval "export CFLAGS='-fuse-ld=mold'"
-  _pzc_coal_eval "export CXXFLAGS='-fuse-ld=mold'"
+  _pzc_coal_eval "export CFLAGS='-fuse-ld=${_PZC_MOLD_PATH}'"
+  _pzc_coal_eval "export CXXFLAGS='-fuse-ld=${_PZC_MOLD_PATH}'"
   fi
 }
 
@@ -96,10 +96,10 @@ ugcc()
 {
   _pzc_coal_eval "export CC=gcc"
   _pzc_coal_eval "export CXX=g++"
-  if [[ -v _PZC_MOLD_PATH ]]
+  if [[ ${_PZC_MOLD_AVAILABLE} = 1 ]]
   then
-  _pzc_coal_eval "export CFLAGS='-fuse-ld=mold'"
-  _pzc_coal_eval "export CXXFLAGS='-fuse-ld=mold'"
+  _pzc_coal_eval "export CFLAGS='-fuse-ld=${_PZC_MOLD_PATH}'"
+  _pzc_coal_eval "export CXXFLAGS='-fuse-ld=${_PZC_MOLD_PATH}'"
   fi
 }
 
@@ -157,7 +157,7 @@ runproton()
 # ----------------------- Age Functions -------------------------
 # ---------------------------------------------------------------
 
-if [[ -v _PZC_AGE_PATH ]]
+if [[ ${_PZC_AGE_AVAILABLE} = 1 ]]
 then
   _pzc_debug "Define functions for AGE/RAGE."
   agee()
@@ -186,6 +186,9 @@ then
 
     fi
   }
+else
+  _pzc_debug "Age disabled, agee and aged functions not defined."
+
 fi
 
 

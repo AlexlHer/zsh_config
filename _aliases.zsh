@@ -12,7 +12,7 @@ export LS_OPTIONS='--color=auto'
 eval "$(dircolors -b)"
 
 ## --- With EXA-LS ---
-if [[ -v _PZC_EXA_PATH ]]
+if [[ ${_PZC_EXA_AVAILABLE} = 1 ]]
 then
   _pzc_debug "Aliases for EXA-LS."
   alias ls='${_PZC_EXA_PATH} --icons'

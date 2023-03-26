@@ -27,7 +27,7 @@ git stash pop
 ```
 
 ## Optional progs
-- oh-my-posh
-- exa
-- age (needed to decrypt local files)
-- mold
+- oh-my-posh (https://github.com/JanDeDobbeleer/oh-my-posh)
+- exa (https://github.com/ogham/exa)
+- age (https://github.com/FiloSottile/age)
+- mold (https://github.com/rui314/mold)

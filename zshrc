@@ -19,16 +19,16 @@ source ${_PZC_PZC_DIR}/_external.zsh
 # Source variable export
 source ${_PZC_PZC_DIR}/_export.zsh
 
-# Source perso alias
+# Source perso alias (optional)
 source ${_PZC_PZC_DIR}/_aliases.zsh
 
-# Source perso functions
+# Source perso functions (optional)
 source ${_PZC_PZC_DIR}/_functions.zsh
 
-# Source local config
+# Source local config (optional)
 source ${_PZC_PZC_DIR}/_local.zsh
 
-# Source Arcane specific functions
+# Source Arcane specific functions (optional)
 source ${_PZC_PZC_DIR}/_arcane.zsh
 
 
@@ -37,7 +37,7 @@ source ${_PZC_PZC_DIR}/_arcane.zsh
 # -------------------------- OhMyPosh ---------------------------
 # ---------------------------------------------------------------
 
-if [[ -v _PZC_OMP_PATH ]] && [[ -v _PZC_OMP_THEME_PATH ]]
+if [[ ${_PZC_OMP_AVAILABLE} = 1 ]]
 then
   eval "$(${_PZC_OMP_PATH} init zsh --config ${_PZC_OMP_THEME_PATH})"
 fi

@@ -17,23 +17,17 @@ then
 
   elif [[ -e ${_PZC_PZC_DIR}/_local_${_PZC_PC_ID}.txt ]]
   then
-    if [[ -v _PZC_AGE_PATH ]]
+    if [[ ${_PZC_AGE_AVAILABLE} = 1 ]]
     then
       _pzc_info "Local config decryption in progress..."
-      if [[ -v _PZC_SSH_PRI ]]
+      ${_PZC_AGE_PATH} -d -i ${_PZC_SSH_PRI} -o ${_PZC_PZC_DIR}/_local_${_PZC_PC_ID}.zsh ${_PZC_PZC_DIR}/_local_${_PZC_PC_ID}.txt
+      if [[ -e ${_PZC_PZC_DIR}/_local_${_PZC_PC_ID}.zsh ]]
       then
-        ${_PZC_AGE_PATH} -d -i ${_PZC_SSH_PRI} -o ${_PZC_PZC_DIR}/_local_${_PZC_PC_ID}.zsh ${_PZC_PZC_DIR}/_local_${_PZC_PC_ID}.txt
-        if [[ -e ${_PZC_PZC_DIR}/_local_${_PZC_PC_ID}.zsh ]]
-        then
-          source ${_PZC_PZC_DIR}/_local_${_PZC_PC_ID}.zsh
-          _pzc_info "_local_${_PZC_PC_ID}.zsh created and sourced."
+        source ${_PZC_PZC_DIR}/_local_${_PZC_PC_ID}.zsh
+        _pzc_info "_local_${_PZC_PC_ID}.zsh created and sourced."
 
-        else
-          _pzc_error "Unknown error, please retry."
-
-        fi
       else
-        _pzc_warning "Private SSH key not found, not possible to decrypt local config. Check .zshrc."
+        _pzc_error "Unknown error, please retry."
 
       fi
     else
@@ -47,6 +41,6 @@ then
   fi
 
 else
-  _pzc_warning "_PZC_PC_ID is not defined. Check .zshrc."
+  _pzc_debug "_PZC_PC_ID is not defined."
 
 fi
