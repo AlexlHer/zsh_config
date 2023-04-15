@@ -130,5 +130,9 @@ alias yup='_pzc_coal_eval "yay -Syua"'
 alias ytmp3='_pzc_coal "yt-dlp -f bestaudio --extract-audio --audio-format mp3 --audio-quality 0 -o \"%(title)s.%(ext)s\"" ; \
 yt-dlp -f bestaudio --extract-audio --audio-format mp3 --audio-quality 0 -o "%(title)s.%(ext)s"'
 
+# With thumbnail.
+alias ytmp32='_pzc_coal "yt-dlp -f bestaudio --extract-audio --audio-format mp3 --audio-quality 0 --embed-thumbnail -o \"%(title)s.%(ext)s\"" ; \
+yt-dlp -f bestaudio --extract-audio --audio-format mp3 --audio-quality 0 --embed-thumbnail -o "%(title)s.%(ext)s"'
+
 alias ytmp4='_pzc_coal "yt-dlp -f bestvideo+bestaudio --recode-video mp4 -o \"%(title)s.%(ext)s\"" ; \
 yt-dlp -f bestvideo+bestaudio --recode-video mp4 -o "%(title)s.%(ext)s"'

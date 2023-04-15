@@ -12,11 +12,18 @@ if [[ ${_PZC_EXA_AVAILABLE} = 1 ]]
 then
   _pzc_debug "Define functions for EXA-LS."
 
-  # Color $1 or 3 last edited files.
+  # Tree version of l with custom depth.
   ll()
   {
     local DEPTH="${1:-1}"
     _pzc_coal_eval 'l -TL "${DEPTH}"'
+  }
+
+  # Tree version of la with custom depth.
+  lla()
+  {
+    local DEPTH="${1:-1}"
+    _pzc_coal_eval 'la -TL "${DEPTH}"'
   }
 
   # Color $1 or 3 last edited files.
@@ -26,8 +33,8 @@ then
     grep --color=always -E -- "$(l -snew | tail -n${NUM_FILES})|$" <(l)
   }
 
-  # Color $1 or 3 last edited files (cache edition).
-  lla()
+  # Color $1 or 3 last edited files (cached files edition).
+  llla()
   {
     local NUM_FILES="${1:-3}"
     grep --color=always -E -- "$(la -snew | tail -n${NUM_FILES})|$" <(la)
@@ -44,7 +51,7 @@ else
   }
 
   # Color $1 or 3 last edited files (cache edition).
-  lla()
+  llla()
   {
     local NUM_FILES="${1:-3}"
     grep --color=always -E -- "$(la -rt | tail -n${NUM_FILES})|$" <(la)
