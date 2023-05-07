@@ -103,11 +103,25 @@ alias restartkde='_pzc_coal_eval "kstart5 plasmashell -- --replace"'
 
 
 # ---------------------------------------------------------------
-# ---------------------- Podman aliases -------------------------
+# ------------------- Podman/DOcker aliases ---------------------
 # ---------------------------------------------------------------
 
-alias pm='_pzc_coal "podman" ; podman'
-alias docker='_pzc_coal "podman" ; podman'
+if [[ -x "$(command -v docker)" ]]
+then
+  _pzc_debug "Aliases for docker"
+  alias pm='_pzc_coal "docker" ; docker'
+  alias podman='_pzc_coal "docker" ; docker'
+
+elif [[ -x "$(command -v podman)" ]]
+then
+  _pzc_debug "Aliases for podman"
+  alias pm='_pzc_coal "podman" ; podman'
+  alias docker='_pzc_coal "podman" ; podman'
+  
+else
+  _pzc_debug "Podman and docker not found"
+
+fi
 
 
 
