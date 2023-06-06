@@ -201,6 +201,51 @@ fi
 
 
 # ---------------------------------------------------------------
+# -------------------- SecureFile function ----------------------
+# ---------------------------------------------------------------
+
+sf()
+{
+  if [[ -v 1 ]]
+  then
+    if [[ ${_PZC_OMP_AVAILABLE} = 1 ]]
+    then
+      if [[ -e ${1} ]]
+      then
+        _pzc_info "Create backup."
+        \cp ${1} ${1}.old
+        \cp ${1} ${_PZC_TMP_DIR}/file_enc.old
+
+        _pzc_info "Decrypting file."
+        aged ${_PZC_TMP_DIR}/file_enc.old
+      else
+        _pzc_warning "File not found. Creating it..."
+      fi
+
+      _pzc_info "Launch ${_PZC_FILE_EDITOR}..."
+      ${_PZC_FILE_EDITOR} ${_PZC_TMP_DIR}/file_enc.old.dec
+
+      _pzc_info "Encrypting new file."
+      agee ${_PZC_TMP_DIR}/file_enc.old.dec
+      rm ${_PZC_TMP_DIR}/file_enc.old.dec
+
+      _pzc_info "Move new encrypted file."
+      \mv ${_PZC_TMP_DIR}/file_enc.old.dec.age ${1}
+
+    else
+      _pzc_error "Age not found, not possible to decrypt your file."
+      return 1
+    fi
+
+  else
+    _pzc_error "Need encrypted input file."
+
+  fi
+}
+
+
+
+# ---------------------------------------------------------------
 # ----------------------- Todo function -------------------------
 # ---------------------------------------------------------------
 
@@ -211,30 +256,7 @@ todo()
 
     if [[ ${_PZC_TODOLIST_ENC} = 1 ]]
     then
-
-      if [[ -v _PZC_AGE_PATH ]]
-      then
-        _pzc_info "Create backup."
-        \cp ${_PZC_TODOLIST_PATH} ${_PZC_TODOLIST_PATH}.old
-        \cp ${_PZC_TODOLIST_PATH} ${_PZC_TMP_DIR}/todolist_enc.old
-
-        _pzc_info "Decrypting file."
-        aged ${_PZC_TMP_DIR}/todolist_enc.old
-
-        _pzc_info "Launch ${_PZC_FILE_EDITOR}..."
-        ${_PZC_FILE_EDITOR} ${_PZC_TMP_DIR}/todolist_enc.old.dec
-
-        _pzc_info "Encrypting new file."
-        agee ${_PZC_TMP_DIR}/todolist_enc.old.dec
-        rm ${_PZC_TMP_DIR}/todolist_enc.old.dec
-
-        _pzc_info "Move new encrypted file."
-        \mv ${_PZC_TMP_DIR}/todolist_enc.old.dec.age ${_PZC_TODOLIST_PATH}
-
-      else
-        _pzc_error "Age not found, not possible to decrypt your TODOlist."
-        return 1
-      fi
+      sf ${_PZC_TODOLIST_PATH}
 
     else
       _pzc_info "Create backup."
