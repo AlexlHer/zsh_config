@@ -31,6 +31,9 @@ source ${_PZC_PZC_DIR}/_local.zsh
 # Source Arcane specific functions (optional)
 source ${_PZC_PZC_DIR}/_arcane.zsh
 
+# Source Podman/Docker specific functions (optional)
+source ${_PZC_PZC_DIR}/_podman.zsh
+
 
 
 # ---------------------------------------------------------------

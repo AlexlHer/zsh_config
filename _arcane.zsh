@@ -87,7 +87,8 @@ configarc()
     echo "  -DCMAKE_CXX_FLAGS=-fdiagnostics-color=always \\"
     echo "  -DCMAKE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
-    echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD}"
+    echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \\"
+    echo "  -DARCCORE_CXX_STANDARD=23"
     echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
     _pzc_pensil_end
 
@@ -102,7 +103,8 @@ configarc()
       -DCMAKE_CXX_FLAGS="-fdiagnostics-color=always" \
       -DCMAKE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
       -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
-      -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD}
+      -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \
+      -DARCCORE_CXX_STANDARD=23
   
     chmod u+x ${ARCANE_BUILD_DIR}/bin/*
   else
