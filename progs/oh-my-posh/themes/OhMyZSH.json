@@ -6,16 +6,16 @@
       "alignment": "left",
       "segments": [
         {
-          "type": "exit",
+          "type": "status",
           "background": "#2e9599",
           "foreground": "#000000",
           "properties": {
             "always_enabled": true,
-            "display_exit_code": true
+            "status_template": "{{ if gt .Code 0 }}<f>󰋔</f> \uF00D {{ reason .Code }}{{ else }}󰣐 \uF42E{{ end }}",
+            "status_separator": " | "
           },
           "style": "powerline",
-          "powerline_symbol": "\uE0B0",
-          "template": " {{ if gt .Code 0 }}<f>\uE23A \uF00D</f>  {{ .Meaning }}{{ else }}\uE23A \uF42E{{ end }} "
+          "powerline_symbol": "\uE0B0"
         },
         {
           "type": "executiontime",
@@ -28,7 +28,7 @@
           },
           "style": "powerline",
           "powerline_symbol": "\uE0B0",
-          "template": " \uF250  {{ .FormattedMs }} "
+          "template": " \uF250 {{ .FormattedMs }} "
         },
         {
           "type": "time",
@@ -39,7 +39,7 @@
           },
           "style": "powerline",
           "powerline_symbol": "\uE0B0",
-          "template": " \uF43A  {{ .Format }} "
+          "template": " \uF43A {{ .Format }} "
         }
       ]
     },
@@ -49,10 +49,11 @@
       "newline": true,
       "segments": [
         {
-          "type": "text",
-          "foreground": "#21c7c7",
+          "type": "os",
           "style": "plain",
-          "template": "‎"
+          "foreground": "#000000",
+          "background": "#000000",
+          "template": "<transparent,transparent></>"
         }
       ]
     },
@@ -65,29 +66,17 @@
           "type": "session",
           "foreground": "#000000",
           "background": "#ff4800",
-          "style": "diamond",
-          "leading_diamond": "<transparent,#ff4800>\uE0B0</>",
-          "trailing_diamond": "",
-          "template": "{{ if .Root }} \uF09C  {{ else }} \uF2C0  {{ end }}{{ .UserName }}{{ if .SSHSession }} \uE0BD  \uEB3A SSH{{ end }} "
-        },
-        {
-          "type": "os",
-          "style": "diamond",
-          "leading_diamond": "<#ff4800,#ff9900>\uE0B0</>",
-          "trailing_diamond": "",
-          "foreground": "#000000",
-          "background": "#ff9900",
-          "template": " {{.Icon}} "
+          "style": "powerline",
+          "powerline_symbol": "\uE0B0",
+          "template": "{{ if .Root }} \uF09C {{ else }} \uF2C0 {{ end }}{{ .UserName }}{{ if .SSHSession }} \uE0BD \uEB3A SSH{{ end }} "
         },
         {
           "type": "session",
           "foreground": "#000000",
           "background": "#ff9900",
           "style": "powerline",
-          "leading_diamond": "",
-          "trailing_diamond": "",
           "powerline_symbol": "\uE0B0",
-          "template": "{{ .HostName }} "
+          "template": " {{ .Segments.Os.Icon }} {{ .HostName }} "
         },
         {
           "type": "root",
@@ -144,7 +133,7 @@
           },
           "style": "powerline",
           "powerline_symbol": "\uE0B0",
-          "template": " \uE5FF  {{ .Path }} "
+          "template": " \uE5FF {{ .Path }} "
         }
       ]
     },
@@ -166,7 +155,7 @@
   "transient_prompt": {
     "background": "transparent",
     "foreground": "#ffffff",
-    "template": "<transparent,#2e9599>\uE0B0 {{ if gt .Code 0 }}<f>\uE23A \uF00D</f>  {{ .Segments.Exit.Meaning }}{{ else }}\uE23A \uF42E{{ end }} </><#2e9599,#00c3ca>\uE0B0</><transparent,#00c3ca> \uF250  {{ .Segments.Executiontime.FormattedMs }} </><#00c3ca,#00f7ff>\uE0B0</><transparent,#00f7ff> \uF43A  {{ .Segments.Time.Format }} </><#00f7ff,transparent>\uE0B0</> \n\n<#21c7c7,transparent>\uE285</> "
+    "template": "<transparent,#2e9599>\uE0B0 {{ .Segments.Status.String }} </><#2e9599,#00c3ca>\uE0B0</><transparent,#00c3ca> \uF250 {{ .Segments.Executiontime.FormattedMs }} </><#00c3ca,#00f7ff>\uE0B0</><transparent,#00f7ff> \uF43A {{ .Segments.Time.Format }} </><#00f7ff,transparent>\uE0B0</> \n\n<#21c7c7,transparent>\uE285</> "
   },
   "final_space": true,
   "version": 2
