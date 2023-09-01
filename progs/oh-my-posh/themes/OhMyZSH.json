@@ -11,7 +11,7 @@
           "foreground": "#000000",
           "properties": {
             "always_enabled": true,
-            "status_template": "{{ if gt .Code 0 }}<f>󰋔</f> \uF00D {{ reason .Code }}{{ else }}󰣐 \uF42E{{ end }}",
+            "status_template": "{{ if gt .Code 0 }}<f>󰋔 </f>\uF00D {{ reason .Code }}{{ else }}󰣐 \uF42E{{ end }}",
             "status_separator": " | "
           },
           "style": "powerline",
