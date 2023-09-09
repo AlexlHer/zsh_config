@@ -75,6 +75,14 @@ configarc()
 {
   if [[ -v ARCANE_BUILD_DIR ]]
   then
+
+    if [[ "${ARCANE_TYPE_BUILD}" == "Check" ]]
+    then
+      CMAKE_BUILD_TYPE="Release"
+    else
+      CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
+    fi
+
     _pzc_pensil_begin
     echo "cmake \\"
     echo "  -S ${ARCANE_SOURCE_DIR} \\"
@@ -85,7 +93,7 @@ configarc()
     echo "  -DCMAKE_C_COMPILER_LAUNCHER=ccache \\"
     echo "  -DCMAKE_C_FLAGS=-fdiagnostics-color=always \\"
     echo "  -DCMAKE_CXX_FLAGS=-fdiagnostics-color=always \\"
-    echo "  -DCMAKE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
+    echo "  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \\"
     echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCCORE_CXX_STANDARD=23"
@@ -101,7 +109,7 @@ configarc()
       -DCMAKE_C_COMPILER_LAUNCHER=ccache \
       -DCMAKE_C_FLAGS="-fdiagnostics-color=always" \
       -DCMAKE_CXX_FLAGS="-fdiagnostics-color=always" \
-      -DCMAKE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
+      -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
       -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
       -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \
       -DARCCORE_CXX_STANDARD=23
@@ -117,6 +125,14 @@ configarcgpu()
 {
   if [[ -v ARCANE_BUILD_DIR ]]
   then
+
+    if [[ "${ARCANE_TYPE_BUILD}" == "Check" ]]
+    then
+      CMAKE_BUILD_TYPE="Release"
+    else
+      CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
+    fi
+
     _pzc_pensil_begin
     echo "cmake \\"
     echo "  -S ${ARCANE_SOURCE_DIR} \\"
@@ -127,7 +143,7 @@ configarcgpu()
     echo "  -DCMAKE_C_COMPILER_LAUNCHER=ccache \\"
     echo "  -DCMAKE_C_FLAGS=-fdiagnostics-color=always \\"
     echo "  -DCMAKE_CXX_FLAGS=-fdiagnostics-color=always \\"
-    echo "  -DCMAKE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
+    echo "  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \\"
     echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCANE_ACCELERATOR_MODE=CUDANVCC -DCMAKE_CUDA_COMPILER=nvcc"
@@ -143,7 +159,7 @@ configarcgpu()
       -DCMAKE_C_COMPILER_LAUNCHER=ccache \
       -DCMAKE_C_FLAGS="-fdiagnostics-color=always" \
       -DCMAKE_CXX_FLAGS="-fdiagnostics-color=always" \
-      -DCMAKE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
+      -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
       -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
       -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \
       -DARCANE_ACCELERATOR_MODE=CUDANVCC -DCMAKE_CUDA_COMPILER=nvcc
@@ -159,6 +175,14 @@ configarcldoc()
 {
   if [[ -v ARCANE_BUILD_DIR ]]
   then
+
+    if [[ "${ARCANE_TYPE_BUILD}" == "Check" ]]
+    then
+      CMAKE_BUILD_TYPE="Release"
+    else
+      CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
+    fi
+
     _pzc_pensil_begin
     echo "cmake \\"
     echo "  -S ${ARCANE_SOURCE_DIR} \\"
@@ -169,7 +193,7 @@ configarcldoc()
     echo "  -DCMAKE_C_COMPILER_LAUNCHER=ccache \\"
     echo "  -DCMAKE_C_FLAGS=-fdiagnostics-color=always \\"
     echo "  -DCMAKE_CXX_FLAGS=-fdiagnostics-color=always \\"
-    echo "  -DCMAKE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
+    echo "  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \\"
     echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCANEDOC_LEGACY_THEME=ON \\"
@@ -187,7 +211,7 @@ configarcldoc()
       -DCMAKE_C_COMPILER_LAUNCHER=ccache \
       -DCMAKE_C_FLAGS="-fdiagnostics-color=always" \
       -DCMAKE_CXX_FLAGS="-fdiagnostics-color=always" \
-      -DCMAKE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
+      -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
       -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
       -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \
       -DARCANEDOC_LEGACY_THEME=ON \
