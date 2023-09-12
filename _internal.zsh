@@ -39,7 +39,12 @@ _pzc_info()
 {
   if [[ ${_PZC_LOG_INFO} = 1 ]]
   then
-    echo "\033[0;102m\033[30m   Info: ${1} \033[0m"
+    if [[ ${_PZC_LOG_DEBUG} = 1 ]]
+    then
+      echo "\033[0;102m\033[30m   Info: [${funcfiletrace[1]##*/}] ${1} \033[0m"
+    else
+      echo "\033[0;102m\033[30m   Info: ${1} \033[0m"
+    fi
   fi
 }
 
@@ -47,7 +52,12 @@ _pzc_warning()
 {
   if [[ ${_PZC_LOG_WARNING} = 1 ]]
   then
-    echo "\033[0;103m\033[30m   Warning: ${1} \033[0m"
+    if [[ ${_PZC_LOG_DEBUG} = 1 ]]
+    then
+      echo "\033[0;103m\033[30m   Warning: [${funcfiletrace[1]##*/}] ${1} \033[0m"
+    else
+      echo "\033[0;103m\033[30m   Warning: ${1} \033[0m"
+    fi
   fi
 }
 
@@ -55,7 +65,12 @@ _pzc_error()
 {
   if [[ ${_PZC_LOG_ERROR} = 1 ]]
   then
-    echo "\033[0;101m\033[30m   Error: ${1} \033[0m"
+    if [[ ${_PZC_LOG_DEBUG} = 1 ]]
+    then
+      echo "\033[0;101m\033[30m   Error: [${funcfiletrace[1]##*/}] ${1} \033[0m"
+    else
+      echo "\033[0;101m\033[30m   Error: ${1} \033[0m"
+    fi
   fi
 }
 
@@ -63,6 +78,6 @@ _pzc_debug()
 {
   if [[ ${_PZC_LOG_DEBUG} = 1 ]]
   then
-    echo "\033[0;104m\033[30m   Debug: ${1} \033[0m"
+    echo "\033[0;104m\033[30m   Debug: [${funcfiletrace[1]##*/}] ${1} \033[0m"
   fi
 }
