@@ -72,6 +72,7 @@ alias free='_pzc_coal "free -m" ; free -m'
 # ---------------------------------------------------------------
 
 alias cdbi='_pzc_coal_eval "cd ${BUILD_DIR}"'
+alias cdcbi='_pzc_coal_eval "cd ${CONTAINER_BUILD_DIR}"'
 alias cdw='_pzc_coal_eval "cd ${WORK_DIR}"'
 
 
