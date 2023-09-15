@@ -87,17 +87,6 @@
           "template": " {{ .Segments.Os.Icon }} {{ .HostName }} "
         },
         {
-          "type": "root",
-          "background": "#ff0000",
-          "foreground": "#100e23",
-          "properties": {
-            "root_icon": "\uF0E7"
-          },
-          "style": "powerline",
-          "powerline_symbol": "\uE0B0",
-          "template": " \uF0E7 "
-        },
-        {
           "type": "python",
           "background": "#FF6471",
           "foreground": "#ffffff",
