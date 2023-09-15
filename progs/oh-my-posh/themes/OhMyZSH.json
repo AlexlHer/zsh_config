@@ -63,6 +63,14 @@
       "newline": true,
       "segments": [
         {
+          "type": "text",
+          "foreground": "#000000",
+          "background": "#00c3ff",
+          "style": "powerline",
+          "powerline_symbol": "\uE0B0",
+          "template": "{{ if eq .Env.container \"podman\" }} 󱄛 Podman {{ end }}{{ if eq .Env.container \"docker\" }} \uF308 Docker {{ end }}"
+        },
+        {
           "type": "session",
           "foreground": "#000000",
           "background": "#ff4800",
