@@ -30,14 +30,14 @@ then
   lll()
   {
     local NUM_FILES="${1:-3}"
-    grep --color=always -E -- "$(l -snew | tail -n${NUM_FILES})|$" <(l)
+    grep --color=always -E -- "$(l -snew --color=never | tail -n${NUM_FILES})|$" <(l --color=never)
   }
 
   # Color $1 or 3 last edited files (cached files edition).
   llla()
   {
     local NUM_FILES="${1:-3}"
-    grep --color=always -E -- "$(la -snew | tail -n${NUM_FILES})|$" <(la)
+    grep --color=always -E -- "$(la -snew --color=never | tail -n${NUM_FILES})|$" <(la --color=never)
   }
 
 else
