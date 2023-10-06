@@ -70,6 +70,7 @@ then
       -e USER=root \
       -w /root \
       -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix \
+      --cap-add sys_ptrace \
       $OPTION_NAME \
       -dt $IMAGE \
     )

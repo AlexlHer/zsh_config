@@ -208,7 +208,7 @@ sf()
 {
   if [[ -v 1 ]]
   then
-    if [[ ${_PZC_OMP_AVAILABLE} = 1 ]]
+    if [[ ${_PZC_AGE_AVAILABLE} = 1 ]]
     then
       if [[ -e ${1} ]]
       then
