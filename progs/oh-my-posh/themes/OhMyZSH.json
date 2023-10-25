@@ -76,7 +76,7 @@
           "background": "#ff4800",
           "style": "powerline",
           "powerline_symbol": "\uE0B0",
-          "template": "{{ if .Root }} \uF09C {{ else }} \uF2C0 {{ end }}{{ .UserName }}{{ if .SSHSession }} \uE0BD \uEB3A SSH{{ end }} "
+          "template": "{{ if .Root }} \uF09C {{ else }} \uF2C0 {{ end }}{{ .UserName }}{{ if .SSHSession }}\uE0BD \uEB3A SSH{{ end }} "
         },
         {
           "type": "session",
