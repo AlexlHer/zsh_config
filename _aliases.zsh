@@ -4,24 +4,32 @@
 
 
 # ---------------------------------------------------------------
-# ---------------------- LS/EXA aliases -------------------------
+# ---------------------- LS/EZA aliases -------------------------
 # ---------------------------------------------------------------
 
 # File and Dir colors for ls and other outputs
 export LS_OPTIONS='--color=auto'
 eval "$(dircolors -b)"
 
-## --- With EXA-LS ---
-if [[ ${_PZC_EXA_AVAILABLE} = 1 ]]
+## --- With EZA-LS ---
+if [[ ${_PZC_EZA_AVAILABLE} = 1 ]]
 then
-  _pzc_debug "Aliases for EXA-LS."
-  alias ls='${_PZC_EXA_PATH} --icons'
-  alias l='${_PZC_EXA_PATH} --icons --color-scale --time-style long-iso -BghHl'
-  alias la='${_PZC_EXA_PATH} --icons --color-scale --time-style long-iso -BghHla'
+  _pzc_debug "Aliases for EZA-LS."
+  alias ls='${_PZC_EZA_PATH} --icons'
 
-## --- Without EXA-LS ---
+  # TODO : Deprecated
+  if [[ ${_PZC_EXA_DEPRECATED} = 1 ]]
+  then
+    alias l='${_PZC_EZA_PATH} --icons --color-scale --time-style long-iso -BghHl'
+    alias la='${_PZC_EZA_PATH} --icons --color-scale --time-style long-iso -BghHla'
+  else
+    alias l='${_PZC_EZA_PATH} --icons --color-scale all --time-style long-iso -BghHl'
+    alias la='${_PZC_EZA_PATH} --icons --color-scale all --time-style long-iso -BghHla'
+  fi
+
+## --- Without EZA-LS ---
 else
-  _pzc_debug "Aliases for LS (not EXA-LS)."
+  _pzc_debug "Aliases for LS (not EZA-LS)."
   alias ls='ls $LS_OPTIONS'
   alias l='ls -l $LS_OPTIONS'
   alias la='ls -la $LS_OPTIONS'

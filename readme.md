@@ -28,6 +28,6 @@ git stash pop
 
 ## Optional progs
 - oh-my-posh (https://github.com/JanDeDobbeleer/oh-my-posh)
-- exa (https://github.com/ogham/exa)
+- eza (https://github.com/eza-community/eza)
 - age (https://github.com/FiloSottile/age)
 - mold (https://github.com/rui314/mold)

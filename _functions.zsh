@@ -4,13 +4,13 @@
 
 
 # ---------------------------------------------------------------
-# -------------------- EXA-LS/LS Functions ----------------------
+# -------------------- EZA-LS/LS Functions ----------------------
 # ---------------------------------------------------------------
 
-# If EXA-LS is installed.
-if [[ ${_PZC_EXA_AVAILABLE} = 1 ]]
+# If EZA-LS is installed.
+if [[ ${_PZC_EZA_AVAILABLE} = 1 ]]
 then
-  _pzc_debug "Define functions for EXA-LS."
+  _pzc_debug "Define functions for EZA-LS."
 
   # Tree version of l with custom depth.
   ll()
@@ -41,7 +41,7 @@ then
   }
 
 else
-  _pzc_debug "Define functions for LS (not EXA-LS)."
+  _pzc_debug "Define functions for LS (not EZA-LS)."
 
   # Color $1 or 3 last edited files.
   lll()

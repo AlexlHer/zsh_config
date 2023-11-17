@@ -156,43 +156,63 @@ fi
 
 
 # ---------------------------------------------------------------
-# --------------------------- EXA-LS ----------------------------
+# --------------------------- EZA-LS ----------------------------
 # ---------------------------------------------------------------
 
-if [[ ${_PZC_EXA_AVAILABLE} = 1 ]]
+if [[ ${_PZC_EZA_AVAILABLE} = 1 ]]
 then
 
-  if [[ -v _PZC_EXA_PATH ]] && [[ ! -e ${_PZC_EXA_PATH} ]]
+  if [[ -v _PZC_EZA_PATH ]] && [[ ! -e ${_PZC_EZA_PATH} ]]
   then
-    _pzc_warning "Your exa is not found. Search other exa."
-    _pzc_debug "_PZC_EXA_PATH = ${_PZC_EXA_PATH} (unset)"
-    unset _PZC_EXA_PATH
+    _pzc_warning "Your eza is not found. Search other eza."
+    _pzc_debug "_PZC_EZA_PATH = ${_PZC_EZA_PATH} (unset)"
+    unset _PZC_EZA_PATH
 
   fi
 
-  if [[ ! -v _PZC_EXA_PATH ]]
+  if [[ ! -v _PZC_EZA_PATH ]]
   then
 
-    if [[ -x "$(command -v exa)" ]]
+    if [[ -x "$(command -v eza)" ]]
     then
-      _PZC_EXA_PATH=exa
-      _PZC_EXA_AVAILABLE=1
-      _pzc_debug "_PZC_EXA_PATH = ${_PZC_EXA_PATH} (in PATH)"
+      _PZC_EZA_PATH=eza
+      _PZC_EZA_AVAILABLE=1
+      _pzc_debug "_PZC_EZA_PATH = ${_PZC_EZA_PATH} (in PATH)"
 
+    # TODO : Deprecated
+    elif [[ -x "$(command -v exa)" ]]
+    then
+      _PZC_EZA_PATH=exa
+      _PZC_EZA_AVAILABLE=1
+      _PZC_EXA_DEPRECATED=1
+      _pzc_debug "_PZC_EZA_PATH = ${_PZC_EZA_PATH} (in PATH / EXA)"
+      _pzc_warning "EXA-LS is deprecated, please update to the EZA-LS fork (https://github.com/eza-community/eza) and remove your actual EXA-LS install."
+      _pzc_info "You can install eza in the PZC folder with the command 'pzc_install_eza' or disable eza search in .zshrc."
+
+    # TODO : Deprecated
     elif [[ -e ${_PZC_PZC_DIR}/progs/exa/exa ]]
     then
-      _PZC_EXA_PATH=${_PZC_PZC_DIR}/progs/exa/exa
-      _PZC_EXA_AVAILABLE=1
-      _pzc_debug "_PZC_EXA_PATH = ${_PZC_EXA_PATH} (in pzc)"
+      _PZC_EZA_PATH=${_PZC_PZC_DIR}/progs/exa/exa
+      _PZC_EZA_AVAILABLE=1
+      _PZC_EXA_DEPRECATED=1
+      _pzc_debug "_PZC_EZA_PATH = ${_PZC_EZA_PATH} (in pzc / EXA)"
+      _pzc_warning "EXA-LS is deprecated, please update to the EZA-LS fork (https://github.com/eza-community/eza) and remove your actual EXA-LS install ($_PZC_EZA_PATH)."
+      _pzc_info "You can install eza in the PZC folder with the command 'pzc_install_eza' or disable eza search in .zshrc."
+
+    elif [[ -e ${_PZC_PZC_DIR}/progs/eza/eza ]]
+    then
+      _PZC_EZA_PATH=${_PZC_PZC_DIR}/progs/eza/eza
+      _PZC_EZA_AVAILABLE=1
+      _pzc_debug "_PZC_EZA_PATH = ${_PZC_EZA_PATH} (in pzc)"
       
     else
-      _PZC_EXA_AVAILABLE=0
-      _pzc_warning "Exa is not installed (https://github.com/ogham/exa). You can install exa in the PZC folder with the command 'pzc_install_exa' or disable exa search in .zshrc."
+      _PZC_EZA_AVAILABLE=0
+      _pzc_warning "Eza is not installed (https://github.com/eza-community/eza). You can install eza in the PZC folder with the command 'pzc_install_eza' or disable eza search in .zshrc."
 
     fi
   fi
 else
-  _pzc_debug "Exa disabled."
+  _pzc_debug "Eza disabled."
 
 fi
 
@@ -245,6 +265,7 @@ fi
 
 if [[ ${_PZC_OMP_AVAILABLE} = 0 ]]
 then
+  _pzc_debug "Define pzc_install_omp function"
   pzc_install_omp()
   {
     _pzc_info "Install Oh-My-Posh in PZC folder..."
@@ -276,6 +297,7 @@ fi
 
 if [[ ${_PZC_AGE_AVAILABLE} = 0 ]]
 then
+  _pzc_debug "Define pzc_install_age function"
   pzc_install_age()
   {
     _pzc_info "Install AGE in PZC folder..."
@@ -283,7 +305,7 @@ then
     _pzc_debug "Download AGE in TMP folder"
     wget -q -O "${_PZC_TMP_DIR}/age_archive.tar.gz" "https://github.com/FiloSottile/age/releases/download/v1.1.1/age-v1.1.1-linux-amd64.tar.gz"
 
-    _pzc_debug "Unzip AGE archive in TMP/age_archive folder"
+    _pzc_debug "Untar AGE archive in TMP/age_archive folder"
     tar -zxf "${_PZC_TMP_DIR}/age_archive.tar.gz" -C "${_PZC_TMP_DIR}"
 
     _pzc_debug "MkDir progs/age"
@@ -305,26 +327,27 @@ fi
 
 
 # ------------------------
-# --------- EXA ----------
+# --------- EZA ----------
 # ------------------------
 
-if [[ ${_PZC_EXA_AVAILABLE} = 0 ]]
+if [[ ${_PZC_EZA_AVAILABLE} = 0 ]] || [[ ${_PZC_EXA_DEPRECATED} = 1 ]]
 then
-  pzc_install_exa()
+  _pzc_debug "Define pzc_install_eza function"
+  pzc_install_eza()
   {
-    _pzc_info "Install EXA in PZC folder..."
+    _pzc_info "Install EZA in PZC folder..."
 
-    _pzc_debug "Download EXA in TMP folder"
-    wget -q -O "${_PZC_TMP_DIR}/exa_archive.zip" "https://github.com/ogham/exa/releases/download/v0.10.1/exa-linux-x86_64-v0.10.1.zip"
+    _pzc_debug "Download EZA in TMP folder"
+    wget -q -O "${_PZC_TMP_DIR}/eza_archive.tar.gz" "https://github.com/eza-community/eza/releases/latest/download/eza_x86_64-unknown-linux-gnu.tar.gz"
 
-    _pzc_debug "Unzip EXA archive in TMP/exa_archive folder"
-    unzip -q -n "${_PZC_TMP_DIR}/exa_archive.zip" -d "${_PZC_TMP_DIR}/exa_archive"
+    _pzc_debug "Untar EZA archive in TMP folder"
+    tar -zxf "${_PZC_TMP_DIR}/eza_archive.tar.gz" -C "${_PZC_TMP_DIR}"
 
-    _pzc_debug "MkDir progs/exa"
-    mkdir -p "${_PZC_PZC_DIR}/progs/exa"
+    _pzc_debug "MkDir progs/eza"
+    mkdir -p "${_PZC_PZC_DIR}/progs/eza"
 
-    _pzc_debug "Copy exa bin"
-    cp "${_PZC_TMP_DIR}/exa_archive/bin/exa" "${_PZC_PZC_DIR}/progs/exa/"
+    _pzc_debug "Copy eza bin"
+    cp "${_PZC_TMP_DIR}/eza" "${_PZC_PZC_DIR}/progs/eza/"
 
     if [[ $? = 0 ]]
     then

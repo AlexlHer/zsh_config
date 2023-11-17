@@ -42,13 +42,13 @@ local _PZC_AGE_AVAILABLE=1
 
 
 # ----------------------------------
-# ------------- EXA-LS -------------
+# ------------- EZA-LS -------------
 # ----------------------------------
-# [TODO] If you want to use exa-ls, set this variable to 1.
-local _PZC_EXA_AVAILABLE=1
+# [TODO] If you want to use eza-ls, set this variable to 1.
+local _PZC_EZA_AVAILABLE=1
 
-# [TODO] Uncomment and complete if you have a custom installation of EXA-LS (which is not in PATH).
-#local _PZC_EXA_PATH=
+# [TODO] Uncomment and complete if you have a custom installation of EZA-LS (which is not in PATH).
+#local _PZC_EZA_PATH=
 
 
 # ----------------------------------

@@ -17,3 +17,12 @@ export CCACHE_DIR=${BUILD_DIR}/ccache
 export CCACHE_MAXSIZE=20G
 
 mkdir -p ${CCACHE_DIR} ${WORK_DIR} ${BUILD_DIR} ${CONTAINER_BUILD_DIR}
+
+
+
+# ---------------------------------------------------------------
+# --------------------- OpenMPI variables -----------------------
+# ---------------------------------------------------------------
+
+export OMPI_MCA_rmaps_base_oversubscribe=true
+

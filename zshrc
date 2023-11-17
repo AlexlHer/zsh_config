@@ -4,14 +4,39 @@
 
 
 # ---------------------------------------------------------------
+# -------------------- Internal PZC sources ---------------------
+# ---------------------------------------------------------------
+
+# Source internal
+source ${_PZC_PZC_DIR}/_internal.zsh
+
+
+
+# ---------------------------------------------------------------
+# --------------------- Compatibility part ----------------------
+# ---------------------------------------------------------------
+
+# TODO : Deprecated
+if [[ -v _PZC_EXA_AVAILABLE ]]
+then
+  _pzc_warning "EXA-LS is deprecated and replaced by EZA-LS. Please replace the '_PZC_EXA_AVAILABLE' variable by the '_PZC_EZA_AVAILABLE' variable in your .zshrc."
+  local _PZC_EZA_AVAILABLE=$_PZC_EXA_AVAILABLE
+fi
+
+if [[ -v _PZC_EXA_PATH ]]
+then
+  _pzc_warning "EXA-LS is deprecated and replaced by EZA-LS. Please replace the '_PZC_EXA_PATH' variable by the '_PZC_EXA_PATH' variable in your .zshrc."
+  local _PZC_EZA_PATH=$_PZC_EXA_PATH
+fi
+
+
+
+# ---------------------------------------------------------------
 # -------------------------- Sources ----------------------------
 # ---------------------------------------------------------------
 
 # Source manjaro-zsh-configuration
 source ${_PZC_PZC_DIR}/_manjaro_config.zsh
-
-# Source internal
-source ${_PZC_PZC_DIR}/_internal.zsh
 
 # Source external program needed
 source ${_PZC_PZC_DIR}/_external.zsh

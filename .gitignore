@@ -3,5 +3,5 @@ _local_c.zsh
 _local_p.zsh
 
 progs/oh-my-posh/oh-my-posh
-progs/exa/exa
+progs/eza/eza
 progs/age/age
