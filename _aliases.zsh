@@ -16,16 +16,8 @@ if [[ ${_PZC_EZA_AVAILABLE} = 1 ]]
 then
   _pzc_debug "Aliases for EZA-LS."
   alias ls='${_PZC_EZA_PATH} --icons'
-
-  # TODO : Deprecated
-  if [[ ${_PZC_EXA_DEPRECATED} = 1 ]]
-  then
-    alias l='${_PZC_EZA_PATH} --icons --color-scale --time-style long-iso -BghHl'
-    alias la='${_PZC_EZA_PATH} --icons --color-scale --time-style long-iso -BghHla'
-  else
-    alias l='${_PZC_EZA_PATH} --icons --color-scale all --time-style long-iso -BghHl'
-    alias la='${_PZC_EZA_PATH} --icons --color-scale all --time-style long-iso -BghHla'
-  fi
+  alias l='${_PZC_EZA_PATH} --icons --color-scale --time-style long-iso -BghHl'
+  alias la='${_PZC_EZA_PATH} --icons --color-scale --time-style long-iso -BghHla'
 
 ## --- Without EZA-LS ---
 else
