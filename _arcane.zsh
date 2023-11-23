@@ -91,8 +91,6 @@ configarc()
     echo "  -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \\"
     echo "  -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \\"
     echo "  -DCMAKE_C_COMPILER_LAUNCHER=ccache \\"
-    echo "  -DCMAKE_C_FLAGS=-fdiagnostics-color=always \\"
-    echo "  -DCMAKE_CXX_FLAGS=-fdiagnostics-color=always \\"
     echo "  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \\"
     echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \\"
@@ -107,8 +105,6 @@ configarc()
       -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \
       -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
       -DCMAKE_C_COMPILER_LAUNCHER=ccache \
-      -DCMAKE_C_FLAGS="-fdiagnostics-color=always" \
-      -DCMAKE_CXX_FLAGS="-fdiagnostics-color=always" \
       -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
       -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
       -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \
@@ -141,8 +137,6 @@ configarcgpu()
     echo "  -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \\"
     echo "  -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \\"
     echo "  -DCMAKE_C_COMPILER_LAUNCHER=ccache \\"
-    echo "  -DCMAKE_C_FLAGS=-fdiagnostics-color=always \\"
-    echo "  -DCMAKE_CXX_FLAGS=-fdiagnostics-color=always \\"
     echo "  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \\"
     echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \\"
@@ -157,8 +151,6 @@ configarcgpu()
       -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \
       -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
       -DCMAKE_C_COMPILER_LAUNCHER=ccache \
-      -DCMAKE_C_FLAGS="-fdiagnostics-color=always" \
-      -DCMAKE_CXX_FLAGS="-fdiagnostics-color=always" \
       -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
       -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
       -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \
@@ -191,8 +183,6 @@ configarcldoc()
     echo "  -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \\"
     echo "  -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \\"
     echo "  -DCMAKE_C_COMPILER_LAUNCHER=ccache \\"
-    echo "  -DCMAKE_C_FLAGS=-fdiagnostics-color=always \\"
-    echo "  -DCMAKE_CXX_FLAGS=-fdiagnostics-color=always \\"
     echo "  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \\"
     echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \\"
@@ -209,8 +199,6 @@ configarcldoc()
       -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \
       -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
       -DCMAKE_C_COMPILER_LAUNCHER=ccache \
-      -DCMAKE_C_FLAGS="-fdiagnostics-color=always" \
-      -DCMAKE_CXX_FLAGS="-fdiagnostics-color=always" \
       -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
       -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
       -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \

@@ -179,6 +179,12 @@ then
       _PZC_EZA_AVAILABLE=1
       _pzc_debug "_PZC_EZA_PATH = ${_PZC_EZA_PATH} (in PATH)"
 
+    elif [[ -e ${_PZC_PZC_DIR}/progs/eza/eza ]]
+    then
+      _PZC_EZA_PATH=${_PZC_PZC_DIR}/progs/eza/eza
+      _PZC_EZA_AVAILABLE=1
+      _pzc_debug "_PZC_EZA_PATH = ${_PZC_EZA_PATH} (in pzc)"
+
     # TODO : Deprecated
     elif [[ -x "$(command -v exa)" ]]
     then
@@ -198,12 +204,6 @@ then
       _pzc_debug "_PZC_EZA_PATH = ${_PZC_EZA_PATH} (in pzc / EXA)"
       _pzc_warning "EXA-LS is deprecated, please update to the EZA-LS fork (https://github.com/eza-community/eza) and remove your actual EXA-LS install ($_PZC_EZA_PATH)."
       _pzc_info "You can install eza in the PZC folder with the command 'pzc_install_eza' or disable eza search in .zshrc."
-
-    elif [[ -e ${_PZC_PZC_DIR}/progs/eza/eza ]]
-    then
-      _PZC_EZA_PATH=${_PZC_PZC_DIR}/progs/eza/eza
-      _PZC_EZA_AVAILABLE=1
-      _pzc_debug "_PZC_EZA_PATH = ${_PZC_EZA_PATH} (in pzc)"
       
     else
       _PZC_EZA_AVAILABLE=0
