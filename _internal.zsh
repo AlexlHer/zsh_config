@@ -81,3 +81,13 @@ _pzc_debug()
     echo "\033[0;104m\033[30m   Debug: [${funcfiletrace[1]##*/}] ${1} \033[0m"
   fi
 }
+
+_pzc_debug_eval()
+{
+  if [[ ${_PZC_LOG_DEBUG} = 1 ]]
+  then
+    echo "\033[0;104m\033[30m   Debug Eval: [${funcfiletrace[1]##*/}] \033[0m"
+    echo "\033[0;104m\033[30m   \uE285 ${1} \033[0m"
+    eval ${1}
+  fi
+}

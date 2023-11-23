@@ -1,6 +1,20 @@
 
 ## ----- Arcane aliases/functions section -----
 
+## With these functions, you can clone, compile and install Arcane like this:
+## $ clonearc    # First time only
+## $ initarc R   # R for Release, C for Check, D for Debug
+## $ configarc   # If cmake config needed
+## $ biarc
+##
+## Source dir:
+## $ gitarc
+##
+## Build dir:
+## $ cd ${ARCANE_BUILD_DIR}
+##
+## Install dir:
+## $ cd ${ARCANE_INSTALL_DIR}
 
 
 # ---------------------------------------------------------------
@@ -9,6 +23,10 @@
 
 alias gitarc='_pzc_coal_eval "cd ${WORK_DIR}/arcane/framework"'
 alias gitbenchs='_pzc_coal_eval "cd ${WORK_DIR}/arcane/arcane-benchs"'
+alias clonearc='_pzc_coal_eval "mkdir -p ${WORK_DIR}/arcane" ; \
+                _pzc_coal_eval "cd ${WORK_DIR}/arcane" ; \
+                _pzc_coal_eval "git clone --recurse-submodules https://github.com/arcaneframework/framework" ; \
+                gitarc'
 
 
 
@@ -19,10 +37,37 @@ alias gitbenchs='_pzc_coal_eval "cd ${WORK_DIR}/arcane/arcane-benchs"'
 initarc()
 {
   _pzc_pensil_begin
-  _pzc_ecal_eval "ARCANE_TYPE_BUILD=${1}"
+
+  if [[ -v 1 ]]
+  then
+    if [[ ${1} == "D" ]] || [[ ${1} == "Debug" ]]
+    then
+      _pzc_ecal_eval "ARCANE_TYPE_BUILD=Debug"
+    elif [[ ${1} == "C" ]] || [[ ${1} == "Check" ]]
+    then
+      _pzc_ecal_eval "ARCANE_TYPE_BUILD=Check"
+    elif [[ ${1} == "R" ]] || [[ ${1} == "Release" ]]
+    then
+      _pzc_ecal_eval "ARCANE_TYPE_BUILD=Release"
+    else
+      _pzc_error "Invalid 'ARCANE_TYPE_BUILD' [D or C or R] (first arg)."
+      return 1
+    fi
+  else
+    _pzc_info "No argument, defining 'ARCANE_TYPE_BUILD' to 'Release'..."
+    _pzc_ecal_eval "ARCANE_TYPE_BUILD=Release"
+  fi
+
+  if [[ -v 2 ]]
+  then
+    _pzc_ecal_eval "TYPE_BUILD_DIR=${2}"
+  else
+    _pzc_ecal_eval "TYPE_BUILD_DIR=${ARCANE_TYPE_BUILD}"
+  fi
+
   _pzc_ecal_eval "ARCANE_SOURCE_DIR=${WORK_DIR}/arcane/framework"
-  _pzc_ecal_eval "ARCANE_BUILD_DIR=${BUILD_DIR}/build_framework/${ARCANE_TYPE_BUILD}"
-  _pzc_ecal_eval "ARCANE_INSTALL_PATH=${BUILD_DIR}/install_framework/${ARCANE_TYPE_BUILD}"
+  _pzc_ecal_eval "ARCANE_BUILD_DIR=${BUILD_DIR}/build_framework/${TYPE_BUILD_DIR}"
+  _pzc_ecal_eval "ARCANE_INSTALL_PATH=${BUILD_DIR}/install_framework/${TYPE_BUILD_DIR}"
   echo ""
   _pzc_ecal_eval "mkdir -p ${ARCANE_BUILD_DIR}"
   _pzc_ecal_eval "mkdir -p ${ARCANE_INSTALL_PATH}"
@@ -34,10 +79,37 @@ initarc()
 initarcfork()
 {
   _pzc_pensil_begin
-  _pzc_ecal_eval "ARCANE_TYPE_BUILD=${1}"
+
+  if [[ -v 1 ]]
+  then
+    if [[ ${1} == "D" ]] || [[ ${1} == "Debug" ]]
+    then
+      _pzc_ecal_eval "ARCANE_TYPE_BUILD=Debug"
+    elif [[ ${1} == "C" ]] || [[ ${1} == "Check" ]]
+    then
+      _pzc_ecal_eval "ARCANE_TYPE_BUILD=Check"
+    elif [[ ${1} == "R" ]] || [[ ${1} == "Release" ]]
+    then
+      _pzc_ecal_eval "ARCANE_TYPE_BUILD=Release"
+    else
+      _pzc_error "Invalid 'ARCANE_TYPE_BUILD' (first arg)"
+      return 1
+    fi
+  else
+    _pzc_info "No argument, defining 'ARCANE_TYPE_BUILD' to 'Release'"
+    _pzc_ecal_eval "ARCANE_TYPE_BUILD=Release"
+  fi
+
+  if [[ -v 2 ]]
+  then
+    _pzc_ecal_eval "TYPE_BUILD_DIR=${2}"
+  else
+    _pzc_ecal_eval "TYPE_BUILD_DIR=${ARCANE_TYPE_BUILD}"
+  fi
+
   _pzc_ecal_eval "ARCANE_SOURCE_DIR=${WORK_DIR}/arcane/forks/framework"
-  _pzc_ecal_eval "ARCANE_BUILD_DIR=${BUILD_DIR}/build_framework_fork/${ARCANE_TYPE_BUILD}"
-  _pzc_ecal_eval "ARCANE_INSTALL_PATH=${BUILD_DIR}/install_framework_fork/${ARCANE_TYPE_BUILD}"
+  _pzc_ecal_eval "ARCANE_BUILD_DIR=${BUILD_DIR}/build_framework_fork/${TYPE_BUILD_DIR}"
+  _pzc_ecal_eval "ARCANE_INSTALL_PATH=${BUILD_DIR}/install_framework_fork/${TYPE_BUILD_DIR}"
   echo ""
   _pzc_ecal_eval "mkdir -p ${ARCANE_BUILD_DIR}"
   _pzc_ecal_eval "mkdir -p ${ARCANE_INSTALL_PATH}"
@@ -49,13 +121,40 @@ initarcfork()
 initbenchs()
 {
   _pzc_pensil_begin
-  _pzc_ecal_eval "ARCANE_TYPE_BUILD=${1}"
-  _pzc_ecal_eval "ARCANE_INSTALL_PATH=${BUILD_DIR}/install_framework/${ARCANE_TYPE_BUILD}"
+
+  if [[ -v 1 ]]
+  then
+    if [[ ${1} == "D" ]] || [[ ${1} == "Debug" ]]
+    then
+      _pzc_ecal_eval "ARCANE_TYPE_BUILD=Debug"
+    elif [[ ${1} == "C" ]] || [[ ${1} == "Check" ]]
+    then
+      _pzc_ecal_eval "ARCANE_TYPE_BUILD=Check"
+    elif [[ ${1} == "R" ]] || [[ ${1} == "Release" ]]
+    then
+      _pzc_ecal_eval "ARCANE_TYPE_BUILD=Release"
+    else
+      _pzc_error "Invalid 'ARCANE_TYPE_BUILD' (first arg)"
+      return 1
+    fi
+  else
+    _pzc_info "No argument, defining 'ARCANE_TYPE_BUILD' to 'Release'"
+    _pzc_ecal_eval "ARCANE_TYPE_BUILD=Release"
+  fi
+
+  if [[ -v 2 ]]
+  then
+    _pzc_ecal_eval "TYPE_BUILD_DIR=${2}"
+  else
+    _pzc_ecal_eval "TYPE_BUILD_DIR=${ARCANE_TYPE_BUILD}"
+  fi
+
+  _pzc_ecal_eval "ARCANE_INSTALL_PATH=${BUILD_DIR}/install_framework/${TYPE_BUILD_DIR}"
   echo ""
-  _pzc_ecal_eval "AB_BUILD_TYPE=${1}"
+  _pzc_ecal_eval "AB_BUILD_TYPE=${ARCANE_TYPE_BUILD}"
   _pzc_ecal_eval "AB_SOURCE_DIR=${WORK_DIR}/arcane/arcane-benchs"
-  _pzc_ecal_eval "AB_BUILD_DIR=${BUILD_DIR}/build_arcane-benchs/${AB_BUILD_TYPE}"
-  _pzc_ecal_eval "AB_INSTALL_PATH=${BUILD_DIR}/install_arcane-benchs/${AB_BUILD_TYPE}"
+  _pzc_ecal_eval "AB_BUILD_DIR=${BUILD_DIR}/build_arcane-benchs/${TYPE_BUILD_DIR}"
+  _pzc_ecal_eval "AB_INSTALL_PATH=${BUILD_DIR}/install_arcane-benchs/${TYPE_BUILD_DIR}"
   _pzc_ecal_eval "AB_EXE=${AB_BUILD_DIR}/qama/src/qama"
   _pzc_ecal_eval "AB_ARC=${AB_SOURCE_DIR}/qama/data/tests/ExampleFull.arc"
   echo ""
@@ -112,7 +211,7 @@ configarc()
   
     chmod u+x ${ARCANE_BUILD_DIR}/bin/*
   else
-    _pzc_error "Lancer initarc avant."
+    _pzc_error "Un appel à la fonction initarc est nécessaire avant."
     return 1
   fi
 }
@@ -158,7 +257,7 @@ configarcgpu()
 
     chmod u+x ${ARCANE_BUILD_DIR}/bin/*
   else
-    _pzc_error "Lancer initarc avant."
+    _pzc_error "Un appel à la fonction initarc est nécessaire avant."
     return 1
   fi
 }
@@ -207,7 +306,7 @@ configarcldoc()
   
     chmod u+x ${ARCANE_BUILD_DIR}/bin/*
   else
-    _pzc_error "Lancer initarc avant."
+    _pzc_error "Un appel à la fonction initarc est nécessaire avant."
     return 1
   fi
 }
@@ -262,7 +361,7 @@ biarc()
     cmake --build ${ARCANE_BUILD_DIR} --target install
 
   else
-    _pzc_error "Lancer initarc avant."
+    _pzc_error "Un appel à la fonction initarc est nécessaire avant."
     return 1
   fi
 }
@@ -284,7 +383,30 @@ docarc()
     cmake --build ${ARCANE_BUILD_DIR} --target ${1}doc
 
   else
-    _pzc_error "Lancer initarc avant."
+    _pzc_error "Un appel à la fonction initarc est nécessaire avant."
+    return 1
+  fi
+}
+
+
+
+# ---------------------------------------------------------------
+# ----------------------- Clear functions -----------------------
+# ---------------------------------------------------------------
+
+cleararc()
+{
+  if [[ -v ARCANE_BUILD_DIR ]]
+  then
+    _pzc_pensil_begin
+    _pzc_ecal_eval "cd ${ARCANE_BUILD_DIR}/.."
+    _pzc_ecal_eval "rm -r ${ARCANE_BUILD_DIR}"
+    _pzc_ecal_eval "mkdir ${ARCANE_BUILD_DIR}"
+    _pzc_ecal_eval "cd ${ARCANE_BUILD_DIR}"
+    _pzc_pensil_end
+
+  else
+    _pzc_error "Un appel à la fonction initarc est nécessaire avant."
     return 1
   fi
 }
