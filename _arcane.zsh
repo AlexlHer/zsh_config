@@ -177,7 +177,7 @@ configarc()
 
     if [[ "${ARCANE_TYPE_BUILD}" == "Check" ]]
     then
-      CMAKE_BUILD_TYPE="Release"
+      CMAKE_BUILD_TYPE="RelWithDebInfo"
     else
       CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
     fi
@@ -223,7 +223,7 @@ configarcgpu()
 
     if [[ "${ARCANE_TYPE_BUILD}" == "Check" ]]
     then
-      CMAKE_BUILD_TYPE="Release"
+      CMAKE_BUILD_TYPE="RelWithDebInfo"
     else
       CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
     fi
@@ -269,7 +269,7 @@ configarcldoc()
 
     if [[ "${ARCANE_TYPE_BUILD}" == "Check" ]]
     then
-      CMAKE_BUILD_TYPE="Release"
+      CMAKE_BUILD_TYPE="RelWithDebInfo"
     else
       CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
     fi
