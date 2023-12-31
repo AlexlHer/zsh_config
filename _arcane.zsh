@@ -182,6 +182,7 @@ configarc()
       CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
     fi
 
+    # TODO : Avec CMake 3.29, mettre CMAKE_LINKER_TYPE=mold.
     _pzc_pensil_begin
     echo "cmake \\"
     echo "  -S ${ARCANE_SOURCE_DIR} \\"
@@ -239,6 +240,7 @@ configarcgpu()
     echo "  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \\"
     echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \\"
+    echo "  -DARCCORE_CXX_STANDARD=23 \\"
     echo "  -DARCANE_ACCELERATOR_MODE=CUDANVCC -DCMAKE_CUDA_COMPILER=nvcc"
     echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
     _pzc_pensil_end
@@ -253,6 +255,7 @@ configarcgpu()
       -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
       -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
       -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \
+      -DARCCORE_CXX_STANDARD=23 \
       -DARCANE_ACCELERATOR_MODE=CUDANVCC -DCMAKE_CUDA_COMPILER=nvcc
 
     chmod u+x ${ARCANE_BUILD_DIR}/bin/*
@@ -401,7 +404,9 @@ cleararc()
     _pzc_pensil_begin
     _pzc_ecal_eval "cd ${ARCANE_BUILD_DIR}/.."
     _pzc_ecal_eval "rm -r ${ARCANE_BUILD_DIR}"
+    _pzc_ecal_eval "rm -r ${ARCANE_INSTALL_PATH}"
     _pzc_ecal_eval "mkdir ${ARCANE_BUILD_DIR}"
+    _pzc_ecal_eval "mkdir ${ARCANE_INSTALL_PATH}"
     _pzc_ecal_eval "cd ${ARCANE_BUILD_DIR}"
     _pzc_pensil_end
 

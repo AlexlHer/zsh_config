@@ -79,7 +79,7 @@ then
 
     _pzc_info "Installing additionnal packages in container..."
     pm exec $CONTAINER apt-get update
-    pm exec $CONTAINER apt-get install zsh unzip git mold vim gdb xcb libgtk-3-common libasound2 libdbus-glib-1-2 -y
+    pm exec -e DEBIAN_FRONTEND=noninteractive $CONTAINER apt-get install wget curl zsh unzip git vim gdb xcb libgtk-3-common libasound2 libdbus-glib-1-2 -y
 
     _pzc_info "Installing OhMyPosh in container..."
     pm exec $CONTAINER curl -o /root/install.sh https://ohmyposh.dev/install.sh
