@@ -19,9 +19,6 @@ export CCACHE_MAXSIZE=20G
 _pzc_debug "Creating CCache, work, build and container_build directories"
 mkdir -p ${CCACHE_DIR} ${WORK_DIR} ${BUILD_DIR} ${CONTAINER_BUILD_DIR}
 
-_pzc_debug "Exporting C/CXX to use GCC"
-export CC=gcc
-export CXX=g++
 if [[ ${_PZC_MOLD_AVAILABLE} = 1 ]]
 then
   _pzc_debug "Exporting C/CXX flags to use Mold linker"
