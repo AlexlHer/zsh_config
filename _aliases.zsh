@@ -41,7 +41,7 @@ alias grep='grep --color=always'
 # ------------------------ GIT aliases --------------------------
 # ---------------------------------------------------------------
 
-alias gits='_pzc_coal "git status" ; git status'
+alias g='_pzc_coal "git status" ; git status'
 alias gita='_pzc_coal "git add" ; git add'
 alias gitc='_pzc_coal "git commit" ; git commit'
 alias gitca='_pzc_coal "git commit --amend --no-edit" ; git commit --amend --no-edit'
