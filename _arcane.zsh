@@ -50,6 +50,7 @@ initarc()
     then
       _pzc_ecal_eval "ARCANE_TYPE_BUILD=Release"
     else
+      _pzc_pensil_end
       _pzc_error "Invalid 'ARCANE_TYPE_BUILD' [D or C or R] (first arg)."
       return 1
     fi
@@ -92,6 +93,7 @@ initarcfork()
     then
       _pzc_ecal_eval "ARCANE_TYPE_BUILD=Release"
     else
+      _pzc_pensil_end
       _pzc_error "Invalid 'ARCANE_TYPE_BUILD' (first arg)"
       return 1
     fi
@@ -118,23 +120,33 @@ initarcfork()
   _pzc_pensil_end
 }
 
-initbenchs()
+initap()
 {
-  _pzc_pensil_begin
 
   if [[ -v 1 ]]
   then
-    if [[ ${1} == "D" ]] || [[ ${1} == "Debug" ]]
+    _pzc_info "Initialize Arcane Project: ${1}"
+    _pzc_pensil_begin
+    _pzc_ecal_eval "AP_PROJECT_NAME=${1}"
+  else
+    _pzc_error "Need project name (first arg)"
+    return 1
+  fi
+
+  if [[ -v 2 ]]
+  then
+    if [[ ${2} == "D" ]] || [[ ${2} == "Debug" ]]
     then
       _pzc_ecal_eval "ARCANE_TYPE_BUILD=Debug"
-    elif [[ ${1} == "C" ]] || [[ ${1} == "Check" ]]
+    elif [[ ${2} == "C" ]] || [[ ${2} == "Check" ]]
     then
       _pzc_ecal_eval "ARCANE_TYPE_BUILD=Check"
-    elif [[ ${1} == "R" ]] || [[ ${1} == "Release" ]]
+    elif [[ ${2} == "R" ]] || [[ ${2} == "Release" ]]
     then
       _pzc_ecal_eval "ARCANE_TYPE_BUILD=Release"
     else
-      _pzc_error "Invalid 'ARCANE_TYPE_BUILD' (first arg)"
+      _pzc_pensil_end
+      _pzc_error "Invalid 'ARCANE_TYPE_BUILD' (second arg)"
       return 1
     fi
   else
@@ -142,25 +154,25 @@ initbenchs()
     _pzc_ecal_eval "ARCANE_TYPE_BUILD=Release"
   fi
 
-  if [[ -v 2 ]]
+  if [[ -v 3 ]]
   then
-    _pzc_ecal_eval "TYPE_BUILD_DIR=${2}"
+    _pzc_ecal_eval "TYPE_BUILD_DIR=${3}"
   else
     _pzc_ecal_eval "TYPE_BUILD_DIR=${ARCANE_TYPE_BUILD}"
   fi
 
   _pzc_ecal_eval "ARCANE_INSTALL_PATH=${BUILD_DIR}/install_framework/${TYPE_BUILD_DIR}"
   echo ""
-  _pzc_ecal_eval "AB_BUILD_TYPE=${ARCANE_TYPE_BUILD}"
-  _pzc_ecal_eval "AB_SOURCE_DIR=${WORK_DIR}/arcane/arcane-benchs"
-  _pzc_ecal_eval "AB_BUILD_DIR=${BUILD_DIR}/build_arcane-benchs/${TYPE_BUILD_DIR}"
-  _pzc_ecal_eval "AB_INSTALL_PATH=${BUILD_DIR}/install_arcane-benchs/${TYPE_BUILD_DIR}"
-  _pzc_ecal_eval "AB_EXE=${AB_BUILD_DIR}/qama/src/qama"
-  _pzc_ecal_eval "AB_ARC=${AB_SOURCE_DIR}/qama/data/tests/ExampleFull.arc"
+  _pzc_ecal_eval "AP_BUILD_TYPE=${ARCANE_TYPE_BUILD}"
+  _pzc_ecal_eval "AP_PROJECT_DIR=${WORK_DIR}/${AP_PROJECT_NAME}"
+  _pzc_ecal_eval "AP_SOURCE_DIR=${AP_PROJECT_DIR}"
+  _pzc_ecal_eval "AP_BUILD_DIR=${BUILD_DIR}/build_${AP_PROJECT_NAME}/${TYPE_BUILD_DIR}"
+  _pzc_ecal_eval "AP_INSTALL_DIR=${BUILD_DIR}/install_${AP_PROJECT_NAME}/${TYPE_BUILD_DIR}"
   echo ""
-  _pzc_ecal_eval "mkdir -p ${AB_BUILD_DIR}"
+  _pzc_ecal_eval "mkdir -p ${AP_BUILD_DIR}"
   echo ""
-  _pzc_ecal_eval "cd ${AB_BUILD_DIR}"
+  _pzc_ecal_eval "cd ${AP_BUILD_DIR}"
+
   _pzc_pensil_end
 }
 
@@ -265,82 +277,46 @@ configarcgpu()
   fi
 }
 
-configarcldoc()
+configap()
 {
-  if [[ -v ARCANE_BUILD_DIR ]]
+  if [[ -v AP_BUILD_DIR ]]
   then
+    _pzc_info "Configure Arcane Project: ${AP_PROJECT_NAME}"
 
-    if [[ "${ARCANE_TYPE_BUILD}" == "Check" ]]
+    if [[ "${AP_BUILD_TYPE}" == "Check" ]]
     then
       CMAKE_BUILD_TYPE="RelWithDebInfo"
     else
-      CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
+      CMAKE_BUILD_TYPE="${AP_BUILD_TYPE}"
     fi
 
     _pzc_pensil_begin
     echo "cmake \\"
-    echo "  -S ${ARCANE_SOURCE_DIR} \\"
-    echo "  -B ${ARCANE_BUILD_DIR} \\"
-    echo "  -GNinja \\"
-    echo "  -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \\"
-    echo "  -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \\"
-    echo "  -DCMAKE_C_COMPILER_LAUNCHER=ccache \\"
-    echo "  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \\"
-    echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
-    echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \\"
-    echo "  -DARCANEDOC_LEGACY_THEME=ON \\"
-    echo "  -DARCANEDOC_OFFLINE=ON"
-
-    echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
-    _pzc_pensil_end
-
-    cmake \
-      -S ${ARCANE_SOURCE_DIR} \
-      -B ${ARCANE_BUILD_DIR} \
-      -GNinja \
-      -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \
-      -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
-      -DCMAKE_C_COMPILER_LAUNCHER=ccache \
-      -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
-      -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
-      -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \
-      -DARCANEDOC_LEGACY_THEME=ON \
-      -DARCANEDOC_OFFLINE=ON
-  
-    chmod u+x ${ARCANE_BUILD_DIR}/bin/*
-  else
-    _pzc_error "Un appel à la fonction initarc est nécessaire avant."
-    return 1
-  fi
-}
-
-configbenchs()
-{
-  if [[ -v AB_BUILD_DIR ]]
-  then
-    _pzc_pensil_begin
-    echo "cmake \\"
-    echo "  -S ${AB_SOURCE_DIR} \\"
-    echo "  -B ${AB_BUILD_DIR} \\"
+    echo "  -S ${AP_SOURCE_DIR} \\"
+    echo "  -B ${AP_BUILD_DIR} \\"
     echo "  -GNinja \\"
     echo "  -DCMAKE_C_FLAGS=-fdiagnostics-color=always \\"
     echo "  -DCMAKE_CXX_FLAGS=-fdiagnostics-color=always \\"
-    echo "  -DCMAKE_INSTALL_PREFIX=${AB_INSTALL_PATH} \\"
+    echo "  -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \\"
+    echo "  -DCMAKE_C_COMPILER_LAUNCHER=ccache \\"
+    echo "  -DCMAKE_INSTALL_PREFIX=${AP_INSTALL_DIR} \\"
     echo "  -DCMAKE_PREFIX_PATH=${ARCANE_INSTALL_PATH} \\"
-    echo "  -DCMAKE_BUILD_TYPE=${AB_BUILD_TYPE}"
+    echo "  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
     _pzc_pensil_end
 
     cmake \
-      -S ${AB_SOURCE_DIR} \
-      -B ${AB_BUILD_DIR} \
+      -S ${AP_SOURCE_DIR} \
+      -B ${AP_BUILD_DIR} \
       -GNinja \
       -DCMAKE_C_FLAGS="-fdiagnostics-color=always" \
       -DCMAKE_CXX_FLAGS="-fdiagnostics-color=always" \
-      -DCMAKE_INSTALL_PREFIX=${AB_INSTALL_PATH} \
+      -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+      -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+      -DCMAKE_INSTALL_PREFIX=${AP_INSTALL_DIR} \
       -DCMAKE_PREFIX_PATH=${ARCANE_INSTALL_PATH} \
-      -DCMAKE_BUILD_TYPE=${AB_BUILD_TYPE}
+      -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
   else
-    _pzc_error "Lancer initbenchs avant."
+    _pzc_error "Lancer initap avant."
     return 1
   fi
 }
@@ -412,6 +388,25 @@ cleararc()
 
   else
     _pzc_error "Un appel à la fonction initarc est nécessaire avant."
+    return 1
+  fi
+}
+
+clearap()
+{
+  if [[ -v AP_BUILD_DIR ]]
+  then
+    _pzc_pensil_begin
+    _pzc_ecal_eval "cd ${AP_BUILD_DIR}/.."
+    _pzc_ecal_eval "rm -r ${AP_BUILD_DIR}"
+    _pzc_ecal_eval "rm -r ${AP_INSTALL_DIR}"
+    _pzc_ecal_eval "mkdir ${AP_BUILD_DIR}"
+    _pzc_ecal_eval "mkdir ${AP_INSTALL_DIR}"
+    _pzc_ecal_eval "cd ${AP_BUILD_DIR}"
+    _pzc_pensil_end
+
+  else
+    _pzc_error "Un appel à la fonction initap est nécessaire avant."
     return 1
   fi
 }
