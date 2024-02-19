@@ -315,6 +315,54 @@ configap()
       -DCMAKE_INSTALL_PREFIX=${AP_INSTALL_DIR} \
       -DCMAKE_PREFIX_PATH=${ARCANE_INSTALL_PATH} \
       -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+      
+  else
+    _pzc_error "Lancer initap avant."
+    return 1
+  fi
+}
+
+configapgpu()
+{
+  if [[ -v AP_BUILD_DIR ]]
+  then
+    _pzc_info "Configure Arcane Project GPU: ${AP_PROJECT_NAME}"
+
+    if [[ "${AP_BUILD_TYPE}" == "Check" ]]
+    then
+      CMAKE_BUILD_TYPE="RelWithDebInfo"
+    else
+      CMAKE_BUILD_TYPE="${AP_BUILD_TYPE}"
+    fi
+
+    _pzc_pensil_begin
+    echo "cmake \\"
+    echo "  -S ${AP_SOURCE_DIR} \\"
+    echo "  -B ${AP_BUILD_DIR} \\"
+    echo "  -GNinja \\"
+    echo "  -DCMAKE_C_FLAGS=-fdiagnostics-color=always \\"
+    echo "  -DCMAKE_CXX_FLAGS=-fdiagnostics-color=always \\"
+    echo "  -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \\"
+    echo "  -DCMAKE_C_COMPILER_LAUNCHER=ccache \\"
+    echo "  -DCMAKE_INSTALL_PREFIX=${AP_INSTALL_DIR} \\"
+    echo "  -DCMAKE_PREFIX_PATH=${ARCANE_INSTALL_PATH} \\"
+    echo "  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \\"
+    echo "  -DWANT_CUDA=TRUE -DWANT_PROF_ACC=TRUE -DCMAKE_CUDA_COMPILER=nvcc"
+    _pzc_pensil_end
+
+    cmake \
+      -S ${AP_SOURCE_DIR} \
+      -B ${AP_BUILD_DIR} \
+      -GNinja \
+      -DCMAKE_C_FLAGS="-fdiagnostics-color=always" \
+      -DCMAKE_CXX_FLAGS="-fdiagnostics-color=always" \
+      -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+      -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+      -DCMAKE_INSTALL_PREFIX=${AP_INSTALL_DIR} \
+      -DCMAKE_PREFIX_PATH=${ARCANE_INSTALL_PATH} \
+      -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
+      -DWANT_CUDA=TRUE -DWANT_PROF_ACC=TRUE -DCMAKE_CUDA_COMPILER=nvcc
+
   else
     _pzc_error "Lancer initap avant."
     return 1
