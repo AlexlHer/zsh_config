@@ -14,7 +14,7 @@ then
   _pzc_debug "Aliases for podman"
   alias pm='podman'
   alias docker='podman'
-  alias pmps='_pzc_coal "podman ps -a" ; podman ps -a'
+  alias pmps='_pzc_coal "podman ps -a --external" ; podman ps -a --external'
   alias pmim='_pzc_coal "podman images" ; podman images'
   alias pmst='_pzc_coal "podman stop -t 2" ; podman stop -t 2'
   alias pmri='_pzc_coal "podman image rm" ; podman image rm'
@@ -24,7 +24,7 @@ then
   _pzc_debug "Aliases for docker"
   alias pm='docker'
   alias podman='docker'
-  alias pmps='_pzc_coal "docker ps -a" ; docker ps -a'
+  alias pmps='_pzc_coal "docker ps -a --external" ; docker ps -a --external'
   alias pmim='_pzc_coal "docker images" ; docker images'
   alias pmst='_pzc_coal "docker stop -t 2" ; docker stop -t 2'
   alias pmri='_pzc_coal "docker image rm" ; docker image rm'
@@ -79,7 +79,12 @@ then
 
     _pzc_info "Installing additionnal packages in container..."
     pm exec $CONTAINER apt-get update
-    pm exec -e DEBIAN_FRONTEND=noninteractive $CONTAINER apt-get install wget curl zsh unzip git vim gdb xcb libgtk-3-common libasound2 libdbus-glib-1-2 -y
+
+    for i in wget curl zsh unzip git vim gdb xcb libgtk-3-common libasound2 libasound2t64 libdbus-glib-1-2 mold eza;
+    do 
+      _pzc_info "Installing $i..."
+      pm exec -e DEBIAN_FRONTEND=noninteractive $CONTAINER apt-get install -y $i;
+    done
 
     _pzc_info "Installing OhMyPosh in container..."
     pm exec $CONTAINER curl -o /root/install.sh https://ohmyposh.dev/install.sh
