@@ -219,13 +219,55 @@ fi
 
 
 # ---------------------------------------------------------------
+# --------------------------- CCache ----------------------------
+# ---------------------------------------------------------------
+
+if [[ ${_PZC_CCACHE_AVAILABLE} = 1 ]]
+then
+
+  if [[ -v _PZC_CCACHE_PATH ]] && [[ ! -e ${_PZC_CCACHE_PATH} ]]
+  then
+    _pzc_warning "Your ccache is not found. Search other ccache."
+    _pzc_debug "_PZC_CCACHE_PATH = ${_PZC_CCACHE_PATH} (unset)"
+    unset _PZC_CCACHE_PATH
+
+  fi
+
+  if [[ ! -v _PZC_CCACHE_PATH ]]
+  then
+
+    if [[ -x "$(command -v ccache)" ]]
+    then
+      _PZC_CCACHE_PATH=ccache
+      _PZC_CCACHE_AVAILABLE=1
+      _pzc_debug "_PZC_CCACHE_PATH = ${_PZC_CCACHE_PATH} (in PATH)"
+      
+    else
+      _PZC_CCACHE_AVAILABLE=0
+      _pzc_warning "CCache is not installed (https://github.com/ccache/ccache). You can disable ccache search in .zshrc."
+
+    fi
+  fi
+else
+  _pzc_debug "CCache disabled."
+
+fi
+
+
+
+# ---------------------------------------------------------------
 # ---------------------------- Mold -----------------------------
 # ---------------------------------------------------------------
 
 if [[ ${_PZC_MOLD_AVAILABLE} = 1 ]]
 then
 
-  if [[ -v _PZC_MOLD_PATH ]] && [[ ! -e ${_PZC_MOLD_PATH} ]]
+  if [[ -v _PZC_MOLD_PATH ]] && [[ -e ${_PZC_MOLD_PATH} ]]
+  then
+    _pzc_debug "_PZC_MOLD_PATH = ${_PZC_MOLD_PATH} (add in PATH)"
+    export PATH=${_PZC_MOLD_PATH}:$PATH
+
+  elif [[ -v _PZC_MOLD_PATH ]]
   then
     _pzc_warning "Your mold is not found. Search other mold."
     _pzc_debug "_PZC_MOLD_PATH = ${_PZC_MOLD_PATH} (unset)"
@@ -238,9 +280,8 @@ then
 
     if [[ -x "$(command -v mold)" ]]
     then
-      _PZC_MOLD_PATH=mold
       _PZC_MOLD_AVAILABLE=1
-      _pzc_debug "_PZC_MOLD_PATH = ${_PZC_MOLD_PATH} (in PATH)"
+      _pzc_debug "Mold found in PATH"
       
     else
       _PZC_MOLD_AVAILABLE=0
@@ -250,6 +291,88 @@ then
   fi
 else
   _pzc_debug "Mold disabled."
+
+fi
+
+
+
+# ---------------------------------------------------------------
+# ---------------------------- Ninja ----------------------------
+# ---------------------------------------------------------------
+
+if [[ ${_PZC_NINJA_AVAILABLE} = 1 ]]
+then
+
+  if [[ -v _PZC_NINJA_PATH ]] && [[ -e ${_PZC_NINJA_PATH} ]]
+  then
+    _pzc_debug "_PZC_NINJA_PATH = ${_PZC_NINJA_PATH} (add in PATH)"
+    export PATH=${_PZC_NINJA_PATH}:$PATH
+
+  elif [[ -v _PZC_NINJA_PATH ]]
+  then
+    _pzc_warning "Your ninja is not found. Search other ninja."
+    _pzc_debug "_PZC_NINJA_PATH = ${_PZC_NINJA_PATH} (unset)"
+    unset _PZC_NINJA_PATH
+
+  fi
+
+  if [[ ! -v _PZC_NINJA_PATH ]]
+  then
+
+    if [[ -x "$(command -v ninja)" ]]
+    then
+      _PZC_NINJA_AVAILABLE=1
+      _pzc_debug "Ninja found in PATH"
+      
+    else
+      _PZC_NINJA_AVAILABLE=0
+      _pzc_warning "Ninja is not installed (https://github.com/ninja-build/ninja). You can disable ninja search in .zshrc."
+
+    fi
+  fi
+else
+  _pzc_debug "Ninja disabled."
+
+fi
+
+
+
+# ---------------------------------------------------------------
+# ---------------------------- CMake ----------------------------
+# ---------------------------------------------------------------
+
+if [[ ${_PZC_CMAKE_AVAILABLE} = 1 ]]
+then
+
+  if [[ -v _PZC_CMAKE_PATH ]] && [[ -e ${_PZC_CMAKE_PATH} ]]
+  then
+    _pzc_debug "_PZC_CMAKE_PATH = ${_PZC_CMAKE_PATH} (add in PATH)"
+    export PATH=${_PZC_CMAKE_PATH}:$PATH
+
+  elif [[ -v _PZC_CMAKE_PATH ]]
+  then
+    _pzc_warning "Your cmake is not found. Search other cmake."
+    _pzc_debug "_PZC_CMAKE_PATH = ${_PZC_CMAKE_PATH} (unset)"
+    unset _PZC_CMAKE_PATH
+
+  fi
+
+  if [[ ! -v _PZC_CMAKE_PATH ]]
+  then
+
+    if [[ -x "$(command -v cmake)" ]]
+    then
+      _PZC_CMAKE_AVAILABLE=1
+      _pzc_debug "CMake found in PATH"
+      
+    else
+      _PZC_CMAKE_AVAILABLE=0
+      _pzc_warning "CMake is not installed (https://github.com/Kitware/CMake). You can disable cmake search in .zshrc."
+
+    fi
+  fi
+else
+  _pzc_debug "CMake disabled."
 
 fi
 

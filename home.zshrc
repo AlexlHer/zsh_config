@@ -52,13 +52,46 @@ local _PZC_EZA_AVAILABLE=1
 
 
 # ----------------------------------
-# --------------- MOLD -------------
+# ------------- CCACHE -------------
+# ----------------------------------
+# [TODO] If you want to use ccache, set this variable to 1.
+local _PZC_CCACHE_AVAILABLE=1
+
+# [TODO] Uncomment and complete if you have a custom installation of ccache (which is not in PATH).
+#local _PZC_CCACHE_PATH=
+
+
+# ----------------------------------
+# -------------- MOLD --------------
 # ----------------------------------
 # [TODO] If you want to use mold, set this variable to 1.
 local _PZC_MOLD_AVAILABLE=1
 
-# [TODO] Uncomment and complete if you have a custom installation of mold (which is not in PATH).
+# [TODO] Uncomment and complete if you have a custom installation of mold.
+# Note: This PATH will be add in PATH.
 #local _PZC_MOLD_PATH=
+
+
+# ----------------------------------
+# ------------- NINJA -------------
+# ----------------------------------
+# [TODO] If you want to use ninja, set this variable to 1.
+local _PZC_NINJA_AVAILABLE=1
+
+# [TODO] Uncomment and complete if you have a custom installation of ninja.
+# Note: This PATH will be add in PATH.
+#local _PZC_NINJA_PATH=
+
+
+# ----------------------------------
+# ------------- CMAKE -------------
+# ----------------------------------
+# [TODO] If you want to use cmake, set this variable to 1.
+local _PZC_CMAKE_AVAILABLE=1
+
+# [TODO] Uncomment and complete if you have a custom installation of cmake.
+# Note: This PATH will be add in PATH.
+#local _PZC_CMAKE_PATH=
 
 
 # ----------------------------------

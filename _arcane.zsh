@@ -194,15 +194,15 @@ configarc()
       CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
     fi
 
-    # TODO : Avec CMake 3.29, mettre CMAKE_LINKER_TYPE=mold.
     _pzc_pensil_begin
     echo "cmake \\"
+    echo "  ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \\"
+    echo "  ${PZC_CMAKE_C_COMPILER_LAUNCHER} \\"
+    echo "  ${PZC_CMAKE_LINKER_TYPE} \\"
+    echo "  ${PZC_CMAKE_GENERATOR} \\"
     echo "  -S ${ARCANE_SOURCE_DIR} \\"
     echo "  -B ${ARCANE_BUILD_DIR} \\"
-    echo "  -GNinja \\"
     echo "  -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \\"
-    echo "  -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \\"
-    echo "  -DCMAKE_C_COMPILER_LAUNCHER=ccache \\"
     echo "  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \\"
     echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \\"
@@ -211,12 +211,13 @@ configarc()
     _pzc_pensil_end
 
     cmake \
+      ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \
+      ${PZC_CMAKE_C_COMPILER_LAUNCHER} \
+      ${PZC_CMAKE_LINKER_TYPE} \
+      ${PZC_CMAKE_GENERATOR} \
       -S ${ARCANE_SOURCE_DIR} \
       -B ${ARCANE_BUILD_DIR} \
-      -GNinja \
       -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \
-      -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
-      -DCMAKE_C_COMPILER_LAUNCHER=ccache \
       -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
       -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
       -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \
@@ -243,32 +244,36 @@ configarcgpu()
 
     _pzc_pensil_begin
     echo "cmake \\"
+    echo "  ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \\"
+    echo "  ${PZC_CMAKE_C_COMPILER_LAUNCHER} \\"
+    echo "  ${PZC_CMAKE_LINKER_TYPE} \\"
+    echo "  ${PZC_CMAKE_GENERATOR} \\"
     echo "  -S ${ARCANE_SOURCE_DIR} \\"
     echo "  -B ${ARCANE_BUILD_DIR} \\"
-    echo "  -GNinja \\"
     echo "  -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \\"
-    echo "  -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \\"
-    echo "  -DCMAKE_C_COMPILER_LAUNCHER=ccache \\"
     echo "  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \\"
     echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCCORE_CXX_STANDARD=20 \\"
-    echo "  -DARCANE_ACCELERATOR_MODE=CUDANVCC -DCMAKE_CUDA_COMPILER=nvcc"
+    echo "  -DARCANE_ACCELERATOR_MODE=CUDANVCC \\"
+    echo "  -DCMAKE_CUDA_COMPILER=nvcc"
     echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
     _pzc_pensil_end
 
     cmake \
+      ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \
+      ${PZC_CMAKE_C_COMPILER_LAUNCHER} \
+      ${PZC_CMAKE_LINKER_TYPE} \
+      ${PZC_CMAKE_GENERATOR} \
       -S ${ARCANE_SOURCE_DIR} \
       -B ${ARCANE_BUILD_DIR} \
-      -GNinja \
       -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \
-      -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
-      -DCMAKE_C_COMPILER_LAUNCHER=ccache \
       -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
       -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
       -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \
       -DARCCORE_CXX_STANDARD=20 \
-      -DARCANE_ACCELERATOR_MODE=CUDANVCC -DCMAKE_CUDA_COMPILER=nvcc
+      -DARCANE_ACCELERATOR_MODE=CUDANVCC \
+      -DCMAKE_CUDA_COMPILER=nvcc
 
     chmod u+x ${ARCANE_BUILD_DIR}/bin/*
   else
@@ -292,26 +297,24 @@ configap()
 
     _pzc_pensil_begin
     echo "cmake \\"
+    echo "  ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \\"
+    echo "  ${PZC_CMAKE_C_COMPILER_LAUNCHER} \\"
+    echo "  ${PZC_CMAKE_LINKER_TYPE} \\"
+    echo "  ${PZC_CMAKE_GENERATOR} \\"
     echo "  -S ${AP_SOURCE_DIR} \\"
     echo "  -B ${AP_BUILD_DIR} \\"
-    echo "  -GNinja \\"
-    echo "  -DCMAKE_C_FLAGS=-fdiagnostics-color=always \\"
-    echo "  -DCMAKE_CXX_FLAGS=-fdiagnostics-color=always \\"
-    echo "  -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \\"
-    echo "  -DCMAKE_C_COMPILER_LAUNCHER=ccache \\"
     echo "  -DCMAKE_INSTALL_PREFIX=${AP_INSTALL_DIR} \\"
     echo "  -DCMAKE_PREFIX_PATH=${ARCANE_INSTALL_PATH} \\"
     echo "  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
     _pzc_pensil_end
 
     cmake \
+      ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \
+      ${PZC_CMAKE_C_COMPILER_LAUNCHER} \
+      ${PZC_CMAKE_LINKER_TYPE} \
+      ${PZC_CMAKE_GENERATOR} \
       -S ${AP_SOURCE_DIR} \
       -B ${AP_BUILD_DIR} \
-      -GNinja \
-      -DCMAKE_C_FLAGS="-fdiagnostics-color=always" \
-      -DCMAKE_CXX_FLAGS="-fdiagnostics-color=always" \
-      -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
-      -DCMAKE_C_COMPILER_LAUNCHER=ccache \
       -DCMAKE_INSTALL_PREFIX=${AP_INSTALL_DIR} \
       -DCMAKE_PREFIX_PATH=${ARCANE_INSTALL_PATH} \
       -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -337,31 +340,33 @@ configapgpu()
 
     _pzc_pensil_begin
     echo "cmake \\"
+    echo "  ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \\"
+    echo "  ${PZC_CMAKE_C_COMPILER_LAUNCHER} \\"
+    echo "  ${PZC_CMAKE_LINKER_TYPE} \\"
+    echo "  ${PZC_CMAKE_GENERATOR} \\"
     echo "  -S ${AP_SOURCE_DIR} \\"
     echo "  -B ${AP_BUILD_DIR} \\"
-    echo "  -GNinja \\"
-    echo "  -DCMAKE_C_FLAGS=-fdiagnostics-color=always \\"
-    echo "  -DCMAKE_CXX_FLAGS=-fdiagnostics-color=always \\"
-    echo "  -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \\"
-    echo "  -DCMAKE_C_COMPILER_LAUNCHER=ccache \\"
     echo "  -DCMAKE_INSTALL_PREFIX=${AP_INSTALL_DIR} \\"
     echo "  -DCMAKE_PREFIX_PATH=${ARCANE_INSTALL_PATH} \\"
     echo "  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \\"
-    echo "  -DWANT_CUDA=TRUE -DWANT_PROF_ACC=TRUE -DCMAKE_CUDA_COMPILER=nvcc"
+    echo "  -DWANT_CUDA=TRUE \\"
+    echo "  -DWANT_PROF_ACC=TRUE \\"
+    echo "  -DCMAKE_CUDA_COMPILER=nvcc"
     _pzc_pensil_end
 
     cmake \
+      ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \
+      ${PZC_CMAKE_C_COMPILER_LAUNCHER} \
+      ${PZC_CMAKE_LINKER_TYPE} \
+      ${PZC_CMAKE_GENERATOR} \
       -S ${AP_SOURCE_DIR} \
       -B ${AP_BUILD_DIR} \
-      -GNinja \
-      -DCMAKE_C_FLAGS="-fdiagnostics-color=always" \
-      -DCMAKE_CXX_FLAGS="-fdiagnostics-color=always" \
-      -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
-      -DCMAKE_C_COMPILER_LAUNCHER=ccache \
       -DCMAKE_INSTALL_PREFIX=${AP_INSTALL_DIR} \
       -DCMAKE_PREFIX_PATH=${ARCANE_INSTALL_PATH} \
       -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
-      -DWANT_CUDA=TRUE -DWANT_PROF_ACC=TRUE -DCMAKE_CUDA_COMPILER=nvcc
+      -DWANT_CUDA=TRUE \
+      -DWANT_PROF_ACC=TRUE \
+      -DCMAKE_CUDA_COMPILER=nvcc
 
   else
     _pzc_error "Lancer initap avant."

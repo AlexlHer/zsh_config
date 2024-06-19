@@ -91,11 +91,6 @@ uclang()
 {
   _pzc_coal_eval "export CC=clang"
   _pzc_coal_eval "export CXX=clang++"
-  if [[ ${_PZC_MOLD_AVAILABLE} = 1 ]]
-  then
-  _pzc_coal_eval "export CFLAGS='-fuse-ld=${_PZC_MOLD_PATH}'"
-  _pzc_coal_eval "export CXXFLAGS='-fuse-ld=${_PZC_MOLD_PATH}'"
-  fi
 }
 
 # Define "GCC" to CMake default compiler.
@@ -103,11 +98,6 @@ ugcc()
 {
   _pzc_coal_eval "export CC=gcc"
   _pzc_coal_eval "export CXX=g++"
-  if [[ ${_PZC_MOLD_AVAILABLE} = 1 ]]
-  then
-  _pzc_coal_eval "export CFLAGS='-fuse-ld=${_PZC_MOLD_PATH}'"
-  _pzc_coal_eval "export CXXFLAGS='-fuse-ld=${_PZC_MOLD_PATH}'"
-  fi
 }
 
 
