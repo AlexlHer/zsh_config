@@ -182,7 +182,7 @@ initap()
 # ---------------------- Config functions -----------------------
 # ---------------------------------------------------------------
 
-configarc()
+pconfigarc()
 {
   if [[ -v ARCANE_BUILD_DIR ]]
   then
@@ -213,6 +213,25 @@ configarc()
     fi
     _pzc_pensil_end
 
+  else
+    _pzc_error "Un appel à la fonction initarc est nécessaire avant."
+    return 1
+  fi
+}
+
+configarc()
+{
+  if [[ -v ARCANE_BUILD_DIR ]]
+  then
+    pconfigarc
+
+    if [[ "${ARCANE_TYPE_BUILD}" == "Check" ]]
+    then
+      CMAKE_BUILD_TYPE="RelWithDebInfo"
+    else
+      CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
+    fi
+
     cmake \
       ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \
       ${PZC_CMAKE_C_COMPILER_LAUNCHER} \
@@ -237,7 +256,7 @@ configarc()
   fi
 }
 
-configarcgpu()
+pconfigarcgpu()
 {
   if [[ -v ARCANE_BUILD_DIR ]]
   then
@@ -270,6 +289,25 @@ configarcgpu()
     fi
     _pzc_pensil_end
 
+  else
+    _pzc_error "Un appel à la fonction initarc est nécessaire avant."
+    return 1
+  fi
+}
+
+configarcgpu()
+{
+  if [[ -v ARCANE_BUILD_DIR ]]
+  then
+    pconfigarcgpu
+
+    if [[ "${ARCANE_TYPE_BUILD}" == "Check" ]]
+    then
+      CMAKE_BUILD_TYPE="RelWithDebInfo"
+    else
+      CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
+    fi
+
     cmake \
       ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \
       ${PZC_CMAKE_C_COMPILER_LAUNCHER} \
@@ -295,11 +333,10 @@ configarcgpu()
   fi
 }
 
-configap()
+pconfigap()
 {
   if [[ -v AP_BUILD_DIR ]]
   then
-    _pzc_info "Configure Arcane Project: ${AP_PROJECT_NAME}"
 
     if [[ "${AP_BUILD_TYPE}" == "Check" ]]
     then
@@ -320,6 +357,26 @@ configap()
     echo "  -DCMAKE_PREFIX_PATH=${ARCANE_INSTALL_PATH} \\"
     echo "  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
     _pzc_pensil_end
+      
+  else
+    _pzc_error "Lancer initap avant."
+    return 1
+  fi
+}
+
+configap()
+{
+  if [[ -v AP_BUILD_DIR ]]
+  then
+    _pzc_info "Configure Arcane Project: ${AP_PROJECT_NAME}"
+    pconfigap
+
+    if [[ "${AP_BUILD_TYPE}" == "Check" ]]
+    then
+      CMAKE_BUILD_TYPE="RelWithDebInfo"
+    else
+      CMAKE_BUILD_TYPE="${AP_BUILD_TYPE}"
+    fi
 
     cmake \
       ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \
@@ -338,11 +395,10 @@ configap()
   fi
 }
 
-configapgpu()
+pconfigapgpu()
 {
   if [[ -v AP_BUILD_DIR ]]
   then
-    _pzc_info "Configure Arcane Project GPU: ${AP_PROJECT_NAME}"
 
     if [[ "${AP_BUILD_TYPE}" == "Check" ]]
     then
@@ -366,6 +422,26 @@ configapgpu()
     echo "  -DWANT_PROF_ACC=TRUE \\"
     echo "  -DCMAKE_CUDA_COMPILER=nvcc"
     _pzc_pensil_end
+
+  else
+    _pzc_error "Lancer initap avant."
+    return 1
+  fi
+}
+
+configapgpu()
+{
+  if [[ -v AP_BUILD_DIR ]]
+  then
+    _pzc_info "Configure Arcane Project GPU: ${AP_PROJECT_NAME}"
+    pconfigapgpu
+
+    if [[ "${AP_BUILD_TYPE}" == "Check" ]]
+    then
+      CMAKE_BUILD_TYPE="RelWithDebInfo"
+    else
+      CMAKE_BUILD_TYPE="${AP_BUILD_TYPE}"
+    fi
 
     cmake \
       ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \
@@ -393,7 +469,7 @@ configapgpu()
 # ------------------- Build/Install functions -------------------
 # ---------------------------------------------------------------
 
-biarc()
+pbiarc()
 {
   if [[ -v ARCANE_BUILD_DIR ]]
   then
@@ -404,6 +480,18 @@ biarc()
     fi
     echo "cmake --build ${ARCANE_BUILD_DIR} --target install"
     _pzc_pensil_end
+
+  else
+    _pzc_error "Un appel à la fonction initarc est nécessaire avant."
+    return 1
+  fi
+}
+
+biarc()
+{
+  if [[ -v ARCANE_BUILD_DIR ]]
+  then
+    pbiarc
 
     if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
     then
@@ -417,7 +505,7 @@ biarc()
   fi
 }
 
-docarc()
+pdocarc()
 {
   if [[ -v ARCANE_BUILD_DIR ]]
   then
@@ -433,6 +521,18 @@ docarc()
     fi
     echo "cmake --build ${ARCANE_BUILD_DIR} --target ${1}doc"
     _pzc_pensil_end
+
+  else
+    _pzc_error "Un appel à la fonction initarc est nécessaire avant."
+    return 1
+  fi
+}
+
+docarc()
+{
+  if [[ -v ARCANE_BUILD_DIR ]]
+  then
+    pdocarc
 
     if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
     then
