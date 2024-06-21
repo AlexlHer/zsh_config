@@ -7,8 +7,8 @@
 # --------------------- Work dirs creation ----------------------
 # ---------------------------------------------------------------
 
-export WORK_DIR=${HOME}/work
-export BUILD_DIR=${HOME}/build_install
+export WORK_DIR=${_PZC_LARGE_DIR}/work
+export BUILD_DIR=${_PZC_LARGE_DIR}/build_install
 export CONTAINER_BUILD_DIR=${BUILD_DIR}/container
 
 _pzc_debug "Creating CCache, work, build and container_build directories"

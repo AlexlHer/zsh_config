@@ -127,6 +127,14 @@ local _PZC_CHMOD_COMPILING=0
 
 
 # ----------------------------------
+# -------- Large directory ---------
+# ----------------------------------
+# [TODO] Uncomment and edit if you have an other large dir than your HOME
+#        for all builds/installs/ccache.
+#local _PZC_LARGE_DIR=${HOME}
+
+
+# ----------------------------------
 # -------------- PC ID -------------
 # ----------------------------------
 # [TODO] Uncomment if you are AlexlHer :-).
