@@ -73,7 +73,7 @@ local _PZC_MOLD_AVAILABLE=1
 
 
 # ----------------------------------
-# ------------- NINJA -------------
+# ------------- NINJA --------------
 # ----------------------------------
 # [TODO] If you want to use ninja, set this variable to 1.
 local _PZC_NINJA_AVAILABLE=1
@@ -84,7 +84,7 @@ local _PZC_NINJA_AVAILABLE=1
 
 
 # ----------------------------------
-# ------------- CMAKE -------------
+# ------------- CMAKE --------------
 # ----------------------------------
 # [TODO] If you want to use cmake, set this variable to 1.
 local _PZC_CMAKE_AVAILABLE=1
@@ -92,6 +92,14 @@ local _PZC_CMAKE_AVAILABLE=1
 # [TODO] Uncomment and complete if you have a custom installation of cmake.
 # Note: This PATH will be add in PATH.
 #local _PZC_CMAKE_PATH=
+
+
+# ----------------------------------
+# ------------- CHMOD --------------
+# ----------------------------------
+# [TODO] In case of problem with permissions after compiling,
+# active this option.
+local _PZC_CHMOD_COMPILING=0
 
 
 # ----------------------------------

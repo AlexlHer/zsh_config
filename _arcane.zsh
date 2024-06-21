@@ -207,7 +207,10 @@ configarc()
     echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCCORE_CXX_STANDARD=23"
-    echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
+    if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
+    then
+      echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
+    fi
     _pzc_pensil_end
 
     cmake \
@@ -223,7 +226,11 @@ configarc()
       -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \
       -DARCCORE_CXX_STANDARD=23
   
-    chmod u+x ${ARCANE_BUILD_DIR}/bin/*
+    if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
+    then
+      chmod u+x ${ARCANE_BUILD_DIR}/bin/*
+    fi
+
   else
     _pzc_error "Un appel à la fonction initarc est nécessaire avant."
     return 1
@@ -257,7 +264,10 @@ configarcgpu()
     echo "  -DARCCORE_CXX_STANDARD=20 \\"
     echo "  -DARCANE_ACCELERATOR_MODE=CUDANVCC \\"
     echo "  -DCMAKE_CUDA_COMPILER=nvcc"
-    echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
+    if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
+    then
+      echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
+    fi
     _pzc_pensil_end
 
     cmake \
@@ -274,8 +284,11 @@ configarcgpu()
       -DARCCORE_CXX_STANDARD=20 \
       -DARCANE_ACCELERATOR_MODE=CUDANVCC \
       -DCMAKE_CUDA_COMPILER=nvcc
+    if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
+    then
+      chmod u+x ${ARCANE_BUILD_DIR}/bin/*
+    fi
 
-    chmod u+x ${ARCANE_BUILD_DIR}/bin/*
   else
     _pzc_error "Un appel à la fonction initarc est nécessaire avant."
     return 1
@@ -385,11 +398,17 @@ biarc()
   if [[ -v ARCANE_BUILD_DIR ]]
   then
     _pzc_pensil_begin
-    echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
+    if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
+    then
+      echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
+    fi
     echo "cmake --build ${ARCANE_BUILD_DIR} --target install"
     _pzc_pensil_end
 
-    chmod u+x ${ARCANE_BUILD_DIR}/bin/*
+    if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
+    then
+      chmod u+x ${ARCANE_BUILD_DIR}/bin/*
+    fi
     cmake --build ${ARCANE_BUILD_DIR} --target install
 
   else
@@ -403,15 +422,27 @@ docarc()
   if [[ -v ARCANE_BUILD_DIR ]]
   then
     _pzc_pensil_begin
-    echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
+    if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
+    then
+      echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
+    fi
     echo "cmake --build ${ARCANE_BUILD_DIR}"
-    echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
+    if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
+    then
+      echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
+    fi
     echo "cmake --build ${ARCANE_BUILD_DIR} --target ${1}doc"
     _pzc_pensil_end
 
-    chmod u+x ${ARCANE_BUILD_DIR}/bin/*
+    if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
+    then
+      chmod u+x ${ARCANE_BUILD_DIR}/bin/*
+    fi
     cmake --build ${ARCANE_BUILD_DIR}
-    chmod u+x ${ARCANE_BUILD_DIR}/bin/*
+    if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
+    then
+      chmod u+x ${ARCANE_BUILD_DIR}/bin/*
+    fi
     cmake --build ${ARCANE_BUILD_DIR} --target ${1}doc
 
   else
