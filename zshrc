@@ -76,4 +76,12 @@ source ${_PZC_PZC_DIR}/completion/_completion.zsh
 if [[ ${_PZC_OMP_AVAILABLE} = 1 ]]
 then
   eval "$(${_PZC_OMP_PATH} init zsh --config ${_PZC_OMP_THEME_PATH})"
+
+else
+  autoload -Uz vcs_info
+  precmd() { vcs_info }
+  zstyle ':vcs_info:git:*' formats '%b '
+  setopt PROMPT_SUBST
+  PROMPT='%F{green}%*%f %F{blue}%~%f %F{red}${vcs_info_msg_0_}%f$ '
+  
 fi
