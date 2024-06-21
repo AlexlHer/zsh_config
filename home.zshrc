@@ -103,6 +103,31 @@ local _PZC_CHMOD_COMPILING=0
 
 
 # ----------------------------------
+# ----------- COMPILERS ------------
+# ----------------------------------
+# [TODO] Setup available compilers.
+local _PZC_C_CXX_DEFAULT_COMPILER=GCC # Or CLANG
+
+local _PZC_C_GCC_AVAILABLE=1
+#local _PZC_C_GCC=gcc
+local _PZC_CXX_GCC_AVAILABLE=1
+#local _PZC_CXX_GCC=g++
+
+local _PZC_C_CLANG_AVAILABLE=1
+#local _PZC_C_CLANG=clang
+local _PZC_CXX_CLANG_AVAILABLE=1
+#local _PZC_CXX_CLANG=clang++
+
+#local _PZC_NVCC_BIN_AVAILABLE=1
+#local _PZC_NVCC_BIN=nvcc
+#local _PZC_NVCC_HOST_COMPILER_AVAILABLE=1
+#local _PZC_NVCC_HOST_COMPILER=g++-12
+
+#local _PZC_SYCL_BIN_AVAILABLE=1
+#local _PZC_SYCL_BIN=acpp
+
+
+# ----------------------------------
 # ---------- TODOlist path ---------
 # ----------------------------------
 # [TODO] Uncomment and complete if you have a todolist.

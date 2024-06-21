@@ -198,6 +198,8 @@ pconfigarc()
     echo "cmake \\"
     echo "  ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \\"
     echo "  ${PZC_CMAKE_C_COMPILER_LAUNCHER} \\"
+    echo "  ${PZC_CMAKE_C_COMPILER} \\"
+    echo "  ${PZC_CMAKE_CXX_COMPILER} \\"
     echo "  ${PZC_CMAKE_LINKER_TYPE} \\"
     echo "  ${PZC_CMAKE_GENERATOR} \\"
     echo "  -S ${ARCANE_SOURCE_DIR} \\"
@@ -235,6 +237,8 @@ configarc()
     cmake \
       ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \
       ${PZC_CMAKE_C_COMPILER_LAUNCHER} \
+      ${PZC_CMAKE_C_COMPILER} \
+      ${PZC_CMAKE_CXX_COMPILER} \
       ${PZC_CMAKE_LINKER_TYPE} \
       ${PZC_CMAKE_GENERATOR} \
       -S ${ARCANE_SOURCE_DIR} \
@@ -272,6 +276,8 @@ pconfigarcgpu()
     echo "cmake \\"
     echo "  ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \\"
     echo "  ${PZC_CMAKE_C_COMPILER_LAUNCHER} \\"
+    echo "  ${PZC_CMAKE_C_COMPILER} \\"
+    echo "  ${PZC_CMAKE_CXX_COMPILER} \\"
     echo "  ${PZC_CMAKE_LINKER_TYPE} \\"
     echo "  ${PZC_CMAKE_GENERATOR} \\"
     echo "  -S ${ARCANE_SOURCE_DIR} \\"
@@ -311,6 +317,8 @@ configarcgpu()
     cmake \
       ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \
       ${PZC_CMAKE_C_COMPILER_LAUNCHER} \
+      ${PZC_CMAKE_C_COMPILER} \
+      ${PZC_CMAKE_CXX_COMPILER} \
       ${PZC_CMAKE_LINKER_TYPE} \
       ${PZC_CMAKE_GENERATOR} \
       -S ${ARCANE_SOURCE_DIR} \
@@ -349,6 +357,8 @@ pconfigap()
     echo "cmake \\"
     echo "  ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \\"
     echo "  ${PZC_CMAKE_C_COMPILER_LAUNCHER} \\"
+    echo "  ${PZC_CMAKE_C_COMPILER} \\"
+    echo "  ${PZC_CMAKE_CXX_COMPILER} \\"
     echo "  ${PZC_CMAKE_LINKER_TYPE} \\"
     echo "  ${PZC_CMAKE_GENERATOR} \\"
     echo "  -S ${AP_SOURCE_DIR} \\"
@@ -381,6 +391,8 @@ configap()
     cmake \
       ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \
       ${PZC_CMAKE_C_COMPILER_LAUNCHER} \
+      ${PZC_CMAKE_C_COMPILER} \
+      ${PZC_CMAKE_CXX_COMPILER} \
       ${PZC_CMAKE_LINKER_TYPE} \
       ${PZC_CMAKE_GENERATOR} \
       -S ${AP_SOURCE_DIR} \
@@ -411,6 +423,8 @@ pconfigapgpu()
     echo "cmake \\"
     echo "  ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \\"
     echo "  ${PZC_CMAKE_C_COMPILER_LAUNCHER} \\"
+    echo "  ${PZC_CMAKE_C_COMPILER} \\"
+    echo "  ${PZC_CMAKE_CXX_COMPILER} \\"
     echo "  ${PZC_CMAKE_LINKER_TYPE} \\"
     echo "  ${PZC_CMAKE_GENERATOR} \\"
     echo "  -S ${AP_SOURCE_DIR} \\"
@@ -446,6 +460,8 @@ configapgpu()
     cmake \
       ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \
       ${PZC_CMAKE_C_COMPILER_LAUNCHER} \
+      ${PZC_CMAKE_C_COMPILER} \
+      ${PZC_CMAKE_CXX_COMPILER} \
       ${PZC_CMAKE_LINKER_TYPE} \
       ${PZC_CMAKE_GENERATOR} \
       -S ${AP_SOURCE_DIR} \

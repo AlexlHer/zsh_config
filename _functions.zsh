@@ -89,15 +89,29 @@ dinf()
 # Define "CLang" to CMake default compiler.
 uclang()
 {
-  _pzc_coal_eval "export CC=clang"
-  _pzc_coal_eval "export CXX=clang++"
+  if [[ ${_PZC_C_CLANG_AVAILABLE} = 1 ]] && [[ ${_PZC_CXX_CLANG_AVAILABLE} = 1 ]]
+  then
+    export PZC_CMAKE_C_COMPILER="-DCMAKE_C_COMPILER=${_PZC_C_CLANG}"
+    export PZC_CMAKE_CXX_COMPILER="-DCMAKE_CXX_COMPILER=${_PZC_CXX_CLANG}"
+    local _PZC_C_CXX_DEFAULT_COMPILER="CLANG"
+  
+  else
+    _pzc_error "CLang is not available."
+  fi
 }
 
 # Define "GCC" to CMake default compiler.
 ugcc()
 {
-  _pzc_coal_eval "export CC=gcc"
-  _pzc_coal_eval "export CXX=g++"
+  if [[ ${_PZC_C_GCC_AVAILABLE} = 1 ]] && [[ ${_PZC_CXX_GCC_AVAILABLE} = 1 ]]
+  then
+    export PZC_CMAKE_C_COMPILER="-DCMAKE_C_COMPILER=${_PZC_C_GCC}"
+    export PZC_CMAKE_CXX_COMPILER="-DCMAKE_CXX_COMPILER=${_PZC_CXX_GCC}"
+    local _PZC_C_CXX_DEFAULT_COMPILER="GCC"
+  
+  else
+    _pzc_error "GCC is not available."
+  fi
 }
 
 

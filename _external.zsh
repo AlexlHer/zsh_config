@@ -39,6 +39,234 @@ fi
 
 
 # ---------------------------------------------------------------
+# ----------------------- Check compilers -----------------------
+# ---------------------------------------------------------------
+
+if [[ ${_PZC_C_GCC_AVAILABLE} = 1 ]]
+then
+
+  if [[ -v _PZC_C_GCC ]] && [[ ! -x "$(command -v ${_PZC_C_GCC})" ]]
+  then
+    _pzc_warning "Your gcc is not found. Search other gcc."
+    _pzc_debug "_PZC_C_GCC = ${_PZC_C_GCC} (unset)"
+    unset _PZC_C_GCC
+
+  fi
+
+  if [[ ! -v _PZC_C_GCC ]]
+  then
+
+    if [[ -x "$(command -v gcc)" ]]
+    then
+      _PZC_C_GCC=gcc
+      _PZC_C_GCC_AVAILABLE=1
+      _pzc_debug "_PZC_C_GCC = ${_PZC_C_GCC} (in PATH)"
+      
+    else
+      _PZC_C_GCC_AVAILABLE=0
+      _pzc_warning "GCC is not installed. You can disable gcc search in .zshrc."
+
+    fi
+  fi
+else
+  _pzc_debug "GCC disabled."
+
+fi
+
+if [[ ${_PZC_CXX_GCC_AVAILABLE} = 1 ]]
+then
+
+  if [[ -v _PZC_CXX_GCC ]] && [[ ! -x "$(command -v ${_PZC_CXX_GCC})" ]]
+  then
+    _pzc_warning "Your g++ is not found. Search other g++."
+    _pzc_debug "_PZC_CXX_GCC = ${_PZC_CXX_GCC} (unset)"
+    unset _PZC_CXX_GCC
+
+  fi
+
+  if [[ ! -v _PZC_CXX_GCC ]]
+  then
+
+    if [[ -x "$(command -v g++)" ]]
+    then
+      _PZC_CXX_GCC=g++
+      _PZC_CXX_GCC_AVAILABLE=1
+      _pzc_debug "_PZC_CXX_GCC = ${_PZC_CXX_GCC} (in PATH)"
+      
+    else
+      _PZC_CXX_GCC_AVAILABLE=0
+      _pzc_warning "G++ is not installed. You can disable g++ search in .zshrc."
+
+    fi
+  fi
+else
+  _pzc_debug "G++ disabled."
+
+fi
+
+if [[ ${_PZC_C_CLANG_AVAILABLE} = 1 ]]
+then
+
+  if [[ -v _PZC_C_CLANG ]] && [[ ! -x "$(command -v ${_PZC_C_CLANG})" ]]
+  then
+    _pzc_warning "Your clang is not found. Search other clang."
+    _pzc_debug "_PZC_C_CLANG = ${_PZC_C_CLANG} (unset)"
+    unset _PZC_C_CLANG
+
+  fi
+
+  if [[ ! -v _PZC_C_CLANG ]]
+  then
+
+    if [[ -x "$(command -v clang)" ]]
+    then
+      _PZC_C_CLANG=clang
+      _PZC_C_CLANG_AVAILABLE=1
+      _pzc_debug "_PZC_C_CLANG = ${_PZC_C_CLANG} (in PATH)"
+      
+    else
+      _PZC_C_CLANG_AVAILABLE=0
+      _pzc_warning "CLang is not installed. You can disable clang search in .zshrc."
+
+    fi
+  fi
+else
+  _pzc_debug "CLang disabled."
+
+fi
+
+if [[ ${_PZC_CXX_CLANG_AVAILABLE} = 1 ]]
+then
+
+  if [[ -v _PZC_CXX_CLANG ]] && [[ ! -x "$(command -v ${_PZC_CXX_CLANG})" ]]
+  then
+    _pzc_warning "Your clang++ is not found. Search other clang++."
+    _pzc_debug "_PZC_CXX_CLANG = ${_PZC_CXX_CLANG} (unset)"
+    unset _PZC_CXX_CLANG
+
+  fi
+
+  if [[ ! -v _PZC_CXX_CLANG ]]
+  then
+
+    if [[ -x "$(command -v clang++)" ]]
+    then
+      _PZC_CXX_CLANG=clang++
+      _PZC_CXX_CLANG_AVAILABLE=1
+      _pzc_debug "_PZC_CXX_CLANG = ${_PZC_CXX_CLANG} (in PATH)"
+      
+    else
+      _PZC_CXX_CLANG_AVAILABLE=0
+      _pzc_warning "CLang++ is not installed. You can disable clang++ search in .zshrc."
+
+    fi
+  fi
+else
+  _pzc_debug "CLang++ disabled."
+
+fi
+
+if [[ ${_PZC_NVCC_BIN_AVAILABLE} = 1 ]]
+then
+
+  if [[ -v _PZC_NVCC_BIN ]] && [[ ! -x "$(command -v ${_PZC_NVCC_BIN})" ]]
+  then
+    _pzc_warning "Your nvcc is not found. Search other nvcc."
+    _pzc_debug "_PZC_NVCC_BIN = ${_PZC_NVCC_BIN} (unset)"
+    unset _PZC_NVCC_BIN
+
+  fi
+
+  if [[ ! -v _PZC_NVCC_BIN ]]
+  then
+
+    if [[ -x "$(command -v nvcc)" ]]
+    then
+      _PZC_NVCC_BIN=nvcc
+      _PZC_NVCC_BIN_AVAILABLE=1
+      _pzc_debug "_PZC_NVCC_BIN = ${_PZC_NVCC_BIN} (in PATH)"
+      
+    else
+      _PZC_NVCC_BIN_AVAILABLE=0
+      _pzc_warning "NVCC is not installed. You can disable nvcc search in .zshrc."
+
+    fi
+  fi
+
+  if [[ ${_PZC_NVCC_BIN_AVAILABLE} = 1 ]]
+  then
+
+    if [[ -v _PZC_NVCC_HOST_COMPILER ]] && [[ ! -x "$(command -v ${_PZC_NVCC_HOST_COMPILER})" ]]
+    then
+      _pzc_warning "Your host compiler for nvcc is not found. Search other one."
+      _pzc_debug "_PZC_NVCC_HOST_COMPILER = ${_PZC_NVCC_HOST_COMPILER} (unset)"
+      unset _PZC_NVCC_HOST_COMPILER
+
+    fi
+
+    if [[ ! -v _PZC_NVCC_HOST_COMPILER ]]
+    then
+
+      if [[ ${_PZC_CXX_GCC_AVAILABLE} = 1 ]]
+      then
+        _PZC_NVCC_HOST_COMPILER=${_PZC_CXX_GCC}
+        _PZC_NVCC_BIN_AVAILABLE=1
+        _pzc_debug "_PZC_NVCC_HOST_COMPILER = ${_PZC_NVCC_HOST_COMPILER} (G++) (in PATH)"
+
+      elif [[ ${_PZC_CXX_CLANG_AVAILABLE} = 1 ]]
+      then
+        _PZC_NVCC_HOST_COMPILER=${_PZC_CXX_CLANG}
+        _PZC_NVCC_BIN_AVAILABLE=1
+        _pzc_debug "_PZC_NVCC_HOST_COMPILER = ${_PZC_NVCC_HOST_COMPILER} (CLang++) (in PATH)"
+
+      else
+        _PZC_NVCC_BIN_AVAILABLE=0
+        _pzc_warning "Host compiler for nvcc is not found. You can disable nvcc search in .zshrc."
+
+      fi
+    fi
+  fi
+else
+  _pzc_debug "NVCC disabled."
+
+fi
+
+if [[ ${_PZC_SYCL_BIN_AVAILABLE} = 1 ]]
+then
+
+  if [[ -v _PZC_SYCL_BIN ]] && [[ ! -x "$(command -v ${_PZC_SYCL_BIN})" ]]
+  then
+    _pzc_warning "Your acpp is not found. Search other acpp."
+    _pzc_debug "_PZC_SYCL_BIN = ${_PZC_SYCL_BIN} (unset)"
+    unset _PZC_SYCL_BIN
+
+  fi
+
+  if [[ ! -v _PZC_SYCL_BIN ]]
+  then
+
+    if [[ -x "$(command -v acpp)" ]]
+    then
+      _PZC_SYCL_BIN=acpp
+      _PZC_SYCL_BIN_AVAILABLE=1
+      _pzc_debug "_PZC_SYCL_BIN = ${_PZC_SYCL_BIN} (in PATH)"
+      
+    else
+      _PZC_SYCL_BIN_AVAILABLE=0
+      _pzc_warning "Acpp is not installed. You can disable acpp search in .zshrc."
+
+    fi
+  fi
+
+else
+  _pzc_debug "acpp disabled."
+
+fi
+
+
+
+
+# ---------------------------------------------------------------
 # -------------------------- OhMyPosh ---------------------------
 # ---------------------------------------------------------------
 

@@ -74,6 +74,45 @@ then
 fi
 
 
+if [[ ${_PZC_C_CXX_DEFAULT_COMPILER} = "GCC" ]]
+then
+  if [[ ${_PZC_C_GCC_AVAILABLE} = 1 ]] && [[ ${_PZC_CXX_GCC_AVAILABLE} = 1 ]]
+  then
+    _pzc_debug "Default compiler : GCC"
+    export PZC_CMAKE_C_COMPILER="-DCMAKE_C_COMPILER=${_PZC_C_GCC}"
+    export PZC_CMAKE_CXX_COMPILER="-DCMAKE_CXX_COMPILER=${_PZC_CXX_GCC}"
+
+  elif [[ ${_PZC_C_CLANG_AVAILABLE} = 1 ]] && [[ ${_PZC_CXX_CLANG_AVAILABLE} = 1 ]]
+  then
+    _pzc_error "GCC is not available. Set CLANG to default compiler."
+    export PZC_CMAKE_C_COMPILER="-DCMAKE_C_COMPILER=${_PZC_C_CLANG}"
+    export PZC_CMAKE_CXX_COMPILER="-DCMAKE_CXX_COMPILER=${_PZC_CXX_CLANG}"
+    local _PZC_C_CXX_DEFAULT_COMPILER="CLANG"
+
+  else
+    _pzc_error "GCC and CLANG are not availables."
+  fi
+
+else
+  if [[ ${_PZC_C_CLANG_AVAILABLE} = 1 ]] && [[ ${_PZC_CXX_CLANG_AVAILABLE} = 1 ]]
+  then
+    _pzc_debug "Default compiler : CLANG"
+    export PZC_CMAKE_C_COMPILER="-DCMAKE_C_COMPILER=${_PZC_C_CLANG}"
+    export PZC_CMAKE_CXX_COMPILER="-DCMAKE_CXX_COMPILER=${_PZC_CXX_CLANG}"
+
+  elif [[ ${_PZC_C_GCC_AVAILABLE} = 1 ]] && [[ ${_PZC_CXX_GCC_AVAILABLE} = 1 ]]
+  then
+    _pzc_error "CLANG is not available. Set GCC to default compiler."
+    export PZC_CMAKE_C_COMPILER="-DCMAKE_C_COMPILER=${_PZC_C_GCC}"
+    export PZC_CMAKE_CXX_COMPILER="-DCMAKE_CXX_COMPILER=${_PZC_CXX_GCC}"
+    local _PZC_C_CXX_DEFAULT_COMPILER="GCC"
+
+  else
+    _pzc_error "GCC and CLANG are not availables."
+  fi
+fi
+
+
 
 # ---------------------------------------------------------------
 # --------------------- OpenMPI variables -----------------------
