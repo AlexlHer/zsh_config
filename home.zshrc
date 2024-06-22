@@ -34,10 +34,10 @@
 local _PZC_OMP_AVAILABLE=1
 
 # [TODO] Uncomment and complete if you have a custom installation of Oh-My-Posh (which is not in PATH).
-#local _PZC_OMP_PATH=
+#local _PZC_OMP_BIN=
 
 # [TODO] Uncomment and complete if you have a custom Oh-My-Posh theme.
-#local _PZC_OMP_THEME_PATH=
+#local _PZC_OMP_THEME_JSON=
 
 
 # ----------------------------------
@@ -47,7 +47,7 @@ local _PZC_OMP_AVAILABLE=1
 local _PZC_AGE_AVAILABLE=1
 
 # [TODO] Uncomment and complete if you have a custom installation of age or rage (which is not in PATH).
-#local _PZC_AGE_PATH=
+#local _PZC_AGE_BIN=
 
 
 # ----------------------------------
@@ -57,7 +57,7 @@ local _PZC_AGE_AVAILABLE=1
 local _PZC_EZA_AVAILABLE=1
 
 # [TODO] Uncomment and complete if you have a custom installation of EZA-LS (which is not in PATH).
-#local _PZC_EZA_PATH=
+#local _PZC_EZA_BIN=
 
 
 # ----------------------------------
@@ -67,7 +67,7 @@ local _PZC_EZA_AVAILABLE=1
 local _PZC_CCACHE_AVAILABLE=1
 
 # [TODO] Uncomment and complete if you have a custom installation of ccache (which is not in PATH).
-#local _PZC_CCACHE_PATH=
+#local _PZC_CCACHE_BIN=
 
 
 # ----------------------------------

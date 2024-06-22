@@ -353,32 +353,32 @@ fi
 if [[ ${_PZC_OMP_AVAILABLE} = 1 ]]
 then
 
-  if [[ -v _PZC_OMP_PATH ]] && [[ -e ${_PZC_OMP_PATH} ]]
+  if [[ -v _PZC_OMP_BIN ]] && [[ -e ${_PZC_OMP_BIN} ]]
   then
-    _pzc_debug "_PZC_OMP_PATH = ${_PZC_OMP_PATH} (user defined)"
+    _pzc_debug "_PZC_OMP_BIN = ${_PZC_OMP_BIN} (user defined)"
 
-  elif [[ -v _PZC_OMP_PATH ]]
+  elif [[ -v _PZC_OMP_BIN ]]
   then
     _pzc_warning "Your Oh-My-Posh is not found. Search other Oh-My-Posh."
-    _pzc_debug "_PZC_OMP_PATH = ${_PZC_OMP_PATH} (unset)"
-    unset _PZC_OMP_PATH
+    _pzc_debug "_PZC_OMP_BIN = ${_PZC_OMP_BIN} (unset)"
+    unset _PZC_OMP_BIN
 
   fi
 
-  if [[ ! -v _PZC_OMP_PATH ]]
+  if [[ ! -v _PZC_OMP_BIN ]]
   then
 
     if [[ -x "$(command -v oh-my-posh)" ]]
     then
-      _PZC_OMP_PATH=oh-my-posh
+      _PZC_OMP_BIN=oh-my-posh
       _PZC_OMP_AVAILABLE=1
-      _pzc_debug "_PZC_OMP_PATH = ${_PZC_OMP_PATH} (in PATH)"
+      _pzc_debug "_PZC_OMP_BIN = ${_PZC_OMP_BIN} (in PATH)"
 
     elif [[ -e ${_PZC_PZC_DIR}/progs/oh-my-posh/oh-my-posh ]]
     then
-      _PZC_OMP_PATH=${_PZC_PZC_DIR}/progs/oh-my-posh/oh-my-posh
+      _PZC_OMP_BIN=${_PZC_PZC_DIR}/progs/oh-my-posh/oh-my-posh
       _PZC_OMP_AVAILABLE=1
-      _pzc_debug "_PZC_OMP_PATH = ${_PZC_OMP_PATH} (in pzc)"
+      _pzc_debug "_PZC_OMP_BIN = ${_PZC_OMP_BIN} (in pzc)"
 
     else
       _PZC_OMP_AVAILABLE=0
@@ -388,25 +388,25 @@ then
   fi
 
 
-  if [[ -v _PZC_OMP_THEME_PATH ]] && [[ -e ${_PZC_OMP_THEME_PATH} ]]
+  if [[ -v _PZC_OMP_THEME_JSON ]] && [[ -e ${_PZC_OMP_THEME_JSON} ]]
   then
-    _pzc_debug "_PZC_OMP_THEME_PATH = ${_PZC_OMP_THEME_PATH} (user defined)"
+    _pzc_debug "_PZC_OMP_THEME_JSON = ${_PZC_OMP_THEME_JSON} (user defined)"
 
-  elif [[ -v _PZC_OMP_THEME_PATH ]]
+  elif [[ -v _PZC_OMP_THEME_JSON ]]
   then
     _pzc_warning "Your Oh-My-Posh theme is not found. Search default Oh-My-Posh theme."
-    _pzc_debug "_PZC_OMP_THEME_PATH = ${_PZC_OMP_THEME_PATH} (unset)"
-    unset _PZC_OMP_THEME_PATH
+    _pzc_debug "_PZC_OMP_THEME_JSON = ${_PZC_OMP_THEME_JSON} (unset)"
+    unset _PZC_OMP_THEME_JSON
 
   fi
 
-  if [[ ! -v _PZC_OMP_THEME_PATH ]]
+  if [[ ! -v _PZC_OMP_THEME_JSON ]]
   then
 
     if [[ -e ${_PZC_PZC_DIR}/progs/oh-my-posh/themes/OhMyZSH.json ]]
     then
-      _PZC_OMP_THEME_PATH=${_PZC_PZC_DIR}/progs/oh-my-posh/themes/OhMyZSH.json
-      _pzc_debug "_PZC_OMP_THEME_PATH = ${_PZC_OMP_THEME_PATH} (default)"
+      _PZC_OMP_THEME_JSON=${_PZC_PZC_DIR}/progs/oh-my-posh/themes/OhMyZSH.json
+      _pzc_debug "_PZC_OMP_THEME_JSON = ${_PZC_OMP_THEME_JSON} (default)"
 
     else
       _pzc_warning "Default Oh-My-Posh theme is not found (https://github.com/JanDeDobbeleer/oh-my-posh)."
@@ -433,38 +433,38 @@ then
   if [[ -v _PZC_SSH_PUB ]] && [[ -e ${_PZC_SSH_PUB} ]] && [[ -v _PZC_SSH_PRI ]] && [[ -e ${_PZC_SSH_PRI} ]]
   then
 
-    if [[ -v _PZC_AGE_PATH ]] && [[ -e ${_PZC_AGE_PATH} ]]
+    if [[ -v _PZC_AGE_BIN ]] && [[ -e ${_PZC_AGE_BIN} ]]
     then
-      _pzc_debug "_PZC_AGE_PATH = ${_PZC_AGE_PATH} (user defined)"
+      _pzc_debug "_PZC_AGE_BIN = ${_PZC_AGE_BIN} (user defined)"
 
-    elif [[ -v _PZC_AGE_PATH ]]
+    elif [[ -v _PZC_AGE_BIN ]]
     then
       _pzc_warning "Your age is not found. Search other age."
-      _pzc_debug "_PZC_AGE_PATH = ${_PZC_AGE_PATH} (unset)"
-      unset _PZC_AGE_PATH
+      _pzc_debug "_PZC_AGE_BIN = ${_PZC_AGE_BIN} (unset)"
+      unset _PZC_AGE_BIN
 
     fi
 
-    if [[ ! -v _PZC_AGE_PATH ]]
+    if [[ ! -v _PZC_AGE_BIN ]]
     then
 
       if [[ -x "$(command -v age)" ]]
       then
-        _PZC_AGE_PATH=age
+        _PZC_AGE_BIN=age
         _PZC_AGE_AVAILABLE=1
-        _pzc_debug "_PZC_AGE_PATH = ${_PZC_AGE_PATH} (in PATH) (AGE)"
+        _pzc_debug "_PZC_AGE_BIN = ${_PZC_AGE_BIN} (in PATH) (AGE)"
 
       elif [[ -x "$(command -v rage)" ]]
       then
-        _PZC_AGE_PATH=rage
+        _PZC_AGE_BIN=rage
         _PZC_AGE_AVAILABLE=1
-        _pzc_debug "_PZC_AGE_PATH = ${_PZC_AGE_PATH} (in PATH) (RAGE)"
+        _pzc_debug "_PZC_AGE_BIN = ${_PZC_AGE_BIN} (in PATH) (RAGE)"
 
       elif [[ -e ${_PZC_PZC_DIR}/progs/age/age ]]
       then
-        _PZC_AGE_PATH=${_PZC_PZC_DIR}/progs/age/age
+        _PZC_AGE_BIN=${_PZC_PZC_DIR}/progs/age/age
         _PZC_AGE_AVAILABLE=1
-        _pzc_debug "_PZC_AGE_PATH = ${_PZC_AGE_PATH} (in pzc) (AGE)"
+        _pzc_debug "_PZC_AGE_BIN = ${_PZC_AGE_BIN} (in pzc) (AGE)"
         
       else
         _PZC_AGE_AVAILABLE=0
@@ -473,7 +473,7 @@ then
       fi
     fi
   else
-    unset _PZC_AGE_PATH
+    unset _PZC_AGE_BIN
     _PZC_AGE_AVAILABLE=0
     _pzc_warning "Public key and/or private key not defined in .zshrc."
     _pzc_debug "_PZC_SSH_PUB = ${_PZC_SSH_PUB}"
@@ -494,51 +494,51 @@ fi
 if [[ ${_PZC_EZA_AVAILABLE} = 1 ]]
 then
 
-  if [[ -v _PZC_EZA_PATH ]] && [[ -e ${_PZC_EZA_PATH} ]]
+  if [[ -v _PZC_EZA_BIN ]] && [[ -e ${_PZC_EZA_BIN} ]]
   then
-    _pzc_debug "_PZC_EZA_PATH = ${_PZC_EZA_PATH} (user defined)"
+    _pzc_debug "_PZC_EZA_BIN = ${_PZC_EZA_BIN} (user defined)"
 
-  elif [[ -v _PZC_EZA_PATH ]]
+  elif [[ -v _PZC_EZA_BIN ]]
   then
     _pzc_warning "Your eza is not found. Search other eza."
-    _pzc_debug "_PZC_EZA_PATH = ${_PZC_EZA_PATH} (unset)"
-    unset _PZC_EZA_PATH
+    _pzc_debug "_PZC_EZA_BIN = ${_PZC_EZA_BIN} (unset)"
+    unset _PZC_EZA_BIN
 
   fi
 
-  if [[ ! -v _PZC_EZA_PATH ]]
+  if [[ ! -v _PZC_EZA_BIN ]]
   then
 
     if [[ -x "$(command -v eza)" ]]
     then
-      _PZC_EZA_PATH=eza
+      _PZC_EZA_BIN=eza
       _PZC_EZA_AVAILABLE=1
-      _pzc_debug "_PZC_EZA_PATH = ${_PZC_EZA_PATH} (in PATH)"
+      _pzc_debug "_PZC_EZA_BIN = ${_PZC_EZA_BIN} (in PATH)"
 
     elif [[ -e ${_PZC_PZC_DIR}/progs/eza/eza ]]
     then
-      _PZC_EZA_PATH=${_PZC_PZC_DIR}/progs/eza/eza
+      _PZC_EZA_BIN=${_PZC_PZC_DIR}/progs/eza/eza
       _PZC_EZA_AVAILABLE=1
-      _pzc_debug "_PZC_EZA_PATH = ${_PZC_EZA_PATH} (in pzc)"
+      _pzc_debug "_PZC_EZA_BIN = ${_PZC_EZA_BIN} (in pzc)"
 
     # TODO : Deprecated
     elif [[ -x "$(command -v exa)" ]]
     then
-      _PZC_EZA_PATH=exa
+      _PZC_EZA_BIN=exa
       _PZC_EZA_AVAILABLE=1
       _PZC_EXA_DEPRECATED=1
-      _pzc_debug "_PZC_EZA_PATH = ${_PZC_EZA_PATH} (in PATH / EXA)"
+      _pzc_debug "_PZC_EZA_BIN = ${_PZC_EZA_BIN} (in PATH / EXA)"
       _pzc_warning "EXA-LS is deprecated, please update to the EZA-LS fork (https://github.com/eza-community/eza) and remove your actual EXA-LS install."
       _pzc_info "You can install eza in the PZC folder with the command 'pzc_install_eza' or disable eza search in .zshrc."
 
     # TODO : Deprecated
     elif [[ -e ${_PZC_PZC_DIR}/progs/exa/exa ]]
     then
-      _PZC_EZA_PATH=${_PZC_PZC_DIR}/progs/exa/exa
+      _PZC_EZA_BIN=${_PZC_PZC_DIR}/progs/exa/exa
       _PZC_EZA_AVAILABLE=1
       _PZC_EXA_DEPRECATED=1
-      _pzc_debug "_PZC_EZA_PATH = ${_PZC_EZA_PATH} (in pzc / EXA)"
-      _pzc_warning "EXA-LS is deprecated, please update to the EZA-LS fork (https://github.com/eza-community/eza) and remove your actual EXA-LS install ($_PZC_EZA_PATH)."
+      _pzc_debug "_PZC_EZA_BIN = ${_PZC_EZA_BIN} (in pzc / EXA)"
+      _pzc_warning "EXA-LS is deprecated, please update to the EZA-LS fork (https://github.com/eza-community/eza) and remove your actual EXA-LS install ($_PZC_EZA_BIN)."
       _pzc_info "You can install eza in the PZC folder with the command 'pzc_install_eza' or disable eza search in .zshrc."
       
     else
@@ -561,26 +561,26 @@ fi
 if [[ ${_PZC_CCACHE_AVAILABLE} = 1 ]]
 then
 
-  if [[ -v _PZC_CCACHE_PATH ]] && [[ -e ${_PZC_CCACHE_PATH} ]]
+  if [[ -v _PZC_CCACHE_BIN ]] && [[ -e ${_PZC_CCACHE_BIN} ]]
   then
-    _pzc_debug "_PZC_CCACHE_PATH = ${_PZC_CCACHE_PATH} (user defined)"
+    _pzc_debug "_PZC_CCACHE_BIN = ${_PZC_CCACHE_BIN} (user defined)"
 
-  elif [[ -v _PZC_CCACHE_PATH ]]
+  elif [[ -v _PZC_CCACHE_BIN ]]
   then
     _pzc_warning "Your ccache is not found. Search other ccache."
-    _pzc_debug "_PZC_CCACHE_PATH = ${_PZC_CCACHE_PATH} (unset)"
-    unset _PZC_CCACHE_PATH
+    _pzc_debug "_PZC_CCACHE_BIN = ${_PZC_CCACHE_BIN} (unset)"
+    unset _PZC_CCACHE_BIN
 
   fi
 
-  if [[ ! -v _PZC_CCACHE_PATH ]]
+  if [[ ! -v _PZC_CCACHE_BIN ]]
   then
 
     if [[ -x "$(command -v ccache)" ]]
     then
-      _PZC_CCACHE_PATH=ccache
+      _PZC_CCACHE_BIN=ccache
       _PZC_CCACHE_AVAILABLE=1
-      _pzc_debug "_PZC_CCACHE_PATH = ${_PZC_CCACHE_PATH} (in PATH)"
+      _pzc_debug "_PZC_CCACHE_BIN = ${_PZC_CCACHE_BIN} (in PATH)"
       
     else
       _PZC_CCACHE_AVAILABLE=0

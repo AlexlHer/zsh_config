@@ -26,7 +26,7 @@ fi
 if [[ -v _PZC_EXA_PATH ]]
 then
   _pzc_warning "EXA-LS is deprecated and replaced by EZA-LS. Please replace the '_PZC_EXA_PATH' variable by the '_PZC_EXA_PATH' variable in your .zshrc."
-  local _PZC_EZA_PATH=$_PZC_EXA_PATH
+  local _PZC_EZA_BIN=$_PZC_EXA_PATH
 fi
 
 
@@ -75,7 +75,7 @@ source ${_PZC_PZC_DIR}/completion/_completion.zsh
 
 if [[ ${_PZC_OMP_AVAILABLE} = 1 ]]
 then
-  eval "$(${_PZC_OMP_PATH} init zsh --config ${_PZC_OMP_THEME_PATH})"
+  eval "$(${_PZC_OMP_BIN} init zsh --config ${_PZC_OMP_THEME_JSON})"
 
 else
   autoload -Uz vcs_info

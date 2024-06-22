@@ -217,8 +217,8 @@ then
     if [[ -v 1 ]]
     then
       mkdir -p ${_PZC_TMP_DIR}/age
-      ${_PZC_AGE_PATH} -d -i ${_PZC_SSH_PRI} -o ${_PZC_TMP_DIR}/age/keys.txt ${_PZC_PZC_DIR}/keys/keys.txt
-      ${_PZC_AGE_PATH} -e -R ${_PZC_TMP_DIR}/age/keys.txt -a -o ${1}.age ${1}
+      ${_PZC_AGE_BIN} -d -i ${_PZC_SSH_PRI} -o ${_PZC_TMP_DIR}/age/keys.txt ${_PZC_PZC_DIR}/keys/keys.txt
+      ${_PZC_AGE_BIN} -e -R ${_PZC_TMP_DIR}/age/keys.txt -a -o ${1}.age ${1}
       rm ${_PZC_TMP_DIR}/age/keys.txt
 
     else
@@ -231,7 +231,7 @@ then
   {
     if [[ -v 1 ]]
     then
-      ${_PZC_AGE_PATH} -d -i ${_PZC_SSH_PRI} -o ${1}.dec ${1}
+      ${_PZC_AGE_BIN} -d -i ${_PZC_SSH_PRI} -o ${1}.dec ${1}
 
     else
       _pzc_error "Need encrypted input file."

@@ -20,7 +20,7 @@ then
     if [[ ${_PZC_AGE_AVAILABLE} = 1 ]]
     then
       _pzc_info "Local config decryption in progress..."
-      ${_PZC_AGE_PATH} -d -i ${_PZC_SSH_PRI} -o ${_PZC_PZC_DIR}/_local_${_PZC_PC_ID}.zsh ${_PZC_PZC_DIR}/_local_${_PZC_PC_ID}.txt
+      ${_PZC_AGE_BIN} -d -i ${_PZC_SSH_PRI} -o ${_PZC_PZC_DIR}/_local_${_PZC_PC_ID}.zsh ${_PZC_PZC_DIR}/_local_${_PZC_PC_ID}.txt
       if [[ -e ${_PZC_PZC_DIR}/_local_${_PZC_PC_ID}.zsh ]]
       then
         source ${_PZC_PZC_DIR}/_local_${_PZC_PC_ID}.zsh
