@@ -45,26 +45,26 @@ fi
 if [[ ${_PZC_GCC_AVAILABLE} = 1 ]]
 then
 
-  if [[ -v _PZC_C_GCC ]] && [[ -x "$(command -v ${_PZC_C_GCC})" ]]
+  if [[ -v PZC_C_GCC_BIN ]] && [[ -x "$(command -v ${PZC_C_GCC_BIN})" ]]
   then
-    _pzc_debug "_PZC_C_GCC = ${_PZC_C_GCC} (user defined)"
+    _pzc_debug "PZC_C_GCC_BIN = ${PZC_C_GCC_BIN} (user defined)"
 
-  elif [[ -v _PZC_C_GCC ]]
+  elif [[ -v PZC_C_GCC_BIN ]]
   then
     _pzc_warning "Your gcc is not found. Search other gcc."
-    _pzc_debug "_PZC_C_GCC = ${_PZC_C_GCC} (unset)"
-    unset _PZC_C_GCC
+    _pzc_debug "PZC_C_GCC_BIN = ${PZC_C_GCC_BIN} (unset)"
+    unset PZC_C_GCC_BIN
 
   fi
 
-  if [[ ! -v _PZC_C_GCC ]]
+  if [[ ! -v PZC_C_GCC_BIN ]]
   then
 
     if [[ -x "$(command -v gcc)" ]]
     then
-      _PZC_C_GCC=gcc
+      export PZC_C_GCC_BIN=gcc
       _PZC_GCC_AVAILABLE=1
-      _pzc_debug "_PZC_C_GCC = ${_PZC_C_GCC} (in PATH)"
+      _pzc_debug "PZC_C_GCC_BIN = ${PZC_C_GCC_BIN} (in PATH)"
       
     else
       _PZC_GCC_AVAILABLE=0
@@ -80,26 +80,26 @@ fi
 if [[ ${_PZC_GCC_AVAILABLE} = 1 ]]
 then
 
-  if [[ -v _PZC_CXX_GCC ]] && [[ -x "$(command -v ${_PZC_CXX_GCC})" ]]
+  if [[ -v PZC_CXX_GCC_BIN ]] && [[ -x "$(command -v ${PZC_CXX_GCC_BIN})" ]]
   then
-    _pzc_debug "_PZC_CXX_GCC = ${_PZC_CXX_GCC} (user defined)"
+    _pzc_debug "PZC_CXX_GCC_BIN = ${PZC_CXX_GCC_BIN} (user defined)"
 
-  elif [[ -v _PZC_CXX_GCC ]]
+  elif [[ -v PZC_CXX_GCC_BIN ]]
   then
     _pzc_warning "Your g++ is not found. Search other g++."
-    _pzc_debug "_PZC_CXX_GCC = ${_PZC_CXX_GCC} (unset)"
-    unset _PZC_CXX_GCC
+    _pzc_debug "PZC_CXX_GCC_BIN = ${PZC_CXX_GCC_BIN} (unset)"
+    unset PZC_CXX_GCC_BIN
 
   fi
 
-  if [[ ! -v _PZC_CXX_GCC ]]
+  if [[ ! -v PZC_CXX_GCC_BIN ]]
   then
 
     if [[ -x "$(command -v g++)" ]]
     then
-      _PZC_CXX_GCC=g++
+      export PZC_CXX_GCC_BIN=g++
       _PZC_GCC_AVAILABLE=1
-      _pzc_debug "_PZC_CXX_GCC = ${_PZC_CXX_GCC} (in PATH)"
+      _pzc_debug "PZC_CXX_GCC_BIN = ${PZC_CXX_GCC_BIN} (in PATH)"
       
     else
       _PZC_GCC_AVAILABLE=0
@@ -115,26 +115,26 @@ fi
 if [[ ${_PZC_CLANG_AVAILABLE} = 1 ]]
 then
 
-  if [[ -v _PZC_C_CLANG ]] && [[ -x "$(command -v ${_PZC_C_CLANG})" ]]
+  if [[ -v PZC_C_CLANG_BIN ]] && [[ -x "$(command -v ${PZC_C_CLANG_BIN})" ]]
   then
-    _pzc_debug "_PZC_C_CLANG = ${_PZC_C_CLANG} (user defined)"
+    _pzc_debug "PZC_C_CLANG_BIN = ${PZC_C_CLANG_BIN} (user defined)"
 
-  elif [[ -v _PZC_C_CLANG ]]
+  elif [[ -v PZC_C_CLANG_BIN ]]
   then
     _pzc_warning "Your clang is not found. Search other clang."
-    _pzc_debug "_PZC_C_CLANG = ${_PZC_C_CLANG} (unset)"
-    unset _PZC_C_CLANG
+    _pzc_debug "PZC_C_CLANG_BIN = ${PZC_C_CLANG_BIN} (unset)"
+    unset PZC_C_CLANG_BIN
 
   fi
 
-  if [[ ! -v _PZC_C_CLANG ]]
+  if [[ ! -v PZC_C_CLANG_BIN ]]
   then
 
     if [[ -x "$(command -v clang)" ]]
     then
-      _PZC_C_CLANG=clang
+      export PZC_C_CLANG_BIN=clang
       _PZC_CLANG_AVAILABLE=1
-      _pzc_debug "_PZC_C_CLANG = ${_PZC_C_CLANG} (in PATH)"
+      _pzc_debug "PZC_C_CLANG_BIN = ${PZC_C_CLANG_BIN} (in PATH)"
       
     else
       _PZC_CLANG_AVAILABLE=0
@@ -150,26 +150,26 @@ fi
 if [[ ${_PZC_CLANG_AVAILABLE} = 1 ]]
 then
 
-  if [[ -v _PZC_CXX_CLANG ]] && [[ -x "$(command -v ${_PZC_CXX_CLANG})" ]]
+  if [[ -v PZC_CXX_CLANG_BIN ]] && [[ -x "$(command -v ${PZC_CXX_CLANG_BIN})" ]]
   then
-    _pzc_debug "_PZC_CXX_CLANG = ${_PZC_CXX_CLANG} (user defined)"
+    _pzc_debug "PZC_CXX_CLANG_BIN = ${PZC_CXX_CLANG_BIN} (user defined)"
 
-  elif [[ -v _PZC_CXX_CLANG ]]
+  elif [[ -v PZC_CXX_CLANG_BIN ]]
   then
     _pzc_warning "Your clang++ is not found. Search other clang++."
-    _pzc_debug "_PZC_CXX_CLANG = ${_PZC_CXX_CLANG} (unset)"
-    unset _PZC_CXX_CLANG
+    _pzc_debug "PZC_CXX_CLANG_BIN = ${PZC_CXX_CLANG_BIN} (unset)"
+    unset PZC_CXX_CLANG_BIN
 
   fi
 
-  if [[ ! -v _PZC_CXX_CLANG ]]
+  if [[ ! -v PZC_CXX_CLANG_BIN ]]
   then
 
     if [[ -x "$(command -v clang++)" ]]
     then
-      _PZC_CXX_CLANG=clang++
+      export PZC_CXX_CLANG_BIN=clang++
       _PZC_CLANG_AVAILABLE=1
-      _pzc_debug "_PZC_CXX_CLANG = ${_PZC_CXX_CLANG} (in PATH)"
+      _pzc_debug "PZC_CXX_CLANG_BIN = ${PZC_CXX_CLANG_BIN} (in PATH)"
       
     else
       _PZC_CLANG_AVAILABLE=0
@@ -185,26 +185,26 @@ fi
 if [[ ${_PZC_NVCC_BIN_AVAILABLE} = 1 ]]
 then
 
-  if [[ -v _PZC_NVCC_BIN ]] && [[ -x "$(command -v ${_PZC_NVCC_BIN})" ]]
+  if [[ -v PZC_NVCC_BIN ]] && [[ -x "$(command -v ${PZC_NVCC_BIN})" ]]
   then
-    _pzc_debug "_PZC_NVCC_BIN = ${_PZC_NVCC_BIN} (user defined)"
+    _pzc_debug "PZC_NVCC_BIN = ${PZC_NVCC_BIN} (user defined)"
 
-  elif [[ -v _PZC_NVCC_BIN ]]
+  elif [[ -v PZC_NVCC_BIN ]]
   then
     _pzc_warning "Your nvcc is not found. Search other nvcc."
-    _pzc_debug "_PZC_NVCC_BIN = ${_PZC_NVCC_BIN} (unset)"
-    unset _PZC_NVCC_BIN
+    _pzc_debug "PZC_NVCC_BIN = ${PZC_NVCC_BIN} (unset)"
+    unset PZC_NVCC_BIN
 
   fi
 
-  if [[ ! -v _PZC_NVCC_BIN ]]
+  if [[ ! -v PZC_NVCC_BIN ]]
   then
 
     if [[ -x "$(command -v nvcc)" ]]
     then
-      _PZC_NVCC_BIN=nvcc
+      export PZC_NVCC_BIN=nvcc
       _PZC_NVCC_BIN_AVAILABLE=1
-      _pzc_debug "_PZC_NVCC_BIN = ${_PZC_NVCC_BIN} (in PATH)"
+      _pzc_debug "PZC_NVCC_BIN = ${PZC_NVCC_BIN} (in PATH)"
       
     else
       _PZC_NVCC_BIN_AVAILABLE=0
@@ -216,32 +216,32 @@ then
   if [[ ${_PZC_NVCC_BIN_AVAILABLE} = 1 ]]
   then
 
-    if [[ -v _PZC_NVCC_HOST_COMPILER ]] && [[ -x "$(command -v ${_PZC_NVCC_HOST_COMPILER})" ]]
+    if [[ -v PZC_NVCC_HOST_COMPILER_BIN ]] && [[ -x "$(command -v ${PZC_NVCC_HOST_COMPILER_BIN})" ]]
     then
-      _pzc_debug "_PZC_NVCC_HOST_COMPILER = ${_PZC_NVCC_HOST_COMPILER} (user defined)"
+      _pzc_debug "PZC_NVCC_HOST_COMPILER_BIN = ${PZC_NVCC_HOST_COMPILER_BIN} (user defined)"
 
-    elif [[ -v _PZC_NVCC_HOST_COMPILER ]]
+    elif [[ -v PZC_NVCC_HOST_COMPILER_BIN ]]
     then
       _pzc_warning "Your host compiler for nvcc is not found. Search other one."
-      _pzc_debug "_PZC_NVCC_HOST_COMPILER = ${_PZC_NVCC_HOST_COMPILER} (unset)"
-      unset _PZC_NVCC_HOST_COMPILER
+      _pzc_debug "PZC_NVCC_HOST_COMPILER_BIN = ${PZC_NVCC_HOST_COMPILER_BIN} (unset)"
+      unset PZC_NVCC_HOST_COMPILER_BIN
 
     fi
 
-    if [[ ! -v _PZC_NVCC_HOST_COMPILER ]]
+    if [[ ! -v PZC_NVCC_HOST_COMPILER_BIN ]]
     then
 
       if [[ ${_PZC_GCC_AVAILABLE} = 1 ]]
       then
-        _PZC_NVCC_HOST_COMPILER=${_PZC_CXX_GCC}
+        export PZC_NVCC_HOST_COMPILER_BIN=${PZC_CXX_GCC_BIN}
         _PZC_NVCC_BIN_AVAILABLE=1
-        _pzc_debug "_PZC_NVCC_HOST_COMPILER = ${_PZC_NVCC_HOST_COMPILER} (G++) (in PATH)"
+        _pzc_debug "PZC_NVCC_HOST_COMPILER_BIN = ${PZC_NVCC_HOST_COMPILER_BIN} (G++) (in PATH)"
 
       elif [[ ${_PZC_CLANG_AVAILABLE} = 1 ]]
       then
-        _PZC_NVCC_HOST_COMPILER=${_PZC_CXX_CLANG}
+        export PZC_NVCC_HOST_COMPILER_BIN=${PZC_CXX_CLANG_BIN}
         _PZC_NVCC_BIN_AVAILABLE=1
-        _pzc_debug "_PZC_NVCC_HOST_COMPILER = ${_PZC_NVCC_HOST_COMPILER} (CLang++) (in PATH)"
+        _pzc_debug "PZC_NVCC_HOST_COMPILER_BIN = ${PZC_NVCC_HOST_COMPILER_BIN} (CLang++) (in PATH)"
 
       else
         _PZC_NVCC_BIN_AVAILABLE=0
@@ -258,26 +258,26 @@ fi
 if [[ ${_PZC_SYCL_BIN_AVAILABLE} = 1 ]]
 then
 
-  if [[ -v _PZC_SYCL_BIN ]] && [[ -x "$(command -v ${_PZC_SYCL_BIN})" ]]
+  if [[ -v PZC_SYCL_BIN ]] && [[ -x "$(command -v ${PZC_SYCL_BIN})" ]]
   then
-    _pzc_debug "_PZC_SYCL_BIN = ${_PZC_SYCL_BIN} (user defined)"
+    _pzc_debug "PZC_SYCL_BIN = ${PZC_SYCL_BIN} (user defined)"
 
-  elif [[ -v _PZC_SYCL_BIN ]]
+  elif [[ -v PZC_SYCL_BIN ]]
   then
     _pzc_warning "Your sycl is not found. Search other sycl."
-    _pzc_debug "_PZC_SYCL_BIN = ${_PZC_SYCL_BIN} (unset)"
-    unset _PZC_SYCL_BIN
+    _pzc_debug "PZC_SYCL_BIN = ${PZC_SYCL_BIN} (unset)"
+    unset PZC_SYCL_BIN
 
   fi
 
-  if [[ ! -v _PZC_SYCL_BIN ]]
+  if [[ ! -v PZC_SYCL_BIN ]]
   then
 
     if [[ -x "$(command -v sycl)" ]]
     then
-      _PZC_SYCL_BIN=sycl
+      export PZC_SYCL_BIN=sycl
       _PZC_SYCL_BIN_AVAILABLE=1
-      _pzc_debug "_PZC_SYCL_BIN = ${_PZC_SYCL_BIN} (in PATH)"
+      _pzc_debug "PZC_SYCL_BIN = ${PZC_SYCL_BIN} (in PATH)"
       
     else
       _PZC_SYCL_BIN_AVAILABLE=0
@@ -289,32 +289,32 @@ then
   if [[ ${_PZC_SYCL_BIN_AVAILABLE} = 1 ]]
   then
 
-    if [[ -v _PZC_SYCL_HOST_COMPILER ]] && [[ -x "$(command -v ${_PZC_SYCL_HOST_COMPILER})" ]]
+    if [[ -v PZC_SYCL_HOST_COMPILER_BIN ]] && [[ -x "$(command -v ${PZC_SYCL_HOST_COMPILER_BIN})" ]]
     then
-      _pzc_debug "_PZC_SYCL_HOST_COMPILER = ${_PZC_SYCL_HOST_COMPILER} (user defined)"
+      _pzc_debug "PZC_SYCL_HOST_COMPILER_BIN = ${PZC_SYCL_HOST_COMPILER_BIN} (user defined)"
 
-    elif [[ -v _PZC_SYCL_HOST_COMPILER ]]
+    elif [[ -v PZC_SYCL_HOST_COMPILER_BIN ]]
     then
       _pzc_warning "Your host compiler for sycl is not found. Search other one."
-      _pzc_debug "_PZC_SYCL_HOST_COMPILER = ${_PZC_SYCL_HOST_COMPILER} (unset)"
-      unset _PZC_SYCL_HOST_COMPILER
+      _pzc_debug "PZC_SYCL_HOST_COMPILER_BIN = ${PZC_SYCL_HOST_COMPILER_BIN} (unset)"
+      unset PZC_SYCL_HOST_COMPILER_BIN
 
     fi
 
-    if [[ ! -v _PZC_SYCL_HOST_COMPILER ]]
+    if [[ ! -v PZC_SYCL_HOST_COMPILER_BIN ]]
     then
 
       if [[ ${_PZC_CLANG_AVAILABLE} = 1 ]]
       then
-        _PZC_SYCL_HOST_COMPILER=${_PZC_CXX_CLANG}
+        export PZC_SYCL_HOST_COMPILER_BIN=${PZC_CXX_CLANG_BIN}
         _PZC_SYCL_BIN_AVAILABLE=1
-        _pzc_debug "_PZC_SYCL_HOST_COMPILER = ${_PZC_SYCL_HOST_COMPILER} (CLang++) (in PATH)"
+        _pzc_debug "PZC_SYCL_HOST_COMPILER_BIN = ${PZC_SYCL_HOST_COMPILER_BIN} (CLang++) (in PATH)"
 
       elif [[ ${_PZC_GCC_AVAILABLE} = 1 ]]
       then
-        _PZC_SYCL_HOST_COMPILER=${_PZC_CXX_GCC}
+        export PZC_SYCL_HOST_COMPILER_BIN=${PZC_CXX_GCC_BIN}
         _PZC_SYCL_BIN_AVAILABLE=1
-        _pzc_debug "_PZC_SYCL_HOST_COMPILER = ${_PZC_SYCL_HOST_COMPILER} (G++) (in PATH)"
+        _pzc_debug "PZC_SYCL_HOST_COMPILER_BIN = ${PZC_SYCL_HOST_COMPILER_BIN} (G++) (in PATH)"
 
       else
         _PZC_SYCL_BIN_AVAILABLE=0

@@ -8,7 +8,16 @@
 # ==================================
 # ==================================
 
+# ----------------------------------
+# ------- Path configuration -------
+# ----------------------------------
 
+#export PATH=/usr/bin:${PATH}
+
+
+
+# ==================================
+# ==================================
 
 # ----------------------------------
 # -------- SSH keys location -------
@@ -109,23 +118,23 @@ local _PZC_CHMOD_COMPILING=0
 local _PZC_C_CXX_DEFAULT_COMPILER=GCC # Or CLANG
 
 local _PZC_GCC_AVAILABLE=1
-#local _PZC_C_GCC=gcc
-#local _PZC_CXX_GCC=g++
+#export PZC_C_GCC_BIN=gcc
+#export PZC_CXX_GCC_BIN=g++
 
 local _PZC_CLANG_AVAILABLE=1
-#local _PZC_C_CLANG=clang
-#local _PZC_CXX_CLANG=clang++
+#export PZC_C_CLANG_BIN=clang
+#export PZC_CXX_CLANG_BIN=clang++
 
 #local _PZC_GPU_DEFAULT_COMPILER=NVCC # Or SYCL
 #local _PZC_GPU_TARGET_ARCH="89"
 
 #local _PZC_NVCC_BIN_AVAILABLE=1
-#local _PZC_NVCC_BIN=nvcc
-#local _PZC_NVCC_HOST_COMPILER=g++-12
+#export PZC_NVCC_BIN=nvcc
+#export PZC_NVCC_HOST_COMPILER_BIN=g++-12
 
 #local _PZC_SYCL_BIN_AVAILABLE=1
-#local _PZC_SYCL_BIN=sycl
-#local _PZC_SYCL_HOST_COMPILER=clang++
+#export PZC_SYCL_BIN=sycl
+#export PZC_SYCL_HOST_COMPILER_BIN=clang++
 
 
 # ----------------------------------
