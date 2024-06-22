@@ -198,8 +198,8 @@ pconfigarc()
     echo "cmake \\"
     echo "  ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \\"
     echo "  ${PZC_CMAKE_C_COMPILER_LAUNCHER} \\"
-    echo "  ${PZC_CMAKE_C_COMPILER} \\"
-    echo "  ${PZC_CMAKE_CXX_COMPILER} \\"
+    echo "  -DCMAKE_C_COMPILER=${PZC_C_COMPILER} \\"
+    echo "  -DCMAKE_CXX_COMPILER=${PZC_CXX_COMPILER} \\"
     echo "  ${PZC_CMAKE_LINKER_TYPE} \\"
     echo "  ${PZC_CMAKE_GENERATOR} \\"
     echo "  -S ${ARCANE_SOURCE_DIR} \\"
@@ -237,8 +237,8 @@ configarc()
     cmake \
       ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \
       ${PZC_CMAKE_C_COMPILER_LAUNCHER} \
-      ${PZC_CMAKE_C_COMPILER} \
-      ${PZC_CMAKE_CXX_COMPILER} \
+      -DCMAKE_C_COMPILER=${PZC_C_COMPILER} \
+      -DCMAKE_CXX_COMPILER=${PZC_CXX_COMPILER} \
       ${PZC_CMAKE_LINKER_TYPE} \
       ${PZC_CMAKE_GENERATOR} \
       -S ${ARCANE_SOURCE_DIR} \
@@ -272,23 +272,43 @@ pconfigarcgpu()
       CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
     fi
 
+    if [[ "${_PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
+    then
+      _PZC_ARCANE_ACCELERATOR_MODE="-DARCANE_ACCELERATOR_MODE=CUDANVCC"
+      _PZC_CMAKE_GPU_COMPILER="-DCMAKE_CUDA_COMPILER=${PZC_GPU_COMPILER}"
+      if [[ -v PZC_GPU_FLAGS ]]
+      then
+        _PZC_CMAKE_GPU_FLAGS="-DCMAKE_CUDA_FLAGS=${PZC_GPU_FLAGS}"
+      fi
+
+    else
+      _PZC_ARCANE_ACCELERATOR_MODE="-DARCANE_ACCELERATOR_MODE=SYCLDPCPP"
+      _PZC_CMAKE_GPU_COMPILER="-DCMAKE_SYCL_COMPILER=${PZC_GPU_COMPILER}"
+      if [[ -v PZC_GPU_FLAGS ]]
+      then
+        _PZC_CMAKE_GPU_FLAGS="-DARCANE_CXX_SYCL_FLAGS=${PZC_GPU_FLAGS}"
+      fi
+    fi
+
     _pzc_pensil_begin
     echo "cmake \\"
     echo "  ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \\"
     echo "  ${PZC_CMAKE_C_COMPILER_LAUNCHER} \\"
-    echo "  ${PZC_CMAKE_C_COMPILER} \\"
-    echo "  ${PZC_CMAKE_CXX_COMPILER} \\"
+    echo "  -DCMAKE_C_COMPILER=${PZC_C_COMPILER} \\"
+    echo "  -DCMAKE_CXX_COMPILER=${PZC_GPU_HOST_COMPILER} \\"
     echo "  ${PZC_CMAKE_LINKER_TYPE} \\"
     echo "  ${PZC_CMAKE_GENERATOR} \\"
+    echo "  ${_PZC_ARCANE_ACCELERATOR_MODE} \\"
+    echo "  ${_PZC_CMAKE_GPU_COMPILER} \\"
+    echo "  ${_PZC_CMAKE_GPU_FLAGS} \\"
     echo "  -S ${ARCANE_SOURCE_DIR} \\"
     echo "  -B ${ARCANE_BUILD_DIR} \\"
     echo "  -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \\"
     echo "  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \\"
     echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \\"
-    echo "  -DARCCORE_CXX_STANDARD=20 \\"
-    echo "  -DARCANE_ACCELERATOR_MODE=CUDANVCC \\"
-    echo "  -DCMAKE_CUDA_COMPILER=nvcc"
+    echo "  -DARCCORE_CXX_STANDARD=20"
+
     if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
     then
       echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
@@ -314,22 +334,42 @@ configarcgpu()
       CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
     fi
 
+    if [[ "${_PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
+    then
+      _PZC_ARCANE_ACCELERATOR_MODE="-DARCANE_ACCELERATOR_MODE=CUDANVCC"
+      _PZC_CMAKE_GPU_COMPILER="-DCMAKE_CUDA_COMPILER=${PZC_GPU_COMPILER}"
+      if [[ -v PZC_GPU_FLAGS ]]
+      then
+        _PZC_CMAKE_GPU_FLAGS="-DCMAKE_CUDA_FLAGS=${PZC_GPU_FLAGS}"
+      fi
+
+    else
+      _PZC_ARCANE_ACCELERATOR_MODE="-DARCANE_ACCELERATOR_MODE=SYCLDPCPP"
+      _PZC_CMAKE_GPU_COMPILER="-DCMAKE_SYCL_COMPILER=${PZC_GPU_COMPILER}"
+      if [[ -v PZC_GPU_FLAGS ]]
+      then
+        _PZC_CMAKE_GPU_FLAGS="-DARCANE_CXX_SYCL_FLAGS=${PZC_GPU_FLAGS}"
+      fi
+    fi
+
     cmake \
       ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \
       ${PZC_CMAKE_C_COMPILER_LAUNCHER} \
-      ${PZC_CMAKE_C_COMPILER} \
-      ${PZC_CMAKE_CXX_COMPILER} \
+      -DCMAKE_C_COMPILER=${PZC_C_COMPILER} \
+      -DCMAKE_CXX_COMPILER=${PZC_GPU_HOST_COMPILER} \
       ${PZC_CMAKE_LINKER_TYPE} \
       ${PZC_CMAKE_GENERATOR} \
+      ${_PZC_ARCANE_ACCELERATOR_MODE} \
+      ${_PZC_CMAKE_GPU_COMPILER} \
+      ${_PZC_CMAKE_GPU_FLAGS} \
       -S ${ARCANE_SOURCE_DIR} \
       -B ${ARCANE_BUILD_DIR} \
       -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \
       -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
       -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
       -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \
-      -DARCCORE_CXX_STANDARD=20 \
-      -DARCANE_ACCELERATOR_MODE=CUDANVCC \
-      -DCMAKE_CUDA_COMPILER=nvcc
+      -DARCCORE_CXX_STANDARD=20
+
     if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
     then
       chmod u+x ${ARCANE_BUILD_DIR}/bin/*
@@ -357,8 +397,8 @@ pconfigap()
     echo "cmake \\"
     echo "  ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \\"
     echo "  ${PZC_CMAKE_C_COMPILER_LAUNCHER} \\"
-    echo "  ${PZC_CMAKE_C_COMPILER} \\"
-    echo "  ${PZC_CMAKE_CXX_COMPILER} \\"
+    echo "  -DCMAKE_C_COMPILER=${PZC_C_COMPILER} \\"
+    echo "  -DCMAKE_CXX_COMPILER=${PZC_CXX_COMPILER} \\"
     echo "  ${PZC_CMAKE_LINKER_TYPE} \\"
     echo "  ${PZC_CMAKE_GENERATOR} \\"
     echo "  -S ${AP_SOURCE_DIR} \\"
@@ -391,8 +431,8 @@ configap()
     cmake \
       ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \
       ${PZC_CMAKE_C_COMPILER_LAUNCHER} \
-      ${PZC_CMAKE_C_COMPILER} \
-      ${PZC_CMAKE_CXX_COMPILER} \
+      -DCMAKE_C_COMPILER=${PZC_C_COMPILER} \
+      -DCMAKE_CXX_COMPILER=${PZC_CXX_COMPILER} \
       ${PZC_CMAKE_LINKER_TYPE} \
       ${PZC_CMAKE_GENERATOR} \
       -S ${AP_SOURCE_DIR} \
@@ -419,22 +459,38 @@ pconfigapgpu()
       CMAKE_BUILD_TYPE="${AP_BUILD_TYPE}"
     fi
 
+    if [[ "${_PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
+    then
+      _PZC_CMAKE_GPU_COMPILER="-DCMAKE_CUDA_COMPILER=${PZC_GPU_COMPILER}"
+      if [[ -v PZC_GPU_FLAGS ]]
+      then
+        _PZC_CMAKE_GPU_FLAGS="-DCMAKE_CUDA_FLAGS=${PZC_GPU_FLAGS}"
+      fi
+
+    else
+      _PZC_CMAKE_GPU_COMPILER="-DCMAKE_SYCL_COMPILER=${PZC_GPU_COMPILER}"
+      if [[ -v PZC_GPU_FLAGS ]]
+      then
+        _PZC_CMAKE_GPU_FLAGS="-DARCANE_CXX_SYCL_FLAGS=${PZC_GPU_FLAGS}"
+      fi
+    fi
+
     _pzc_pensil_begin
     echo "cmake \\"
     echo "  ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \\"
     echo "  ${PZC_CMAKE_C_COMPILER_LAUNCHER} \\"
-    echo "  ${PZC_CMAKE_C_COMPILER} \\"
-    echo "  ${PZC_CMAKE_CXX_COMPILER} \\"
+    echo "  -DCMAKE_C_COMPILER=${PZC_C_COMPILER} \\"
+    echo "  -DCMAKE_CXX_COMPILER=${PZC_GPU_HOST_COMPILER} \\"
     echo "  ${PZC_CMAKE_LINKER_TYPE} \\"
     echo "  ${PZC_CMAKE_GENERATOR} \\"
+    echo "  ${_PZC_CMAKE_GPU_COMPILER} \\"
+    echo "  ${_PZC_CMAKE_GPU_FLAGS} \\"
     echo "  -S ${AP_SOURCE_DIR} \\"
     echo "  -B ${AP_BUILD_DIR} \\"
     echo "  -DCMAKE_INSTALL_PREFIX=${AP_INSTALL_DIR} \\"
     echo "  -DCMAKE_PREFIX_PATH=${ARCANE_INSTALL_PATH} \\"
     echo "  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \\"
-    echo "  -DWANT_CUDA=TRUE \\"
-    echo "  -DWANT_PROF_ACC=TRUE \\"
-    echo "  -DCMAKE_CUDA_COMPILER=nvcc"
+    echo "  -DWANT_PROF_ACC=TRUE"
     _pzc_pensil_end
 
   else
@@ -457,21 +513,37 @@ configapgpu()
       CMAKE_BUILD_TYPE="${AP_BUILD_TYPE}"
     fi
 
+    if [[ "${_PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
+    then
+      _PZC_CMAKE_GPU_COMPILER="-DCMAKE_CUDA_COMPILER=${PZC_GPU_COMPILER}"
+      if [[ -v PZC_GPU_FLAGS ]]
+      then
+        _PZC_CMAKE_GPU_FLAGS="-DCMAKE_CUDA_FLAGS=${PZC_GPU_FLAGS}"
+      fi
+
+    else
+      _PZC_CMAKE_GPU_COMPILER="-DCMAKE_SYCL_COMPILER=${PZC_GPU_COMPILER}"
+      if [[ -v PZC_GPU_FLAGS ]]
+      then
+        _PZC_CMAKE_GPU_FLAGS="-DARCANE_CXX_SYCL_FLAGS=${PZC_GPU_FLAGS}"
+      fi
+    fi
+
     cmake \
       ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \
       ${PZC_CMAKE_C_COMPILER_LAUNCHER} \
-      ${PZC_CMAKE_C_COMPILER} \
-      ${PZC_CMAKE_CXX_COMPILER} \
+      -DCMAKE_C_COMPILER=${PZC_C_COMPILER} \
+      -DCMAKE_CXX_COMPILER=${PZC_GPU_HOST_COMPILER} \
       ${PZC_CMAKE_LINKER_TYPE} \
       ${PZC_CMAKE_GENERATOR} \
+      ${_PZC_CMAKE_GPU_COMPILER} \
+      ${_PZC_CMAKE_GPU_FLAGS} \
       -S ${AP_SOURCE_DIR} \
       -B ${AP_BUILD_DIR} \
       -DCMAKE_INSTALL_PREFIX=${AP_INSTALL_DIR} \
       -DCMAKE_PREFIX_PATH=${ARCANE_INSTALL_PATH} \
       -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
-      -DWANT_CUDA=TRUE \
-      -DWANT_PROF_ACC=TRUE \
-      -DCMAKE_CUDA_COMPILER=nvcc
+      -DWANT_PROF_ACC=TRUE
 
   else
     _pzc_error "Lancer initap avant."

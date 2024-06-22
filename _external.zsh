@@ -42,10 +42,14 @@ fi
 # ----------------------- Check compilers -----------------------
 # ---------------------------------------------------------------
 
-if [[ ${_PZC_C_GCC_AVAILABLE} = 1 ]]
+if [[ ${_PZC_GCC_AVAILABLE} = 1 ]]
 then
 
-  if [[ -v _PZC_C_GCC ]] && [[ ! -x "$(command -v ${_PZC_C_GCC})" ]]
+  if [[ -v _PZC_C_GCC ]] && [[ -x "$(command -v ${_PZC_C_GCC})" ]]
+  then
+    _pzc_debug "_PZC_C_GCC = ${_PZC_C_GCC} (user defined)"
+
+  elif [[ -v _PZC_C_GCC ]]
   then
     _pzc_warning "Your gcc is not found. Search other gcc."
     _pzc_debug "_PZC_C_GCC = ${_PZC_C_GCC} (unset)"
@@ -59,11 +63,11 @@ then
     if [[ -x "$(command -v gcc)" ]]
     then
       _PZC_C_GCC=gcc
-      _PZC_C_GCC_AVAILABLE=1
+      _PZC_GCC_AVAILABLE=1
       _pzc_debug "_PZC_C_GCC = ${_PZC_C_GCC} (in PATH)"
       
     else
-      _PZC_C_GCC_AVAILABLE=0
+      _PZC_GCC_AVAILABLE=0
       _pzc_warning "GCC is not installed. You can disable gcc search in .zshrc."
 
     fi
@@ -73,10 +77,14 @@ else
 
 fi
 
-if [[ ${_PZC_CXX_GCC_AVAILABLE} = 1 ]]
+if [[ ${_PZC_GCC_AVAILABLE} = 1 ]]
 then
 
-  if [[ -v _PZC_CXX_GCC ]] && [[ ! -x "$(command -v ${_PZC_CXX_GCC})" ]]
+  if [[ -v _PZC_CXX_GCC ]] && [[ -x "$(command -v ${_PZC_CXX_GCC})" ]]
+  then
+    _pzc_debug "_PZC_CXX_GCC = ${_PZC_CXX_GCC} (user defined)"
+
+  elif [[ -v _PZC_CXX_GCC ]]
   then
     _pzc_warning "Your g++ is not found. Search other g++."
     _pzc_debug "_PZC_CXX_GCC = ${_PZC_CXX_GCC} (unset)"
@@ -90,11 +98,11 @@ then
     if [[ -x "$(command -v g++)" ]]
     then
       _PZC_CXX_GCC=g++
-      _PZC_CXX_GCC_AVAILABLE=1
+      _PZC_GCC_AVAILABLE=1
       _pzc_debug "_PZC_CXX_GCC = ${_PZC_CXX_GCC} (in PATH)"
       
     else
-      _PZC_CXX_GCC_AVAILABLE=0
+      _PZC_GCC_AVAILABLE=0
       _pzc_warning "G++ is not installed. You can disable g++ search in .zshrc."
 
     fi
@@ -104,10 +112,14 @@ else
 
 fi
 
-if [[ ${_PZC_C_CLANG_AVAILABLE} = 1 ]]
+if [[ ${_PZC_CLANG_AVAILABLE} = 1 ]]
 then
 
-  if [[ -v _PZC_C_CLANG ]] && [[ ! -x "$(command -v ${_PZC_C_CLANG})" ]]
+  if [[ -v _PZC_C_CLANG ]] && [[ -x "$(command -v ${_PZC_C_CLANG})" ]]
+  then
+    _pzc_debug "_PZC_C_CLANG = ${_PZC_C_CLANG} (user defined)"
+
+  elif [[ -v _PZC_C_CLANG ]]
   then
     _pzc_warning "Your clang is not found. Search other clang."
     _pzc_debug "_PZC_C_CLANG = ${_PZC_C_CLANG} (unset)"
@@ -121,11 +133,11 @@ then
     if [[ -x "$(command -v clang)" ]]
     then
       _PZC_C_CLANG=clang
-      _PZC_C_CLANG_AVAILABLE=1
+      _PZC_CLANG_AVAILABLE=1
       _pzc_debug "_PZC_C_CLANG = ${_PZC_C_CLANG} (in PATH)"
       
     else
-      _PZC_C_CLANG_AVAILABLE=0
+      _PZC_CLANG_AVAILABLE=0
       _pzc_warning "CLang is not installed. You can disable clang search in .zshrc."
 
     fi
@@ -135,10 +147,14 @@ else
 
 fi
 
-if [[ ${_PZC_CXX_CLANG_AVAILABLE} = 1 ]]
+if [[ ${_PZC_CLANG_AVAILABLE} = 1 ]]
 then
 
-  if [[ -v _PZC_CXX_CLANG ]] && [[ ! -x "$(command -v ${_PZC_CXX_CLANG})" ]]
+  if [[ -v _PZC_CXX_CLANG ]] && [[ -x "$(command -v ${_PZC_CXX_CLANG})" ]]
+  then
+    _pzc_debug "_PZC_CXX_CLANG = ${_PZC_CXX_CLANG} (user defined)"
+
+  elif [[ -v _PZC_CXX_CLANG ]]
   then
     _pzc_warning "Your clang++ is not found. Search other clang++."
     _pzc_debug "_PZC_CXX_CLANG = ${_PZC_CXX_CLANG} (unset)"
@@ -152,11 +168,11 @@ then
     if [[ -x "$(command -v clang++)" ]]
     then
       _PZC_CXX_CLANG=clang++
-      _PZC_CXX_CLANG_AVAILABLE=1
+      _PZC_CLANG_AVAILABLE=1
       _pzc_debug "_PZC_CXX_CLANG = ${_PZC_CXX_CLANG} (in PATH)"
       
     else
-      _PZC_CXX_CLANG_AVAILABLE=0
+      _PZC_CLANG_AVAILABLE=0
       _pzc_warning "CLang++ is not installed. You can disable clang++ search in .zshrc."
 
     fi
@@ -169,7 +185,11 @@ fi
 if [[ ${_PZC_NVCC_BIN_AVAILABLE} = 1 ]]
 then
 
-  if [[ -v _PZC_NVCC_BIN ]] && [[ ! -x "$(command -v ${_PZC_NVCC_BIN})" ]]
+  if [[ -v _PZC_NVCC_BIN ]] && [[ -x "$(command -v ${_PZC_NVCC_BIN})" ]]
+  then
+    _pzc_debug "_PZC_NVCC_BIN = ${_PZC_NVCC_BIN} (user defined)"
+
+  elif [[ -v _PZC_NVCC_BIN ]]
   then
     _pzc_warning "Your nvcc is not found. Search other nvcc."
     _pzc_debug "_PZC_NVCC_BIN = ${_PZC_NVCC_BIN} (unset)"
@@ -196,7 +216,11 @@ then
   if [[ ${_PZC_NVCC_BIN_AVAILABLE} = 1 ]]
   then
 
-    if [[ -v _PZC_NVCC_HOST_COMPILER ]] && [[ ! -x "$(command -v ${_PZC_NVCC_HOST_COMPILER})" ]]
+    if [[ -v _PZC_NVCC_HOST_COMPILER ]] && [[ -x "$(command -v ${_PZC_NVCC_HOST_COMPILER})" ]]
+    then
+      _pzc_debug "_PZC_NVCC_HOST_COMPILER = ${_PZC_NVCC_HOST_COMPILER} (user defined)"
+
+    elif [[ -v _PZC_NVCC_HOST_COMPILER ]]
     then
       _pzc_warning "Your host compiler for nvcc is not found. Search other one."
       _pzc_debug "_PZC_NVCC_HOST_COMPILER = ${_PZC_NVCC_HOST_COMPILER} (unset)"
@@ -207,13 +231,13 @@ then
     if [[ ! -v _PZC_NVCC_HOST_COMPILER ]]
     then
 
-      if [[ ${_PZC_CXX_GCC_AVAILABLE} = 1 ]]
+      if [[ ${_PZC_GCC_AVAILABLE} = 1 ]]
       then
         _PZC_NVCC_HOST_COMPILER=${_PZC_CXX_GCC}
         _PZC_NVCC_BIN_AVAILABLE=1
         _pzc_debug "_PZC_NVCC_HOST_COMPILER = ${_PZC_NVCC_HOST_COMPILER} (G++) (in PATH)"
 
-      elif [[ ${_PZC_CXX_CLANG_AVAILABLE} = 1 ]]
+      elif [[ ${_PZC_CLANG_AVAILABLE} = 1 ]]
       then
         _PZC_NVCC_HOST_COMPILER=${_PZC_CXX_CLANG}
         _PZC_NVCC_BIN_AVAILABLE=1
@@ -234,9 +258,13 @@ fi
 if [[ ${_PZC_SYCL_BIN_AVAILABLE} = 1 ]]
 then
 
-  if [[ -v _PZC_SYCL_BIN ]] && [[ ! -x "$(command -v ${_PZC_SYCL_BIN})" ]]
+  if [[ -v _PZC_SYCL_BIN ]] && [[ -x "$(command -v ${_PZC_SYCL_BIN})" ]]
   then
-    _pzc_warning "Your acpp is not found. Search other acpp."
+    _pzc_debug "_PZC_SYCL_BIN = ${_PZC_SYCL_BIN} (user defined)"
+
+  elif [[ -v _PZC_SYCL_BIN ]]
+  then
+    _pzc_warning "Your sycl is not found. Search other sycl."
     _pzc_debug "_PZC_SYCL_BIN = ${_PZC_SYCL_BIN} (unset)"
     unset _PZC_SYCL_BIN
 
@@ -245,25 +273,77 @@ then
   if [[ ! -v _PZC_SYCL_BIN ]]
   then
 
-    if [[ -x "$(command -v acpp)" ]]
+    if [[ -x "$(command -v sycl)" ]]
     then
-      _PZC_SYCL_BIN=acpp
+      _PZC_SYCL_BIN=sycl
       _PZC_SYCL_BIN_AVAILABLE=1
       _pzc_debug "_PZC_SYCL_BIN = ${_PZC_SYCL_BIN} (in PATH)"
       
     else
       _PZC_SYCL_BIN_AVAILABLE=0
-      _pzc_warning "Acpp is not installed. You can disable acpp search in .zshrc."
+      _pzc_warning "Sycl is not installed. You can disable sycl search in .zshrc."
 
     fi
   fi
 
+  if [[ ${_PZC_SYCL_BIN_AVAILABLE} = 1 ]]
+  then
+
+    if [[ -v _PZC_SYCL_HOST_COMPILER ]] && [[ -x "$(command -v ${_PZC_SYCL_HOST_COMPILER})" ]]
+    then
+      _pzc_debug "_PZC_SYCL_HOST_COMPILER = ${_PZC_SYCL_HOST_COMPILER} (user defined)"
+
+    elif [[ -v _PZC_SYCL_HOST_COMPILER ]]
+    then
+      _pzc_warning "Your host compiler for sycl is not found. Search other one."
+      _pzc_debug "_PZC_SYCL_HOST_COMPILER = ${_PZC_SYCL_HOST_COMPILER} (unset)"
+      unset _PZC_SYCL_HOST_COMPILER
+
+    fi
+
+    if [[ ! -v _PZC_SYCL_HOST_COMPILER ]]
+    then
+
+      if [[ ${_PZC_CLANG_AVAILABLE} = 1 ]]
+      then
+        _PZC_SYCL_HOST_COMPILER=${_PZC_CXX_CLANG}
+        _PZC_SYCL_BIN_AVAILABLE=1
+        _pzc_debug "_PZC_SYCL_HOST_COMPILER = ${_PZC_SYCL_HOST_COMPILER} (CLang++) (in PATH)"
+
+      elif [[ ${_PZC_GCC_AVAILABLE} = 1 ]]
+      then
+        _PZC_SYCL_HOST_COMPILER=${_PZC_CXX_GCC}
+        _PZC_SYCL_BIN_AVAILABLE=1
+        _pzc_debug "_PZC_SYCL_HOST_COMPILER = ${_PZC_SYCL_HOST_COMPILER} (G++) (in PATH)"
+
+      else
+        _PZC_SYCL_BIN_AVAILABLE=0
+        _pzc_warning "Host compiler for sycl is not found. You can disable sycl search in .zshrc."
+
+      fi
+    fi
+  fi
+
 else
-  _pzc_debug "acpp disabled."
+  _pzc_debug "SYCL disabled."
 
 fi
 
+if [[ ${_PZC_GCC_AVAILABLE} = 1 ]] || [[ ${_PZC_CLANG_AVAILABLE} = 1 ]]
+then
+  local _PZC_C_CXX_AVAILABLE=1
 
+else
+  local _PZC_C_CXX_AVAILABLE=0
+fi
+
+if [[ ${_PZC_NVCC_BIN_AVAILABLE} = 1 ]] || [[ ${_PZC_SYCL_BIN_AVAILABLE} = 1 ]]
+then
+  local _PZC_GPU_AVAILABLE=1
+
+else
+  local _PZC_GPU_AVAILABLE=0
+fi
 
 
 # ---------------------------------------------------------------
@@ -273,7 +353,11 @@ fi
 if [[ ${_PZC_OMP_AVAILABLE} = 1 ]]
 then
 
-  if [[ -v _PZC_OMP_PATH ]] && [[ ! -e ${_PZC_OMP_PATH} ]]
+  if [[ -v _PZC_OMP_PATH ]] && [[ -e ${_PZC_OMP_PATH} ]]
+  then
+    _pzc_debug "_PZC_OMP_PATH = ${_PZC_OMP_PATH} (user defined)"
+
+  elif [[ -v _PZC_OMP_PATH ]]
   then
     _pzc_warning "Your Oh-My-Posh is not found. Search other Oh-My-Posh."
     _pzc_debug "_PZC_OMP_PATH = ${_PZC_OMP_PATH} (unset)"
@@ -304,7 +388,11 @@ then
   fi
 
 
-  if [[ -v _PZC_OMP_THEME_PATH ]] && [[ ! -e ${_PZC_OMP_THEME_PATH} ]]
+  if [[ -v _PZC_OMP_THEME_PATH ]] && [[ -e ${_PZC_OMP_THEME_PATH} ]]
+  then
+    _pzc_debug "_PZC_OMP_THEME_PATH = ${_PZC_OMP_THEME_PATH} (user defined)"
+
+  elif [[ -v _PZC_OMP_THEME_PATH ]]
   then
     _pzc_warning "Your Oh-My-Posh theme is not found. Search default Oh-My-Posh theme."
     _pzc_debug "_PZC_OMP_THEME_PATH = ${_PZC_OMP_THEME_PATH} (unset)"
@@ -345,7 +433,11 @@ then
   if [[ -v _PZC_SSH_PUB ]] && [[ -e ${_PZC_SSH_PUB} ]] && [[ -v _PZC_SSH_PRI ]] && [[ -e ${_PZC_SSH_PRI} ]]
   then
 
-    if [[ -v _PZC_AGE_PATH ]] && [[ ! -e ${_PZC_AGE_PATH} ]]
+    if [[ -v _PZC_AGE_PATH ]] && [[ -e ${_PZC_AGE_PATH} ]]
+    then
+      _pzc_debug "_PZC_AGE_PATH = ${_PZC_AGE_PATH} (user defined)"
+
+    elif [[ -v _PZC_AGE_PATH ]]
     then
       _pzc_warning "Your age is not found. Search other age."
       _pzc_debug "_PZC_AGE_PATH = ${_PZC_AGE_PATH} (unset)"
@@ -402,7 +494,11 @@ fi
 if [[ ${_PZC_EZA_AVAILABLE} = 1 ]]
 then
 
-  if [[ -v _PZC_EZA_PATH ]] && [[ ! -e ${_PZC_EZA_PATH} ]]
+  if [[ -v _PZC_EZA_PATH ]] && [[ -e ${_PZC_EZA_PATH} ]]
+  then
+    _pzc_debug "_PZC_EZA_PATH = ${_PZC_EZA_PATH} (user defined)"
+
+  elif [[ -v _PZC_EZA_PATH ]]
   then
     _pzc_warning "Your eza is not found. Search other eza."
     _pzc_debug "_PZC_EZA_PATH = ${_PZC_EZA_PATH} (unset)"
@@ -465,7 +561,11 @@ fi
 if [[ ${_PZC_CCACHE_AVAILABLE} = 1 ]]
 then
 
-  if [[ -v _PZC_CCACHE_PATH ]] && [[ ! -e ${_PZC_CCACHE_PATH} ]]
+  if [[ -v _PZC_CCACHE_PATH ]] && [[ -e ${_PZC_CCACHE_PATH} ]]
+  then
+    _pzc_debug "_PZC_CCACHE_PATH = ${_PZC_CCACHE_PATH} (user defined)"
+
+  elif [[ -v _PZC_CCACHE_PATH ]]
   then
     _pzc_warning "Your ccache is not found. Search other ccache."
     _pzc_debug "_PZC_CCACHE_PATH = ${_PZC_CCACHE_PATH} (unset)"

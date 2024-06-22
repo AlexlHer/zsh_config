@@ -74,42 +74,108 @@ then
 fi
 
 
-if [[ ${_PZC_C_CXX_DEFAULT_COMPILER} = "GCC" ]]
+if [[ ${_PZC_C_CXX_AVAILABLE} = 1 ]]
 then
-  if [[ ${_PZC_C_GCC_AVAILABLE} = 1 ]] && [[ ${_PZC_CXX_GCC_AVAILABLE} = 1 ]]
+  if [[ ${_PZC_C_CXX_DEFAULT_COMPILER} = "GCC" ]]
   then
-    _pzc_debug "Default compiler : GCC"
-    export PZC_CMAKE_C_COMPILER="-DCMAKE_C_COMPILER=${_PZC_C_GCC}"
-    export PZC_CMAKE_CXX_COMPILER="-DCMAKE_CXX_COMPILER=${_PZC_CXX_GCC}"
+    if [[ ${_PZC_GCC_AVAILABLE} = 1 ]]
+    then
+      _pzc_debug "Default C/CXX compiler : GCC"
+      export PZC_C_COMPILER="${_PZC_C_GCC}"
+      export PZC_CXX_COMPILER="${_PZC_CXX_GCC}"
 
-  elif [[ ${_PZC_C_CLANG_AVAILABLE} = 1 ]] && [[ ${_PZC_CXX_CLANG_AVAILABLE} = 1 ]]
-  then
-    _pzc_error "GCC is not available. Set CLANG to default compiler."
-    export PZC_CMAKE_C_COMPILER="-DCMAKE_C_COMPILER=${_PZC_C_CLANG}"
-    export PZC_CMAKE_CXX_COMPILER="-DCMAKE_CXX_COMPILER=${_PZC_CXX_CLANG}"
-    local _PZC_C_CXX_DEFAULT_COMPILER="CLANG"
+    elif [[ ${_PZC_CLANG_AVAILABLE} = 1 ]]
+    then
+      _pzc_error "GCC is not available. Set CLANG to default C/CXX compiler."
+      export PZC_C_COMPILER="${_PZC_C_CLANG}"
+      export PZC_CXX_COMPILER="${_PZC_CXX_CLANG}"
+      local _PZC_C_CXX_DEFAULT_COMPILER="CLANG"
+
+    else
+      _pzc_error "GCC and CLANG are not available."
+    fi
 
   else
-    _pzc_error "GCC and CLANG are not availables."
-  fi
+    if [[ ${_PZC_CLANG_AVAILABLE} = 1 ]]
+    then
+      _pzc_debug "Default C/CXX compiler : CLANG"
+      export PZC_C_COMPILER="${_PZC_C_CLANG}"
+      export PZC_CXX_COMPILER="${_PZC_CXX_CLANG}"
 
+    elif [[ ${_PZC_GCC_AVAILABLE} = 1 ]]
+    then
+      _pzc_error "CLANG is not available. Set GCC to default C/CXX compiler."
+      export PZC_C_COMPILER="${_PZC_C_GCC}"
+      export PZC_CXX_COMPILER="${_PZC_CXX_GCC}"
+      local _PZC_C_CXX_DEFAULT_COMPILER="GCC"
+
+    else
+      _pzc_error "GCC and CLANG are not available."
+    fi
+  fi
 else
-  if [[ ${_PZC_C_CLANG_AVAILABLE} = 1 ]] && [[ ${_PZC_CXX_CLANG_AVAILABLE} = 1 ]]
-  then
-    _pzc_debug "Default compiler : CLANG"
-    export PZC_CMAKE_C_COMPILER="-DCMAKE_C_COMPILER=${_PZC_C_CLANG}"
-    export PZC_CMAKE_CXX_COMPILER="-DCMAKE_CXX_COMPILER=${_PZC_CXX_CLANG}"
+  _pzc_debug "No C/CXX default compiler"
+fi
 
-  elif [[ ${_PZC_C_GCC_AVAILABLE} = 1 ]] && [[ ${_PZC_CXX_GCC_AVAILABLE} = 1 ]]
+if [[ ${_PZC_GPU_AVAILABLE} = 1 ]]
+then
+  if [[ ${_PZC_GPU_DEFAULT_COMPILER} = "NVCC" ]]
   then
-    _pzc_error "CLANG is not available. Set GCC to default compiler."
-    export PZC_CMAKE_C_COMPILER="-DCMAKE_C_COMPILER=${_PZC_C_GCC}"
-    export PZC_CMAKE_CXX_COMPILER="-DCMAKE_CXX_COMPILER=${_PZC_CXX_GCC}"
-    local _PZC_C_CXX_DEFAULT_COMPILER="GCC"
+    if [[ ${_PZC_NVCC_BIN_AVAILABLE} = 1 ]]
+    then
+      _pzc_debug "Default GPU compiler : NVCC"
+      export PZC_GPU_HOST_COMPILER="${_PZC_NVCC_HOST_COMPILER}"
+      export PZC_GPU_COMPILER="${_PZC_NVCC_BIN}"
+      if [[ -v _PZC_GPU_TARGET_ARCH ]]
+      then
+        export PZC_GPU_FLAGS="'-gencode arch=compute_${_PZC_GPU_TARGET_ARCH},code=sm_${_PZC_GPU_TARGET_ARCH}'"
+      fi
+
+    elif [[ ${_PZC_SYCL_BIN_AVAILABLE} = 1 ]]
+    then
+      _pzc_error "NVCC is not available. Set SYCL to default GPU compiler."
+      export PZC_GPU_HOST_COMPILER="${_PZC_SYCL_BIN}"
+      export PZC_GPU_COMPILER="${_PZC_SYCL_BIN}"
+      if [[ -v _PZC_GPU_TARGET_ARCH ]]
+      then
+        export PZC_GPU_FLAGS="'--acpp-targets=cuda:sm_${_PZC_GPU_TARGET_ARCH}'"
+      fi
+
+      local _PZC_GPU_DEFAULT_COMPILER="SYCL"
+
+    else
+      _pzc_error "NVCC and SYCL are not available."
+    fi
 
   else
-    _pzc_error "GCC and CLANG are not availables."
+    if [[ ${_PZC_SYCL_BIN_AVAILABLE} = 1 ]]
+    then
+      _pzc_debug "Default GPU compiler : SYCL"
+      export PZC_GPU_HOST_COMPILER="${_PZC_SYCL_BIN}"
+      export PZC_GPU_COMPILER="${_PZC_SYCL_BIN}"
+      if [[ -v _PZC_GPU_TARGET_ARCH ]]
+      then
+        export PZC_GPU_FLAGS="'--acpp-targets=cuda:sm_${_PZC_GPU_TARGET_ARCH}'"
+      fi
+
+    elif [[ ${_PZC_NVCC_BIN_AVAILABLE} = 1 ]]
+    then
+      _pzc_error "SYCL is not available. Set NVCC to default GPU compiler."
+      export PZC_GPU_HOST_COMPILER="${_PZC_NVCC_HOST_COMPILER}"
+      export PZC_GPU_COMPILER="${_PZC_NVCC_BIN}"
+      if [[ -v _PZC_GPU_TARGET_ARCH ]]
+      then
+        export PZC_GPU_FLAGS="'-gencode arch=compute_${_PZC_GPU_TARGET_ARCH},code=sm_${_PZC_GPU_TARGET_ARCH}'"
+      fi
+
+      local _PZC_GPU_DEFAULT_COMPILER="NVCC"
+
+    else
+      _pzc_error "NVCC and SYCL are not available."
+    fi
   fi
+else
+  _pzc_debug "No GPU default compiler"
 fi
 
 

@@ -89,11 +89,12 @@ dinf()
 # Define "CLang" to CMake default compiler.
 uclang()
 {
-  if [[ ${_PZC_C_CLANG_AVAILABLE} = 1 ]] && [[ ${_PZC_CXX_CLANG_AVAILABLE} = 1 ]]
+  if [[ ${_PZC_CLANG_AVAILABLE} = 1 ]]
   then
-    export PZC_CMAKE_C_COMPILER="-DCMAKE_C_COMPILER=${_PZC_C_CLANG}"
-    export PZC_CMAKE_CXX_COMPILER="-DCMAKE_CXX_COMPILER=${_PZC_CXX_CLANG}"
-    local _PZC_C_CXX_DEFAULT_COMPILER="CLANG"
+    export PZC_C_COMPILER="${_PZC_C_CLANG}"
+    export PZC_CXX_COMPILER="${_PZC_CXX_CLANG}"
+    _PZC_C_CXX_DEFAULT_COMPILER="CLANG"
+    _pzc_info "Define CLang to default C/CXX compiler."
   
   else
     _pzc_error "CLang is not available."
@@ -103,14 +104,54 @@ uclang()
 # Define "GCC" to CMake default compiler.
 ugcc()
 {
-  if [[ ${_PZC_C_GCC_AVAILABLE} = 1 ]] && [[ ${_PZC_CXX_GCC_AVAILABLE} = 1 ]]
+  if [[ ${_PZC_GCC_AVAILABLE} = 1 ]]
   then
-    export PZC_CMAKE_C_COMPILER="-DCMAKE_C_COMPILER=${_PZC_C_GCC}"
-    export PZC_CMAKE_CXX_COMPILER="-DCMAKE_CXX_COMPILER=${_PZC_CXX_GCC}"
-    local _PZC_C_CXX_DEFAULT_COMPILER="GCC"
+    export PZC_C_COMPILER="${_PZC_C_GCC}"
+    export PZC_CXX_COMPILER="${_PZC_CXX_GCC}"
+    _PZC_C_CXX_DEFAULT_COMPILER="GCC"
+    _pzc_info "Define GCC to default C/CXX compiler."
   
   else
     _pzc_error "GCC is not available."
+  fi
+}
+
+# Define "NVCC" to CMake default GPU compiler.
+unvcc()
+{
+  if [[ ${_PZC_NVCC_BIN_AVAILABLE} = 1 ]]
+  then
+    export PZC_GPU_HOST_COMPILER="${_PZC_NVCC_HOST_COMPILER}"
+    export PZC_GPU_COMPILER="${_PZC_NVCC_BIN}"
+    if [[ -v _PZC_GPU_TARGET_ARCH ]]
+    then
+      export PZC_GPU_FLAGS="'-gencode arch=compute_${_PZC_GPU_TARGET_ARCH},code=sm_${_PZC_GPU_TARGET_ARCH}'"
+    fi
+    _PZC_GPU_DEFAULT_COMPILER="NVCC"
+    _pzc_info "Define NVCC to default GPU compiler."
+  
+  else
+    _pzc_error "NVCC is not available."
+  fi
+}
+
+# Define "SYCL" to CMake default GPU compiler.
+usycl()
+{
+  if [[ ${_PZC_SYCL_BIN_AVAILABLE} = 1 ]]
+  then
+    export PZC_GPU_HOST_COMPILER="${_PZC_SYCL_BIN}"
+    export PZC_GPU_COMPILER="${_PZC_SYCL_BIN}"
+    if [[ -v _PZC_GPU_TARGET_ARCH ]]
+    then
+      export PZC_GPU_FLAGS="'--acpp-targets=cuda:sm_${_PZC_GPU_TARGET_ARCH}'"
+    fi
+
+    _PZC_GPU_DEFAULT_COMPILER="SYCL"
+    _pzc_info "Define SYCL to default GPU compiler."
+  
+  else
+    _pzc_error "SYCL is not available."
   fi
 }
 
