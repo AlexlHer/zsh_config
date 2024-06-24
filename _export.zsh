@@ -7,8 +7,48 @@
 # --------------------- Work dirs creation ----------------------
 # ---------------------------------------------------------------
 
-export WORK_DIR=${_PZC_LARGE_DIR}/work
-export BUILD_DIR=${_PZC_LARGE_DIR}/build_install
+if [[ -v _PZC_WORK_DIR_PATH ]]
+then
+  export WORK_DIR=${_PZC_WORK_DIR_PATH}/work
+  _pzc_debug "_PZC_WORK_DIR_PATH is set. WORK_DIR = ${WORK_DIR}."
+
+else
+  export WORK_DIR=${_PZC_LARGE_DIR}/work
+  _pzc_debug "_PZC_WORK_DIR_PATH is not set. WORK_DIR = ${WORK_DIR}."
+
+fi
+
+
+
+if [[ -v _PZC_INSTALL_DIR_PATH ]] && [[ -v _PZC_BUILD_DIR_PATH ]]
+then
+  export BUILD_DIR=${_PZC_BUILD_DIR_PATH}/build
+  export INSTALL_DIR=${_PZC_INSTALL_DIR_PATH}/install
+  _pzc_debug "_PZC_BUILD_DIR_PATH is set. BUILD_DIR = ${BUILD_DIR}."
+  _pzc_debug "_PZC_INSTALL_DIR_PATH is set. INSTALL_DIR = ${INSTALL_DIR}."
+
+elif [[ -v _PZC_BUILD_DIR_PATH ]]
+then
+  export BUILD_DIR=${_PZC_BUILD_DIR_PATH}/build_install
+  export INSTALL_DIR=${_PZC_BUILD_DIR_PATH}/build_install
+  _pzc_debug "_PZC_BUILD_DIR_PATH is set. BUILD_DIR = ${BUILD_DIR}."
+  _pzc_debug "_PZC_INSTALL_DIR_PATH is not set. INSTALL_DIR = ${INSTALL_DIR}."
+
+elif [[ -v _PZC_INSTALL_DIR_PATH ]]
+then
+  export BUILD_DIR=${_PZC_LARGE_DIR}/build
+  export INSTALL_DIR=${_PZC_INSTALL_DIR_PATH}/install
+  _pzc_debug "_PZC_BUILD_DIR_PATH is not set. BUILD_DIR = ${BUILD_DIR}."
+  _pzc_debug "_PZC_INSTALL_DIR_PATH is set. INSTALL_DIR = ${INSTALL_DIR}."
+
+else
+  export BUILD_DIR=${_PZC_LARGE_DIR}/build_install
+  export INSTALL_DIR=${_PZC_LARGE_DIR}/build_install
+  _pzc_debug "_PZC_BUILD_DIR_PATH is not set. BUILD_DIR = ${BUILD_DIR}."
+  _pzc_debug "_PZC_INSTALL_DIR_PATH is not set. INSTALL_DIR = ${INSTALL_DIR}."
+
+fi
+
 export CONTAINER_BUILD_DIR=${BUILD_DIR}/container
 
 _pzc_debug "Creating CCache, work, build and container_build directories"
@@ -33,8 +73,18 @@ then
   _pzc_debug "Exporting CCache variables and creating CCache dir"
   export CCACHE_COMPRESS=true
   export CCACHE_COMPRESSLEVEL=6
-  export CCACHE_DIR=${BUILD_DIR}/ccache
   export CCACHE_MAXSIZE=20G
+
+  if [[ -v _PZC_CCACHE_DIR_PATH ]]
+  then
+    export CCACHE_DIR=${_PZC_CCACHE_DIR_PATH}/ccache
+    _pzc_debug "_PZC_CCACHE_DIR_PATH is set. CCACHE_DIR = ${CCACHE_DIR}."
+
+  else
+    export CCACHE_DIR=${BUILD_DIR}/ccache
+    _pzc_debug "_PZC_CCACHE_DIR_PATH is not set. CCACHE_DIR = ${CCACHE_DIR}."
+  fi
+
   mkdir -p ${CCACHE_DIR}
 
   _pzc_debug "Set PZC_CMAKE_CXX/CC_COMPILER_LAUNCHER"

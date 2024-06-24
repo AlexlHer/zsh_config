@@ -168,6 +168,16 @@ local _PZC_CLANG_AVAILABLE=1
 #        for all builds/installs/ccache.
 #local _PZC_LARGE_DIR=${HOME}
 
+# [TODO] Uncomment and edit if you want more specific directories for your
+#        working environment.
+#local _PZC_WORK_DIR_PATH=${_PZC_LARGE_DIR}
+#local _PZC_BUILD_DIR_PATH=${_PZC_LARGE_DIR}
+#local _PZC_CCACHE_DIR_PATH=${_PZC_BUILD_DIR}
+
+# [TODO] Uncomment and edit if you don't want to have builds and installs
+#        in the same folder.
+#local _PZC_INSTALL_DIR_PATH=${_PZC_LARGE_DIR}
+
 
 # ----------------------------------
 # -------------- PC ID -------------

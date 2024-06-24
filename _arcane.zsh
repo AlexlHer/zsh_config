@@ -68,7 +68,7 @@ initarc()
 
   _pzc_ecal_eval "ARCANE_SOURCE_DIR=${WORK_DIR}/arcane/framework"
   _pzc_ecal_eval "ARCANE_BUILD_DIR=${BUILD_DIR}/build_framework/${TYPE_BUILD_DIR}"
-  _pzc_ecal_eval "ARCANE_INSTALL_PATH=${BUILD_DIR}/install_framework/${TYPE_BUILD_DIR}"
+  _pzc_ecal_eval "ARCANE_INSTALL_PATH=${INSTALL_DIR}/install_framework/${TYPE_BUILD_DIR}"
   echo ""
   _pzc_ecal_eval "mkdir -p ${ARCANE_BUILD_DIR}"
   _pzc_ecal_eval "mkdir -p ${ARCANE_INSTALL_PATH}"
@@ -111,7 +111,7 @@ initarcfork()
 
   _pzc_ecal_eval "ARCANE_SOURCE_DIR=${WORK_DIR}/arcane/forks/framework"
   _pzc_ecal_eval "ARCANE_BUILD_DIR=${BUILD_DIR}/build_framework_fork/${TYPE_BUILD_DIR}"
-  _pzc_ecal_eval "ARCANE_INSTALL_PATH=${BUILD_DIR}/install_framework_fork/${TYPE_BUILD_DIR}"
+  _pzc_ecal_eval "ARCANE_INSTALL_PATH=${INSTALL_DIR}/install_framework_fork/${TYPE_BUILD_DIR}"
   echo ""
   _pzc_ecal_eval "mkdir -p ${ARCANE_BUILD_DIR}"
   _pzc_ecal_eval "mkdir -p ${ARCANE_INSTALL_PATH}"
@@ -167,7 +167,7 @@ initap()
   _pzc_ecal_eval "AP_PROJECT_DIR=${WORK_DIR}/${AP_PROJECT_NAME}"
   _pzc_ecal_eval "AP_SOURCE_DIR=${AP_PROJECT_DIR}"
   _pzc_ecal_eval "AP_BUILD_DIR=${BUILD_DIR}/build_${AP_PROJECT_NAME}/${TYPE_BUILD_DIR}"
-  _pzc_ecal_eval "AP_INSTALL_DIR=${BUILD_DIR}/install_${AP_PROJECT_NAME}/${TYPE_BUILD_DIR}"
+  _pzc_ecal_eval "AP_INSTALL_DIR=${INSTALL_DIR}/install_${AP_PROJECT_NAME}/${TYPE_BUILD_DIR}"
   echo ""
   _pzc_ecal_eval "mkdir -p ${AP_BUILD_DIR}"
   echo ""
