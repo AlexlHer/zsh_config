@@ -78,10 +78,7 @@ then
   eval "$(${_PZC_OMP_BIN} init zsh --config ${_PZC_OMP_THEME_JSON})"
 
 else
-  autoload -Uz vcs_info
-  precmd() { vcs_info }
-  zstyle ':vcs_info:git:*' formats '%b '
   setopt PROMPT_SUBST
-  PROMPT='%F{green}%*%f %F{blue}%~%f %F{red}${vcs_info_msg_0_}%f$ '
+  PROMPT='%F{green}%*%f %F{blue}%~%f $ '
 
 fi
