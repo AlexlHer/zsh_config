@@ -52,7 +52,7 @@ fi
 export CONTAINER_BUILD_DIR=${BUILD_DIR}/container
 
 _pzc_debug "Creating CCache, work, build and container_build directories"
-mkdir -p ${WORK_DIR} ${BUILD_DIR} ${CONTAINER_BUILD_DIR}
+mkdir -p ${WORK_DIR} ${BUILD_DIR} ${INSTALL_DIR} ${CONTAINER_BUILD_DIR}
 
 
 
