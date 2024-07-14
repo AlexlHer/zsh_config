@@ -29,15 +29,13 @@ then
   # Color $1 or 3 last edited files.
   lll()
   {
-    local NUM_FILES="${1:-3}"
-    grep --color=always -E -- "$(l -snew --color=never | tail -n${NUM_FILES})|$" <(l --color=never)
+    ${_PZC_EZA_BIN} --icons --color-scale --time-style long-iso --git --total-size -bghHlM -s=modified
   }
 
   # Color $1 or 3 last edited files (cached files edition).
   llla()
   {
-    local NUM_FILES="${1:-3}"
-    grep --color=always -E -- "$(la -snew --color=never | tail -n${NUM_FILES})|$" <(la --color=never)
+    ${_PZC_EZA_BIN} --icons --color-scale --time-style long-iso --git --total-size -BghHlMa -s=modified
   }
 
 else

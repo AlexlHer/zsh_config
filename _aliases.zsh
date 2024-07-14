@@ -16,8 +16,8 @@ if [[ ${_PZC_EZA_AVAILABLE} = 1 ]]
 then
   _pzc_debug "Aliases for EZA-LS."
   alias ls='${_PZC_EZA_BIN} --icons'
-  alias l='${_PZC_EZA_BIN} --icons --color-scale --time-style long-iso -BghHl'
-  alias la='${_PZC_EZA_BIN} --icons --color-scale --time-style long-iso -BghHla'
+  alias l='${_PZC_EZA_BIN} --icons --color-scale --time-style long-iso --git --total-size --group-directories-first -bghHlM'
+  alias la='${_PZC_EZA_BIN} --icons --color-scale --time-style long-iso --git --total-size --group-directories-first -BghHlMa'
 
 ## --- Without EZA-LS ---
 else
