@@ -194,7 +194,7 @@ pconfigarc()
       CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
     fi
 
-    if [[ "${ARCANE_TYPE_BUILD}" == "Debug" ]]
+    if [[ "${ARCANE_TYPE_BUILD}" == "Debug" ]] && [[ "${_PZC_C_CXX_DEFAULT_COMPILER}" == "GCC" ]]
     then
       _PZC_CMAKE_CODE_COVERAGE="-DARCCORE_ENABLE_CODE_COVERAGE=ON"
     fi
@@ -240,7 +240,7 @@ configarc()
       CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
     fi
 
-    if [[ "${ARCANE_TYPE_BUILD}" == "Debug" ]]
+    if [[ "${ARCANE_TYPE_BUILD}" == "Debug" ]] && [[ "${_PZC_C_CXX_DEFAULT_COMPILER}" == "GCC" ]]
     then
       _PZC_CMAKE_CODE_COVERAGE="-DARCCORE_ENABLE_CODE_COVERAGE=ON"
     fi
@@ -284,7 +284,7 @@ pconfigarcgpu()
       CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
     fi
 
-    if [[ "${ARCANE_TYPE_BUILD}" == "Debug" ]]
+    if [[ "${ARCANE_TYPE_BUILD}" == "Debug" ]] && [[ "${_PZC_C_CXX_DEFAULT_COMPILER}" == "GCC" ]]
     then
       _PZC_CMAKE_CODE_COVERAGE="-DARCCORE_ENABLE_CODE_COVERAGE=ON"
     fi
@@ -352,7 +352,7 @@ configarcgpu()
       CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
     fi
 
-    if [[ "${ARCANE_TYPE_BUILD}" == "Debug" ]]
+    if [[ "${ARCANE_TYPE_BUILD}" == "Debug" ]] && [[ "${_PZC_C_CXX_DEFAULT_COMPILER}" == "GCC" ]]
     then
       _PZC_CMAKE_CODE_COVERAGE="-DARCCORE_ENABLE_CODE_COVERAGE=ON"
     fi
