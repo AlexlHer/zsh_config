@@ -194,6 +194,11 @@ pconfigarc()
       CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
     fi
 
+    if [[ "${ARCANE_TYPE_BUILD}" == "Debug" ]]
+    then
+      _PZC_CMAKE_CODE_COVERAGE="-DARCCORE_ENABLE_CODE_COVERAGE=ON"
+    fi
+
     _pzc_pensil_begin
     echo "cmake \\"
     echo "  ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \\"
@@ -202,6 +207,7 @@ pconfigarc()
     echo "  -DCMAKE_CXX_COMPILER=${PZC_CXX_COMPILER} \\"
     echo "  ${PZC_CMAKE_LINKER_TYPE} \\"
     echo "  ${PZC_CMAKE_GENERATOR} \\"
+    echo "  ${_PZC_CMAKE_CODE_COVERAGE} \\"
     echo "  -S ${ARCANE_SOURCE_DIR} \\"
     echo "  -B ${ARCANE_BUILD_DIR} \\"
     echo "  -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \\"
@@ -234,6 +240,11 @@ configarc()
       CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
     fi
 
+    if [[ "${ARCANE_TYPE_BUILD}" == "Debug" ]]
+    then
+      _PZC_CMAKE_CODE_COVERAGE="-DARCCORE_ENABLE_CODE_COVERAGE=ON"
+    fi
+
     cmake \
       ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \
       ${PZC_CMAKE_C_COMPILER_LAUNCHER} \
@@ -241,6 +252,7 @@ configarc()
       -DCMAKE_CXX_COMPILER=${PZC_CXX_COMPILER} \
       ${PZC_CMAKE_LINKER_TYPE} \
       ${PZC_CMAKE_GENERATOR} \
+      ${_PZC_CMAKE_CODE_COVERAGE} \
       -S ${ARCANE_SOURCE_DIR} \
       -B ${ARCANE_BUILD_DIR} \
       -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \
@@ -272,6 +284,11 @@ pconfigarcgpu()
       CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
     fi
 
+    if [[ "${ARCANE_TYPE_BUILD}" == "Debug" ]]
+    then
+      _PZC_CMAKE_CODE_COVERAGE="-DARCCORE_ENABLE_CODE_COVERAGE=ON"
+    fi
+
     if [[ "${_PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
     then
       _PZC_ARCANE_ACCELERATOR_MODE="-DARCANE_ACCELERATOR_MODE=CUDANVCC"
@@ -298,6 +315,7 @@ pconfigarcgpu()
     echo "  -DCMAKE_CXX_COMPILER=${PZC_GPU_HOST_COMPILER} \\"
     echo "  ${PZC_CMAKE_LINKER_TYPE} \\"
     echo "  ${PZC_CMAKE_GENERATOR} \\"
+    echo "  ${_PZC_CMAKE_CODE_COVERAGE} \\"
     echo "  ${_PZC_ARCANE_ACCELERATOR_MODE} \\"
     echo "  ${_PZC_CMAKE_GPU_COMPILER} \\"
     echo "  ${_PZC_CMAKE_GPU_FLAGS} \\"
@@ -334,6 +352,11 @@ configarcgpu()
       CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
     fi
 
+    if [[ "${ARCANE_TYPE_BUILD}" == "Debug" ]]
+    then
+      _PZC_CMAKE_CODE_COVERAGE="-DARCCORE_ENABLE_CODE_COVERAGE=ON"
+    fi
+
     if [[ "${_PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
     then
       _PZC_ARCANE_ACCELERATOR_MODE="-DARCANE_ACCELERATOR_MODE=CUDANVCC"
@@ -359,6 +382,7 @@ configarcgpu()
       -DCMAKE_CXX_COMPILER=${PZC_GPU_HOST_COMPILER} \
       ${PZC_CMAKE_LINKER_TYPE} \
       ${PZC_CMAKE_GENERATOR} \
+      ${_PZC_CMAKE_CODE_COVERAGE} \
       ${_PZC_ARCANE_ACCELERATOR_MODE} \
       ${_PZC_CMAKE_GPU_COMPILER} \
       ${_PZC_CMAKE_GPU_FLAGS} \
