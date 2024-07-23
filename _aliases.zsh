@@ -100,7 +100,7 @@ alias winetricks32='_pzc_coal "WINEPREFIX=~/.wine32 winetricks" ; WINEPREFIX=~/.
 # ------------------------ KDE aliases --------------------------
 # ---------------------------------------------------------------
 
-alias restartkde='_pzc_coal_eval "kstart5 plasmashell -- --replace"'
+alias restartkde='_pzc_coal_eval "killall -s KILL plasmashell"'
 
 
 
