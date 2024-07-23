@@ -29,11 +29,19 @@ then
   # Color $1 or 3 last edited files.
   lll()
   {
+    ${_PZC_EZA_BIN} --icons --color-scale --time-style long-iso --git -bghHlM -s=modified
+  }
+  llldum()
+  {
     ${_PZC_EZA_BIN} --icons --color-scale --time-style long-iso --git --total-size -bghHlM -s=modified
   }
 
   # Color $1 or 3 last edited files (cached files edition).
   llla()
+  {
+    ${_PZC_EZA_BIN} --icons --color-scale --time-style long-iso --git -BghHlMa -s=modified
+  }
+  llladum()
   {
     ${_PZC_EZA_BIN} --icons --color-scale --time-style long-iso --git --total-size -BghHlMa -s=modified
   }
@@ -41,8 +49,24 @@ then
 else
   _pzc_debug "Define functions for LS (not EZA-LS)."
 
+  ll()
+  {
+    _pzc_coal_eval 'l'
+  }
+
+  # Tree version of la with custom depth.
+  lla()
+  {
+    _pzc_coal_eval 'la'
+  }
+
   # Color $1 or 3 last edited files.
   lll()
+  {
+    local NUM_FILES="${1:-3}"
+    grep --color=always -E -- "$(l -rt | tail -n${NUM_FILES})|$" <(l)
+  }
+  llldum()
   {
     local NUM_FILES="${1:-3}"
     grep --color=always -E -- "$(l -rt | tail -n${NUM_FILES})|$" <(l)
@@ -50,6 +74,11 @@ else
 
   # Color $1 or 3 last edited files (cache edition).
   llla()
+  {
+    local NUM_FILES="${1:-3}"
+    grep --color=always -E -- "$(la -rt | tail -n${NUM_FILES})|$" <(la)
+  }
+  llladum()
   {
     local NUM_FILES="${1:-3}"
     grep --color=always -E -- "$(la -rt | tail -n${NUM_FILES})|$" <(la)
