@@ -47,6 +47,12 @@ source ${_PZC_PZC_DIR}/_export.zsh
 # Source perso alias (optional)
 source ${_PZC_PZC_DIR}/_aliases.zsh
 
+# Source perso KDE specific part (optional)
+source ${_PZC_PZC_DIR}/_kde.zsh
+
+# Source perso encrypt/decrypt functions (optional)
+source ${_PZC_PZC_DIR}/_enc_functions.zsh
+
 # Source perso functions (optional)
 source ${_PZC_PZC_DIR}/_functions.zsh
 

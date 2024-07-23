@@ -421,72 +421,6 @@ fi
 
 
 
-
-
-# ---------------------------------------------------------------
-# -------------------------- Age/Rage ---------------------------
-# ---------------------------------------------------------------
-
-if [[ ${_PZC_AGE_AVAILABLE} = 1 ]]
-then
-
-  if [[ -v _PZC_SSH_PUB ]] && [[ -e ${_PZC_SSH_PUB} ]] && [[ -v _PZC_SSH_PRI ]] && [[ -e ${_PZC_SSH_PRI} ]]
-  then
-
-    if [[ -v _PZC_AGE_BIN ]] && [[ -e ${_PZC_AGE_BIN} ]]
-    then
-      _pzc_debug "_PZC_AGE_BIN = ${_PZC_AGE_BIN} (user defined)"
-
-    elif [[ -v _PZC_AGE_BIN ]]
-    then
-      _pzc_warning "Your age is not found. Search other age."
-      _pzc_debug "_PZC_AGE_BIN = ${_PZC_AGE_BIN} (unset)"
-      unset _PZC_AGE_BIN
-
-    fi
-
-    if [[ ! -v _PZC_AGE_BIN ]]
-    then
-
-      if [[ -x "$(command -v age)" ]]
-      then
-        _PZC_AGE_BIN=age
-        _PZC_AGE_AVAILABLE=1
-        _pzc_debug "_PZC_AGE_BIN = ${_PZC_AGE_BIN} (in PATH) (AGE)"
-
-      elif [[ -x "$(command -v rage)" ]]
-      then
-        _PZC_AGE_BIN=rage
-        _PZC_AGE_AVAILABLE=1
-        _pzc_debug "_PZC_AGE_BIN = ${_PZC_AGE_BIN} (in PATH) (RAGE)"
-
-      elif [[ -e ${_PZC_PZC_DIR}/progs/age/age ]]
-      then
-        _PZC_AGE_BIN=${_PZC_PZC_DIR}/progs/age/age
-        _PZC_AGE_AVAILABLE=1
-        _pzc_debug "_PZC_AGE_BIN = ${_PZC_AGE_BIN} (in pzc) (AGE)"
-        
-      else
-        _PZC_AGE_AVAILABLE=0
-        _pzc_warning "Age is not installed (https://github.com/FiloSottile/age). You can install age in the PZC folder with the command 'pzc_install_age' or disable age search in .zshrc."
-
-      fi
-    fi
-  else
-    unset _PZC_AGE_BIN
-    _PZC_AGE_AVAILABLE=0
-    _pzc_warning "Public key and/or private key not defined in .zshrc."
-    _pzc_debug "_PZC_SSH_PUB = ${_PZC_SSH_PUB}"
-    _pzc_debug "_PZC_SSH_PRI = ${_PZC_SSH_PRI}"
-
-  fi
-else
-  _pzc_debug "Age disabled."
-
-fi
-
-
-
 # ---------------------------------------------------------------
 # --------------------------- EZA-LS ----------------------------
 # ---------------------------------------------------------------
@@ -752,40 +686,6 @@ then
   }
 fi
 
-
-
-# ------------------------
-# --------- Age ----------
-# ------------------------
-
-if [[ ${_PZC_AGE_AVAILABLE} = 0 ]]
-then
-  _pzc_debug "Define pzc_install_age function"
-  pzc_install_age()
-  {
-    _pzc_info "Install AGE in PZC folder..."
-
-    _pzc_debug "Download AGE in TMP folder"
-    wget -q -O "${_PZC_TMP_DIR}/age_archive.tar.gz" "https://github.com/FiloSottile/age/releases/download/v1.1.1/age-v1.1.1-linux-amd64.tar.gz"
-
-    _pzc_debug "Untar AGE archive in TMP/age_archive folder"
-    tar -zxf "${_PZC_TMP_DIR}/age_archive.tar.gz" -C "${_PZC_TMP_DIR}"
-
-    _pzc_debug "MkDir progs/age"
-    mkdir -p "${_PZC_PZC_DIR}/progs/age"
-
-    _pzc_debug "Copy age bin"
-    cp "${_PZC_TMP_DIR}/age/age" "${_PZC_PZC_DIR}/progs/age/"
-
-    if [[ $? = 0 ]]
-    then
-      _pzc_info "Reload ZSH..."
-      exec zsh
-    else
-      _pzc_error "Error with wget call."
-    fi
-  }
-fi
 
 
 
