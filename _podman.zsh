@@ -89,6 +89,7 @@ then
     _pzc_info "Installing OhMyPosh in container..."
     pm exec $CONTAINER curl -o /root/install.sh https://ohmyposh.dev/install.sh
     pm exec $CONTAINER chmod u+x /root/install.sh
+    pm exec $CONTAINER mkdir -p /root/.local/bin
     pm exec $CONTAINER bash -c /root/install.sh
 
     _pzc_info "Installing PZC in container..."
@@ -96,6 +97,7 @@ then
     pm exec $CONTAINER cp /root/.pzc/home.zshrc /root/.zshrc
     pm exec $CONTAINER sed -i 's/local _PZC_AGE_AVAILABLE=1/local _PZC_AGE_AVAILABLE=0/g' /root/.zshrc
     pm exec $CONTAINER sed -i 's/local _PZC_CHMOD_COMPILING=0/local _PZC_CHMOD_COMPILING=1/g' /root/.zshrc
+    pm exec $CONTAINER sed -i 's:#local _PZC_OMP_BIN=:local _PZC_OMP_BIN=/root/.local/bin/oh-my-posh:g' /root/.zshrc
 
     _pzc_info "Copying .zhistory in container..."
     pm cp $HOME/.zhistory $CONTAINER:/root/.zhistory

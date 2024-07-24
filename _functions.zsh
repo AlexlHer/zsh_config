@@ -254,3 +254,16 @@ todo()
 
   fi
 }
+
+
+
+# ---------------------------------------------------------------
+# ----------------------- Tmp function --------------------------
+# ---------------------------------------------------------------
+
+tdir()
+{
+  export TDIR=$(mktemp -d --tmpdir=${_PZC_TMP_DIR})
+  _pzc_info "Create new directory in ${_PZC_TMP_DIR} : ${TDIR}"
+  _pzc_coal_eval "cd ${TDIR}"
+}
