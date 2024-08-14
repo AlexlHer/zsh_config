@@ -31,6 +31,15 @@ alias clonearc='_pzc_coal_eval "mkdir -p ${WORK_DIR}/arcane" ; \
 
 
 # ---------------------------------------------------------------
+# --------------- Create folder for init scripts ----------------
+# ---------------------------------------------------------------
+
+export PZC_ARCANE_SCRIPTS=${_PZC_PZC_DIR}/arcane_scripts
+mkdir -p ${PZC_ARCANE_SCRIPTS}
+
+
+
+# ---------------------------------------------------------------
 # ----------------------- Init functions ------------------------
 # ---------------------------------------------------------------
 
@@ -122,12 +131,10 @@ initarcfork()
 
 initap()
 {
-
   if [[ -v 1 ]]
   then
     _pzc_info "Initialize Arcane Project: ${1}"
-    _pzc_pensil_begin
-    _pzc_ecal_eval "AP_PROJECT_NAME=${1}"
+    AP_PROJECT_NAME=${1}
   else
     _pzc_error "Need project name (first arg)"
     return 1
@@ -137,43 +144,142 @@ initap()
   then
     if [[ ${2} == "D" ]] || [[ ${2} == "Debug" ]]
     then
-      _pzc_ecal_eval "ARCANE_TYPE_BUILD=Debug"
+      ARCANE_TYPE_BUILD=Debug
     elif [[ ${2} == "C" ]] || [[ ${2} == "Check" ]]
     then
-      _pzc_ecal_eval "ARCANE_TYPE_BUILD=Check"
+      ARCANE_TYPE_BUILD=Check
     elif [[ ${2} == "R" ]] || [[ ${2} == "Release" ]]
     then
-      _pzc_ecal_eval "ARCANE_TYPE_BUILD=Release"
+      ARCANE_TYPE_BUILD=Release
     else
-      _pzc_pensil_end
       _pzc_error "Invalid 'ARCANE_TYPE_BUILD' (second arg)"
       return 1
     fi
   else
     _pzc_info "No argument, defining 'ARCANE_TYPE_BUILD' to 'Release'"
-    _pzc_ecal_eval "ARCANE_TYPE_BUILD=Release"
+    ARCANE_TYPE_BUILD=Release
   fi
 
   if [[ -v 3 ]]
   then
-    _pzc_ecal_eval "TYPE_BUILD_DIR=${3}"
+    TYPE_BUILD_DIR=${3}
   else
-    _pzc_ecal_eval "TYPE_BUILD_DIR=${ARCANE_TYPE_BUILD}"
+    TYPE_BUILD_DIR=${ARCANE_TYPE_BUILD}
   fi
 
-  _pzc_ecal_eval "ARCANE_INSTALL_PATH=${BUILD_DIR}/install_framework/${TYPE_BUILD_DIR}"
-  echo ""
-  _pzc_ecal_eval "AP_BUILD_TYPE=${ARCANE_TYPE_BUILD}"
-  _pzc_ecal_eval "AP_PROJECT_DIR=${WORK_DIR}/${AP_PROJECT_NAME}"
-  _pzc_ecal_eval "AP_SOURCE_DIR=${AP_PROJECT_DIR}"
-  _pzc_ecal_eval "AP_BUILD_DIR=${BUILD_DIR}/build_${AP_PROJECT_NAME}/${TYPE_BUILD_DIR}"
-  _pzc_ecal_eval "AP_INSTALL_DIR=${INSTALL_DIR}/install_${AP_PROJECT_NAME}/${TYPE_BUILD_DIR}"
-  echo ""
-  _pzc_ecal_eval "mkdir -p ${AP_BUILD_DIR}"
-  echo ""
-  _pzc_ecal_eval "cd ${AP_BUILD_DIR}"
+  local _PZC_EDIT_AP_PATH="${PZC_ARCANE_SCRIPTS}/editap_${AP_PROJECT_NAME}_${TYPE_BUILD_DIR}.zsh"
 
+  if [[ -e ${_PZC_EDIT_AP_PATH} ]]
+  then
+    _pzc_info "The edit script exist. Overwrite default initialization."
+    _pzc_coal_eval "source ${_PZC_EDIT_AP_PATH}"
+
+  else
+    ARCANE_INSTALL_PATH="${BUILD_DIR}/install_framework/${TYPE_BUILD_DIR}"
+    AP_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
+    AP_PROJECT_DIR="${WORK_DIR}/${AP_PROJECT_NAME}"
+    AP_SOURCE_DIR="${AP_PROJECT_DIR}"
+    AP_BUILD_DIR="${BUILD_DIR}/build_${AP_PROJECT_NAME}/${TYPE_BUILD_DIR}"
+    AP_INSTALL_DIR="${INSTALL_DIR}/install_${AP_PROJECT_NAME}/${TYPE_BUILD_DIR}"
+  fi
+
+  mkdir -p "${AP_BUILD_DIR}"
+  cd "${AP_BUILD_DIR}"
+
+  _pzc_pensil_begin
+  echo "AP_PROJECT_NAME=${AP_PROJECT_NAME}"
+  echo "ARCANE_TYPE_BUILD=${ARCANE_TYPE_BUILD}"
+  echo "TYPE_BUILD_DIR=${TYPE_BUILD_DIR}"
+  echo ""
+  echo "ARCANE_INSTALL_PATH=${ARCANE_INSTALL_PATH}"
+  echo ""
+  echo "AP_BUILD_TYPE=${AP_BUILD_TYPE}"
+  echo "AP_PROJECT_DIR=${AP_PROJECT_DIR}"
+  echo "AP_SOURCE_DIR=${AP_SOURCE_DIR}"
+  echo "AP_BUILD_DIR=${AP_BUILD_DIR}"
+  echo "AP_INSTALL_DIR=${AP_INSTALL_DIR}"
+  echo ""
+  echo "mkdir -p ${AP_BUILD_DIR}"
+  echo "cd ${AP_BUILD_DIR}"
   _pzc_pensil_end
+}
+
+
+
+# ---------------------------------------------------------------
+# -------------------- Edit init functions ----------------------
+# ---------------------------------------------------------------
+
+editap()
+{
+  if [[ ! -v AP_BUILD_DIR ]]
+  then
+    _pzc_error "Lancer initap avant."
+    return 1
+  fi
+
+  _pzc_info "Edit initialization of Arcane Project: ${AP_PROJECT_NAME}"
+  _pzc_info "Type of build to edit: ${ARCANE_TYPE_BUILD}"
+  _pzc_info "Subdir build to edit: ${TYPE_BUILD_DIR}"
+
+  local _PZC_EDIT_AP_PATH="${PZC_ARCANE_SCRIPTS}/editap_${AP_PROJECT_NAME}_${TYPE_BUILD_DIR}.zsh"
+
+  _pzc_info "Location of the edit script: ${_PZC_EDIT_AP_PATH}"
+
+
+  if [[ -e ${_PZC_EDIT_AP_PATH} ]]
+  then
+    _pzc_info "The edit script exist. Editing it..."
+    _pzc_coal_eval "${_PZC_FILE_EDITOR} ${_PZC_EDIT_AP_PATH}"
+
+  else
+    _pzc_coal_eval "touch ${_PZC_EDIT_AP_PATH}"
+
+    _pzc_info "Creating the edit script..."
+
+    echo "# Custom initialisation for the Arcane project: ${AP_PROJECT_NAME}" >> ${_PZC_EDIT_AP_PATH}
+    echo "# Type of build: ${ARCANE_TYPE_BUILD}" >> ${_PZC_EDIT_AP_PATH}
+    echo "# Subdir of build: ${TYPE_BUILD_DIR}\n" >> ${_PZC_EDIT_AP_PATH}
+
+    echo "# Arcane install path:" >> ${_PZC_EDIT_AP_PATH}
+    echo "ARCANE_INSTALL_PATH=${BUILD_DIR}/install_framework/${TYPE_BUILD_DIR}\n" >> ${_PZC_EDIT_AP_PATH}
+
+    echo "# Type of build for this project:" >> ${_PZC_EDIT_AP_PATH}
+    echo "AP_BUILD_TYPE=${ARCANE_TYPE_BUILD}\n" >> ${_PZC_EDIT_AP_PATH}
+
+    echo "# Directory with the project:" >> ${_PZC_EDIT_AP_PATH}
+    echo "AP_PROJECT_DIR=${WORK_DIR}/${AP_PROJECT_NAME}\n" >> ${_PZC_EDIT_AP_PATH}
+
+    echo "# Directory with the project source (with the CMakeLists.txt file):" >> ${_PZC_EDIT_AP_PATH}
+    echo "AP_SOURCE_DIR=${AP_PROJECT_DIR}\n" >> ${_PZC_EDIT_AP_PATH}
+
+    echo "# Directory needed for the project build:" >> ${_PZC_EDIT_AP_PATH}
+    echo "AP_BUILD_DIR=${BUILD_DIR}/build_${AP_PROJECT_NAME}/${TYPE_BUILD_DIR}\n" >> ${_PZC_EDIT_AP_PATH}
+
+    echo "# Directory where install the project:" >> ${_PZC_EDIT_AP_PATH}
+    echo "AP_INSTALL_DIR=${INSTALL_DIR}/install_${AP_PROJECT_NAME}/${TYPE_BUILD_DIR}\n" >> ${_PZC_EDIT_AP_PATH}
+
+    _pzc_coal_eval "${_PZC_FILE_EDITOR} ${_PZC_EDIT_AP_PATH}"
+  fi
+
+  echo ""
+  _pzc_coal_eval "initap ${AP_PROJECT_NAME} ${ARCANE_TYPE_BUILD} ${TYPE_BUILD_DIR}"
+}
+
+editaprm()
+{
+  if [[ ! -v AP_BUILD_DIR ]]
+  then
+    _pzc_error "Lancer initap avant."
+    return 1
+  fi
+
+  local _PZC_EDIT_AP_PATH="${PZC_ARCANE_SCRIPTS}/editap_${AP_PROJECT_NAME}_${TYPE_BUILD_DIR}.zsh"
+  local _PZC_TDIR=$(mktemp -d --tmpdir=${_PZC_TMP_DIR})
+
+  _pzc_info "Moving ${_PZC_EDIT_AP_PATH} file in ${_PZC_TDIR} directory..."
+
+  mv ${_PZC_EDIT_AP_PATH} ${_PZC_TDIR}
 }
 
 
