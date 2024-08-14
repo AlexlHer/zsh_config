@@ -75,52 +75,16 @@ initarc()
     _pzc_ecal_eval "TYPE_BUILD_DIR=${ARCANE_TYPE_BUILD}"
   fi
 
-  _pzc_ecal_eval "ARCANE_SOURCE_DIR=${WORK_DIR}/arcane/framework"
-  _pzc_ecal_eval "ARCANE_BUILD_DIR=${BUILD_DIR}/build_framework/${TYPE_BUILD_DIR}"
-  _pzc_ecal_eval "ARCANE_INSTALL_PATH=${INSTALL_DIR}/install_framework/${TYPE_BUILD_DIR}"
-  echo ""
-  _pzc_ecal_eval "mkdir -p ${ARCANE_BUILD_DIR}"
-  _pzc_ecal_eval "mkdir -p ${ARCANE_INSTALL_PATH}"
-  echo ""
-  _pzc_ecal_eval "cd ${ARCANE_BUILD_DIR}"
-  _pzc_pensil_end
-}
-
-initarcfork()
-{
-  _pzc_pensil_begin
-
-  if [[ -v 1 ]]
+  if [[ -v 3 ]]
   then
-    if [[ ${1} == "D" ]] || [[ ${1} == "Debug" ]]
-    then
-      _pzc_ecal_eval "ARCANE_TYPE_BUILD=Debug"
-    elif [[ ${1} == "C" ]] || [[ ${1} == "Check" ]]
-    then
-      _pzc_ecal_eval "ARCANE_TYPE_BUILD=Check"
-    elif [[ ${1} == "R" ]] || [[ ${1} == "Release" ]]
-    then
-      _pzc_ecal_eval "ARCANE_TYPE_BUILD=Release"
-    else
-      _pzc_pensil_end
-      _pzc_error "Invalid 'ARCANE_TYPE_BUILD' (first arg)"
-      return 1
-    fi
+    local _PZC_ARCANE_SOURCE_DIR=${3}
   else
-    _pzc_info "No argument, defining 'ARCANE_TYPE_BUILD' to 'Release'"
-    _pzc_ecal_eval "ARCANE_TYPE_BUILD=Release"
+    local _PZC_ARCANE_SOURCE_DIR=framework
   fi
 
-  if [[ -v 2 ]]
-  then
-    _pzc_ecal_eval "TYPE_BUILD_DIR=${2}"
-  else
-    _pzc_ecal_eval "TYPE_BUILD_DIR=${ARCANE_TYPE_BUILD}"
-  fi
-
-  _pzc_ecal_eval "ARCANE_SOURCE_DIR=${WORK_DIR}/arcane/forks/framework"
-  _pzc_ecal_eval "ARCANE_BUILD_DIR=${BUILD_DIR}/build_framework_fork/${TYPE_BUILD_DIR}"
-  _pzc_ecal_eval "ARCANE_INSTALL_PATH=${INSTALL_DIR}/install_framework_fork/${TYPE_BUILD_DIR}"
+  _pzc_ecal_eval "ARCANE_SOURCE_DIR=${WORK_DIR}/arcane/${_PZC_ARCANE_SOURCE_DIR}"
+  _pzc_ecal_eval "ARCANE_BUILD_DIR=${BUILD_DIR}/build_${_PZC_ARCANE_SOURCE_DIR}/${TYPE_BUILD_DIR}"
+  _pzc_ecal_eval "ARCANE_INSTALL_PATH=${INSTALL_DIR}/install_${_PZC_ARCANE_SOURCE_DIR}/${TYPE_BUILD_DIR}"
   echo ""
   _pzc_ecal_eval "mkdir -p ${ARCANE_BUILD_DIR}"
   _pzc_ecal_eval "mkdir -p ${ARCANE_INSTALL_PATH}"
