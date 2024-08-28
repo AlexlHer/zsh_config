@@ -202,12 +202,15 @@ local _PZC_LOG_WARNING=1
 local _PZC_LOG_ERROR=1
 local _PZC_LOG_DEBUG=0
 
-
 # ----------------------------------
 # - Personnal ZSH config directory -
 # ----------------------------------
 local _PZC_PZC_DIR=${HOME}/.pzc
 
+# ----------------------------------
+# ------ Config file version -------
+# ----------------------------------
+local _PZC_CONFIG_VERSION=(5 16 0)
 
 # ----------------------------------
 # ------ Source of true zshrc ------
