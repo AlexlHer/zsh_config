@@ -9,7 +9,7 @@
 
 # Source internal
 source ${_PZC_PZC_DIR}/_internal.zsh
-
+source ${_PZC_PZC_DIR}/_welcome.zsh
 
 
 # ---------------------------------------------------------------

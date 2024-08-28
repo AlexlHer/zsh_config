@@ -238,12 +238,31 @@ editaprm()
     return 1
   fi
 
+  _pzc_info "Remove initialization script of Arcane Project: ${AP_PROJECT_NAME}"
+  _pzc_info "Type of build to remove: ${ARCANE_TYPE_BUILD}"
+  _pzc_info "Subdir build to remove: ${TYPE_BUILD_DIR}"
+
+
   local _PZC_EDIT_AP_PATH="${PZC_ARCANE_SCRIPTS}/editap_${AP_PROJECT_NAME}_${TYPE_BUILD_DIR}.zsh"
-  local _PZC_TDIR=$(mktemp -d --tmpdir=${_PZC_TMP_DIR})
 
-  _pzc_info "Moving ${_PZC_EDIT_AP_PATH} file in ${_PZC_TDIR} directory..."
+  _pzc_info "Location of the script: ${_PZC_EDIT_AP_PATH}"
 
-  mv ${_PZC_EDIT_AP_PATH} ${_PZC_TDIR}
+  if [[ -e ${_PZC_EDIT_AP_PATH} ]]
+  then
+    _pzc_info "The edit script exist."
+
+    local _PZC_TDIR=$(mktemp -d --tmpdir=${_PZC_TMP_DIR})
+    _pzc_info "Moving ${_PZC_EDIT_AP_PATH} file in ${_PZC_TDIR} directory..."
+
+    mv ${_PZC_EDIT_AP_PATH} ${_PZC_TDIR}
+
+    echo ""
+    _pzc_coal_eval "initap ${AP_PROJECT_NAME} ${ARCANE_TYPE_BUILD} ${TYPE_BUILD_DIR}"
+
+  else
+    _pzc_warning "The edit script doesn't exist."
+    return 1
+  fi
 }
 
 
