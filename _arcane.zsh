@@ -139,7 +139,7 @@ initap()
     _pzc_coal_eval "source ${_PZC_EDIT_AP_PATH}"
 
   else
-    ARCANE_INSTALL_PATH="${BUILD_DIR}/install_framework/${TYPE_BUILD_DIR}"
+    ARCANE_INSTALL_PATH="${INSTALL_DIR}/install_framework/${TYPE_BUILD_DIR}"
     AP_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
     AP_PROJECT_DIR="${WORK_DIR}/${AP_PROJECT_NAME}"
     AP_SOURCE_DIR="${AP_PROJECT_DIR}"
@@ -206,7 +206,7 @@ editap()
     echo "# Subdir of build: ${TYPE_BUILD_DIR}\n" >> ${_PZC_EDIT_AP_PATH}
 
     echo "# Arcane install path:" >> ${_PZC_EDIT_AP_PATH}
-    echo "ARCANE_INSTALL_PATH=${BUILD_DIR}/install_framework/${TYPE_BUILD_DIR}\n" >> ${_PZC_EDIT_AP_PATH}
+    echo "ARCANE_INSTALL_PATH=${INSTALL_DIR}/install_framework/${TYPE_BUILD_DIR}\n" >> ${_PZC_EDIT_AP_PATH}
 
     echo "# Type of build for this project:" >> ${_PZC_EDIT_AP_PATH}
     echo "AP_BUILD_TYPE=${ARCANE_TYPE_BUILD}\n" >> ${_PZC_EDIT_AP_PATH}
