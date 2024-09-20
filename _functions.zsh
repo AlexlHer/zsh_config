@@ -7,6 +7,9 @@
 # -------------------- EZA-LS/LS Functions ----------------------
 # ---------------------------------------------------------------
 
+# Unalias ll if exist, to define ll function after.
+unalias ll 2&>/dev/null || true
+
 # If EZA-LS is installed.
 if [[ ${_PZC_EZA_AVAILABLE} = 1 ]]
 then
