@@ -88,3 +88,12 @@ alias cdw='_pzc_coal_eval "cd ${WORK_DIR}"'
 
 alias tarcxz='_pzc_coal "tar -Ipixz -cf" ; tar -Ipixz -cf'
 alias tarxxz='_pzc_coal "tar -Ipixz -xf" ; tar -Ipixz -xf'
+
+
+
+# ---------------------------------------------------------------
+# ------------------------ Task aliases -------------------------
+# ---------------------------------------------------------------
+
+alias t='task'
+

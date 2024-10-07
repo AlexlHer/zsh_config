@@ -2,7 +2,7 @@
 ## ----- Main zshrc -----
 
 # PZC Version
-local _PZC_VERSION=(5 16 2)
+local _PZC_VERSION=(5 17 0)
 local _PZC_CONFIG_VERSION_NEEDED=(5 16 0)
 
 
@@ -80,15 +80,18 @@ source ${_PZC_PZC_DIR}/completion/_completion.zsh
 
 
 # ---------------------------------------------------------------
-# -------------------------- OhMyPosh ---------------------------
+# --------------------------- Prompt ----------------------------
 # ---------------------------------------------------------------
 
-if [[ ${_PZC_OMP_AVAILABLE} = 1 ]]
+if [[ ${_PZC_OMP_AVAILABLE} = 1 ]] && [[ ! -v SIMPLE_TERM ]]
 then
   eval "$(${_PZC_OMP_BIN} init zsh --config ${_PZC_OMP_THEME_JSON})"
 
 else
   setopt PROMPT_SUBST
-  PROMPT='%F{green}%*%f %F{blue}%~%f $ '
-
+  NEWLINE=$'\n'
+  #PROMPT="[RET=%?][%*]${NEWLINE}${NEWLINE}[%n][%m]${NEWLINE}[%~]${NEWLINE}> "
+  PROMPT="%F{006}[RET=%?]%f%F{006}[%*]%f${NEWLINE}${NEWLINE}%F{001}[%n]%f%F{003}[%m]%f${NEWLINE}%F{002}[%~]%f${NEWLINE}%F{006}>%f "
+  #PROMPT="%F{006}[RET=%?]%f%F{014}[%*]%f${NEWLINE}${NEWLINE}%F{009}[%n]%f%F{011}[%m]%f${NEWLINE}%F{010}[%~]%f${NEWLINE}%F{014}>%f "
 fi
+
