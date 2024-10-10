@@ -2,7 +2,7 @@
 ## ----- Main zshrc -----
 
 # PZC Version
-local _PZC_VERSION=(5 19 0)
+local _PZC_VERSION=(5 20 0)
 local _PZC_CONFIG_LAST_VERSION=(5 19 0)
 local _PZC_CONFIG_VERSION_NEEDED=(5 16 0)
 
@@ -66,6 +66,9 @@ source ${_PZC_PZC_DIR}/_functions.zsh
 
 # Source local config (optional)
 source ${_PZC_PZC_DIR}/_local.zsh
+
+# Source CMake specific functions (optional)
+source ${_PZC_PZC_DIR}/_cmake_projects.zsh
 
 # Source Arcane specific functions (optional)
 source ${_PZC_PZC_DIR}/_arcane.zsh

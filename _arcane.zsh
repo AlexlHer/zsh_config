@@ -31,15 +31,6 @@ alias clonearc='_pzc_coal_eval "mkdir -p ${WORK_DIR}/arcane" ; \
 
 
 # ---------------------------------------------------------------
-# --------------- Create folder for init scripts ----------------
-# ---------------------------------------------------------------
-
-export PZC_ARCANE_SCRIPTS=${_PZC_PZC_DIR}/arcane_scripts
-mkdir -p ${PZC_ARCANE_SCRIPTS}
-
-
-
-# ---------------------------------------------------------------
 # ----------------------- Init functions ------------------------
 # ---------------------------------------------------------------
 
@@ -131,7 +122,7 @@ initap()
     TYPE_BUILD_DIR=${ARCANE_TYPE_BUILD}
   fi
 
-  local _PZC_EDIT_AP_PATH="${PZC_ARCANE_SCRIPTS}/editap_${AP_PROJECT_NAME}_${TYPE_BUILD_DIR}.zsh"
+  local _PZC_EDIT_AP_PATH="${PZC_EDIT_SCRIPTS}/editap_${AP_PROJECT_NAME}_${TYPE_BUILD_DIR}.zsh"
 
   if [[ -e ${_PZC_EDIT_AP_PATH} ]]
   then
@@ -186,7 +177,7 @@ editap()
   _pzc_info "Type of build to edit: ${ARCANE_TYPE_BUILD}"
   _pzc_info "Subdir build to edit: ${TYPE_BUILD_DIR}"
 
-  local _PZC_EDIT_AP_PATH="${PZC_ARCANE_SCRIPTS}/editap_${AP_PROJECT_NAME}_${TYPE_BUILD_DIR}.zsh"
+  local _PZC_EDIT_AP_PATH="${PZC_EDIT_SCRIPTS}/editap_${AP_PROJECT_NAME}_${TYPE_BUILD_DIR}.zsh"
 
   _pzc_info "Location of the edit script: ${_PZC_EDIT_AP_PATH}"
 
@@ -243,7 +234,7 @@ editaprm()
   _pzc_info "Subdir build to remove: ${TYPE_BUILD_DIR}"
 
 
-  local _PZC_EDIT_AP_PATH="${PZC_ARCANE_SCRIPTS}/editap_${AP_PROJECT_NAME}_${TYPE_BUILD_DIR}.zsh"
+  local _PZC_EDIT_AP_PATH="${PZC_EDIT_SCRIPTS}/editap_${AP_PROJECT_NAME}_${TYPE_BUILD_DIR}.zsh"
 
   _pzc_info "Location of the script: ${_PZC_EDIT_AP_PATH}"
 
