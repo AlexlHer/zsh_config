@@ -95,5 +95,7 @@ alias tarxxz='_pzc_coal "tar -Ipixz -xf" ; tar -Ipixz -xf'
 # ------------------------ Task aliases -------------------------
 # ---------------------------------------------------------------
 
-alias t='task'
-
+if [[ ${_PZC_TASK_AVAILABLE} = 1 ]]
+then
+  alias t='task'
+fi

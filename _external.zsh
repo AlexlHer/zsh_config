@@ -653,6 +653,47 @@ fi
 
 
 # ---------------------------------------------------------------
+# ------------------------ TASKWARRIOR --------------------------
+# ---------------------------------------------------------------
+
+if [[ ${_PZC_TASK_AVAILABLE} = 1 ]]
+then
+
+  if [[ -v _PZC_TASK_PATH ]] && [[ -e ${_PZC_TASK_PATH} ]]
+  then
+    _pzc_debug "_PZC_TASK_PATH = ${_PZC_TASK_PATH} (add in PATH)"
+    export PATH=${_PZC_TASK_PATH}:$PATH
+
+  elif [[ -v _PZC_TASK_PATH ]]
+  then
+    _pzc_warning "Your taskwarrior binary is not found. Search other taskwarrior."
+    _pzc_debug "_PZC_TASK_PATH = ${_PZC_TASK_PATH} (unset)"
+    unset _PZC_TASK_PATH
+
+  fi
+
+  if [[ ! -v _PZC_TASK_PATH ]]
+  then
+
+    if [[ -x "$(command -v task)" ]]
+    then
+      _PZC_TASK_AVAILABLE=1
+      _pzc_debug "Taskwarrior found in PATH"
+      
+    else
+      _PZC_TASK_AVAILABLE=0
+      _pzc_warning "Taskwarrior is not installed (https://github.com/GothenburgBitFactory/taskwarrior). You can disable taskwarrior search in .zshrc."
+
+    fi
+  fi
+else
+  _pzc_debug "Taskwarrior disabled."
+
+fi
+
+
+
+# ---------------------------------------------------------------
 # ---------------------- PZC Install Part -----------------------
 # ---------------------------------------------------------------
 
@@ -721,4 +762,3 @@ then
     fi
   }
 fi
-

@@ -104,6 +104,17 @@ local _PZC_CMAKE_AVAILABLE=1
 
 
 # ----------------------------------
+# ---------- TASKWARRIOR -----------
+# ----------------------------------
+# [TODO] If you want to use taskwarrior, set this variable to 1.
+local _PZC_TASK_AVAILABLE=1
+
+# [TODO] Uncomment and complete if you have a custom installation of taskwarrior.
+# Note: This PATH will be add in PATH.
+#local _PZC_TASK_PATH=
+
+
+# ----------------------------------
 # ------------- CHMOD --------------
 # ----------------------------------
 # [TODO] In case of problem with permissions after compiling,
@@ -210,7 +221,7 @@ local _PZC_PZC_DIR=${HOME}/.pzc
 # ----------------------------------
 # ------ Config file version -------
 # ----------------------------------
-local _PZC_CONFIG_VERSION=(5 16 0)
+local _PZC_CONFIG_VERSION=(5 19 0)
 
 # ----------------------------------
 # ------ Source of true zshrc ------
