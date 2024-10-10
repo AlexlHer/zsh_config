@@ -2,7 +2,8 @@
 ## ----- Main zshrc -----
 
 # PZC Version
-local _PZC_VERSION=(5 17 0)
+local _PZC_VERSION=(5 18 0)
+local _PZC_CONFIG_LAST_VERSION=(5 16 0)
 local _PZC_CONFIG_VERSION_NEEDED=(5 16 0)
 
 
@@ -11,10 +12,13 @@ local _PZC_CONFIG_VERSION_NEEDED=(5 16 0)
 # -------------------- Internal PZC sources ---------------------
 # ---------------------------------------------------------------
 
+local _PZC_FATAL_ERROR=0
 # Source internal
 source ${_PZC_PZC_DIR}/_internal.zsh
 
 
+if [[ ${_PZC_FATAL_ERROR} = 0 ]]
+then
 
 # ---------------------------------------------------------------
 # --------------------- Compatibility part ----------------------
@@ -95,3 +99,11 @@ else
   #PROMPT="%F{006}[RET=%?]%f%F{014}[%*]%f${NEWLINE}${NEWLINE}%F{009}[%n]%f%F{011}[%m]%f${NEWLINE}%F{010}[%~]%f${NEWLINE}%F{014}>%f "
 fi
 
+# if _PZC_FATAL_ERROR
+else
+  echo ""
+  echo "\033[0;101m\033[30m   Error: A fatal error have been detected in PZC configuration. Check previous messages to fix it. Minimal execution. \033[0m"
+  setopt PROMPT_SUBST
+  NEWLINE=$'\n'
+  PROMPT="[RET=%?][%*]${NEWLINE}${NEWLINE}[%n][%m]${NEWLINE}[%~]${NEWLINE}> "
+fi
