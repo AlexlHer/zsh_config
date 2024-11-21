@@ -2,7 +2,7 @@
 ## ----- Main zshrc -----
 
 # PZC Version
-local _PZC_VERSION=(5 21 0)
+local _PZC_VERSION=(5 21 1)
 local _PZC_CONFIG_LAST_VERSION=(5 21 0)
 local _PZC_CONFIG_VERSION_NEEDED=(5 16 0)
 

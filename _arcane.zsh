@@ -274,11 +274,6 @@ pconfigarc()
       CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
     fi
 
-    if [[ "${ARCANE_TYPE_BUILD}" == "Debug" ]] && [[ "${_PZC_C_CXX_DEFAULT_COMPILER}" == "GCC" ]]
-    then
-      _PZC_CMAKE_CODE_COVERAGE="-DARCCORE_ENABLE_CODE_COVERAGE=ON"
-    fi
-
     _pzc_pensil_begin
     echo "cmake \\"
     echo "  ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \\"
@@ -294,7 +289,8 @@ pconfigarc()
     echo "  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \\"
     echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \\"
-    echo "  -DARCCORE_CXX_STANDARD=23"
+    echo "  -DARCCORE_CXX_STANDARD=23 \\"
+    echo "  -DARCANEFRAMEWORK_BUILD_COMPONENTS=Arcane"
     if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
     then
       echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
@@ -320,11 +316,6 @@ configarc()
       CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
     fi
 
-    if [[ "${ARCANE_TYPE_BUILD}" == "Debug" ]] && [[ "${_PZC_C_CXX_DEFAULT_COMPILER}" == "GCC" ]]
-    then
-      _PZC_CMAKE_CODE_COVERAGE="-DARCCORE_ENABLE_CODE_COVERAGE=ON"
-    fi
-
     cmake \
       ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \
       ${PZC_CMAKE_C_COMPILER_LAUNCHER} \
@@ -339,7 +330,8 @@ configarc()
       -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
       -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
       -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \
-      -DARCCORE_CXX_STANDARD=23
+      -DARCCORE_CXX_STANDARD=23 \
+      -DARCANEFRAMEWORK_BUILD_COMPONENTS=Arcane
   
     if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
     then
@@ -362,11 +354,6 @@ pconfigarcgpu()
       CMAKE_BUILD_TYPE="RelWithDebInfo"
     else
       CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
-    fi
-
-    if [[ "${ARCANE_TYPE_BUILD}" == "Debug" ]] && [[ "${_PZC_C_CXX_DEFAULT_COMPILER}" == "GCC" ]]
-    then
-      _PZC_CMAKE_CODE_COVERAGE="-DARCCORE_ENABLE_CODE_COVERAGE=ON"
     fi
 
     if [[ "${_PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
@@ -405,7 +392,8 @@ pconfigarcgpu()
     echo "  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \\"
     echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \\"
-    echo "  -DARCCORE_CXX_STANDARD=20"
+    echo "  -DARCCORE_CXX_STANDARD=20 \\"
+    echo "  -DARCANEFRAMEWORK_BUILD_COMPONENTS=Arcane"
 
     if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
     then
@@ -430,11 +418,6 @@ configarcgpu()
       CMAKE_BUILD_TYPE="RelWithDebInfo"
     else
       CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
-    fi
-
-    if [[ "${ARCANE_TYPE_BUILD}" == "Debug" ]] && [[ "${_PZC_C_CXX_DEFAULT_COMPILER}" == "GCC" ]]
-    then
-      _PZC_CMAKE_CODE_COVERAGE="-DARCCORE_ENABLE_CODE_COVERAGE=ON"
     fi
 
     if [[ "${_PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
@@ -472,7 +455,8 @@ configarcgpu()
       -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
       -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
       -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \
-      -DARCCORE_CXX_STANDARD=20
+      -DARCCORE_CXX_STANDARD=20 \
+      -DARCANEFRAMEWORK_BUILD_COMPONENTS=Arcane
 
     if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
     then
