@@ -96,6 +96,7 @@ then
     pm exec $CONTAINER git clone https://github.com/AlexlHer/zsh_config /root/.pzc
     pm exec $CONTAINER cp /root/.pzc/home.zshrc /root/.zshrc
     pm exec $CONTAINER sed -i 's/local _PZC_AGE_AVAILABLE=1/local _PZC_AGE_AVAILABLE=0/g' /root/.zshrc
+    pm exec $CONTAINER sed -i 's/local _PZC_TASK_AVAILABLE=1/local _PZC_TASK_AVAILABLE=0/g' /root/.zshrc
     pm exec $CONTAINER sed -i 's/local _PZC_CHMOD_COMPILING=0/local _PZC_CHMOD_COMPILING=1/g' /root/.zshrc
     pm exec $CONTAINER sed -i 's:#local _PZC_OMP_BIN=:local _PZC_OMP_BIN=/root/.local/bin/oh-my-posh:g' /root/.zshrc
 
