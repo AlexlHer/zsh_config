@@ -2,8 +2,8 @@
 ## ----- Main zshrc -----
 
 # PZC Version
-local _PZC_VERSION=(5 20 0)
-local _PZC_CONFIG_LAST_VERSION=(5 19 0)
+local _PZC_VERSION=(5 21 0)
+local _PZC_CONFIG_LAST_VERSION=(5 21 0)
 local _PZC_CONFIG_VERSION_NEEDED=(5 16 0)
 
 
@@ -92,7 +92,7 @@ source ${_PZC_PZC_DIR}/completion/_completion.zsh
 
 if [[ ${_PZC_OMP_AVAILABLE} = 1 ]] && [[ ! -v SIMPLE_TERM ]]
 then
-  eval "$(${_PZC_OMP_BIN} init zsh --config ${_PZC_OMP_THEME_JSON})"
+  eval "$(${_PZC_OMP_BIN} init zsh --config ${_PZC_OMP_THEME_FILE})"
 
 else
   setopt PROMPT_SUBST

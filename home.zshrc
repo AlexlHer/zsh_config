@@ -37,7 +37,7 @@ local _PZC_OMP_AVAILABLE=1
 #local _PZC_OMP_BIN=
 
 # [TODO] Uncomment and complete if you have a custom Oh-My-Posh theme.
-#local _PZC_OMP_THEME_JSON=
+#local _PZC_OMP_THEME_FILE=
 
 
 # ----------------------------------
@@ -58,6 +58,9 @@ local _PZC_EZA_AVAILABLE=1
 
 # [TODO] Uncomment and complete if you have a custom installation of EZA-LS (which is not in PATH).
 #local _PZC_EZA_BIN=
+
+# [TODO] Uncomment and complete if you have a custom EZA theme.
+#local _PZC_EZA_CONFIG_DIR=
 
 
 # ----------------------------------
@@ -221,7 +224,7 @@ local _PZC_PZC_DIR=${HOME}/.pzc
 # ----------------------------------
 # ------ Config file version -------
 # ----------------------------------
-local _PZC_CONFIG_VERSION=(5 19 0)
+local _PZC_CONFIG_VERSION=(5 21 0)
 
 # ----------------------------------
 # ------ Source of true zshrc ------

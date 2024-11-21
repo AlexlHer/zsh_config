@@ -388,29 +388,28 @@ then
   fi
 
 
-  if [[ -v _PZC_OMP_THEME_JSON ]] && [[ -e ${_PZC_OMP_THEME_JSON} ]]
+  if [[ -v _PZC_OMP_THEME_FILE ]] && [[ -e ${_PZC_OMP_THEME_FILE} ]]
   then
-    _pzc_debug "_PZC_OMP_THEME_JSON = ${_PZC_OMP_THEME_JSON} (user defined)"
+    _pzc_debug "_PZC_OMP_THEME_FILE = ${_PZC_OMP_THEME_FILE} (user defined)"
 
-  elif [[ -v _PZC_OMP_THEME_JSON ]]
+  elif [[ -v _PZC_OMP_THEME_FILE ]]
   then
     _pzc_warning "Your Oh-My-Posh theme is not found. Search default Oh-My-Posh theme."
-    _pzc_debug "_PZC_OMP_THEME_JSON = ${_PZC_OMP_THEME_JSON} (unset)"
-    unset _PZC_OMP_THEME_JSON
+    _pzc_debug "_PZC_OMP_THEME_FILE = ${_PZC_OMP_THEME_FILE} (unset)"
+    unset _PZC_OMP_THEME_FILE
 
   fi
 
-  if [[ ! -v _PZC_OMP_THEME_JSON ]]
+  if [[ ! -v _PZC_OMP_THEME_FILE ]]
   then
 
     if [[ -e ${_PZC_PZC_DIR}/progs/oh-my-posh/themes/OhMyZSH.json ]]
     then
-      _PZC_OMP_THEME_JSON=${_PZC_PZC_DIR}/progs/oh-my-posh/themes/OhMyZSH.json
-      _pzc_debug "_PZC_OMP_THEME_JSON = ${_PZC_OMP_THEME_JSON} (default)"
+      _PZC_OMP_THEME_FILE=${_PZC_PZC_DIR}/progs/oh-my-posh/themes/OhMyZSH.json
+      _pzc_debug "_PZC_OMP_THEME_FILE = ${_PZC_OMP_THEME_FILE} (default)"
 
     else
       _pzc_warning "Default Oh-My-Posh theme is not found (https://github.com/JanDeDobbeleer/oh-my-posh)."
-      _PZC_OMP_AVAILABLE=0
 
     fi
   fi
@@ -478,6 +477,35 @@ then
     else
       _PZC_EZA_AVAILABLE=0
       _pzc_warning "Eza is not installed (https://github.com/eza-community/eza). You can install eza in the PZC folder with the command 'pzc_install_eza' or disable eza search in .zshrc."
+
+    fi
+  fi
+
+
+  if [[ -v _PZC_EZA_CONFIG_DIR ]] && [[ -d ${_PZC_EZA_CONFIG_DIR} ]]
+  then
+    _pzc_debug "_PZC_EZA_CONFIG_DIR = ${_PZC_EZA_CONFIG_DIR} (user defined)"
+    export EZA_CONFIG_DIR=${_PZC_EZA_CONFIG_DIR}
+
+  elif [[ -v _PZC_EZA_CONFIG_DIR ]]
+  then
+    _pzc_warning "Your EZA config dir is not found. Search default EZA config dir."
+    _pzc_debug "_PZC_EZA_CONFIG_DIR = ${_PZC_EZA_CONFIG_DIR} (unset)"
+    unset _PZC_EZA_CONFIG_DIR
+
+  fi
+
+  if [[ ! -v _PZC_EZA_CONFIG_DIR ]]
+  then
+
+    if [[ -d ${_PZC_PZC_DIR}/progs/eza/config ]]
+    then
+      _PZC_EZA_CONFIG_DIR=${_PZC_PZC_DIR}/progs/eza/config
+      _pzc_debug "_PZC_EZA_CONFIG_DIR = ${_PZC_EZA_CONFIG_DIR} (default)"
+      export EZA_CONFIG_DIR=${_PZC_EZA_CONFIG_DIR}
+
+    else
+      _pzc_warning "Default EZA config dir is not found."
 
     fi
   fi
