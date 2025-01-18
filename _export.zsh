@@ -121,6 +121,9 @@ then
   _pzc_debug "Add -GNinja"
   export PZC_CMAKE_GENERATOR="-GNinja"
 
+  _pzc_debug "Customize status message"
+  export NINJA_STATUS="-> %p [%f/%t][%r] "
+
 fi
 
 
@@ -176,10 +179,6 @@ then
       _pzc_debug "Default GPU compiler : NVCC"
       export PZC_GPU_HOST_COMPILER="${PZC_NVCC_HOST_COMPILER_BIN}"
       export PZC_GPU_COMPILER="${PZC_NVCC_BIN}"
-      if [[ -v _PZC_GPU_TARGET_ARCH ]]
-      then
-        export PZC_GPU_FLAGS="'-gencode arch=compute_${_PZC_GPU_TARGET_ARCH},code=sm_${_PZC_GPU_TARGET_ARCH}'"
-      fi
 
     elif [[ ${_PZC_SYCL_BIN_AVAILABLE} = 1 ]]
     then
@@ -213,10 +212,6 @@ then
       _pzc_error "SYCL is not available. Set NVCC to default GPU compiler."
       export PZC_GPU_HOST_COMPILER="${PZC_NVCC_HOST_COMPILER_BIN}"
       export PZC_GPU_COMPILER="${PZC_NVCC_BIN}"
-      if [[ -v _PZC_GPU_TARGET_ARCH ]]
-      then
-        export PZC_GPU_FLAGS="'-gencode arch=compute_${_PZC_GPU_TARGET_ARCH},code=sm_${_PZC_GPU_TARGET_ARCH}'"
-      fi
 
       local _PZC_GPU_DEFAULT_COMPILER="NVCC"
 

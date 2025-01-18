@@ -10,6 +10,8 @@
 export PZC_EDIT_SCRIPTS=${_PZC_PZC_DIR}/arcane_scripts
 mkdir -p ${PZC_EDIT_SCRIPTS}
 
+
+
 # ---------------------------------------------------------------
 # ----------------------- Init functions ------------------------
 # ---------------------------------------------------------------
@@ -199,14 +201,14 @@ pconfigcmp()
 
     _pzc_pensil_begin
     echo "cmake \\"
-    echo "  ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \\"
-    echo "  ${PZC_CMAKE_C_COMPILER_LAUNCHER} \\"
-    echo "  -DCMAKE_C_COMPILER=${PZC_C_COMPILER} \\"
-    echo "  -DCMAKE_CXX_COMPILER=${PZC_CXX_COMPILER} \\"
-    echo "  ${PZC_CMAKE_LINKER_TYPE} \\"
-    echo "  ${PZC_CMAKE_GENERATOR} \\"
     echo "  -S ${CMP_SOURCE_DIR} \\"
     echo "  -B ${CMP_BUILD_DIR} \\"
+    echo "  -DCMAKE_C_COMPILER=${PZC_C_COMPILER} \\"
+    echo "  -DCMAKE_CXX_COMPILER=${PZC_CXX_COMPILER} \\"
+    echo "  ${PZC_CMAKE_GENERATOR} \\"
+    echo "  ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \\"
+    echo "  ${PZC_CMAKE_C_COMPILER_LAUNCHER} \\"
+    echo "  ${PZC_CMAKE_LINKER_TYPE} \\"
     echo "  -DCMAKE_INSTALL_PREFIX=${CMP_INSTALL_DIR} \\"
     echo "  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
     _pzc_pensil_end
@@ -232,14 +234,14 @@ configcmp()
     fi
 
     cmake \
-      ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \
-      ${PZC_CMAKE_C_COMPILER_LAUNCHER} \
-      -DCMAKE_C_COMPILER=${PZC_C_COMPILER} \
-      -DCMAKE_CXX_COMPILER=${PZC_CXX_COMPILER} \
-      ${PZC_CMAKE_LINKER_TYPE} \
-      ${PZC_CMAKE_GENERATOR} \
       -S ${CMP_SOURCE_DIR} \
       -B ${CMP_BUILD_DIR} \
+      -DCMAKE_C_COMPILER=${PZC_C_COMPILER} \
+      -DCMAKE_CXX_COMPILER=${PZC_CXX_COMPILER} \
+      ${PZC_CMAKE_GENERATOR} \
+      ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \
+      ${PZC_CMAKE_C_COMPILER_LAUNCHER} \
+      ${PZC_CMAKE_LINKER_TYPE} \
       -DCMAKE_INSTALL_PREFIX=${CMP_INSTALL_DIR} \
       -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
       

@@ -5,4 +5,5 @@ _local_p.zsh
 progs/oh-my-posh/oh-my-posh
 progs/eza/eza
 progs/age/age
-arcane_scripts
+arcane_scripts/
+cache/

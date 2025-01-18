@@ -153,10 +153,7 @@ unvcc()
   then
     export PZC_GPU_HOST_COMPILER="${PZC_NVCC_HOST_COMPILER_BIN}"
     export PZC_GPU_COMPILER="${PZC_NVCC_BIN}"
-    if [[ -v _PZC_GPU_TARGET_ARCH ]]
-    then
-      export PZC_GPU_FLAGS="'-gencode arch=compute_${_PZC_GPU_TARGET_ARCH},code=sm_${_PZC_GPU_TARGET_ARCH}'"
-    fi
+    unset PZC_GPU_FLAGS
     _PZC_GPU_DEFAULT_COMPILER="NVCC"
     _pzc_info "Define NVCC to default GPU compiler."
   
