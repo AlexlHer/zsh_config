@@ -49,10 +49,21 @@ else
 
 fi
 
+if [[ -v _PZC_ENVI_DIR_PATH ]]
+then
+  export ENVI_DIR=${_PZC_ENVI_DIR_PATH}/environment
+  _pzc_debug "_PZC_ENVI_DIR_PATH is set. ENVI_DIR = ${ENVI_DIR}."
+
+else
+  export ENVI_DIR=${_PZC_LARGE_DIR}/environment
+  _pzc_debug "_PZC_ENVI_DIR_PATH is not set. ENVI_DIR = ${ENVI_DIR}."
+
+fi
+
 export CONTAINER_BUILD_DIR=${BUILD_DIR}/container
 
-_pzc_debug "Creating CCache, work, build and container_build directories"
-mkdir -p ${WORK_DIR} ${BUILD_DIR} ${INSTALL_DIR} ${CONTAINER_BUILD_DIR}
+_pzc_debug "Creating CCache, work, build, environment and container_build directories"
+mkdir -p ${WORK_DIR} ${BUILD_DIR} ${INSTALL_DIR} ${ENVI_DIR} ${CONTAINER_BUILD_DIR}
 
 
 

@@ -186,6 +186,7 @@ local _PZC_CLANG_AVAILABLE=1
 #        working environment.
 #local _PZC_WORK_DIR_PATH=${_PZC_LARGE_DIR}
 #local _PZC_BUILD_DIR_PATH=${_PZC_LARGE_DIR}
+#local _PZC_ENVI_DIR_PATH=${_PZC_LARGE_DIR}
 #local _PZC_CCACHE_DIR_PATH=${_PZC_BUILD_DIR}
 
 # [TODO] Uncomment and edit if you don't want to have builds and installs
@@ -224,7 +225,7 @@ local _PZC_PZC_DIR=${HOME}/.pzc
 # ----------------------------------
 # ------ Config file version -------
 # ----------------------------------
-local _PZC_CONFIG_VERSION=(5 21 0)
+local _PZC_CONFIG_VERSION=(5 24 0)
 
 # ----------------------------------
 # ------ Source of true zshrc ------

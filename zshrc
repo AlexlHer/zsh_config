@@ -2,8 +2,8 @@
 ## ----- Main zshrc -----
 
 # PZC Version
-local _PZC_VERSION=(5 23 0)
-local _PZC_CONFIG_LAST_VERSION=(5 21 0)
+local _PZC_VERSION=(5 24 0)
+local _PZC_CONFIG_LAST_VERSION=(5 24 0)
 local _PZC_CONFIG_VERSION_NEEDED=(5 16 0)
 
 
@@ -75,6 +75,9 @@ source ${_PZC_PZC_DIR}/_arcane.zsh
 
 # Source Podman/Docker specific functions (optional)
 source ${_PZC_PZC_DIR}/_podman.zsh
+
+# Source Python specific functions (optional)
+source ${_PZC_PZC_DIR}/_python.zsh
 
 
 
