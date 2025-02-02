@@ -1,9 +1,4 @@
-_local_f.zsh
-_local_c.zsh
-_local_p.zsh
-
 progs/oh-my-posh/oh-my-posh
 progs/eza/eza
 progs/age/age
-arcane_scripts/
 cache/

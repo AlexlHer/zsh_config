@@ -7,10 +7,21 @@
 # --------------- Create folder for init scripts ----------------
 # ---------------------------------------------------------------
 
-export PZC_EDIT_SCRIPTS=${_PZC_PZC_DIR}/arcane_scripts
+export PZC_EDIT_SCRIPTS=${PZC_USER_CONFIG_DIR}/cmake_scripts
 mkdir -p ${PZC_EDIT_SCRIPTS}
 
 
+
+# ---------------------------------------------------------------
+# -------------------- Compatibility update ---------------------
+# ---------------------------------------------------------------
+# TODO : Delete this part in PZC v7
+
+if [[ -d ${_PZC_PZC_DIR}/arcane_scripts ]]
+then
+  _pzc_info "An old PZC version have been created arcane_scripts folder. Moving these scripts in ${PZC_EDIT_SCRIPTS}..."
+  mv ${_PZC_PZC_DIR}/arcane_scripts/* ${PZC_EDIT_SCRIPTS}
+fi
 
 # ---------------------------------------------------------------
 # ----------------------- Init functions ------------------------

@@ -249,7 +249,7 @@ todo()
     return 1
 
   else
-    _pzc_error "_PZC_TODOLIST_PATH not define. Check your .zshrc."
+    _pzc_error "_PZC_TODOLIST_PATH not define. Check your .pzcrc."
     return 1
 
   fi

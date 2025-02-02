@@ -11,10 +11,113 @@ _pzc_update_pzcrc_5()
   echo "# ----------------------------------" >> ${_PZC_OUTPUT_FILE}
   echo "local _PZC_CONFIG_VERSION=(6 0 0)" >> ${_PZC_OUTPUT_FILE}
   echo "" >> ${_PZC_OUTPUT_FILE}
-  echo "" >> ${_PZC_OUTPUT_FILE}
+  echo "# ----------------------------------" >> ${_PZC_OUTPUT_FILE}
+  echo "# ------- Log verbose level --------" >> ${_PZC_OUTPUT_FILE}
+  echo "# ----------------------------------" >> ${_PZC_OUTPUT_FILE}
+
+  if [[ ${_PZC_LOG_INFO} = 1 ]]
+  then
+    echo "local _PZC_LOG_INFO=1" >> ${_PZC_OUTPUT_FILE}
+  else
+    echo "local _PZC_LOG_INFO=0" >> ${_PZC_OUTPUT_FILE}
+  fi
+
+  if [[ ${_PZC_LOG_WARNING} = 1 ]]
+  then
+    echo "local _PZC_LOG_WARNING=1" >> ${_PZC_OUTPUT_FILE}
+  else
+    echo "local _PZC_LOG_WARNING=0" >> ${_PZC_OUTPUT_FILE}
+  fi
+
+  if [[ ${_PZC_LOG_ERROR} = 1 ]]
+  then
+    echo "local _PZC_LOG_ERROR=1" >> ${_PZC_OUTPUT_FILE}
+  else
+    echo "local _PZC_LOG_ERROR=0" >> ${_PZC_OUTPUT_FILE}
+  fi
+
+  if [[ ${_PZC_LOG_DEBUG} = 1 ]]
+  then
+    echo "local _PZC_LOG_DEBUG=1" >> ${_PZC_OUTPUT_FILE}
+  else
+    echo "local _PZC_LOG_DEBUG=0" >> ${_PZC_OUTPUT_FILE}
+  fi
   echo "" >> ${_PZC_OUTPUT_FILE}
   echo "# ==================================" >> ${_PZC_OUTPUT_FILE}
   echo "# ==================================" >> ${_PZC_OUTPUT_FILE}
+  echo "" >> ${_PZC_OUTPUT_FILE}
+  echo "# ----------------------------------" >> ${_PZC_OUTPUT_FILE}
+  echo "# ----------- File editor ----------" >> ${_PZC_OUTPUT_FILE}
+  echo "# ----------------------------------" >> ${_PZC_OUTPUT_FILE}
+  echo "# [TODO] Uncomment and edit if you want to use an other file editor than 'vim'." >> ${_PZC_OUTPUT_FILE}
+  if [[ -v _PZC_FILE_EDITOR ]]
+  then
+    echo "local _PZC_FILE_EDITOR=\"${_PZC_FILE_EDITOR}\"" >> ${_PZC_OUTPUT_FILE}
+  else
+    echo "#local _PZC_FILE_EDITOR=vim" >> ${_PZC_OUTPUT_FILE}
+  fi
+  echo "" >> ${_PZC_OUTPUT_FILE}
+  echo "" >> ${_PZC_OUTPUT_FILE}
+  echo "# ----------------------------------" >> ${_PZC_OUTPUT_FILE}
+  echo "# --------- TMP directory ----------" >> ${_PZC_OUTPUT_FILE}
+  echo "# ----------------------------------" >> ${_PZC_OUTPUT_FILE}
+  echo "# [TODO] Uncomment and edit if you have an other tmp dir than '/tmp'." >> ${_PZC_OUTPUT_FILE}
+  if [[ -v _PZC_TMP_DIR ]]
+  then
+    echo "local _PZC_TMP_DIR=\"${_PZC_TMP_DIR}\"" >> ${_PZC_OUTPUT_FILE}
+  else
+    echo "#local _PZC_TMP_DIR=/tmp" >> ${_PZC_OUTPUT_FILE}
+  fi
+  echo "" >> ${_PZC_OUTPUT_FILE}
+  echo "" >> ${_PZC_OUTPUT_FILE}
+  echo "# ----------------------------------" >> ${_PZC_OUTPUT_FILE}
+  echo "# -------- Large directory ---------" >> ${_PZC_OUTPUT_FILE}
+  echo "# ----------------------------------" >> ${_PZC_OUTPUT_FILE}
+  echo "# [TODO] Uncomment and edit if you have an other large dir than your HOME" >> ${_PZC_OUTPUT_FILE}
+  echo "#        for all builds/installs/ccache." >> ${_PZC_OUTPUT_FILE}
+  if [[ -v _PZC_LARGE_DIR ]]
+  then
+    echo "local _PZC_LARGE_DIR=\"${_PZC_LARGE_DIR}\"" >> ${_PZC_OUTPUT_FILE}
+  else
+    echo '#local _PZC_LARGE_DIR=${HOME}' >> ${_PZC_OUTPUT_FILE}
+  fi
+  echo "" >> ${_PZC_OUTPUT_FILE}
+  echo "# [TODO] Uncomment and edit if you want more specific directories for your" >> ${_PZC_OUTPUT_FILE}
+  echo "#        working environment." >> ${_PZC_OUTPUT_FILE}
+  if [[ -v _PZC_WORK_DIR_PATH ]]
+  then
+    echo "local _PZC_WORK_DIR_PATH=\"${_PZC_WORK_DIR_PATH}\"" >> ${_PZC_OUTPUT_FILE}
+  else
+    echo '#local _PZC_WORK_DIR_PATH=${_PZC_LARGE_DIR}' >> ${_PZC_OUTPUT_FILE}
+  fi
+  if [[ -v _PZC_BUILD_DIR_PATH ]]
+  then
+    echo "local _PZC_BUILD_DIR_PATH=\"${_PZC_BUILD_DIR_PATH}\"" >> ${_PZC_OUTPUT_FILE}
+  else
+    echo '#local _PZC_BUILD_DIR_PATH=${_PZC_LARGE_DIR}' >> ${_PZC_OUTPUT_FILE}
+  fi
+  if [[ -v _PZC_ENVI_DIR_PATH ]]
+  then
+    echo "local _PZC_ENVI_DIR_PATH=\"${_PZC_ENVI_DIR_PATH}\"" >> ${_PZC_OUTPUT_FILE}
+  else
+    echo '#local _PZC_ENVI_DIR_PATH=${_PZC_LARGE_DIR}' >> ${_PZC_OUTPUT_FILE}
+  fi
+  if [[ -v _PZC_CCACHE_DIR_PATH ]]
+  then
+    echo "local _PZC_CCACHE_DIR_PATH=\"${_PZC_CCACHE_DIR_PATH}\"" >> ${_PZC_OUTPUT_FILE}
+  else
+    echo '#local _PZC_CCACHE_DIR_PATH=${_PZC_BUILD_DIR_PATH}' >> ${_PZC_OUTPUT_FILE}
+  fi
+  echo "" >> ${_PZC_OUTPUT_FILE}
+  echo "# [TODO] Uncomment and edit if you don't want to have builds and installs" >> ${_PZC_OUTPUT_FILE}
+  echo "#        in the same folder." >> ${_PZC_OUTPUT_FILE}
+  if [[ -v _PZC_INSTALL_DIR_PATH ]]
+  then
+    echo "local _PZC_INSTALL_DIR_PATH=\"${_PZC_INSTALL_DIR_PATH}\"" >> ${_PZC_OUTPUT_FILE}
+  else
+    echo '#local _PZC_INSTALL_DIR_PATH=${_PZC_LARGE_DIR}' >> ${_PZC_OUTPUT_FILE}
+  fi
+  echo "" >> ${_PZC_OUTPUT_FILE}
   echo "" >> ${_PZC_OUTPUT_FILE}
   echo "# ----------------------------------" >> ${_PZC_OUTPUT_FILE}
   echo "# -------- SSH keys location -------" >> ${_PZC_OUTPUT_FILE}
@@ -382,121 +485,9 @@ _pzc_update_pzcrc_5()
     echo "#local _PZC_TODOLIST_ENC=0" >> ${_PZC_OUTPUT_FILE}
   fi
   echo "" >> ${_PZC_OUTPUT_FILE}
-  echo "" >> ${_PZC_OUTPUT_FILE}
-  echo "# ----------------------------------" >> ${_PZC_OUTPUT_FILE}
-  echo "# ----------- File editor ----------" >> ${_PZC_OUTPUT_FILE}
-  echo "# ----------------------------------" >> ${_PZC_OUTPUT_FILE}
-  echo "# [TODO] Uncomment and edit if you want to use an other file editor than 'vim'." >> ${_PZC_OUTPUT_FILE}
-  if [[ -v _PZC_FILE_EDITOR ]]
-  then
-    echo "local _PZC_FILE_EDITOR=\"${_PZC_FILE_EDITOR}\"" >> ${_PZC_OUTPUT_FILE}
-  else
-    echo "#local _PZC_FILE_EDITOR=vim" >> ${_PZC_OUTPUT_FILE}
-  fi
-  echo "" >> ${_PZC_OUTPUT_FILE}
-  echo "" >> ${_PZC_OUTPUT_FILE}
-  echo "# ----------------------------------" >> ${_PZC_OUTPUT_FILE}
-  echo "# --------- TMP directory ----------" >> ${_PZC_OUTPUT_FILE}
-  echo "# ----------------------------------" >> ${_PZC_OUTPUT_FILE}
-  echo "# [TODO] Uncomment and edit if you have an other tmp dir than '/tmp'." >> ${_PZC_OUTPUT_FILE}
-  if [[ -v _PZC_TMP_DIR ]]
-  then
-    echo "local _PZC_TMP_DIR=\"${_PZC_TMP_DIR}\"" >> ${_PZC_OUTPUT_FILE}
-  else
-    echo "#local _PZC_TMP_DIR=/tmp" >> ${_PZC_OUTPUT_FILE}
-  fi
-  echo "" >> ${_PZC_OUTPUT_FILE}
-  echo "" >> ${_PZC_OUTPUT_FILE}
-  echo "# ----------------------------------" >> ${_PZC_OUTPUT_FILE}
-  echo "# -------- Large directory ---------" >> ${_PZC_OUTPUT_FILE}
-  echo "# ----------------------------------" >> ${_PZC_OUTPUT_FILE}
-  echo "# [TODO] Uncomment and edit if you have an other large dir than your HOME" >> ${_PZC_OUTPUT_FILE}
-  echo "#        for all builds/installs/ccache." >> ${_PZC_OUTPUT_FILE}
-  if [[ -v _PZC_LARGE_DIR ]]
-  then
-    echo "local _PZC_LARGE_DIR=\"${_PZC_LARGE_DIR}\"" >> ${_PZC_OUTPUT_FILE}
-  else
-    echo '#local _PZC_LARGE_DIR=${HOME}' >> ${_PZC_OUTPUT_FILE}
-  fi
-  echo "" >> ${_PZC_OUTPUT_FILE}
-  echo "# [TODO] Uncomment and edit if you want more specific directories for your" >> ${_PZC_OUTPUT_FILE}
-  echo "#        working environment." >> ${_PZC_OUTPUT_FILE}
-  if [[ -v _PZC_WORK_DIR_PATH ]]
-  then
-    echo "local _PZC_WORK_DIR_PATH=\"${_PZC_WORK_DIR_PATH}\"" >> ${_PZC_OUTPUT_FILE}
-  else
-    echo '#local _PZC_WORK_DIR_PATH=${_PZC_LARGE_DIR}' >> ${_PZC_OUTPUT_FILE}
-  fi
-  if [[ -v _PZC_BUILD_DIR_PATH ]]
-  then
-    echo "local _PZC_BUILD_DIR_PATH=\"${_PZC_BUILD_DIR_PATH}\"" >> ${_PZC_OUTPUT_FILE}
-  else
-    echo '#local _PZC_BUILD_DIR_PATH=${_PZC_LARGE_DIR}' >> ${_PZC_OUTPUT_FILE}
-  fi
-  if [[ -v _PZC_ENVI_DIR_PATH ]]
-  then
-    echo "local _PZC_ENVI_DIR_PATH=\"${_PZC_ENVI_DIR_PATH}\"" >> ${_PZC_OUTPUT_FILE}
-  else
-    echo '#local _PZC_ENVI_DIR_PATH=${_PZC_LARGE_DIR}' >> ${_PZC_OUTPUT_FILE}
-  fi
-  if [[ -v _PZC_CCACHE_DIR_PATH ]]
-  then
-    echo "local _PZC_CCACHE_DIR_PATH=\"${_PZC_CCACHE_DIR_PATH}\"" >> ${_PZC_OUTPUT_FILE}
-  else
-    echo '#local _PZC_CCACHE_DIR_PATH=${_PZC_BUILD_DIR_PATH}' >> ${_PZC_OUTPUT_FILE}
-  fi
-  echo "" >> ${_PZC_OUTPUT_FILE}
-  echo "# [TODO] Uncomment and edit if you don't want to have builds and installs" >> ${_PZC_OUTPUT_FILE}
-  echo "#        in the same folder." >> ${_PZC_OUTPUT_FILE}
-  if [[ -v _PZC_INSTALL_DIR_PATH ]]
-  then
-    echo "local _PZC_INSTALL_DIR_PATH=\"${_PZC_INSTALL_DIR_PATH}\"" >> ${_PZC_OUTPUT_FILE}
-  else
-    echo '#local _PZC_INSTALL_DIR_PATH=${_PZC_LARGE_DIR}' >> ${_PZC_OUTPUT_FILE}
-  fi
-  echo "" >> ${_PZC_OUTPUT_FILE}
-  echo "" >> ${_PZC_OUTPUT_FILE}
-  echo "" >> ${_PZC_OUTPUT_FILE}
-  echo "# ==================================" >> ${_PZC_OUTPUT_FILE}
-  echo "# ==================================" >> ${_PZC_OUTPUT_FILE}
-  echo "" >> ${_PZC_OUTPUT_FILE}
-  echo "" >> ${_PZC_OUTPUT_FILE}
-  echo "" >> ${_PZC_OUTPUT_FILE}
-  echo "# ----------------------------------" >> ${_PZC_OUTPUT_FILE}
-  echo "# ------- Log verbose level --------" >> ${_PZC_OUTPUT_FILE}
-  echo "# ----------------------------------" >> ${_PZC_OUTPUT_FILE}
-
-  if [[ ${_PZC_LOG_INFO} = 1 ]]
-  then
-    echo "local _PZC_LOG_INFO=1" >> ${_PZC_OUTPUT_FILE}
-  else
-    echo "local _PZC_LOG_INFO=0" >> ${_PZC_OUTPUT_FILE}
-  fi
-
-  if [[ ${_PZC_LOG_WARNING} = 1 ]]
-  then
-    echo "local _PZC_LOG_WARNING=1" >> ${_PZC_OUTPUT_FILE}
-  else
-    echo "local _PZC_LOG_WARNING=0" >> ${_PZC_OUTPUT_FILE}
-  fi
-
-  if [[ ${_PZC_LOG_ERROR} = 1 ]]
-  then
-    echo "local _PZC_LOG_ERROR=1" >> ${_PZC_OUTPUT_FILE}
-  else
-    echo "local _PZC_LOG_ERROR=0" >> ${_PZC_OUTPUT_FILE}
-  fi
-
-  if [[ ${_PZC_LOG_DEBUG} = 1 ]]
-  then
-    echo "local _PZC_LOG_DEBUG=1" >> ${_PZC_OUTPUT_FILE}
-  else
-    echo "local _PZC_LOG_DEBUG=0" >> ${_PZC_OUTPUT_FILE}
-  fi
-  echo "" >> ${_PZC_OUTPUT_FILE}
 }
 
-_pzc_launch_pzcrc_update()
+_pzc_launch_pzc_update()
 {
   mv ${PZC_PZCRC_DIR}/.pzcrc ${PZC_PZCRC_DIR}/.pzcrc.old
   _pzc_info "A copy of your .pzcrc is available here: ${PZC_PZCRC_DIR}/.pzcrc.old"
@@ -511,4 +502,38 @@ _pzc_launch_pzcrc_update()
 
   _pzc_info "Update done. Restarting zsh..."
   exec zsh
+}
+
+_pzc_check_update()
+{
+  source ${_PZC_PZC_DIR}/_version_checker.zsh
+
+  local _PZC_VERSION_CHECKER_RET=0
+  _pzc_version_checker ${_PZC_CONFIG_VERSION} ${_PZC_CONFIG_LAST_VERSION}
+
+  if [[ ${_PZC_VERSION_CHECKER_RET} = 2 ]]
+  then
+    _PZC_LOG_ERROR=1
+    _pzc_error "PZC is too old to read your .pzcrc. Please update PZC (git pull)."
+    echo "\033[0;101m\033[30m             Your .pzcrc version:                     v${_PZC_CONFIG_VERSION[1]}.${_PZC_CONFIG_VERSION[2]}.${_PZC_CONFIG_VERSION[3]} \033[0m"
+    echo "\033[0;101m\033[30m             Latest version supported by PZC v${PZC_VERSION[1]}.${PZC_VERSION[2]}.${PZC_VERSION[3]}: v${_PZC_CONFIG_VERSION_NEEDED[1]}.${_PZC_CONFIG_VERSION_NEEDED[2]}.${_PZC_CONFIG_VERSION_NEEDED[3]} \033[0m"
+    _PZC_FATAL_ERROR=1
+    return 0
+
+  elif [[ ${_PZC_VERSION_CHECKER_RET} = 1 ]]
+  then
+    _pzc_info "Your .pzcrc file is not up to date. Updating..."
+    _pzc_launch_pzc_update
+    # Ne devrait pas aller ici.
+    _PZC_FATAL_ERROR=1
+    return 0
+
+  else
+    _pzc_debug ".pzcrc Checker OK"
+  fi
+
+  unfunction _pzc_version_checker
+
+  unfunction _pzc_update_pzcrc_5
+  unfunction _pzc_launch_pzc_update
 }
