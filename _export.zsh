@@ -61,9 +61,10 @@ else
 fi
 
 export CONTAINER_BUILD_DIR=${BUILD_DIR}/container
+export PZC_USER_CONFIG_DIR=${ENVI_DIR}/pzc
 
 _pzc_debug "Creating CCache, work, build, environment and container_build directories"
-mkdir -p ${WORK_DIR} ${BUILD_DIR} ${INSTALL_DIR} ${ENVI_DIR} ${CONTAINER_BUILD_DIR}
+mkdir -p ${WORK_DIR} ${BUILD_DIR} ${INSTALL_DIR} ${ENVI_DIR} ${CONTAINER_BUILD_DIR} ${PZC_USER_CONFIG_DIR}
 
 
 

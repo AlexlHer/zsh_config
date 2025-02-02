@@ -9,10 +9,49 @@
 # ----------------------------------
 local _PZC_CONFIG_VERSION=(6 0 0)
 
-
+# ----------------------------------
+# ------- Log verbose level --------
+# ----------------------------------
+local _PZC_LOG_INFO=1
+local _PZC_LOG_WARNING=1
+local _PZC_LOG_ERROR=1
+local _PZC_LOG_DEBUG=0
 
 # ==================================
 # ==================================
+
+# ----------------------------------
+# ----------- File editor ----------
+# ----------------------------------
+# [TODO] Uncomment and edit if you want to use an other file editor than 'vim'.
+#local _PZC_FILE_EDITOR=vim
+
+
+# ----------------------------------
+# --------- TMP directory ----------
+# ----------------------------------
+# [TODO] Uncomment and edit if you have an other tmp dir than '/tmp'.
+#local _PZC_TMP_DIR=/tmp
+
+
+# ----------------------------------
+# ------- Large directories --------
+# ----------------------------------
+# [TODO] Uncomment and edit if you have an other large dir than your HOME
+#        for all builds/installs/ccache.
+#local _PZC_LARGE_DIR=${HOME}
+
+# [TODO] Uncomment and edit if you want more specific directories for your
+#        working environment.
+#local _PZC_WORK_DIR_PATH=${_PZC_LARGE_DIR}
+#local _PZC_BUILD_DIR_PATH=${_PZC_LARGE_DIR}
+#local _PZC_ENVI_DIR_PATH=${_PZC_LARGE_DIR}
+#local _PZC_CCACHE_DIR_PATH=${_PZC_BUILD_DIR_PATH}
+
+# [TODO] Uncomment and edit if you don't want to have builds and installs
+#        in the same folder.
+#local _PZC_INSTALL_DIR_PATH=${_PZC_LARGE_DIR}
+
 
 # ----------------------------------
 # -------- SSH keys location -------
@@ -154,51 +193,3 @@ local _PZC_CLANG_AVAILABLE=1
 
 # [TODO] Uncomment and edit if your todolist is encrypted (1) or not (0).
 #local _PZC_TODOLIST_ENC=0
-
-
-# ----------------------------------
-# ----------- File editor ----------
-# ----------------------------------
-# [TODO] Uncomment and edit if you want to use an other file editor than 'vim'.
-#local _PZC_FILE_EDITOR=vim
-
-
-# ----------------------------------
-# --------- TMP directory ----------
-# ----------------------------------
-# [TODO] Uncomment and edit if you have an other tmp dir than '/tmp'.
-#local _PZC_TMP_DIR=/tmp
-
-
-# ----------------------------------
-# -------- Large directory ---------
-# ----------------------------------
-# [TODO] Uncomment and edit if you have an other large dir than your HOME
-#        for all builds/installs/ccache.
-#local _PZC_LARGE_DIR=${HOME}
-
-# [TODO] Uncomment and edit if you want more specific directories for your
-#        working environment.
-#local _PZC_WORK_DIR_PATH=${_PZC_LARGE_DIR}
-#local _PZC_BUILD_DIR_PATH=${_PZC_LARGE_DIR}
-#local _PZC_ENVI_DIR_PATH=${_PZC_LARGE_DIR}
-#local _PZC_CCACHE_DIR_PATH=${_PZC_BUILD_DIR_PATH}
-
-# [TODO] Uncomment and edit if you don't want to have builds and installs
-#        in the same folder.
-#local _PZC_INSTALL_DIR_PATH=${_PZC_LARGE_DIR}
-
-
-
-# ==================================
-# ==================================
-
-
-
-# ----------------------------------
-# ------- Log verbose level --------
-# ----------------------------------
-local _PZC_LOG_INFO=1
-local _PZC_LOG_WARNING=1
-local _PZC_LOG_ERROR=1
-local _PZC_LOG_DEBUG=0

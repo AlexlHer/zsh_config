@@ -68,7 +68,7 @@ then
       
     else
       _PZC_GCC_AVAILABLE=0
-      _pzc_warning "GCC is not installed. You can disable gcc search in .zshrc."
+      _pzc_warning "GCC is not installed. You can disable gcc search in .pzcrc."
 
     fi
   fi
@@ -103,7 +103,7 @@ then
       
     else
       _PZC_GCC_AVAILABLE=0
-      _pzc_warning "G++ is not installed. You can disable g++ search in .zshrc."
+      _pzc_warning "G++ is not installed. You can disable g++ search in .pzcrc."
 
     fi
   fi
@@ -138,7 +138,7 @@ then
       
     else
       _PZC_CLANG_AVAILABLE=0
-      _pzc_warning "CLang is not installed. You can disable clang search in .zshrc."
+      _pzc_warning "CLang is not installed. You can disable clang search in .pzcrc."
 
     fi
   fi
@@ -173,7 +173,7 @@ then
       
     else
       _PZC_CLANG_AVAILABLE=0
-      _pzc_warning "CLang++ is not installed. You can disable clang++ search in .zshrc."
+      _pzc_warning "CLang++ is not installed. You can disable clang++ search in .pzcrc."
 
     fi
   fi
@@ -208,7 +208,7 @@ then
       
     else
       _PZC_NVCC_BIN_AVAILABLE=0
-      _pzc_warning "NVCC is not installed. You can disable nvcc search in .zshrc."
+      _pzc_warning "NVCC is not installed. You can disable nvcc search in .pzcrc."
 
     fi
   fi
@@ -245,7 +245,7 @@ then
 
       else
         _PZC_NVCC_BIN_AVAILABLE=0
-        _pzc_warning "Host compiler for nvcc is not found. You can disable nvcc search in .zshrc."
+        _pzc_warning "Host compiler for nvcc is not found. You can disable nvcc search in .pzcrc."
 
       fi
     fi
@@ -281,7 +281,7 @@ then
       
     else
       _PZC_SYCL_BIN_AVAILABLE=0
-      _pzc_warning "Sycl is not installed. You can disable sycl search in .zshrc."
+      _pzc_warning "Sycl is not installed. You can disable sycl search in .pzcrc."
 
     fi
   fi
@@ -318,7 +318,7 @@ then
 
       else
         _PZC_SYCL_BIN_AVAILABLE=0
-        _pzc_warning "Host compiler for sycl is not found. You can disable sycl search in .zshrc."
+        _pzc_warning "Host compiler for sycl is not found. You can disable sycl search in .pzcrc."
 
       fi
     fi
@@ -382,7 +382,7 @@ then
 
     else
       _PZC_OMP_AVAILABLE=0
-      _pzc_warning "Oh-My-Posh is not installed (https://github.com/JanDeDobbeleer/oh-my-posh). You can install Oh-My-Posh in the PZC folder with the command 'pzc_install_omp' or disable Oh-My-Posh search in .zshrc."
+      _pzc_warning "Oh-My-Posh is not installed (https://github.com/JanDeDobbeleer/oh-my-posh). You can install Oh-My-Posh in the PZC folder with the command 'pzc_install_omp' or disable Oh-My-Posh search in .pzcrc."
 
     fi
   fi
@@ -462,7 +462,7 @@ then
       _PZC_EXA_DEPRECATED=1
       _pzc_debug "_PZC_EZA_BIN = ${_PZC_EZA_BIN} (in PATH / EXA)"
       _pzc_warning "EXA-LS is deprecated, please update to the EZA-LS fork (https://github.com/eza-community/eza) and remove your actual EXA-LS install."
-      _pzc_info "You can install eza in the PZC folder with the command 'pzc_install_eza' or disable eza search in .zshrc."
+      _pzc_info "You can install eza in the PZC folder with the command 'pzc_install_eza' or disable eza search in .pzcrc."
 
     # TODO : Deprecated
     elif [[ -e ${_PZC_PZC_DIR}/progs/exa/exa ]]
@@ -472,11 +472,11 @@ then
       _PZC_EXA_DEPRECATED=1
       _pzc_debug "_PZC_EZA_BIN = ${_PZC_EZA_BIN} (in pzc / EXA)"
       _pzc_warning "EXA-LS is deprecated, please update to the EZA-LS fork (https://github.com/eza-community/eza) and remove your actual EXA-LS install ($_PZC_EZA_BIN)."
-      _pzc_info "You can install eza in the PZC folder with the command 'pzc_install_eza' or disable eza search in .zshrc."
+      _pzc_info "You can install eza in the PZC folder with the command 'pzc_install_eza' or disable eza search in .pzcrc."
       
     else
       _PZC_EZA_AVAILABLE=0
-      _pzc_warning "Eza is not installed (https://github.com/eza-community/eza). You can install eza in the PZC folder with the command 'pzc_install_eza' or disable eza search in .zshrc."
+      _pzc_warning "Eza is not installed (https://github.com/eza-community/eza). You can install eza in the PZC folder with the command 'pzc_install_eza' or disable eza search in .pzcrc."
 
     fi
   fi
@@ -546,7 +546,7 @@ then
       
     else
       _PZC_CCACHE_AVAILABLE=0
-      _pzc_warning "CCache is not installed (https://github.com/ccache/ccache). You can disable ccache search in .zshrc."
+      _pzc_warning "CCache is not installed (https://github.com/ccache/ccache). You can disable ccache search in .pzcrc."
 
     fi
   fi
@@ -587,7 +587,7 @@ then
       
     else
       _PZC_MOLD_AVAILABLE=0
-      _pzc_warning "Mold is not installed (https://github.com/rui314/mold). You can disable mold search in .zshrc."
+      _pzc_warning "Mold is not installed (https://github.com/rui314/mold). You can disable mold search in .pzcrc."
 
     fi
   fi
@@ -628,7 +628,7 @@ then
       
     else
       _PZC_NINJA_AVAILABLE=0
-      _pzc_warning "Ninja is not installed (https://github.com/ninja-build/ninja). You can disable ninja search in .zshrc."
+      _pzc_warning "Ninja is not installed (https://github.com/ninja-build/ninja). You can disable ninja search in .pzcrc."
 
     fi
   fi
@@ -669,7 +669,7 @@ then
       
     else
       _PZC_CMAKE_AVAILABLE=0
-      _pzc_warning "CMake is not installed (https://github.com/Kitware/CMake). You can disable cmake search in .zshrc."
+      _pzc_warning "CMake is not installed (https://github.com/Kitware/CMake). You can disable cmake search in .pzcrc."
 
     fi
   fi
@@ -710,7 +710,7 @@ then
       
     else
       _PZC_TASK_AVAILABLE=0
-      _pzc_warning "Taskwarrior is not installed (https://github.com/GothenburgBitFactory/taskwarrior). You can disable taskwarrior search in .zshrc."
+      _pzc_warning "Taskwarrior is not installed (https://github.com/GothenburgBitFactory/taskwarrior). You can disable taskwarrior search in .pzcrc."
 
     fi
   fi

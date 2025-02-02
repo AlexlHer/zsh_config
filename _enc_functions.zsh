@@ -48,14 +48,14 @@ then
         
       else
         _PZC_AGE_AVAILABLE=0
-        _pzc_warning "Age is not installed (https://github.com/FiloSottile/age). You can install age in the PZC folder with the command 'pzc_install_age' or disable age search in .zshrc."
+        _pzc_warning "Age is not installed (https://github.com/FiloSottile/age). You can install age in the PZC folder with the command 'pzc_install_age' or disable age search in .pzcrc."
 
       fi
     fi
   else
     unset _PZC_AGE_BIN
     _PZC_AGE_AVAILABLE=0
-    _pzc_warning "Public key and/or private key not defined in .zshrc."
+    _pzc_warning "Public key and/or private key not defined in .pzcrc."
     _pzc_debug "_PZC_SSH_PUB = ${_PZC_SSH_PUB}"
     _pzc_debug "_PZC_SSH_PRI = ${_PZC_SSH_PRI}"
 
@@ -114,10 +114,25 @@ then
     if [[ -v 1 ]]
     then
       mkdir -p ${_PZC_TMP_DIR}/age
-      ${_PZC_AGE_BIN} -d -i ${_PZC_SSH_PRI} -o ${_PZC_TMP_DIR}/age/keys.txt ${_PZC_PZC_DIR}/keys/keys.txt
-      ${_PZC_AGE_BIN} -e -R ${_PZC_TMP_DIR}/age/keys.txt -a -o ${1}.age ${1}
-      rm ${_PZC_TMP_DIR}/age/keys.txt
+      local _PZC_PUBLIC_KEYS_ENC=${PZC_USER_CONFIG_DIR}/keys/pkeys.txt
 
+      if [[ ! -e ${_PZC_PUBLIC_KEYS_ENC} ]]
+      then
+        _pzc_info "To use this function, we need your public keys."
+        _pzc_warning "All of there associated private keys will be able to decrypt your file."
+        _pzc_info "One public key per line."
+        read -s -k $'?Press any key to continue.\n'
+        ${_PZC_FILE_EDITOR} ${_PZC_TMP_DIR}/age/pkeys.txt
+        _pzc_info "Encrypting your public keys with your local public key."
+        ${_PZC_AGE_BIN} -e -R ${_PZC_SSH_PUB} -a -o ${_PZC_PUBLIC_KEYS_ENC} ${_PZC_TMP_DIR}/age/pkeys.txt
+        rm ${_PZC_TMP_DIR}/age/pkeys.txt
+        _pzc_info "Your public keys will be available here: ${_PZC_PUBLIC_KEYS_ENC}"
+      fi
+
+      ${_PZC_AGE_BIN} -d -i ${_PZC_SSH_PRI} -o ${_PZC_TMP_DIR}/age/pkeys.txt ${_PZC_PUBLIC_KEYS_ENC}
+      ${_PZC_AGE_BIN} -e -R ${_PZC_TMP_DIR}/age/keys.txt -a -o ${1}.age ${1}
+      rm ${_PZC_TMP_DIR}/age/pkeys.txt
+      
     else
       _pzc_error "Need input file."
 

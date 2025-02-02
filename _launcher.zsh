@@ -19,7 +19,7 @@ _pzc_welcome()
   echo "Personal ZSH Configuration v${PZC_VERSION[1]}.${PZC_VERSION[2]}.${PZC_VERSION[3]} BETA"
   echo ""
 
-  _pzc_debug "Debug mode activated. Edit your .zshrc to disable it."
+  _pzc_debug "Debug mode activated. Edit your .pzcrc to disable it."
 
   # f70bb3d582a4067500f28f479a07f7ee523b3984 (08/07/2022) : v1.0.0
   # 24b601f7644e9d5a900546fb06f563a35b4f66b5 (13/01/2023) : v2.0.0
@@ -56,9 +56,6 @@ _pzc_sources()
 
   # Source perso functions (optional)
   source ${_PZC_PZC_DIR}/_functions.zsh
-
-  # Source local config (optional)
-  source ${_PZC_PZC_DIR}/_local.zsh
 
   # Source CMake specific functions (optional)
   source ${_PZC_PZC_DIR}/_cmake_projects.zsh
