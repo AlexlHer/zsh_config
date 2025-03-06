@@ -63,8 +63,8 @@ then
 
     _pzc_info "Creating and running container..."
     CONTAINER=$(pm run \
-      -v ${WORK_DIR}:/root/work:ro \
-      -v ${CONTAINER_BUILD_DIR}:/root/build_install \
+      -v ${WORK_DIR}:/root/work:z,ro \
+      -v ${CONTAINER_BUILD_DIR}:/root/build_install:z \
       -e OMPI_ALLOW_RUN_AS_ROOT=1 \
       -e OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1 \
       -e USER=root \
