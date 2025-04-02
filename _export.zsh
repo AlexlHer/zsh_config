@@ -108,7 +108,7 @@ if [[ ${_PZC_MOLD_AVAILABLE} = 1 ]]
 then
   _pzc_debug "Config Mold linker"
 
-  if [[ ${_PZC_CMAKE_VERSION_MINOR} -gt 28 ]] #>= 3.29
+  if [[ ${_PZC_CMAKE_VERSION_MINOR} -gt 28 ]] || [[ ${_PZC_CMAKE_VERSION_MAJOR} -gt 3 ]] #>= 3.29
   then
     _pzc_debug "CMake >= 3.29 : Add PZC_CMAKE_LINKER_TYPE var"
     export PZC_CMAKE_LINKER_TYPE="-DCMAKE_LINKER_TYPE=MOLD"
