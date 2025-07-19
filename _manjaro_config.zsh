@@ -18,7 +18,7 @@ zstyle ':completion:*' rehash true                              # automatically 
 # Speed up completions
 zstyle ':completion:*' accept-exact '*(N)'
 zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path $_PZC_PZC_DIR/cache
+zstyle ':completion:*' cache-path $PZC_PZC_DIR/cache
 HISTFILE=~/.zhistory
 HISTSIZE=10000
 SAVEHIST=10000
@@ -74,13 +74,13 @@ export LESS=-R
 ## Plugins section: Enable fish style features
 
 # Plugin autasuggestions
-source $_PZC_PZC_DIR/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $PZC_PZC_DIR/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Use syntax highlighting
-source $_PZC_PZC_DIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $PZC_PZC_DIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Use history substring search
-source $_PZC_PZC_DIR/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+source $PZC_PZC_DIR/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
 
 # bind UP and DOWN arrow keys to history substring search
 zmodload zsh/terminfo
@@ -90,8 +90,8 @@ bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
 # Offer to install missing package if command is not found
-if [[ -r $_PZC_PZC_DIR/functions/command-not-found.zsh ]]; then
-    source $_PZC_PZC_DIR/functions/command-not-found.zsh
+if [[ -r $PZC_PZC_DIR/functions/command-not-found.zsh ]]; then
+    source $PZC_PZC_DIR/functions/command-not-found.zsh
     export PKGFILE_PROMPT_INSTALL_MISSING=1
 fi
 

@@ -1,115 +1,48 @@
 
-## ----- Main zshrc -----
-
-# PZC Version
-local _PZC_VERSION=(5 24 2)
-local _PZC_CONFIG_LAST_VERSION=(5 24 0)
-local _PZC_CONFIG_VERSION_NEEDED=(5 16 0)
+## ----- Old main zshrc -----
+# For PZC before v6 compatibility.
+# TODO : Delete this file in PZC v7.
 
 
+echo "---------------------------"
+echo "--- Major update of PZC ---"
+echo "---------------------------"
+echo "You are coming from PZC version 5 or lower."
+echo "You have updated PZC to version 6+."
+echo "This version has a different configuration file architecture and your configuration files need to be updated."
+echo "If you have been defined a PATH modification or other things in your .zshrc, you must add this in the new .zshrc."
+echo "---------------------------"
 
-# ---------------------------------------------------------------
-# -------------------- Internal PZC sources ---------------------
-# ---------------------------------------------------------------
+echo "A copy of your old .zshrc is available here : ${HOME}/.zshrc.old"
 
-local _PZC_FATAL_ERROR=0
-# Source internal
-source ${_PZC_PZC_DIR}/_internal.zsh
+cp ${HOME}/.zshrc ${HOME}/.zshrc.old
 
+mv ${HOME}/.zshrc ${HOME}/.pzcrc
+sed -i 's/source/#source/g' ${HOME}/.pzcrc
 
-if [[ ${_PZC_FATAL_ERROR} = 0 ]]
+if [[ ! -v _PZC_CONFIG_VERSION ]]
 then
-
-# ---------------------------------------------------------------
-# --------------------- Compatibility part ----------------------
-# ---------------------------------------------------------------
-
-# TODO : Deprecated
-if [[ -v _PZC_EXA_AVAILABLE ]]
-then
-  _pzc_warning "EXA-LS is deprecated and replaced by EZA-LS. Please replace the '_PZC_EXA_AVAILABLE' variable by the '_PZC_EZA_AVAILABLE' variable in your .zshrc."
-  local _PZC_EZA_AVAILABLE=$_PZC_EXA_AVAILABLE
+  if [[ ! -v _PZC_PZC_DIR ]]
+  then
+    echo "Your .zshrc is too old (from PZC v3 or before) and the variable _PZC_PZC_DIR is not available. Trying older variable ZSH_DIR..."
+    if [[ ! -v ZSH_DIR ]]
+    then
+      echo "Your .zshrc is too old (from PZC v1). Set the _PZC_PZC_DIR variable to PZC v1 value (${HOME}/.zsh)"
+      _PZC_PZC_DIR=${HOME}/.zsh
+    else
+      echo "ZSH_DIR found. Use it as value of _PZC_PZC_DIR"
+      _PZC_PZC_DIR=${ZSH_DIR}
+    fi
+  fi
+  echo "Your .zshrc file come from PZC v5.16.0 or before. It will be updated, but you need to check that all your options have been copied correctly."
+  echo "local _PZC_CONFIG_VERSION=(5 99 99)" >> ${HOME}/.pzcrc
 fi
 
-if [[ -v _PZC_EXA_PATH ]]
-then
-  _pzc_warning "EXA-LS is deprecated and replaced by EZA-LS. Please replace the '_PZC_EXA_PATH' variable by the '_PZC_EXA_PATH' variable in your .zshrc."
-  local _PZC_EZA_BIN=$_PZC_EXA_PATH
-fi
+cp ${_PZC_PZC_DIR}/template.zshrc ${HOME}/.zshrc
+sed -i "s:PZC_PZC_DIR=\${HOME}/.pzc:PZC_PZC_DIR=\"${_PZC_PZC_DIR}\":g" ${HOME}/.zshrc
 
+echo "Your old configuration file will be updated."
 
-
-# ---------------------------------------------------------------
-# -------------------------- Sources ----------------------------
-# ---------------------------------------------------------------
-
-# Source manjaro-zsh-configuration
-source ${_PZC_PZC_DIR}/_manjaro_config.zsh
-
-# Source external program needed
-source ${_PZC_PZC_DIR}/_external.zsh
-
-# Source variable export
-source ${_PZC_PZC_DIR}/_export.zsh
-
-# Source perso alias (optional)
-source ${_PZC_PZC_DIR}/_aliases.zsh
-
-# Source perso KDE specific part (optional)
-source ${_PZC_PZC_DIR}/_kde.zsh
-
-# Source perso encrypt/decrypt functions (optional)
-source ${_PZC_PZC_DIR}/_enc_functions.zsh
-
-# Source perso functions (optional)
-source ${_PZC_PZC_DIR}/_functions.zsh
-
-# Source local config (optional)
-source ${_PZC_PZC_DIR}/_local.zsh
-
-# Source CMake specific functions (optional)
-source ${_PZC_PZC_DIR}/_cmake_projects.zsh
-
-# Source Arcane specific functions (optional)
-source ${_PZC_PZC_DIR}/_arcane.zsh
-
-# Source Podman/Docker specific functions (optional)
-source ${_PZC_PZC_DIR}/_podman.zsh
-
-# Source Python specific functions (optional)
-source ${_PZC_PZC_DIR}/_python.zsh
-
-
-
-# ---------------------------------------------------------------
-# ------------------------- Completion --------------------------
-# ---------------------------------------------------------------
-
-source ${_PZC_PZC_DIR}/completion/_completion.zsh
-
-
-
-# ---------------------------------------------------------------
-# --------------------------- Prompt ----------------------------
-# ---------------------------------------------------------------
-
-if [[ ${_PZC_OMP_AVAILABLE} = 1 ]] && [[ ! -v SIMPLE_TERM ]]
-then
-  eval "$(${_PZC_OMP_BIN} init zsh --config ${_PZC_OMP_THEME_FILE})"
-
-else
-  setopt PROMPT_SUBST
-  NEWLINE=$'\n'
-  #PROMPT="[RET=%?][%*]${NEWLINE}${NEWLINE}[%n][%m]${NEWLINE}[%~]${NEWLINE}> "
-  PROMPT="%F{006}[RET=%?]%f%F{006}[%*]%f${NEWLINE}${NEWLINE}%F{001}[%n]%f%F{003}[%m]%f${NEWLINE}%F{002}[%~]%f${NEWLINE}%F{006}>%f "
-  #PROMPT="%F{006}[RET=%?]%f%F{014}[%*]%f${NEWLINE}${NEWLINE}%F{009}[%n]%f%F{011}[%m]%f${NEWLINE}%F{010}[%~]%f${NEWLINE}%F{014}>%f "
-fi
-
-# if _PZC_FATAL_ERROR
-else
-  echo ""
-  echo "\033[0;101m\033[30m   Error: A fatal error have been detected in PZC configuration. Check previous messages to fix it. Minimal execution. \033[0m"
-  setopt PROMPT_SUBST
-  NEWLINE=$'\n'
-  PROMPT="[RET=%?][%*]${NEWLINE}${NEWLINE}[%n][%m]${NEWLINE}[%~]${NEWLINE}> "
-fi
+echo "---------------------------"
+echo "First step of the update is done. Restarting zsh..."
+exec zsh

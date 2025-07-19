@@ -185,7 +185,7 @@ editap()
   if [[ -e ${_PZC_EDIT_AP_PATH} ]]
   then
     _pzc_info "The edit script exist. Editing it..."
-    _pzc_coal_eval "${_PZC_FILE_EDITOR} ${_PZC_EDIT_AP_PATH}"
+    _pzc_coal_eval "${PZC_FILE_EDITOR} ${_PZC_EDIT_AP_PATH}"
 
   else
     _pzc_coal_eval "touch ${_PZC_EDIT_AP_PATH}"
@@ -214,7 +214,7 @@ editap()
     echo "# Directory where install the project:" >> ${_PZC_EDIT_AP_PATH}
     echo "AP_INSTALL_DIR=${INSTALL_DIR}/install_${AP_PROJECT_NAME}/${TYPE_BUILD_DIR}\n" >> ${_PZC_EDIT_AP_PATH}
 
-    _pzc_coal_eval "${_PZC_FILE_EDITOR} ${_PZC_EDIT_AP_PATH}"
+    _pzc_coal_eval "${PZC_FILE_EDITOR} ${_PZC_EDIT_AP_PATH}"
   fi
 
   echo ""
@@ -242,7 +242,7 @@ editaprm()
   then
     _pzc_info "The edit script exist."
 
-    local _PZC_TDIR=$(mktemp -d --tmpdir=${_PZC_TMP_DIR})
+    local _PZC_TDIR=$(mktemp -d --tmpdir=${TMP_DIR})
     _pzc_info "Moving ${_PZC_EDIT_AP_PATH} file in ${_PZC_TDIR} directory..."
 
     mv ${_PZC_EDIT_AP_PATH} ${_PZC_TDIR}
@@ -291,7 +291,7 @@ pconfigarc()
     echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCCORE_CXX_STANDARD=23 \\"
     echo "  -DARCANEFRAMEWORK_BUILD_COMPONENTS=Arcane"
-    if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
+    if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
     then
       echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
     fi
@@ -333,7 +333,7 @@ configarc()
       -DARCCORE_CXX_STANDARD=23 \
       -DARCANEFRAMEWORK_BUILD_COMPONENTS=Arcane
   
-    if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
+    if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
     then
       chmod u+x ${ARCANE_BUILD_DIR}/bin/*
     fi
@@ -356,7 +356,7 @@ pconfigarcgpu()
       CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
     fi
 
-    if [[ "${_PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
+    if [[ "${PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
     then
       _PZC_ARCANE_ACCELERATOR_MODE="-DARCANE_ACCELERATOR_MODE=CUDA"
       _PZC_CMAKE_GPU_COMPILER="-DCMAKE_CUDA_COMPILER=${PZC_GPU_COMPILER}"
@@ -364,9 +364,9 @@ pconfigarcgpu()
       then
         _PZC_CMAKE_GPU_FLAGS="-DCMAKE_CUDA_FLAGS=${PZC_GPU_FLAGS}"
       fi
-      if [[ -v _PZC_GPU_TARGET_ARCH ]]
+      if [[ -v PZC_GPU_TARGET_ARCH ]]
       then
-        _PZC_CMAKE_GPU_ARCH="-DCMAKE_CUDA_ARCHITECTURES=${_PZC_GPU_TARGET_ARCH}"
+        _PZC_CMAKE_GPU_ARCH="-DCMAKE_CUDA_ARCHITECTURES=${PZC_GPU_TARGET_ARCH}"
       fi
 
     else
@@ -400,7 +400,7 @@ pconfigarcgpu()
     echo "  -DARCCORE_CXX_STANDARD=20 \\"
     echo "  -DARCANEFRAMEWORK_BUILD_COMPONENTS=Arcane"
 
-    if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
+    if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
     then
       echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
     fi
@@ -425,7 +425,7 @@ configarcgpu()
       CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
     fi
 
-    if [[ "${_PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
+    if [[ "${PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
     then
       _PZC_ARCANE_ACCELERATOR_MODE="-DARCANE_ACCELERATOR_MODE=CUDA"
       _PZC_CMAKE_GPU_COMPILER="-DCMAKE_CUDA_COMPILER=${PZC_GPU_COMPILER}"
@@ -433,9 +433,9 @@ configarcgpu()
       then
         _PZC_CMAKE_GPU_FLAGS="-DCMAKE_CUDA_FLAGS=${PZC_GPU_FLAGS}"
       fi
-      if [[ -v _PZC_GPU_TARGET_ARCH ]]
+      if [[ -v PZC_GPU_TARGET_ARCH ]]
       then
-        _PZC_CMAKE_GPU_ARCH="-DCMAKE_CUDA_ARCHITECTURES=${_PZC_GPU_TARGET_ARCH}"
+        _PZC_CMAKE_GPU_ARCH="-DCMAKE_CUDA_ARCHITECTURES=${PZC_GPU_TARGET_ARCH}"
       fi
 
     else
@@ -468,7 +468,7 @@ configarcgpu()
       -DARCCORE_CXX_STANDARD=20 \
       -DARCANEFRAMEWORK_BUILD_COMPONENTS=Arcane
 
-    if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
+    if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
     then
       chmod u+x ${ARCANE_BUILD_DIR}/bin/*
     fi
@@ -557,16 +557,16 @@ pconfigapgpu()
       CMAKE_BUILD_TYPE="${AP_BUILD_TYPE}"
     fi
 
-    if [[ "${_PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
+    if [[ "${PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
     then
       _PZC_CMAKE_GPU_COMPILER="-DCMAKE_CUDA_COMPILER=${PZC_GPU_COMPILER}"
       if [[ -v PZC_GPU_FLAGS ]]
       then
         _PZC_CMAKE_GPU_FLAGS="-DCMAKE_CUDA_FLAGS=${PZC_GPU_FLAGS}"
       fi
-      if [[ -v _PZC_GPU_TARGET_ARCH ]]
+      if [[ -v PZC_GPU_TARGET_ARCH ]]
       then
-        _PZC_CMAKE_GPU_ARCH="-DCMAKE_CUDA_ARCHITECTURES=${_PZC_GPU_TARGET_ARCH}"
+        _PZC_CMAKE_GPU_ARCH="-DCMAKE_CUDA_ARCHITECTURES=${PZC_GPU_TARGET_ARCH}"
       fi
 
     else
@@ -616,16 +616,16 @@ configapgpu()
       CMAKE_BUILD_TYPE="${AP_BUILD_TYPE}"
     fi
 
-    if [[ "${_PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
+    if [[ "${PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
     then
       _PZC_CMAKE_GPU_COMPILER="-DCMAKE_CUDA_COMPILER=${PZC_GPU_COMPILER}"
       if [[ -v PZC_GPU_FLAGS ]]
       then
         _PZC_CMAKE_GPU_FLAGS="-DCMAKE_CUDA_FLAGS=${PZC_GPU_FLAGS}"
       fi
-      if [[ -v _PZC_GPU_TARGET_ARCH ]]
+      if [[ -v PZC_GPU_TARGET_ARCH ]]
       then
-        _PZC_CMAKE_GPU_ARCH="-DCMAKE_CUDA_ARCHITECTURES=${_PZC_GPU_TARGET_ARCH}"
+        _PZC_CMAKE_GPU_ARCH="-DCMAKE_CUDA_ARCHITECTURES=${PZC_GPU_TARGET_ARCH}"
       fi
 
     else
@@ -670,7 +670,7 @@ pbiarc()
   if [[ -v ARCANE_BUILD_DIR ]]
   then
     _pzc_pensil_begin
-    if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
+    if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
     then
       echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
     fi
@@ -689,7 +689,7 @@ biarc()
   then
     pbiarc
 
-    if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
+    if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
     then
       chmod u+x ${ARCANE_BUILD_DIR}/bin/*
     fi
@@ -706,12 +706,12 @@ pdocarc()
   if [[ -v ARCANE_BUILD_DIR ]]
   then
     _pzc_pensil_begin
-    if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
+    if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
     then
       echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
     fi
     echo "cmake --build ${ARCANE_BUILD_DIR}"
-    if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
+    if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
     then
       echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
     fi
@@ -730,12 +730,12 @@ docarc()
   then
     pdocarc
 
-    if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
+    if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
     then
       chmod u+x ${ARCANE_BUILD_DIR}/bin/*
     fi
     cmake --build ${ARCANE_BUILD_DIR}
-    if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
+    if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
     then
       chmod u+x ${ARCANE_BUILD_DIR}/bin/*
     fi

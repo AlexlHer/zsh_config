@@ -15,20 +15,24 @@ eval "$(dircolors -b)"
 if [[ ${_PZC_EZA_AVAILABLE} = 1 ]]
 then
   _pzc_debug "Aliases for EZA-LS."
-  alias ls='${_PZC_EZA_BIN} --icons'
+  alias ls='${PZC_EZA_BIN} --icons'
 
-  alias l='${_PZC_EZA_BIN} --icons --color-scale --time-style long-iso --git --group-directories-first -bghHlM'
-  alias la='${_PZC_EZA_BIN} --icons --color-scale --time-style long-iso --git --group-directories-first -BghHlMa'
+  alias l='${PZC_EZA_BIN} --icons --color-scale --time-style long-iso --git --group-directories-first -bghHlM'
+  alias la='${PZC_EZA_BIN} --icons --color-scale --time-style long-iso --git --group-directories-first -BghHlMa'
 
-  alias ldum='${_PZC_EZA_BIN} --icons --color-scale --time-style long-iso --git --total-size --group-directories-first -bghHlM'
-  alias ladum='${_PZC_EZA_BIN} --icons --color-scale --time-style long-iso --git --total-size --group-directories-first -BghHlMa'
+  alias ldum='${PZC_EZA_BIN} --icons --color-scale --time-style long-iso --git --total-size --group-directories-first -bghHlM'
+  alias ladum='${PZC_EZA_BIN} --icons --color-scale --time-style long-iso --git --total-size --group-directories-first -BghHlMa'
 
 ## --- Without EZA-LS ---
 else
   _pzc_debug "Aliases for LS (not EZA-LS)."
   alias ls='ls $LS_OPTIONS'
+
   alias l='ls -l $LS_OPTIONS'
   alias la='ls -la $LS_OPTIONS'
+
+  alias ldum='ls -l $LS_OPTIONS'
+  alias ladum='ls -la $LS_OPTIONS'
 fi
 
 
@@ -79,6 +83,7 @@ alias cdb='_pzc_coal_eval "cd ${BUILD_DIR}"'
 alias cdi='_pzc_coal_eval "cd ${INSTALL_DIR}"'
 alias cdcbi='_pzc_coal_eval "cd ${CONTAINER_BUILD_DIR}"'
 alias cdw='_pzc_coal_eval "cd ${WORK_DIR}"'
+alias cde='_pzc_coal_eval "cd ${ENVI_DIR}"'
 
 
 
@@ -97,5 +102,5 @@ alias tarxxz='_pzc_coal "tar -Ipixz -xf" ; tar -Ipixz -xf'
 
 if [[ ${_PZC_TASK_AVAILABLE} = 1 ]]
 then
-  source $_PZC_PZC_DIR/plugins/taskwarrior/taskwarrior.plugin.zsh
+  source $PZC_PZC_DIR/plugins/taskwarrior/taskwarrior.plugin.zsh
 fi

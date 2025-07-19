@@ -7,10 +7,22 @@
 # --------------- Create folder for init scripts ----------------
 # ---------------------------------------------------------------
 
-export PZC_EDIT_SCRIPTS=${_PZC_PZC_DIR}/arcane_scripts
+export PZC_EDIT_SCRIPTS=${PZC_USER_CONFIG_DIR}/cmake_scripts
 mkdir -p ${PZC_EDIT_SCRIPTS}
 
 
+
+# ---------------------------------------------------------------
+# -------------------- Compatibility update ---------------------
+# ---------------------------------------------------------------
+# TODO : Delete this part in PZC v7
+
+if [[ -d ${PZC_PZC_DIR}/arcane_scripts ]]
+then
+  _pzc_info "An old PZC version have been created arcane_scripts folder. Moving these scripts in ${PZC_EDIT_SCRIPTS}..."
+  mv ${PZC_PZC_DIR}/arcane_scripts/* ${PZC_EDIT_SCRIPTS}
+  mv ${PZC_PZC_DIR}/arcane_scripts ${TMP_DIR}
+fi
 
 # ---------------------------------------------------------------
 # ----------------------- Init functions ------------------------
@@ -113,7 +125,7 @@ editcmp()
   if [[ -e ${_PZC_EDIT_CMP_PATH} ]]
   then
     _pzc_info "The edit script exist. Editing it..."
-    _pzc_coal_eval "${_PZC_FILE_EDITOR} ${_PZC_EDIT_CMP_PATH}"
+    _pzc_coal_eval "${PZC_FILE_EDITOR} ${_PZC_EDIT_CMP_PATH}"
 
   else
     _pzc_coal_eval "touch ${_PZC_EDIT_CMP_PATH}"
@@ -139,7 +151,7 @@ editcmp()
     echo "# Directory where install the project:" >> ${_PZC_EDIT_CMP_PATH}
     echo "CMP_INSTALL_DIR=${INSTALL_DIR}/install_${CMP_PROJECT_NAME}/${TYPE_BUILD_DIR}\n" >> ${_PZC_EDIT_CMP_PATH}
 
-    _pzc_coal_eval "${_PZC_FILE_EDITOR} ${_PZC_EDIT_CMP_PATH}"
+    _pzc_coal_eval "${PZC_FILE_EDITOR} ${_PZC_EDIT_CMP_PATH}"
   fi
 
   echo ""
@@ -167,7 +179,7 @@ editcmprm()
   then
     _pzc_info "The edit script exist."
 
-    local _PZC_TDIR=$(mktemp -d --tmpdir=${_PZC_TMP_DIR})
+    local _PZC_TDIR=$(mktemp -d --tmpdir=${TMP_DIR})
     _pzc_info "Moving ${_PZC_EDIT_CMP_PATH} file in ${_PZC_TDIR} directory..."
 
     mv ${_PZC_EDIT_CMP_PATH} ${_PZC_TDIR}
