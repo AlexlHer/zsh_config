@@ -1,18 +1,13 @@
-
-## ----- Config Launcher -----
-## Put this file in your home,
-## rename this file to ".zshrc".
-
+## ----- PZC configuration file -----
+# Edit only lines marked with a TODO comment.
+# You can add path dir or other configs in .zshrc.
 
 
-# ==================================
-# ==================================
 
 # ----------------------------------
-# ------- Path configuration -------
+# ------ Config file version -------
 # ----------------------------------
-
-#export PATH=/usr/bin:${PATH}
+local _PZC_CONFIG_VERSION=(6 0 0)
 
 
 
@@ -187,20 +182,11 @@ local _PZC_CLANG_AVAILABLE=1
 #local _PZC_WORK_DIR_PATH=${_PZC_LARGE_DIR}
 #local _PZC_BUILD_DIR_PATH=${_PZC_LARGE_DIR}
 #local _PZC_ENVI_DIR_PATH=${_PZC_LARGE_DIR}
-#local _PZC_CCACHE_DIR_PATH=${_PZC_BUILD_DIR}
+#local _PZC_CCACHE_DIR_PATH=${_PZC_BUILD_DIR_PATH}
 
 # [TODO] Uncomment and edit if you don't want to have builds and installs
 #        in the same folder.
 #local _PZC_INSTALL_DIR_PATH=${_PZC_LARGE_DIR}
-
-
-# ----------------------------------
-# -------------- PC ID -------------
-# ----------------------------------
-# [TODO] Uncomment if you are AlexlHer :-).
-#local _PZC_PC_ID="f"
-#local _PZC_PC_ID="p"
-#local _PZC_PC_ID="c"
 
 
 
@@ -216,25 +202,3 @@ local _PZC_LOG_INFO=1
 local _PZC_LOG_WARNING=1
 local _PZC_LOG_ERROR=1
 local _PZC_LOG_DEBUG=0
-
-# ----------------------------------
-# - Personnal ZSH config directory -
-# ----------------------------------
-local _PZC_PZC_DIR=${HOME}/.pzc
-
-# ----------------------------------
-# ------ Config file version -------
-# ----------------------------------
-local _PZC_CONFIG_VERSION=(5 24 0)
-
-# ----------------------------------
-# ------ Source of true zshrc ------
-# ----------------------------------
-if [[ -e ${_PZC_PZC_DIR}/zshrc ]]
-then
-  source ${_PZC_PZC_DIR}/zshrc
-
-else
-  echo "Error: Main zshrc not found... Minimal execution."
-  
-fi
