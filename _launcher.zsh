@@ -39,6 +39,13 @@ _pzc_sources()
   # Source manjaro-zsh-configuration
   source ${_PZC_PZC_DIR}/_manjaro_config.zsh
 
+  # Source needed dirs creation
+  source ${_PZC_PZC_DIR}/_dirs.zsh
+  if [[ ${_PZC_FATAL_ERROR} = 1 ]]
+  then
+    return 0
+  fi
+
   # Source external program needed
   source ${_PZC_PZC_DIR}/_external.zsh
 

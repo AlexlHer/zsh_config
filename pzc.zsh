@@ -1,4 +1,4 @@
-export PZC_PZCRC_DIR=${HOME}
+local _PZC_PZCRC_DIR=${HOME}
 
 _PZC_CONFIG_STEP=1
 # TODO : Bloquer les scripts si _PZC_CONFIG_STEP == 0 ou unset.
@@ -9,15 +9,15 @@ _pzc_main()
 {
   source ${_PZC_PZC_DIR}/_version.zsh
 
-  if [[ ! -e ${PZC_PZCRC_DIR}/.pzcrc ]]
+  if [[ ! -e ${_PZC_PZCRC_DIR}/.pzcrc ]]
   then
-    _PZC_LOG_INFO=1
+    PZC_LOG_INFO=1
     _pzc_info "Configuration file not found. Creating this file..."
-    cp ${_PZC_PZC_DIR}/template.pzcrc ${PZC_PZCRC_DIR}/.pzcrc
-    _pzc_info "Your configuration file is available here: ${PZC_PZCRC_DIR}/.pzcrc"
+    cp ${_PZC_PZC_DIR}/template.pzcrc ${_PZC_PZCRC_DIR}/.pzcrc
+    _pzc_info "Your configuration file is available here: ${_PZC_PZCRC_DIR}/.pzcrc"
   fi
 
-  source ${PZC_PZCRC_DIR}/.pzcrc
+  source ${_PZC_PZCRC_DIR}/.pzcrc
 
   # Check update...
   source ${_PZC_PZC_DIR}/_pzc_update.zsh

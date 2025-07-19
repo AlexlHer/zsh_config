@@ -124,7 +124,7 @@ editcmp()
   if [[ -e ${_PZC_EDIT_CMP_PATH} ]]
   then
     _pzc_info "The edit script exist. Editing it..."
-    _pzc_coal_eval "${_PZC_FILE_EDITOR} ${_PZC_EDIT_CMP_PATH}"
+    _pzc_coal_eval "${PZC_FILE_EDITOR} ${_PZC_EDIT_CMP_PATH}"
 
   else
     _pzc_coal_eval "touch ${_PZC_EDIT_CMP_PATH}"
@@ -150,7 +150,7 @@ editcmp()
     echo "# Directory where install the project:" >> ${_PZC_EDIT_CMP_PATH}
     echo "CMP_INSTALL_DIR=${INSTALL_DIR}/install_${CMP_PROJECT_NAME}/${TYPE_BUILD_DIR}\n" >> ${_PZC_EDIT_CMP_PATH}
 
-    _pzc_coal_eval "${_PZC_FILE_EDITOR} ${_PZC_EDIT_CMP_PATH}"
+    _pzc_coal_eval "${PZC_FILE_EDITOR} ${_PZC_EDIT_CMP_PATH}"
   fi
 
   echo ""
@@ -178,7 +178,7 @@ editcmprm()
   then
     _pzc_info "The edit script exist."
 
-    local _PZC_TDIR=$(mktemp -d --tmpdir=${_PZC_TMP_DIR})
+    local _PZC_TDIR=$(mktemp -d --tmpdir=${TMP_DIR})
     _pzc_info "Moving ${_PZC_EDIT_CMP_PATH} file in ${_PZC_TDIR} directory..."
 
     mv ${_PZC_EDIT_CMP_PATH} ${_PZC_TDIR}

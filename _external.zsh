@@ -7,33 +7,10 @@
 # ------------------------ Check editor -------------------------
 # ---------------------------------------------------------------
 
-if [[ ! -v _PZC_FILE_EDITOR ]]
+if [[ ! -v PZC_FILE_EDITOR ]]
 then
-  _pzc_debug "_PZC_FILE_EDITOR is not set. Default editor is set to vim."
-  local _PZC_FILE_EDITOR=vim
-fi
-
-
-# ---------------------------------------------------------------
-# -------------------------- Check tmp --------------------------
-# ---------------------------------------------------------------
-
-if [[ ! -v _PZC_TMP_DIR ]]
-then
-  _pzc_debug "_PZC_TMP_DIR is not set. Default directory is set to '/tmp'."
-  local _PZC_TMP_DIR=/tmp
-fi
-
-
-
-# ---------------------------------------------------------------
-# ------------------------- Check large -------------------------
-# ---------------------------------------------------------------
-
-if [[ ! -v _PZC_LARGE_DIR ]]
-then
-  _pzc_debug "_PZC_LARGE_DIR is not set. Default directory is set to '${HOME}'."
-  local _PZC_LARGE_DIR=${HOME}
+  _pzc_debug "PZC_FILE_EDITOR is not set. Default editor is set to vim."
+  PZC_FILE_EDITOR=vim
 fi
 
 
@@ -62,7 +39,7 @@ then
 
     if [[ -x "$(command -v gcc)" ]]
     then
-      export PZC_C_GCC_BIN=gcc
+      PZC_C_GCC_BIN=gcc
       _PZC_GCC_AVAILABLE=1
       _pzc_debug "PZC_C_GCC_BIN = ${PZC_C_GCC_BIN} (in PATH)"
       
@@ -97,7 +74,7 @@ then
 
     if [[ -x "$(command -v g++)" ]]
     then
-      export PZC_CXX_GCC_BIN=g++
+      PZC_CXX_GCC_BIN=g++
       _PZC_GCC_AVAILABLE=1
       _pzc_debug "PZC_CXX_GCC_BIN = ${PZC_CXX_GCC_BIN} (in PATH)"
       
@@ -132,7 +109,7 @@ then
 
     if [[ -x "$(command -v clang)" ]]
     then
-      export PZC_C_CLANG_BIN=clang
+      PZC_C_CLANG_BIN=clang
       _PZC_CLANG_AVAILABLE=1
       _pzc_debug "PZC_C_CLANG_BIN = ${PZC_C_CLANG_BIN} (in PATH)"
       
@@ -167,7 +144,7 @@ then
 
     if [[ -x "$(command -v clang++)" ]]
     then
-      export PZC_CXX_CLANG_BIN=clang++
+      PZC_CXX_CLANG_BIN=clang++
       _PZC_CLANG_AVAILABLE=1
       _pzc_debug "PZC_CXX_CLANG_BIN = ${PZC_CXX_CLANG_BIN} (in PATH)"
       
@@ -202,7 +179,7 @@ then
 
     if [[ -x "$(command -v nvcc)" ]]
     then
-      export PZC_NVCC_BIN=nvcc
+      PZC_NVCC_BIN=nvcc
       _PZC_NVCC_BIN_AVAILABLE=1
       _pzc_debug "PZC_NVCC_BIN = ${PZC_NVCC_BIN} (in PATH)"
       
@@ -233,13 +210,13 @@ then
 
       if [[ ${_PZC_GCC_AVAILABLE} = 1 ]]
       then
-        export PZC_NVCC_HOST_COMPILER_BIN=${PZC_CXX_GCC_BIN}
+        PZC_NVCC_HOST_COMPILER_BIN=${PZC_CXX_GCC_BIN}
         _PZC_NVCC_BIN_AVAILABLE=1
         _pzc_debug "PZC_NVCC_HOST_COMPILER_BIN = ${PZC_NVCC_HOST_COMPILER_BIN} (G++) (in PATH)"
 
       elif [[ ${_PZC_CLANG_AVAILABLE} = 1 ]]
       then
-        export PZC_NVCC_HOST_COMPILER_BIN=${PZC_CXX_CLANG_BIN}
+        PZC_NVCC_HOST_COMPILER_BIN=${PZC_CXX_CLANG_BIN}
         _PZC_NVCC_BIN_AVAILABLE=1
         _pzc_debug "PZC_NVCC_HOST_COMPILER_BIN = ${PZC_NVCC_HOST_COMPILER_BIN} (CLang++) (in PATH)"
 
@@ -275,7 +252,7 @@ then
 
     if [[ -x "$(command -v sycl)" ]]
     then
-      export PZC_SYCL_BIN=sycl
+      PZC_SYCL_BIN=sycl
       _PZC_SYCL_BIN_AVAILABLE=1
       _pzc_debug "PZC_SYCL_BIN = ${PZC_SYCL_BIN} (in PATH)"
       
@@ -306,13 +283,13 @@ then
 
       if [[ ${_PZC_CLANG_AVAILABLE} = 1 ]]
       then
-        export PZC_SYCL_HOST_COMPILER_BIN=${PZC_CXX_CLANG_BIN}
+        PZC_SYCL_HOST_COMPILER_BIN=${PZC_CXX_CLANG_BIN}
         _PZC_SYCL_BIN_AVAILABLE=1
         _pzc_debug "PZC_SYCL_HOST_COMPILER_BIN = ${PZC_SYCL_HOST_COMPILER_BIN} (CLang++) (in PATH)"
 
       elif [[ ${_PZC_GCC_AVAILABLE} = 1 ]]
       then
-        export PZC_SYCL_HOST_COMPILER_BIN=${PZC_CXX_GCC_BIN}
+        PZC_SYCL_HOST_COMPILER_BIN=${PZC_CXX_GCC_BIN}
         _PZC_SYCL_BIN_AVAILABLE=1
         _pzc_debug "PZC_SYCL_HOST_COMPILER_BIN = ${PZC_SYCL_HOST_COMPILER_BIN} (G++) (in PATH)"
 
@@ -427,51 +404,51 @@ fi
 if [[ ${_PZC_EZA_AVAILABLE} = 1 ]]
 then
 
-  if [[ -v _PZC_EZA_BIN ]] && [[ -e ${_PZC_EZA_BIN} ]]
+  if [[ -v PZC_EZA_BIN ]] && [[ -e ${PZC_EZA_BIN} ]]
   then
-    _pzc_debug "_PZC_EZA_BIN = ${_PZC_EZA_BIN} (user defined)"
+    _pzc_debug "PZC_EZA_BIN = ${PZC_EZA_BIN} (user defined)"
 
-  elif [[ -v _PZC_EZA_BIN ]]
+  elif [[ -v PZC_EZA_BIN ]]
   then
     _pzc_warning "Your eza is not found. Search other eza."
-    _pzc_debug "_PZC_EZA_BIN = ${_PZC_EZA_BIN} (unset)"
-    unset _PZC_EZA_BIN
+    _pzc_debug "PZC_EZA_BIN = ${PZC_EZA_BIN} (unset)"
+    unset PZC_EZA_BIN
 
   fi
 
-  if [[ ! -v _PZC_EZA_BIN ]]
+  if [[ ! -v PZC_EZA_BIN ]]
   then
 
     if [[ -x "$(command -v eza)" ]]
     then
-      _PZC_EZA_BIN=eza
+      PZC_EZA_BIN=eza
       _PZC_EZA_AVAILABLE=1
-      _pzc_debug "_PZC_EZA_BIN = ${_PZC_EZA_BIN} (in PATH)"
+      _pzc_debug "PZC_EZA_BIN = ${PZC_EZA_BIN} (in PATH)"
 
     elif [[ -e ${_PZC_PZC_DIR}/progs/eza/eza ]]
     then
-      _PZC_EZA_BIN=${_PZC_PZC_DIR}/progs/eza/eza
+      PZC_EZA_BIN=${_PZC_PZC_DIR}/progs/eza/eza
       _PZC_EZA_AVAILABLE=1
-      _pzc_debug "_PZC_EZA_BIN = ${_PZC_EZA_BIN} (in pzc)"
+      _pzc_debug "PZC_EZA_BIN = ${PZC_EZA_BIN} (in pzc)"
 
     # TODO : Deprecated
     elif [[ -x "$(command -v exa)" ]]
     then
-      _PZC_EZA_BIN=exa
+      PZC_EZA_BIN=exa
       _PZC_EZA_AVAILABLE=1
       _PZC_EXA_DEPRECATED=1
-      _pzc_debug "_PZC_EZA_BIN = ${_PZC_EZA_BIN} (in PATH / EXA)"
+      _pzc_debug "PZC_EZA_BIN = ${PZC_EZA_BIN} (in PATH / EXA)"
       _pzc_warning "EXA-LS is deprecated, please update to the EZA-LS fork (https://github.com/eza-community/eza) and remove your actual EXA-LS install."
       _pzc_info "You can install eza in the PZC folder with the command 'pzc_install_eza' or disable eza search in .pzcrc."
 
     # TODO : Deprecated
     elif [[ -e ${_PZC_PZC_DIR}/progs/exa/exa ]]
     then
-      _PZC_EZA_BIN=${_PZC_PZC_DIR}/progs/exa/exa
+      PZC_EZA_BIN=${_PZC_PZC_DIR}/progs/exa/exa
       _PZC_EZA_AVAILABLE=1
       _PZC_EXA_DEPRECATED=1
-      _pzc_debug "_PZC_EZA_BIN = ${_PZC_EZA_BIN} (in pzc / EXA)"
-      _pzc_warning "EXA-LS is deprecated, please update to the EZA-LS fork (https://github.com/eza-community/eza) and remove your actual EXA-LS install ($_PZC_EZA_BIN)."
+      _pzc_debug "PZC_EZA_BIN = ${PZC_EZA_BIN} (in pzc / EXA)"
+      _pzc_warning "EXA-LS is deprecated, please update to the EZA-LS fork (https://github.com/eza-community/eza) and remove your actual EXA-LS install ($PZC_EZA_BIN)."
       _pzc_info "You can install eza in the PZC folder with the command 'pzc_install_eza' or disable eza search in .pzcrc."
       
     else
@@ -523,26 +500,26 @@ fi
 if [[ ${_PZC_CCACHE_AVAILABLE} = 1 ]]
 then
 
-  if [[ -v _PZC_CCACHE_BIN ]] && [[ -e ${_PZC_CCACHE_BIN} ]]
+  if [[ -v PZC_CCACHE_BIN ]] && [[ -e ${PZC_CCACHE_BIN} ]]
   then
-    _pzc_debug "_PZC_CCACHE_BIN = ${_PZC_CCACHE_BIN} (user defined)"
+    _pzc_debug "PZC_CCACHE_BIN = ${PZC_CCACHE_BIN} (user defined)"
 
-  elif [[ -v _PZC_CCACHE_BIN ]]
+  elif [[ -v PZC_CCACHE_BIN ]]
   then
     _pzc_warning "Your ccache is not found. Search other ccache."
-    _pzc_debug "_PZC_CCACHE_BIN = ${_PZC_CCACHE_BIN} (unset)"
-    unset _PZC_CCACHE_BIN
+    _pzc_debug "PZC_CCACHE_BIN = ${PZC_CCACHE_BIN} (unset)"
+    unset PZC_CCACHE_BIN
 
   fi
 
-  if [[ ! -v _PZC_CCACHE_BIN ]]
+  if [[ ! -v PZC_CCACHE_BIN ]]
   then
 
     if [[ -x "$(command -v ccache)" ]]
     then
-      _PZC_CCACHE_BIN=ccache
+      PZC_CCACHE_BIN=ccache
       _PZC_CCACHE_AVAILABLE=1
-      _pzc_debug "_PZC_CCACHE_BIN = ${_PZC_CCACHE_BIN} (in PATH)"
+      _pzc_debug "PZC_CCACHE_BIN = ${PZC_CCACHE_BIN} (in PATH)"
       
     else
       _PZC_CCACHE_AVAILABLE=0
@@ -770,16 +747,16 @@ then
     _pzc_info "Install EZA in PZC folder..."
 
     _pzc_debug "Download EZA in TMP folder"
-    wget -q -O "${_PZC_TMP_DIR}/eza_archive.tar.gz" "https://github.com/eza-community/eza/releases/latest/download/eza_x86_64-unknown-linux-gnu.tar.gz"
+    wget -q -O "${TMP_DIR}/eza_archive.tar.gz" "https://github.com/eza-community/eza/releases/latest/download/eza_x86_64-unknown-linux-gnu.tar.gz"
 
     _pzc_debug "Untar EZA archive in TMP folder"
-    tar -zxf "${_PZC_TMP_DIR}/eza_archive.tar.gz" -C "${_PZC_TMP_DIR}"
+    tar -zxf "${TMP_DIR}/eza_archive.tar.gz" -C "${TMP_DIR}"
 
     _pzc_debug "MkDir progs/eza"
     mkdir -p "${_PZC_PZC_DIR}/progs/eza"
 
     _pzc_debug "Copy eza bin"
-    cp "${_PZC_TMP_DIR}/eza" "${_PZC_PZC_DIR}/progs/eza/"
+    cp "${TMP_DIR}/eza" "${_PZC_PZC_DIR}/progs/eza/"
 
     if [[ $? = 0 ]]
     then

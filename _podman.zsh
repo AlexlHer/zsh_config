@@ -94,11 +94,12 @@ then
 
     _pzc_info "Installing PZC in container..."
     pm exec $CONTAINER git clone https://github.com/AlexlHer/zsh_config /root/.pzc
-    pm exec $CONTAINER cp /root/.pzc/home.zshrc /root/.zshrc
-    pm exec $CONTAINER sed -i 's/local _PZC_AGE_AVAILABLE=1/local _PZC_AGE_AVAILABLE=0/g' /root/.zshrc
-    pm exec $CONTAINER sed -i 's/local _PZC_TASK_AVAILABLE=1/local _PZC_TASK_AVAILABLE=0/g' /root/.zshrc
-    pm exec $CONTAINER sed -i 's/local _PZC_CHMOD_COMPILING=0/local _PZC_CHMOD_COMPILING=1/g' /root/.zshrc
-    pm exec $CONTAINER sed -i 's:#local _PZC_OMP_BIN=:local _PZC_OMP_BIN=/root/.local/bin/oh-my-posh:g' /root/.zshrc
+    pm exec $CONTAINER cp /root/.pzc/template.zshrc /root/.zshrc
+    pm exec $CONTAINER cp /root/.pzc/template.pzcrc /root/.pzcrc
+    pm exec $CONTAINER sed -i 's/local _PZC_AGE_AVAILABLE=1/local _PZC_AGE_AVAILABLE=0/g' /root/.pzcrc
+    pm exec $CONTAINER sed -i 's/local _PZC_TASK_AVAILABLE=1/local _PZC_TASK_AVAILABLE=0/g' /root/.pzcrc
+    pm exec $CONTAINER sed -i 's/PZC_CHMOD_COMPILING=0/PZC_CHMOD_COMPILING=1/g' /root/.pzcrc
+    pm exec $CONTAINER sed -i 's:#local _PZC_OMP_BIN=:local _PZC_OMP_BIN=/root/.local/bin/oh-my-posh:g' /root/.pzcrc
 
     _pzc_info "Copying .zhistory in container..."
     pm cp $HOME/.zhistory $CONTAINER:/root/.zhistory

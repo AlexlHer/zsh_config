@@ -1,6 +1,6 @@
 # Personal ZSH Configuration
 ## Installation
-```zsh
+```sh
 # Goto home:
 cd
 
@@ -8,18 +8,22 @@ cd
 mv ~/.zshrc ~/.zshrc.old
 
 # Clone this repo in your home:
-git clone git@github.com:AlexlHer/zsh_config.git .pzc
+git clone https://github.com/AlexlHer/zsh_config .pzc
 
 # Copy ~/.pzc/home.zshrc to ~/.zshrc:
-cp ~/.pzc/home.zshrc ~/.zshrc
+cp ~/.pzc/template.zshrc ~/.zshrc
+cp ~/.pzc/template.pzcrc ~/.pzcrc
 
-# Edit "~/.zshrc":
+# Edit "~/.pzcrc":
 # Search "[TODO]" to find lines to edit.
+vim ~/.pzcrc
+
+# If you have a PATH edit in your old .zshrc, you can edit the new .zshrc:
 vim ~/.zshrc
 ```
 
 ## Update
-```zsh
+```sh
 cd ~/.pzc
 git stash
 git pull

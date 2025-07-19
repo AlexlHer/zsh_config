@@ -32,21 +32,21 @@ then
   # Color $1 or 3 last edited files.
   lll()
   {
-    ${_PZC_EZA_BIN} --icons --color-scale --time-style long-iso --git -bghHlM -s=modified
+    ${PZC_EZA_BIN} --icons --color-scale --time-style long-iso --git -bghHlM -s=modified
   }
   llldum()
   {
-    ${_PZC_EZA_BIN} --icons --color-scale --time-style long-iso --git --total-size -bghHlM -s=modified
+    ${PZC_EZA_BIN} --icons --color-scale --time-style long-iso --git --total-size -bghHlM -s=modified
   }
 
   # Color $1 or 3 last edited files (cached files edition).
   llla()
   {
-    ${_PZC_EZA_BIN} --icons --color-scale --time-style long-iso --git -BghHlMa -s=modified
+    ${PZC_EZA_BIN} --icons --color-scale --time-style long-iso --git -BghHlMa -s=modified
   }
   llladum()
   {
-    ${_PZC_EZA_BIN} --icons --color-scale --time-style long-iso --git --total-size -BghHlMa -s=modified
+    ${PZC_EZA_BIN} --icons --color-scale --time-style long-iso --git --total-size -BghHlMa -s=modified
   }
 
 else
@@ -117,70 +117,94 @@ dinf()
 # ---------------------------------------------------------------
 
 # Define "CLang" to CMake default compiler.
-uclang()
-{
-  if [[ ${_PZC_CLANG_AVAILABLE} = 1 ]]
-  then
-    export PZC_C_COMPILER="${PZC_C_CLANG_BIN}"
-    export PZC_CXX_COMPILER="${PZC_CXX_CLANG_BIN}"
-    _PZC_C_CXX_DEFAULT_COMPILER="CLANG"
+if [[ ${_PZC_CLANG_AVAILABLE} = 1 ]]
+then
+  _pzc_debug "CLang available, define uclang function"
+  uclang()
+  {
+    PZC_C_COMPILER="${PZC_C_CLANG_BIN}"
+    PZC_CXX_COMPILER="${PZC_CXX_CLANG_BIN}"
     _pzc_info "Define CLang to default C/CXX compiler."
-  
-  else
+  }
+else
+  _pzc_debug "CLang not available, define empty uclang function"
+  uclang()
+  {
     _pzc_error "CLang is not available."
-  fi
-}
+    return 1
+  }
+fi
+
+
 
 # Define "GCC" to CMake default compiler.
-ugcc()
-{
-  if [[ ${_PZC_GCC_AVAILABLE} = 1 ]]
-  then
-    export PZC_C_COMPILER="${PZC_C_GCC_BIN}"
-    export PZC_CXX_COMPILER="${PZC_CXX_GCC_BIN}"
-    _PZC_C_CXX_DEFAULT_COMPILER="GCC"
+if [[ ${_PZC_GCC_AVAILABLE} = 1 ]]
+then
+  _pzc_debug "GCC available, define ugcc function"
+  ugcc()
+  {
+    PZC_C_COMPILER="${PZC_C_GCC_BIN}"
+    PZC_CXX_COMPILER="${PZC_CXX_GCC_BIN}"
     _pzc_info "Define GCC to default C/CXX compiler."
-  
-  else
+  }
+else
+  _pzc_debug "GCC not available, define empty ugcc function"
+  ugcc()
+  {
     _pzc_error "GCC is not available."
-  fi
-}
+    return 1
+  }
+fi
+
+
 
 # Define "NVCC" to CMake default GPU compiler.
-unvcc()
-{
-  if [[ ${_PZC_NVCC_BIN_AVAILABLE} = 1 ]]
-  then
-    export PZC_GPU_HOST_COMPILER="${PZC_NVCC_HOST_COMPILER_BIN}"
-    export PZC_GPU_COMPILER="${PZC_NVCC_BIN}"
+if [[ ${_PZC_NVCC_BIN_AVAILABLE} = 1 ]]
+then
+  _pzc_debug "NVCC available, define unvcc function"
+  unvcc()
+  {
+    PZC_GPU_HOST_COMPILER="${PZC_NVCC_HOST_COMPILER_BIN}"
+    PZC_GPU_COMPILER="${PZC_NVCC_BIN}"
     unset PZC_GPU_FLAGS
-    _PZC_GPU_DEFAULT_COMPILER="NVCC"
+    PZC_GPU_DEFAULT_COMPILER="NVCC"
     _pzc_info "Define NVCC to default GPU compiler."
-  
-  else
+  }
+else
+  _pzc_debug "NVCC not available, define empty unvcc function"
+  unvcc()
+  {
     _pzc_error "NVCC is not available."
-  fi
-}
+    return 1
+  }
+fi
+
+
 
 # Define "SYCL" to CMake default GPU compiler.
-usycl()
-{
-  if [[ ${_PZC_SYCL_BIN_AVAILABLE} = 1 ]]
-  then
-    export PZC_GPU_HOST_COMPILER="${PZC_SYCL_BIN}"
-    export PZC_GPU_COMPILER="${PZC_SYCL_BIN}"
-    if [[ -v _PZC_GPU_TARGET_ARCH ]]
+if [[ ${_PZC_SYCL_BIN_AVAILABLE} = 1 ]]
+then
+  _pzc_debug "SYCL available, define usycl function"
+  usycl()
+  {
+    PZC_GPU_HOST_COMPILER="${PZC_SYCL_BIN}"
+    PZC_GPU_COMPILER="${PZC_SYCL_BIN}"
+    if [[ -v PZC_GPU_TARGET_ARCH ]]
     then
-      export PZC_GPU_FLAGS="'--acpp-targets=cuda:sm_${_PZC_GPU_TARGET_ARCH}'"
+      PZC_GPU_FLAGS="'--acpp-targets=cuda:sm_${PZC_GPU_TARGET_ARCH}'"
     fi
 
-    _PZC_GPU_DEFAULT_COMPILER="SYCL"
+    PZC_GPU_DEFAULT_COMPILER="SYCL"
     _pzc_info "Define SYCL to default GPU compiler."
-  
-  else
+  }
+else
+  _pzc_debug "SYCL not available, define empty usycl function"
+  usycl()
+  {
     _pzc_error "SYCL is not available."
-  fi
-}
+    return 1
+  }
+fi
 
 
 
@@ -223,37 +247,38 @@ cta()
 # ---------------------------------------------------------------
 # ----------------------- Todo function -------------------------
 # ---------------------------------------------------------------
-
-todo()
-{
-  if [[ -v _PZC_TODOLIST_PATH ]] && [[ -e ${_PZC_TODOLIST_PATH} ]]
+if [[ -v PZC_TODOLIST_PATH ]] && [[ -e ${PZC_TODOLIST_PATH} ]]
+then
+  if [[ ${_PZC_TODOLIST_ENC} = 1 ]]
   then
-
-    if [[ ${_PZC_TODOLIST_ENC} = 1 ]]
-    then
-      sf ${_PZC_TODOLIST_PATH}
-
-    else
-      _pzc_info "Create backup."
-      \cp ${_PZC_TODOLIST_PATH} ${_PZC_TODOLIST_PATH}.old
-
-      _pzc_info "Launch ${_PZC_FILE_EDITOR}..."
-      ${_PZC_FILE_EDITOR} ${_PZC_TODOLIST_PATH}
-
-    fi
-
-  elif [[ ! -e ${_PZC_TODOLIST_PATH} ]]
-  then
-    _pzc_error "Your TODOlist is not found."
-    _pzc_debug "_PZC_TODOLIST_PATH = ${_PZC_TODOLIST_PATH}"
-    return 1
-
+    todo()
+    {
+      sf ${PZC_TODOLIST_PATH}
+    }
   else
-    _pzc_error "_PZC_TODOLIST_PATH not define. Check your .pzcrc."
-    return 1
+    todo()
+    {
+      _pzc_info "Create backup."
+      \cp ${PZC_TODOLIST_PATH} ${PZC_TODOLIST_PATH}.old
 
+      _pzc_info "Launch ${PZC_FILE_EDITOR}..."
+      ${PZC_FILE_EDITOR} ${PZC_TODOLIST_PATH}
+    }
   fi
-}
+elif [[ ! -e ${PZC_TODOLIST_PATH} ]]
+then
+  todo()
+  {
+    _pzc_error "Your TODOlist is not found."
+    return 1
+  }
+else
+  todo()
+  {
+    _pzc_error "PZC_TODOLIST_PATH not define. Check your .pzcrc."
+    return 1
+  }
+fi
 
 
 
@@ -263,7 +288,7 @@ todo()
 
 tdir()
 {
-  export TDIR=$(mktemp -d --tmpdir=${_PZC_TMP_DIR})
-  _pzc_info "Create new directory in ${_PZC_TMP_DIR} : ${TDIR}"
+  TDIR=$(mktemp -d --tmpdir=${TMP_DIR})
+  _pzc_info "Create new directory in ${TMP_DIR} : ${TDIR}"
   _pzc_coal_eval "cd ${TDIR}"
 }
