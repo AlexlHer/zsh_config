@@ -699,6 +699,55 @@ fi
 
 
 # ---------------------------------------------------------------
+# --------------------------- Python ----------------------------
+# ---------------------------------------------------------------
+
+if [[ ${_PZC_PYTHON_AVAILABLE} = 1 ]]
+then
+
+  _PZC_PYTHON_BIN=python
+
+  if [[ -v _PZC_PYTHON_PATH ]] && [[ -e ${_PZC_PYTHON_PATH} ]]
+  then
+    _pzc_debug "_PZC_PYTHON_PATH = ${_PZC_PYTHON_PATH} (add in PATH)"
+    export PATH=${_PZC_PYTHON_PATH}:$PATH
+
+  elif [[ -v _PZC_PYTHON_PATH ]]
+  then
+    _pzc_warning "Your python is not found. Search other python."
+    _pzc_debug "_PZC_PYTHON_PATH = ${_PZC_PYTHON_PATH} (unset)"
+    unset _PZC_PYTHON_PATH
+
+  fi
+
+  if [[ ! -v _PZC_PYTHON_PATH ]]
+  then
+
+    if [[ -x "$(command -v python)" ]]
+    then
+      _PZC_PYTHON_AVAILABLE=1
+      _pzc_debug "Python found in PATH (_PZC_PYTHON_BIN = ${_PZC_PYTHON_BIN})"
+
+    elif [[ -x "$(command -v python3)" ]]
+    then
+      _PZC_PYTHON_AVAILABLE=1
+      _PZC_PYTHON_BIN=python3
+      _pzc_debug "Python found in PATH (_PZC_PYTHON_BIN = ${_PZC_PYTHON_BIN})"
+
+    else
+      _PZC_PYTHON_AVAILABLE=0
+      _pzc_warning "Python is not installed. You can disable python search in .pzcrc."
+
+    fi
+  fi
+else
+  _pzc_debug "Python disabled."
+
+fi
+
+
+
+# ---------------------------------------------------------------
 # ---------------------- PZC Install Part -----------------------
 # ---------------------------------------------------------------
 

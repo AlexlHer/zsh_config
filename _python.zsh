@@ -3,6 +3,11 @@
 
 
 
+if [[ ${_PZC_PYTHON_AVAILABLE} = 1 ]]
+then
+_pzc_debug "Enable pyenv functions"
+
+
 # ---------------------------------------------------------------
 # ------------------ Python virtual env init --------------------
 # ---------------------------------------------------------------
@@ -44,7 +49,7 @@ pyenvnew()
   fi
 
   _pzc_info "Creating python venv '${NAME}'... The command to activate it is: 'pyenv ${NAME}'"
-  _pzc_coal_eval "python -m venv ENV_DIR ${PYTHON_ENV}/${NAME}"
+  _pzc_coal_eval "${_PZC_PYTHON_BIN} -m venv ${PYTHON_ENV}/${NAME}"
 }
 
 pyenvrem()
@@ -61,3 +66,28 @@ pyenvrem()
   _pzc_info "Removing python venv '${NAME}'..."
   _pzc_coal_eval "rm -r ${PYTHON_ENV}/${NAME}"
 }
+
+
+
+else
+_pzc_debug "Enable empty pyenv functions"
+
+pyenv()
+{
+  _pzc_error "Python is not available"
+  return 1
+}
+
+pyenvnew()
+{
+  _pzc_error "Python is not available"
+  return 1
+}
+
+pyenvrem()
+{
+  _pzc_error "Python is not available"
+  return 1
+}
+
+fi

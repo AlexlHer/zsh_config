@@ -9,6 +9,11 @@
 
 _pzc_welcome()
 {
+  if [[ -v _PZC_DISABLE_WELCOME ]]
+  then
+    return 0
+  fi
+
   echo "______ ___________  "
   echo "| ___ |___  /  __ \ "
   echo "| |_/ /  / /| /  \/ "
@@ -16,7 +21,7 @@ _pzc_welcome()
   echo "| |   ./ /__| \__/\ "
   echo "\_|   \_____/\____/ "
   echo ""
-  echo "Personal ZSH Configuration v${PZC_VERSION[1]}.${PZC_VERSION[2]}.${PZC_VERSION[3]} BETA"
+  echo "Personal ZSH Configuration v${PZC_VERSION[1]}.${PZC_VERSION[2]}.${PZC_VERSION[3]}"
   echo ""
 
   _pzc_debug "Debug mode activated. Edit your .pzcrc to disable it."
@@ -26,6 +31,7 @@ _pzc_welcome()
   # 11c94394fd7dcb64badedc4d18d4f6fcc92cc21a (25/02/2023) : v3.0.0
   # 42c86a691019612c2845752743fd075f395ca4fa (25/03/2023) : v4.0.0
   # 54876d68737ca75563032bf0ccdbf736762ffc21 (19/06/2024) : v5.0.0
+  #                                          (19/07/2025) : v6.0.0
 }
 
 

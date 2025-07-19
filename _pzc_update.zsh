@@ -347,16 +347,14 @@ _pzc_update_pzcrc_5()
   echo "" >> ${_PZC_OUTPUT_FILE}
   echo "" >> ${_PZC_OUTPUT_FILE}
   echo "# ----------------------------------" >> ${_PZC_OUTPUT_FILE}
-  echo "# ------------- CHMOD --------------" >> ${_PZC_OUTPUT_FILE}
+  echo "# ------------- PYTHON -------------" >> ${_PZC_OUTPUT_FILE}
   echo "# ----------------------------------" >> ${_PZC_OUTPUT_FILE}
-  echo "# [TODO] In case of problem with permissions after compiling," >> ${_PZC_OUTPUT_FILE}
-  echo "# set this option to 1." >> ${_PZC_OUTPUT_FILE}
-  if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
-  then
-    echo "PZC_CHMOD_COMPILING=1" >> ${_PZC_OUTPUT_FILE}
-  else
-    echo "#PZC_CHMOD_COMPILING=1" >> ${_PZC_OUTPUT_FILE}
-  fi
+  echo "# [TODO] If you want to use python, set this variable to 1." >> ${_PZC_OUTPUT_FILE}
+  echo "local _PZC_PYTHON_AVAILABLE=1" >> ${_PZC_OUTPUT_FILE}
+  echo "" >> ${_PZC_OUTPUT_FILE}
+  echo "# [TODO] Uncomment and complete if you have a custom installation of python." >> ${_PZC_OUTPUT_FILE}
+  echo "# Note: This PATH will be add in PATH." >> ${_PZC_OUTPUT_FILE}
+  echo "#local _PZC_PYTHON_PATH=" >> ${_PZC_OUTPUT_FILE}
   echo "" >> ${_PZC_OUTPUT_FILE}
   echo "" >> ${_PZC_OUTPUT_FILE}
   echo "# ----------------------------------" >> ${_PZC_OUTPUT_FILE}
@@ -492,7 +490,15 @@ _pzc_update_pzcrc_5()
   else
     echo "#PZC_SYCL_HOST_COMPILER_BIN=clang++" >> ${_PZC_OUTPUT_FILE}
   fi
-
+  echo "" >> ${_PZC_OUTPUT_FILE}
+  echo "# [TODO] In case of problem with permissions after compiling," >> ${_PZC_OUTPUT_FILE}
+  echo "# set this option to 1." >> ${_PZC_OUTPUT_FILE}
+  if [[ ${_PZC_CHMOD_COMPILING} = 1 ]]
+  then
+    echo "PZC_CHMOD_COMPILING=1" >> ${_PZC_OUTPUT_FILE}
+  else
+    echo "#PZC_CHMOD_COMPILING=1" >> ${_PZC_OUTPUT_FILE}
+  fi
   echo "" >> ${_PZC_OUTPUT_FILE}
   echo "" >> ${_PZC_OUTPUT_FILE}
   echo "# ----------------------------------" >> ${_PZC_OUTPUT_FILE}
@@ -513,6 +519,13 @@ _pzc_update_pzcrc_5()
   else
     echo "#local _PZC_TODOLIST_ENC=0" >> ${_PZC_OUTPUT_FILE}
   fi
+  echo "" >> ${_PZC_OUTPUT_FILE}
+  echo "" >> ${_PZC_OUTPUT_FILE}
+  echo "# ----------------------------------" >> ${_PZC_OUTPUT_FILE}
+  echo "# ------------- Other --------------" >> ${_PZC_OUTPUT_FILE}
+  echo "# ----------------------------------" >> ${_PZC_OUTPUT_FILE}
+  echo "# [TODO] Uncomment to disable welcome message." >> ${_PZC_OUTPUT_FILE}
+  echo "#local _PZC_DISABLE_WELCOME=1" >> ${_PZC_OUTPUT_FILE}
   echo "" >> ${_PZC_OUTPUT_FILE}
 }
 

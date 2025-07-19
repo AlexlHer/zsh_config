@@ -161,11 +161,14 @@ local _PZC_TASK_AVAILABLE=1
 
 
 # ----------------------------------
-# ------------- CHMOD --------------
+# ------------- PYTHON -------------
 # ----------------------------------
-# [TODO] In case of problem with permissions after compiling,
-# set this option to 1.
-#PZC_CHMOD_COMPILING=1
+# [TODO] If you want to use python, set this variable to 1.
+local _PZC_PYTHON_AVAILABLE=1
+
+# [TODO] Uncomment and complete if you have a custom installation of python.
+# Note: This PATH will be add in PATH.
+#local _PZC_PYTHON_PATH=
 
 
 # ----------------------------------
@@ -193,6 +196,10 @@ local _PZC_CLANG_AVAILABLE=1
 #PZC_SYCL_BIN=sycl
 #PZC_SYCL_HOST_COMPILER_BIN=clang++
 
+# [TODO] In case of problem with permissions after compiling,
+# set this option to 1.
+#PZC_CHMOD_COMPILING=1
+
 
 # ----------------------------------
 # ---------- TODOlist path ---------
@@ -202,3 +209,10 @@ local _PZC_CLANG_AVAILABLE=1
 
 # [TODO] Uncomment and edit if your todolist is encrypted (1) or not (0).
 #local _PZC_TODOLIST_ENC=0
+
+
+# ----------------------------------
+# ------------- Other --------------
+# ----------------------------------
+# [TODO] Uncomment to disable welcome message.
+#local _PZC_DISABLE_WELCOME=1
