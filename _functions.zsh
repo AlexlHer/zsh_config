@@ -110,6 +110,28 @@ dinf()
   find -L . -name "${1}" 2> /dev/null
 }
 
+psa()
+{
+  local SEARCHING="${1:-0}"
+  local OTHER="${2:-0}"
+
+  if [[ ${SEARCHING} = 0 ]]
+  then
+    _pzc_error "This command needs a parameter (name of process)"
+    return 1
+  fi
+
+  if [[ ${OTHER} != 0 ]]
+  then
+    _pzc_error "This command needs only once parameter (name of process)"
+    return 1
+  fi
+
+  _pzc_coal "ps -efj | grep ${SEARCHING}"
+  echo "UID          PID    PPID    PGID     SID  C STIME TTY          TIME CMD"
+  ps -efj | grep ${SEARCHING}
+}
+
 
 
 # ---------------------------------------------------------------
