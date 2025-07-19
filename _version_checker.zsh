@@ -70,7 +70,7 @@ _pzc_version_checker()
 #     elif [[ ${_PZC_VERSION_CHECKER_RET} = 1 ]]
 #     then
 #         echo "\033[0;103m\033[30m   Warning: Your .zshrc file is not up to date (${HOME}/.zshrc). \
-#   Please update it with the newest (template available here: ${_PZC_PZC_DIR}/home.zshrc). \033[0m"
+#   Please update it with the newest (template available here: ${PZC_PZC_DIR}/home.zshrc). \033[0m"
 #         echo "\033[0;103m\033[30m             Your .zshrc version: v${_PZC_CONFIG_VERSION[1]}.${_PZC_CONFIG_VERSION[2]}.${_PZC_CONFIG_VERSION[3]} \033[0m"
 #         echo "\033[0;103m\033[30m             Latest version:      v${_PZC_CONFIG_LAST_VERSION[1]}.${_PZC_CONFIG_LAST_VERSION[2]}.${_PZC_CONFIG_LAST_VERSION[3]} \033[0m"
 

@@ -351,9 +351,9 @@ then
       _PZC_OMP_AVAILABLE=1
       _pzc_debug "_PZC_OMP_BIN = ${_PZC_OMP_BIN} (in PATH)"
 
-    elif [[ -e ${_PZC_PZC_DIR}/progs/oh-my-posh/oh-my-posh ]]
+    elif [[ -e ${PZC_PZC_DIR}/progs/oh-my-posh/oh-my-posh ]]
     then
-      _PZC_OMP_BIN=${_PZC_PZC_DIR}/progs/oh-my-posh/oh-my-posh
+      _PZC_OMP_BIN=${PZC_PZC_DIR}/progs/oh-my-posh/oh-my-posh
       _PZC_OMP_AVAILABLE=1
       _pzc_debug "_PZC_OMP_BIN = ${_PZC_OMP_BIN} (in pzc)"
 
@@ -380,9 +380,9 @@ then
   if [[ ! -v _PZC_OMP_THEME_FILE ]]
   then
 
-    if [[ -e ${_PZC_PZC_DIR}/progs/oh-my-posh/themes/OhMyZSH.json ]]
+    if [[ -e ${PZC_PZC_DIR}/progs/oh-my-posh/themes/OhMyZSH.json ]]
     then
-      _PZC_OMP_THEME_FILE=${_PZC_PZC_DIR}/progs/oh-my-posh/themes/OhMyZSH.json
+      _PZC_OMP_THEME_FILE=${PZC_PZC_DIR}/progs/oh-my-posh/themes/OhMyZSH.json
       _pzc_debug "_PZC_OMP_THEME_FILE = ${_PZC_OMP_THEME_FILE} (default)"
 
     else
@@ -425,9 +425,9 @@ then
       _PZC_EZA_AVAILABLE=1
       _pzc_debug "PZC_EZA_BIN = ${PZC_EZA_BIN} (in PATH)"
 
-    elif [[ -e ${_PZC_PZC_DIR}/progs/eza/eza ]]
+    elif [[ -e ${PZC_PZC_DIR}/progs/eza/eza ]]
     then
-      PZC_EZA_BIN=${_PZC_PZC_DIR}/progs/eza/eza
+      PZC_EZA_BIN=${PZC_PZC_DIR}/progs/eza/eza
       _PZC_EZA_AVAILABLE=1
       _pzc_debug "PZC_EZA_BIN = ${PZC_EZA_BIN} (in pzc)"
 
@@ -442,9 +442,9 @@ then
       _pzc_info "You can install eza in the PZC folder with the command 'pzc_install_eza' or disable eza search in .pzcrc."
 
     # TODO : Deprecated
-    elif [[ -e ${_PZC_PZC_DIR}/progs/exa/exa ]]
+    elif [[ -e ${PZC_PZC_DIR}/progs/exa/exa ]]
     then
-      PZC_EZA_BIN=${_PZC_PZC_DIR}/progs/exa/exa
+      PZC_EZA_BIN=${PZC_PZC_DIR}/progs/exa/exa
       _PZC_EZA_AVAILABLE=1
       _PZC_EXA_DEPRECATED=1
       _pzc_debug "PZC_EZA_BIN = ${PZC_EZA_BIN} (in pzc / EXA)"
@@ -475,9 +475,9 @@ then
   if [[ ! -v _PZC_EZA_CONFIG_DIR ]]
   then
 
-    if [[ -d ${_PZC_PZC_DIR}/progs/eza/config ]]
+    if [[ -d ${PZC_PZC_DIR}/progs/eza/config ]]
     then
-      _PZC_EZA_CONFIG_DIR=${_PZC_PZC_DIR}/progs/eza/config
+      _PZC_EZA_CONFIG_DIR=${PZC_PZC_DIR}/progs/eza/config
       _pzc_debug "_PZC_EZA_CONFIG_DIR = ${_PZC_EZA_CONFIG_DIR} (default)"
       export EZA_CONFIG_DIR=${_PZC_EZA_CONFIG_DIR}
 
@@ -763,13 +763,13 @@ then
     _pzc_info "Install Oh-My-Posh in PZC folder..."
 
     _pzc_debug "MkDir progs/oh-my-posh"
-    mkdir -p "${_PZC_PZC_DIR}/progs/oh-my-posh"
+    mkdir -p "${PZC_PZC_DIR}/progs/oh-my-posh"
 
     _pzc_debug "Download Oh-My-Posh in PZC folder"
-    wget -q -O "${_PZC_PZC_DIR}/progs/oh-my-posh/oh-my-posh" "https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64"
+    wget -q -O "${PZC_PZC_DIR}/progs/oh-my-posh/oh-my-posh" "https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64"
 
     _pzc_debug "Change permission Oh-My-Posh exe"
-    chmod u+x "${_PZC_PZC_DIR}/progs/oh-my-posh/oh-my-posh"
+    chmod u+x "${PZC_PZC_DIR}/progs/oh-my-posh/oh-my-posh"
 
     if [[ $? = 0 ]]
     then
@@ -802,10 +802,10 @@ then
     tar -zxf "${TMP_DIR}/eza_archive.tar.gz" -C "${TMP_DIR}"
 
     _pzc_debug "MkDir progs/eza"
-    mkdir -p "${_PZC_PZC_DIR}/progs/eza"
+    mkdir -p "${PZC_PZC_DIR}/progs/eza"
 
     _pzc_debug "Copy eza bin"
-    cp "${TMP_DIR}/eza" "${_PZC_PZC_DIR}/progs/eza/"
+    cp "${TMP_DIR}/eza" "${PZC_PZC_DIR}/progs/eza/"
 
     if [[ $? = 0 ]]
     then

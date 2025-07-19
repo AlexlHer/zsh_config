@@ -39,7 +39,7 @@ then
 fi
 
 cp ${_PZC_PZC_DIR}/template.zshrc ${HOME}/.zshrc
-sed -i "s:_PZC_PZC_DIR=\${HOME}/.pzc:_PZC_PZC_DIR=\"${_PZC_PZC_DIR}\":g" ${HOME}/.zshrc
+sed -i "s:PZC_PZC_DIR=\${HOME}/.pzc:PZC_PZC_DIR=\"${_PZC_PZC_DIR}\":g" ${HOME}/.zshrc
 
 echo "Your old configuration file will be updated."
 

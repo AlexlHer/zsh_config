@@ -40,9 +40,9 @@ then
         _PZC_AGE_AVAILABLE=1
         _pzc_debug "PZC_AGE_BIN = ${PZC_AGE_BIN} (in PATH) (RAGE)"
 
-      elif [[ -e ${_PZC_PZC_DIR}/progs/age/age ]]
+      elif [[ -e ${PZC_PZC_DIR}/progs/age/age ]]
       then
-        PZC_AGE_BIN=${_PZC_PZC_DIR}/progs/age/age
+        PZC_AGE_BIN=${PZC_PZC_DIR}/progs/age/age
         _PZC_AGE_AVAILABLE=1
         _pzc_debug "PZC_AGE_BIN = ${PZC_AGE_BIN} (in pzc) (AGE)"
         
@@ -85,10 +85,10 @@ then
     tar -zxf "${TMP_DIR}/age_archive.tar.gz" -C "${TMP_DIR}"
 
     _pzc_debug "MkDir progs/age"
-    mkdir -p "${_PZC_PZC_DIR}/progs/age"
+    mkdir -p "${PZC_PZC_DIR}/progs/age"
 
     _pzc_debug "Copy age bin"
-    cp "${TMP_DIR}/age/age" "${_PZC_PZC_DIR}/progs/age/"
+    cp "${TMP_DIR}/age/age" "${PZC_PZC_DIR}/progs/age/"
 
     if [[ $? = 0 ]]
     then

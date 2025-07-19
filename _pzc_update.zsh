@@ -548,7 +548,7 @@ _pzc_launch_pzc_update()
 
 _pzc_check_update()
 {
-  source ${_PZC_PZC_DIR}/_version_checker.zsh
+  source ${PZC_PZC_DIR}/_version_checker.zsh
 
   local _PZC_VERSION_CHECKER_RET=0
   _pzc_version_checker ${_PZC_CONFIG_VERSION} ${_PZC_CONFIG_LAST_VERSION}

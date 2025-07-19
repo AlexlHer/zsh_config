@@ -17,10 +17,10 @@ mkdir -p ${PZC_EDIT_SCRIPTS}
 # ---------------------------------------------------------------
 # TODO : Delete this part in PZC v7
 
-if [[ -d ${_PZC_PZC_DIR}/arcane_scripts ]]
+if [[ -d ${PZC_PZC_DIR}/arcane_scripts ]]
 then
   _pzc_info "An old PZC version have been created arcane_scripts folder. Moving these scripts in ${PZC_EDIT_SCRIPTS}..."
-  mv ${_PZC_PZC_DIR}/arcane_scripts/* ${PZC_EDIT_SCRIPTS}
+  mv ${PZC_PZC_DIR}/arcane_scripts/* ${PZC_EDIT_SCRIPTS}
 fi
 
 # ---------------------------------------------------------------
