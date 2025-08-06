@@ -27,6 +27,18 @@ fi
 
 
 
+if [[ -v ENVI_DIR ]]
+then
+  _pzc_debug "ENVI_DIR is set. ENVI_DIR = ${ENVI_DIR}."
+
+else
+  export ENVI_DIR=${_PZC_LARGE_DIR}/environment
+  _pzc_debug "ENVI_DIR is not set. ENVI_DIR = ${ENVI_DIR}."
+
+fi
+
+
+
 if [[ -v WORK_DIR ]]
 then
   _pzc_debug "WORK_DIR is set. WORK_DIR = ${WORK_DIR}."
@@ -39,39 +51,45 @@ fi
 
 
 
-if [[ -v BUILD_DIR ]]
+if [[ -v PZC_INIT_TMP_DEV_ENV ]]
 then
-  _pzc_debug "BUILD_DIR is set. BUILD_DIR = ${BUILD_DIR}."
+  _pzc_debug "PZC_INIT_TMP_DEV_ENV is set."
+  _pzc_info "Initializing temporary dev env."
+  mkdir -p "${TMP_DIR}/devenv"
+  local TDIR=$(mktemp -d --tmpdir=${TMP_DIR}/devenv)
+
+  export BUILD_DIR=${TDIR}/build
+  _pzc_info "BUILD_DIR = ${BUILD_DIR}."
+  
+  export INSTALL_DIR=${TDIR}/install
+  _pzc_info "INSTALL_DIR = ${INSTALL_DIR}."
 
 else
-  export BUILD_DIR=${_PZC_LARGE_DIR}/build
-  _pzc_debug "BUILD_DIR is not set. BUILD_DIR = ${BUILD_DIR}."
+  if [[ -v BUILD_DIR ]]
+  then
+    _pzc_debug "BUILD_DIR is set. BUILD_DIR = ${BUILD_DIR}."
+
+  else
+    export BUILD_DIR=${_PZC_LARGE_DIR}/build
+    _pzc_debug "BUILD_DIR is not set. BUILD_DIR = ${BUILD_DIR}."
+
+  fi
+
+
+
+  if [[ -v INSTALL_DIR ]]
+  then
+    _pzc_debug "INSTALL_DIR is set. INSTALL_DIR = ${INSTALL_DIR}."
+
+  else
+    export INSTALL_DIR=${_PZC_LARGE_DIR}/install
+    _pzc_debug "INSTALL_DIR is not set. INSTALL_DIR = ${INSTALL_DIR}."
+
+  fi
 
 fi
 
 
-
-if [[ -v INSTALL_DIR ]]
-then
-  _pzc_debug "INSTALL_DIR is set. INSTALL_DIR = ${INSTALL_DIR}."
-
-else
-  export INSTALL_DIR=${_PZC_LARGE_DIR}/install
-  _pzc_debug "INSTALL_DIR is not set. INSTALL_DIR = ${INSTALL_DIR}."
-
-fi
-
-
-
-if [[ -v ENVI_DIR ]]
-then
-  _pzc_debug "ENVI_DIR is set. ENVI_DIR = ${ENVI_DIR}."
-
-else
-  export ENVI_DIR=${_PZC_LARGE_DIR}/environment
-  _pzc_debug "ENVI_DIR is not set. ENVI_DIR = ${ENVI_DIR}."
-
-fi
 
 
 

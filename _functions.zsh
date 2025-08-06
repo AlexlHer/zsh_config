@@ -314,3 +314,23 @@ tdir()
   _pzc_info "Create new directory in ${TMP_DIR} : ${TDIR}"
   _pzc_coal_eval "cd ${TDIR}"
 }
+
+tmpdev()
+{
+  _pzc_info "Launching PZC in an temporary development environment..."
+  export PZC_INIT_TMP_DEV_ENV=1
+  exec zsh
+}
+
+cleartmpdev()
+{
+  _pzc_info "Cleaning temporary development environment dir..."
+  if [[ -v TMP_DIR ]] && [[ -e ${TMP_DIR}/devenv ]]
+  then
+    rm -r "${TMP_DIR}/devenv"
+    _pzc_warning "You must close all PZC instances that use a temporary development environment."
+  else
+    _pzc_error "Temporary development environment dir not found."
+    
+  fi
+}
