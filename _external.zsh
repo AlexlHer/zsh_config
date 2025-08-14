@@ -407,6 +407,8 @@ then
   if [[ -v PZC_EZA_BIN ]] && [[ -e ${PZC_EZA_BIN} ]]
   then
     _pzc_debug "PZC_EZA_BIN = ${PZC_EZA_BIN} (user defined)"
+    alias eza='${PZC_EZA_BIN}'
+    _pzc_debug "Define alias eza"
 
   elif [[ -v PZC_EZA_BIN ]]
   then
@@ -430,6 +432,8 @@ then
       PZC_EZA_BIN=${PZC_PZC_DIR}/progs/eza/eza
       _PZC_EZA_AVAILABLE=1
       _pzc_debug "PZC_EZA_BIN = ${PZC_EZA_BIN} (in pzc)"
+      alias eza='${PZC_EZA_BIN}'
+      _pzc_debug "Define alias eza"
 
     # TODO : Deprecated
     elif [[ -x "$(command -v exa)" ]]
@@ -503,6 +507,8 @@ then
   if [[ -v PZC_CCACHE_BIN ]] && [[ -e ${PZC_CCACHE_BIN} ]]
   then
     _pzc_debug "PZC_CCACHE_BIN = ${PZC_CCACHE_BIN} (user defined)"
+    alias ccache='${PZC_CCACHE_BIN}'
+    _pzc_debug "Define alias ccache"
 
   elif [[ -v PZC_CCACHE_BIN ]]
   then
@@ -693,6 +699,49 @@ then
   fi
 else
   _pzc_debug "Taskwarrior disabled."
+
+fi
+
+
+
+# ---------------------------------------------------------------
+# ---------------------------- Atuin ----------------------------
+# ---------------------------------------------------------------
+
+if [[ ${_PZC_ATUIN_AVAILABLE} = 1 ]]
+then
+
+  if [[ -v PZC_ATUIN_BIN ]] && [[ -e ${PZC_ATUIN_BIN} ]]
+  then
+    _pzc_debug "PZC_ATUIN_BIN = ${PZC_ATUIN_BIN} (user defined)"
+    alias atuin='${PZC_ATUIN_BIN}'
+    _pzc_debug "Define alias atuin"
+
+  elif [[ -v PZC_ATUIN_BIN ]]
+  then
+    _pzc_warning "Your atuin is not found. Search other atuin."
+    _pzc_debug "PZC_ATUIN_BIN = ${PZC_ATUIN_BIN} (unset)"
+    unset PZC_ATUIN_BIN
+
+  fi
+
+  if [[ ! -v PZC_ATUIN_BIN ]]
+  then
+
+    if [[ -x "$(command -v atuin)" ]]
+    then
+      PZC_ATUIN_BIN=atuin
+      _PZC_ATUIN_AVAILABLE=1
+      _pzc_debug "PZC_ATUIN_BIN = ${PZC_ATUIN_BIN} (in PATH)"
+      
+    else
+      _PZC_ATUIN_AVAILABLE=0
+      _pzc_warning "Atuin is not installed (https://github.com/atuinsh/atuin). You can disable atuin search in .pzcrc."
+
+    fi
+  fi
+else
+  _pzc_debug "Atuin disabled."
 
 fi
 

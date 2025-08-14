@@ -1,5 +1,5 @@
 # Personal ZSH Configuration
-## Installation
+## First installation
 ```sh
 # Goto home:
 cd
@@ -12,7 +12,6 @@ git clone https://github.com/AlexlHer/zsh_config .pzc
 
 # Copy ~/.pzc/home.zshrc to ~/.zshrc:
 cp ~/.pzc/template.zshrc ~/.zshrc
-cp ~/.pzc/template.pzcrc ~/.pzcrc
 
 # Edit "~/.pzcrc":
 # Search "[TODO]" to find lines to edit.
@@ -35,3 +34,4 @@ git stash pop
 - eza (https://github.com/eza-community/eza)
 - age (https://github.com/FiloSottile/age)
 - mold (https://github.com/rui314/mold)
+- atuin (https://github.com/atuinsh/atuin)

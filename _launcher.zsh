@@ -94,7 +94,7 @@ _pzc_sources()
 
 _pzc_prompt()
 {
-  if [[ ${_PZC_OMP_AVAILABLE} = 1 ]] && [[ ! -v SIMPLE_TERM ]]
+  if [[ ! -v SIMPLE_TERM ]] && [[ ${_PZC_OMP_AVAILABLE} = 1 ]]
   then
     eval "$(${_PZC_OMP_BIN} init zsh --config ${_PZC_OMP_THEME_FILE})"
 
@@ -104,5 +104,10 @@ _pzc_prompt()
     #PROMPT="[RET=%?][%*]${NEWLINE}${NEWLINE}[%n][%m]${NEWLINE}[%~]${NEWLINE}> "
     PROMPT="%F{006}[RET=%?]%f%F{006}[%*]%f${NEWLINE}${NEWLINE}%F{001}[%n]%f%F{003}[%m]%f${NEWLINE}%F{002}[%~]%f${NEWLINE}%F{006}>%f "
     #PROMPT="%F{006}[RET=%?]%f%F{014}[%*]%f${NEWLINE}${NEWLINE}%F{009}[%n]%f%F{011}[%m]%f${NEWLINE}%F{010}[%~]%f${NEWLINE}%F{014}>%f "
+  fi
+
+  if [[ ! -v SIMPLE_TERM ]] && [[ ${_PZC_ATUIN_AVAILABLE} = 1 ]]
+  then
+    eval "$(${PZC_ATUIN_BIN} init zsh)"
   fi
 }

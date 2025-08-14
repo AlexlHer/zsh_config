@@ -7,7 +7,7 @@
 # ----------------------------------
 # ------ Config file version -------
 # ----------------------------------
-local _PZC_CONFIG_VERSION=(6 0 0)
+local _PZC_CONFIG_VERSION=(6 2 0)
 
 # ----------------------------------
 # ------- Log verbose level --------
@@ -158,6 +158,16 @@ local _PZC_TASK_AVAILABLE=1
 # [TODO] Uncomment and complete if you have a custom installation of taskwarrior.
 # Note: This PATH will be add in PATH.
 #local _PZC_TASK_PATH=
+
+
+# ----------------------------------
+# ------------- ATUIN --------------
+# ----------------------------------
+# [TODO] If you want to use atuin, set this variable to 1.
+local _PZC_ATUIN_AVAILABLE=1
+
+# [TODO] Uncomment and complete if you have a custom installation of atuin (which is not in PATH).
+#PZC_ATUIN_BIN=
 
 
 # ----------------------------------
