@@ -91,16 +91,27 @@ fi
 
 
 
-
-
-export CONTAINER_BUILD_DIR=${BUILD_DIR}/container
+export CONTAINER_LARGE_DIR=${ENVI_DIR}/container_pzc
 export PZC_USER_CONFIG_DIR=${ENVI_DIR}/pzc
 
-_pzc_debug "Creating tmp, CCache, work, build, environment and container_build directories"
-mkdir -p ${TMP_DIR} ${WORK_DIR} ${BUILD_DIR} ${INSTALL_DIR} ${ENVI_DIR} ${CONTAINER_BUILD_DIR} ${PZC_USER_CONFIG_DIR}
+_pzc_debug "Creating tmp, CCache, work, build, environment and container directories"
+mkdir -p ${TMP_DIR} ${WORK_DIR} ${BUILD_DIR} ${INSTALL_DIR} ${ENVI_DIR} ${CONTAINER_LARGE_DIR} ${PZC_USER_CONFIG_DIR}
 
 if [[ $? != 0 ]]
 then
   _pzc_error "Error with mkdir. Check your export dir in .pzcrc. Enable debug mode in .pzcrc for more info."
   _PZC_FATAL_ERROR=1
+fi
+
+
+
+# ---------------------------------------------------------------
+# -------------------- Compatibility update ---------------------
+# ---------------------------------------------------------------
+
+# TODO : Delete this part in PZC v7
+if [[ -e ${BUILD_DIR}/container ]]
+then
+  _pzc_warning "Starting with PZC v6.3.0, the container dir has been moved to '${ENVI_DIR}/container_pzc'. You can delete the '${BUILD_DIR}/container' dir."
+  
 fi

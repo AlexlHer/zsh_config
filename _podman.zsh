@@ -53,6 +53,8 @@ then
 
     local IMAGE=$1
 
+    _pzc_info "Creating and running container..."
+
     if [[ ! -v 2 ]]
     then
       _pzc_warning "Set default name for container."
@@ -61,16 +63,26 @@ then
       local OPTION_NAME="--name=$NAME"
     fi
 
-    _pzc_info "Creating and running container..."
+    if [[ ! -v 3 ]]
+    then
+      _pzc_info "Set default large dir for container : ${CONTAINER_LARGE_DIR}/default"
+      local _SET_LARGE_DIR="${CONTAINER_LARGE_DIR}/default"
+    else
+      local _SET_LARGE_DIR="${CONTAINER_LARGE_DIR}/$3"
+    fi
+
+    mkdir -p "${_SET_LARGE_DIR}"
+
     CONTAINER=$(pm run \
       -v ${WORK_DIR}:/root/work:z,ro \
-      -v ${CONTAINER_BUILD_DIR}:/root/build_install:z \
+      -v ${_SET_LARGE_DIR}:/root/pzc_dirs:z \
       -e OMPI_ALLOW_RUN_AS_ROOT=1 \
       -e OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1 \
       -e USER=root \
       -w /root \
       -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix \
       --cap-add sys_ptrace \
+      --gpus all \
       $OPTION_NAME \
       -dt $IMAGE \
     )
@@ -94,10 +106,16 @@ then
 
     _pzc_info "Installing PZC in container..."
     pm exec $CONTAINER git clone https://github.com/AlexlHer/zsh_config /root/.pzc
+
     pm exec $CONTAINER cp /root/.pzc/template.zshrc /root/.zshrc
     pm exec $CONTAINER cp /root/.pzc/template.pzcrc /root/.pzcrc
+
+    pm exec $CONTAINER sed -i 's:.*export WORK_DIR=.*:export WORK_DIR="/root/work":' /root/.pzcrc
+    pm exec $CONTAINER sed -i 's:.*local _PZC_LARGE_DIR=.*:local _PZC_LARGE_DIR="/root/pzc_dirs":' /root/.pzcrc
+
     pm exec $CONTAINER sed -i 's/local _PZC_AGE_AVAILABLE=1/local _PZC_AGE_AVAILABLE=0/g' /root/.pzcrc
     pm exec $CONTAINER sed -i 's/local _PZC_TASK_AVAILABLE=1/local _PZC_TASK_AVAILABLE=0/g' /root/.pzcrc
+    pm exec $CONTAINER sed -i 's/local _PZC_ATUIN_AVAILABLE=1/local _PZC_ATUIN_AVAILABLE=0/g' /root/.pzcrc
     pm exec $CONTAINER sed -i 's/PZC_CHMOD_COMPILING=0/PZC_CHMOD_COMPILING=1/g' /root/.pzcrc
     pm exec $CONTAINER sed -i 's:#local _PZC_OMP_BIN=:local _PZC_OMP_BIN=/root/.local/bin/oh-my-posh:g' /root/.pzcrc
 
