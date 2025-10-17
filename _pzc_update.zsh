@@ -553,6 +553,23 @@ _pzc_update_pzcrc_620()
   ' ${_PZC_OUTPUT_FILE_TMP} > ${_PZC_OUTPUT_FILE}
 }
 
+_pzc_update_pzcrc_640()
+{
+  awk '/PZC_ATUIN_BIN/ {
+    print;
+    print ""
+    print "# [TODO] If you want to use atuin config file provided by PZC, set this variable to 1."
+    print "local _PZC_ATUIN_USE_PZC_CONFIG=1"
+    next
+  } 
+  /local _PZC_CONFIG_VERSION=\(6 2 0\)/ {
+    print "local _PZC_CONFIG_VERSION=(6 4 0)"
+    next
+  }
+  1
+  ' ${_PZC_OUTPUT_FILE_TMP} > ${_PZC_OUTPUT_FILE}
+}
+
 _pzc_launch_pzc_update()
 {
   mv ${_PZC_PZCRC_DIR}/.pzcrc ${_PZC_PZCRC_DIR}/.pzcrc.old
@@ -577,6 +594,15 @@ _pzc_launch_pzc_update()
     _pzc_update_pzcrc_620
     rm ${_PZC_OUTPUT_FILE_TMP}
     _PZC_CONFIG_VERSION=(6 2 0)
+  fi
+
+  if [[ ${_PZC_CONFIG_VERSION[1]} -eq 6 ]] && [[ ${_PZC_CONFIG_VERSION[2]} -eq 2 ]] && [[ ${_PZC_CONFIG_VERSION[3]} -eq 0 ]]
+  then
+    _pzc_info "Updating from v6.2.0 .pzcrc file to v6.4.0 .pzcrc file..."
+    mv ${_PZC_OUTPUT_FILE} ${_PZC_OUTPUT_FILE_TMP}
+    _pzc_update_pzcrc_640
+    rm ${_PZC_OUTPUT_FILE_TMP}
+    _PZC_CONFIG_VERSION=(6 4 0)
   fi
 
   _pzc_info "Update done. Restarting zsh..."

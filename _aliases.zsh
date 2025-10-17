@@ -102,5 +102,13 @@ alias tarxxz='_pzc_coal "tar -Ipixz -xf" ; tar -Ipixz -xf'
 
 if [[ ${_PZC_TASK_AVAILABLE} = 1 ]]
 then
-  source $PZC_PZC_DIR/plugins/taskwarrior/taskwarrior.plugin.zsh
+  source ${PZC_PZC_DIR}/plugins/taskwarrior/taskwarrior.plugin.zsh
 fi
+
+
+
+# ---------------------------------------------------------------
+# ----------------------- Other aliases -------------------------
+# ---------------------------------------------------------------
+
+alias c='clear'

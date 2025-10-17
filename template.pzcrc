@@ -169,6 +169,9 @@ local _PZC_ATUIN_AVAILABLE=1
 # [TODO] Uncomment and complete if you have a custom installation of atuin (which is not in PATH).
 #PZC_ATUIN_BIN=
 
+# [TODO] If you want to use atuin config file provided by PZC, set this variable to 1.
+local _PZC_ATUIN_USE_PZC_CONFIG=1
+
 
 # ----------------------------------
 # ------------- PYTHON -------------

@@ -745,6 +745,20 @@ else
 
 fi
 
+if [[ ${_PZC_ATUIN_AVAILABLE} = 1 ]]
+then
+
+  if [[ ${_PZC_ATUIN_USE_PZC_CONFIG} = 1 ]]
+  then
+    _pzc_debug "Use Atuin PZC config"
+    export ATUIN_CONFIG_DIR=${PZC_PZC_DIR}/progs/atuin/config
+
+  else
+    _pzc_debug "Use Atuin default config."
+
+  fi
+fi
+
 
 
 # ---------------------------------------------------------------
