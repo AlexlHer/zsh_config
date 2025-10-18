@@ -7,7 +7,7 @@
 # ----------------------------------
 # ------ Config file version -------
 # ----------------------------------
-local _PZC_CONFIG_VERSION=(6 2 0)
+local _PZC_CONFIG_VERSION=(6 4 0)
 
 # ----------------------------------
 # ------- Log verbose level --------
