@@ -118,20 +118,21 @@ then
 
       if [[ ! -e ${_PZC_PUBLIC_KEYS_ENC} ]]
       then
+        mkdir -p "${PZC_USER_CONFIG_DIR}/keys"
         _pzc_info "To use this function, we need your public keys."
         _pzc_warning "All of there associated private keys will be able to decrypt your file."
         _pzc_info "One public key per line."
         read -s -k $'?Press any key to continue.\n'
-        ${PZC_FILE_EDITOR} ${TMP_DIR}/age/pkeys.txt
+        "${PZC_FILE_EDITOR}" "${TMP_DIR}/age/pkeys.txt"
         _pzc_info "Encrypting your public keys with your local public key."
-        ${PZC_AGE_BIN} -e -R ${PZC_SSH_PUB} -a -o ${_PZC_PUBLIC_KEYS_ENC} ${TMP_DIR}/age/pkeys.txt
-        rm ${TMP_DIR}/age/pkeys.txt
+        "${PZC_AGE_BIN}" -e -R "${PZC_SSH_PUB}" -a -o "${_PZC_PUBLIC_KEYS_ENC}" "${TMP_DIR}/age/pkeys.txt"
+        rm "${TMP_DIR}/age/pkeys.txt"
         _pzc_info "Your public keys will be available here: ${_PZC_PUBLIC_KEYS_ENC}"
       fi
 
-      ${PZC_AGE_BIN} -d -i ${PZC_SSH_PRI} -o ${TMP_DIR}/age/pkeys.txt ${_PZC_PUBLIC_KEYS_ENC}
-      ${PZC_AGE_BIN} -e -R ${TMP_DIR}/age/keys.txt -a -o ${1}.age ${1}
-      rm ${TMP_DIR}/age/pkeys.txt
+      "${PZC_AGE_BIN}" -d -i "${PZC_SSH_PRI}" -o "${TMP_DIR}/age/pkeys.txt" "${_PZC_PUBLIC_KEYS_ENC}"
+      "${PZC_AGE_BIN}" -e -R "${TMP_DIR}/age/pkeys.txt" -a -o "${1}.age" "${1}"
+      rm "${TMP_DIR}/age/pkeys.txt"
       
     else
       _pzc_error "Need input file."
@@ -143,7 +144,7 @@ then
   {
     if [[ -v 1 ]]
     then
-      ${PZC_AGE_BIN} -d -i ${PZC_SSH_PRI} -o ${1}.dec ${1}
+      "${PZC_AGE_BIN}" -d -i "${PZC_SSH_PRI}" -o "${1}.dec" "${1}"
 
     else
       _pzc_error "Need encrypted input file."

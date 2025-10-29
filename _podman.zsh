@@ -47,7 +47,9 @@ then
     if [[ ! -v 1 ]]
     then
       pm images
-      _pzc_error "Need an image and a name as parameters."
+      _pzc_error "pmin image_id [container_name (random name if not set)] [storage_dir_name (default dir if not set)]"
+      _pzc_error "example : pmim ce8f79aecc43 u24"
+      _pzc_error "example : pmim ce8f79aecc43 u24_test test"
       return 1
     fi
 
