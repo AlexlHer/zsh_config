@@ -94,16 +94,75 @@ _pzc_sources()
 
 _pzc_prompt()
 {
-  if [[ ! -v SIMPLE_TERM ]] && [[ ${_PZC_OMP_AVAILABLE} = 1 ]]
+  if [[ -v SIMPLE_TERM ]]
+  then
+    setopt PROMPT_SUBST
+    NEWLINE=$'\n'
+    #PROMPT="[RET=%?][%*]${NEWLINE}${NEWLINE}[%n][%m]${NEWLINE}[%~]${NEWLINE}> "
+    PROMPT="%F{006}[RET=%?]%f%F{006}[%*]%f${NEWLINE}${NEWLINE}%F{001}[%n]%f%F{003}[%m]%f${NEWLINE}%F{002}[%~]%f${NEWLINE}%F{006}>%f "
+    #PROMPT="%F{006}[RET=%?]%f%F{014}[%*]%f${NEWLINE}${NEWLINE}%F{009}[%n]%f%F{011}[%m]%f${NEWLINE}%F{010}[%~]%f${NEWLINE}%F{014}>%f "
+
+  elif [[ ${_PZC_OMP_AVAILABLE} = 1 ]]
   then
     eval "$(${_PZC_OMP_BIN} init zsh --config ${_PZC_OMP_THEME_FILE})"
 
   else
     setopt PROMPT_SUBST
     NEWLINE=$'\n'
-    #PROMPT="[RET=%?][%*]${NEWLINE}${NEWLINE}[%n][%m]${NEWLINE}[%~]${NEWLINE}> "
-    PROMPT="%F{006}[RET=%?]%f%F{006}[%*]%f${NEWLINE}${NEWLINE}%F{001}[%n]%f%F{003}[%m]%f${NEWLINE}%F{002}[%~]%f${NEWLINE}%F{006}>%f "
-    #PROMPT="%F{006}[RET=%?]%f%F{014}[%*]%f${NEWLINE}${NEWLINE}%F{009}[%n]%f%F{011}[%m]%f${NEWLINE}%F{010}[%~]%f${NEWLINE}%F{014}>%f "
+
+    function preexec() {
+      timer=${timer:-$SECONDS}
+    }
+
+    function precmd() {
+      if [ $timer ]; then
+        timer_show=$(($SECONDS - $timer))
+        TIME_PROMPT="\
+%K{038}%F{000}%f%F{000} 󰣐 %? %k%f\
+%K{044}%F{038}%f%F{000}  ${timer_show}s %k%f\
+%K{050}%F{044}%f%F{000}  %* %k%f\
+%K{000}%F{050}%f%k"
+
+        PROMPT="${TIME_PROMPT}\
+${NEWLINE}${NEWLINE}\
+%K{196}%F{000}%f%F{000}  %n %k%f\
+%K{003}%F{196}%f%F{000}  %m %k%f\
+%K{000}%F{003}%f%k \
+${NEWLINE}\
+%K{046}%F{000}%f%F{000}  %~ %k%f\
+%K{000}%F{046}%f%k \
+${NEWLINE}\
+ "
+        unset timer
+      fi
+    }
+
+    function time-prompt-accept-line() {
+      OLD_PROMPT="$PROMPT"
+      PROMPT="${TIME_PROMPT}${NEWLINE}${NEWLINE} "
+      zle reset-prompt
+      PROMPT="$OLD_PROMPT"
+      zle accept-line
+    }
+
+    zle -N time-prompt-accept-line
+    bindkey "^M" time-prompt-accept-line
+
+    PROMPT="\
+%K{038}%F{000}%f%F{000} 󰣐 %? %k%f\
+%K{044}%F{038}%f%F{000}  0s %k%f\
+%K{050}%F{044}%f%F{000}  %* %k%f\
+%K{000}%F{050}%f%k \
+${NEWLINE}${NEWLINE}\
+%K{196}%F{000}%f%F{000}  %n %k%f\
+%K{003}%F{196}%f%F{000}  %m %k%f\
+%K{000}%F{003}%f%k \
+${NEWLINE}\
+%K{046}%F{000}%f%F{000}  %~ %k%f\
+%K{000}%F{046}%f%k \
+${NEWLINE}\
+ "
+
   fi
 
   if [[ ! -v SIMPLE_TERM ]] && [[ ${_PZC_ATUIN_AVAILABLE} = 1 ]]

@@ -380,9 +380,9 @@ then
   if [[ ! -v _PZC_OMP_THEME_FILE ]]
   then
 
-    if [[ -e ${PZC_PZC_DIR}/progs/oh-my-posh/themes/OhMyZSH.json ]]
+    if [[ -e ${PZC_PZC_DIR}/progs/oh-my-posh/themes/PZC.json ]]
     then
-      _PZC_OMP_THEME_FILE=${PZC_PZC_DIR}/progs/oh-my-posh/themes/OhMyZSH.json
+      _PZC_OMP_THEME_FILE=${PZC_PZC_DIR}/progs/oh-my-posh/themes/PZC.json
       _pzc_debug "_PZC_OMP_THEME_FILE = ${_PZC_OMP_THEME_FILE} (default)"
 
     else
