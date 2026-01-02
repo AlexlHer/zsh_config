@@ -13,6 +13,9 @@ git clone https://github.com/AlexlHer/zsh_config .pzc
 # Copy ~/.pzc/home.zshrc to ~/.zshrc:
 cp ~/.pzc/template.zshrc ~/.zshrc
 
+# First init:
+zsh
+
 # Edit "~/.pzcrc":
 # Search "[TODO]" to find lines to edit.
 vim ~/.pzcrc
@@ -35,3 +38,4 @@ git stash pop
 - age (https://github.com/FiloSottile/age)
 - mold (https://github.com/rui314/mold)
 - atuin (https://github.com/atuinsh/atuin)
+- fzf (https://github.com/junegunn/fzf)

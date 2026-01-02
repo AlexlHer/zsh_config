@@ -7,7 +7,7 @@
 # ----------------------------------
 # ------ Config file version -------
 # ----------------------------------
-local _PZC_CONFIG_VERSION=(6 4 0)
+local _PZC_CONFIG_VERSION=(6 6 0)
 
 # ----------------------------------
 # ------- Log verbose level --------
@@ -171,6 +171,16 @@ local _PZC_ATUIN_AVAILABLE=1
 
 # [TODO] If you want to use atuin config file provided by PZC, set this variable to 1.
 local _PZC_ATUIN_USE_PZC_CONFIG=1
+
+
+# ----------------------------------
+# -------------- FZF ---------------
+# ----------------------------------
+# [TODO] If you want to use fzf, set this variable to 1.
+local _PZC_FZF_AVAILABLE=1
+
+# [TODO] Uncomment and complete if you have a custom installation of fzf (which is not in PATH).
+#PZC_FZF_BIN=
 
 
 # ----------------------------------

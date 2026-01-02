@@ -128,6 +128,7 @@ then
     pm exec $CONTAINER sed -i 's/local _PZC_AGE_AVAILABLE=1/local _PZC_AGE_AVAILABLE=0/g' /root/.pzcrc
     pm exec $CONTAINER sed -i 's/local _PZC_TASK_AVAILABLE=1/local _PZC_TASK_AVAILABLE=0/g' /root/.pzcrc
     pm exec $CONTAINER sed -i 's/local _PZC_ATUIN_AVAILABLE=1/local _PZC_ATUIN_AVAILABLE=0/g' /root/.pzcrc
+    pm exec $CONTAINER sed -i 's/local _PZC_FZF_AVAILABLE=1/local _PZC_FZF_AVAILABLE=0/g' /root/.pzcrc
     pm exec $CONTAINER sed -i 's/PZC_CHMOD_COMPILING=0/PZC_CHMOD_COMPILING=1/g' /root/.pzcrc
     pm exec $CONTAINER sed -i 's:#local _PZC_OMP_BIN=:local _PZC_OMP_BIN=/root/.local/bin/oh-my-posh:g' /root/.pzcrc
 

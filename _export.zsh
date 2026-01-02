@@ -14,7 +14,7 @@
 
 
 # ---------------------------------------------------------------
-# ------------------------ Tools config--------------------------
+# ---------------------------- CMake -----------------------------
 # ---------------------------------------------------------------
 
 if [[ ${_PZC_CMAKE_AVAILABLE} = 1 ]]
@@ -24,6 +24,12 @@ then
   local _PZC_CMAKE_VERSION_MINOR="${${_PZC_CMAKE_VERSION#*.}%.*}"
   _pzc_debug "Get CMake version : ${_PZC_CMAKE_VERSION} MAJOR : ${_PZC_CMAKE_VERSION_MAJOR} MINOR : ${_PZC_CMAKE_VERSION_MINOR}"
 fi
+
+
+
+# ---------------------------------------------------------------
+# --------------------------- CCache ----------------------------
+# ---------------------------------------------------------------
 
 if [[ ${_PZC_CCACHE_AVAILABLE} = 1 ]]
 then
@@ -49,6 +55,12 @@ then
 
 fi
 
+
+
+# ---------------------------------------------------------------
+# ---------------------------- Mold -----------------------------
+# ---------------------------------------------------------------
+
 if [[ ${_PZC_MOLD_AVAILABLE} = 1 ]]
 then
   _pzc_debug "Config Mold linker"
@@ -66,6 +78,12 @@ then
   fi
 fi
 
+
+
+# ---------------------------------------------------------------
+# ---------------------------- Ninja ----------------------------
+# ---------------------------------------------------------------
+
 if [[ ${_PZC_NINJA_AVAILABLE} = 1 ]]
 then
   _pzc_debug "Config Ninja builder"
@@ -82,6 +100,11 @@ then
 
 fi
 
+
+
+# ---------------------------------------------------------------
+# ----------------------- C/C++ compiler ------------------------
+# ---------------------------------------------------------------
 
 if [[ ${_PZC_C_CXX_AVAILABLE} = 1 ]]
 then
@@ -123,6 +146,12 @@ then
 else
   _pzc_debug "No C/CXX default compiler"
 fi
+
+
+
+# ---------------------------------------------------------------
+# ------------------------ GPU compiler -------------------------
+# ---------------------------------------------------------------
 
 if [[ ${_PZC_GPU_AVAILABLE} = 1 ]]
 then
@@ -180,8 +209,112 @@ fi
 
 
 # ---------------------------------------------------------------
+# -------------------------- OhMyPosh ---------------------------
+# ---------------------------------------------------------------
+
+if [[ ${_PZC_OMP_AVAILABLE} = 1 ]]
+then
+
+  if [[ -v _PZC_OMP_THEME_FILE ]] && [[ -e ${_PZC_OMP_THEME_FILE} ]]
+  then
+    _pzc_debug "_PZC_OMP_THEME_FILE = ${_PZC_OMP_THEME_FILE} (user defined)"
+
+  elif [[ -v _PZC_OMP_THEME_FILE ]]
+  then
+    _pzc_warning "Your Oh-My-Posh theme is not found. Search default Oh-My-Posh theme."
+    _pzc_debug "_PZC_OMP_THEME_FILE = ${_PZC_OMP_THEME_FILE} (unset)"
+    unset _PZC_OMP_THEME_FILE
+
+  fi
+
+  if [[ ! -v _PZC_OMP_THEME_FILE ]]
+  then
+
+    if [[ -e ${PZC_PZC_DIR}/progs/oh-my-posh/themes/PZC.json ]]
+    then
+      _PZC_OMP_THEME_FILE=${PZC_PZC_DIR}/progs/oh-my-posh/themes/PZC.json
+      _pzc_debug "_PZC_OMP_THEME_FILE = ${_PZC_OMP_THEME_FILE} (default)"
+
+    else
+      _pzc_warning "Default Oh-My-Posh theme is not found (https://github.com/JanDeDobbeleer/oh-my-posh)."
+
+    fi
+  fi
+fi
+
+
+
+# ---------------------------------------------------------------
+# --------------------------- EZA-LS ----------------------------
+# ---------------------------------------------------------------
+
+if [[ ${_PZC_EZA_AVAILABLE} = 1 ]]
+then
+
+  if [[ -v _PZC_EZA_CONFIG_DIR ]] && [[ -d ${_PZC_EZA_CONFIG_DIR} ]]
+  then
+    _pzc_debug "_PZC_EZA_CONFIG_DIR = ${_PZC_EZA_CONFIG_DIR} (user defined)"
+    export EZA_CONFIG_DIR=${_PZC_EZA_CONFIG_DIR}
+
+  elif [[ -v _PZC_EZA_CONFIG_DIR ]]
+  then
+    _pzc_warning "Your EZA config dir is not found. Search default EZA config dir."
+    _pzc_debug "_PZC_EZA_CONFIG_DIR = ${_PZC_EZA_CONFIG_DIR} (unset)"
+    unset _PZC_EZA_CONFIG_DIR
+
+  fi
+
+  if [[ ! -v _PZC_EZA_CONFIG_DIR ]]
+  then
+
+    if [[ -d ${PZC_PZC_DIR}/progs/eza/config ]]
+    then
+      _PZC_EZA_CONFIG_DIR=${PZC_PZC_DIR}/progs/eza/config
+      _pzc_debug "_PZC_EZA_CONFIG_DIR = ${_PZC_EZA_CONFIG_DIR} (default)"
+      export EZA_CONFIG_DIR=${_PZC_EZA_CONFIG_DIR}
+
+    else
+      _pzc_warning "Default EZA config dir is not found."
+
+    fi
+  fi
+fi
+
+
+
+# ---------------------------------------------------------------
+# ---------------------------- Atuin ----------------------------
+# ---------------------------------------------------------------
+
+if [[ ${_PZC_ATUIN_AVAILABLE} = 1 ]]
+then
+
+  if [[ ${_PZC_ATUIN_USE_PZC_CONFIG} = 1 ]]
+  then
+    _pzc_debug "Use Atuin PZC config"
+    export ATUIN_CONFIG_DIR=${PZC_PZC_DIR}/progs/atuin/config
+
+  else
+    _pzc_debug "Use Atuin default config."
+
+  fi
+fi
+
+
+
+# ---------------------------------------------------------------
+# ---------------------------- Atuin ----------------------------
+# ---------------------------------------------------------------
+
+if [[ ${_PZC_FZF_AVAILABLE} = 1 ]]
+then
+  source ${PZC_PZC_DIR}/plugins/zsh-interactive-cd/zsh-interactive-cd.plugin.zsh
+fi
+
+
+
+# ---------------------------------------------------------------
 # --------------------- OpenMPI variables -----------------------
 # ---------------------------------------------------------------
 
 export OMPI_MCA_rmaps_base_oversubscribe=true
-

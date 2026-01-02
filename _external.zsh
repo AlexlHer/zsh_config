@@ -333,6 +333,7 @@ else
 fi
 
 
+
 # ---------------------------------------------------------------
 # -------------------------- OhMyPosh ---------------------------
 # ---------------------------------------------------------------
@@ -374,32 +375,6 @@ then
     fi
   fi
 
-
-  if [[ -v _PZC_OMP_THEME_FILE ]] && [[ -e ${_PZC_OMP_THEME_FILE} ]]
-  then
-    _pzc_debug "_PZC_OMP_THEME_FILE = ${_PZC_OMP_THEME_FILE} (user defined)"
-
-  elif [[ -v _PZC_OMP_THEME_FILE ]]
-  then
-    _pzc_warning "Your Oh-My-Posh theme is not found. Search default Oh-My-Posh theme."
-    _pzc_debug "_PZC_OMP_THEME_FILE = ${_PZC_OMP_THEME_FILE} (unset)"
-    unset _PZC_OMP_THEME_FILE
-
-  fi
-
-  if [[ ! -v _PZC_OMP_THEME_FILE ]]
-  then
-
-    if [[ -e ${PZC_PZC_DIR}/progs/oh-my-posh/themes/PZC.json ]]
-    then
-      _PZC_OMP_THEME_FILE=${PZC_PZC_DIR}/progs/oh-my-posh/themes/PZC.json
-      _pzc_debug "_PZC_OMP_THEME_FILE = ${_PZC_OMP_THEME_FILE} (default)"
-
-    else
-      _pzc_warning "Default Oh-My-Posh theme is not found (https://github.com/JanDeDobbeleer/oh-my-posh)."
-
-    fi
-  fi
 else
   _pzc_debug "Oh-My-Posh disabled"
 
@@ -472,34 +447,6 @@ then
     fi
   fi
 
-
-  if [[ -v _PZC_EZA_CONFIG_DIR ]] && [[ -d ${_PZC_EZA_CONFIG_DIR} ]]
-  then
-    _pzc_debug "_PZC_EZA_CONFIG_DIR = ${_PZC_EZA_CONFIG_DIR} (user defined)"
-    export EZA_CONFIG_DIR=${_PZC_EZA_CONFIG_DIR}
-
-  elif [[ -v _PZC_EZA_CONFIG_DIR ]]
-  then
-    _pzc_warning "Your EZA config dir is not found. Search default EZA config dir."
-    _pzc_debug "_PZC_EZA_CONFIG_DIR = ${_PZC_EZA_CONFIG_DIR} (unset)"
-    unset _PZC_EZA_CONFIG_DIR
-
-  fi
-
-  if [[ ! -v _PZC_EZA_CONFIG_DIR ]]
-  then
-
-    if [[ -d ${PZC_PZC_DIR}/progs/eza/config ]]
-    then
-      _PZC_EZA_CONFIG_DIR=${PZC_PZC_DIR}/progs/eza/config
-      _pzc_debug "_PZC_EZA_CONFIG_DIR = ${_PZC_EZA_CONFIG_DIR} (default)"
-      export EZA_CONFIG_DIR=${_PZC_EZA_CONFIG_DIR}
-
-    else
-      _pzc_warning "Default EZA config dir is not found."
-
-    fi
-  fi
 else
   _pzc_debug "Eza disabled."
 
@@ -543,6 +490,7 @@ then
 
     fi
   fi
+
 else
   _pzc_debug "CCache disabled."
 
@@ -584,6 +532,7 @@ then
 
     fi
   fi
+
 else
   _pzc_debug "Mold disabled."
 
@@ -625,6 +574,7 @@ then
 
     fi
   fi
+
 else
   _pzc_debug "Ninja disabled."
 
@@ -666,6 +616,7 @@ then
 
     fi
   fi
+
 else
   _pzc_debug "CMake disabled."
 
@@ -707,6 +658,7 @@ then
 
     fi
   fi
+
 else
   _pzc_debug "Taskwarrior disabled."
 
@@ -750,23 +702,54 @@ then
 
     fi
   fi
+
 else
   _pzc_debug "Atuin disabled."
 
 fi
 
-if [[ ${_PZC_ATUIN_AVAILABLE} = 1 ]]
+
+
+# ---------------------------------------------------------------
+# ----------------------------- Fzf -----------------------------
+# ---------------------------------------------------------------
+
+if [[ ${_PZC_FZF_AVAILABLE} = 1 ]]
 then
 
-  if [[ ${_PZC_ATUIN_USE_PZC_CONFIG} = 1 ]]
+  if [[ -v PZC_FZF_BIN ]] && [[ -e ${PZC_FZF_BIN} ]]
   then
-    _pzc_debug "Use Atuin PZC config"
-    export ATUIN_CONFIG_DIR=${PZC_PZC_DIR}/progs/atuin/config
+    _pzc_debug "PZC_FZF_BIN = ${PZC_FZF_BIN} (user defined)"
+    alias fzf='${PZC_FZF_BIN}'
+    _pzc_debug "Define alias fzf"
 
-  else
-    _pzc_debug "Use Atuin default config."
+  elif [[ -v PZC_FZF_BIN ]]
+  then
+    _pzc_warning "Your fzf is not found. Search other fzf."
+    _pzc_debug "PZC_FZF_BIN = ${PZC_FZF_BIN} (unset)"
+    unset PZC_FZF_BIN
 
   fi
+
+  if [[ ! -v PZC_FZF_BIN ]]
+  then
+
+    if [[ -x "$(command -v fzf)" ]]
+    then
+      PZC_FZF_BIN=fzf
+      _PZC_FZF_AVAILABLE=1
+      _pzc_debug "PZC_FZF_BIN = ${PZC_FZF_BIN} (in PATH)"
+      
+    else
+      _PZC_FZF_AVAILABLE=0
+      _pzc_warning "Fzf is not installed (https://github.com/junegunn/fzf). You can disable fzf search in .pzcrc."
+
+    fi
+  fi
+
+else
+  _pzc_debug "Fzf disabled."
+
 fi
 
 
@@ -813,6 +796,7 @@ then
 
     fi
   fi
+
 else
   _pzc_debug "Python disabled."
 

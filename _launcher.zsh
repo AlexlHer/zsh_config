@@ -175,8 +175,17 @@ ${NEWLINE}\
 
   fi
 
-  if [[ ! -v SIMPLE_TERM ]] && [[ ${_PZC_ATUIN_AVAILABLE} = 1 ]]
+  if [[ ! -v SIMPLE_TERM ]]
   then
-    eval "$(${PZC_ATUIN_BIN} init zsh)"
+
+    if [[ ${_PZC_ATUIN_AVAILABLE} = 1 ]]
+    then
+      eval "$(${PZC_ATUIN_BIN} init zsh)"
+    fi
+
+    if [[ ${_PZC_FZF_AVAILABLE} = 1 ]]
+    then
+      source <(fzf --zsh)
+    fi
   fi
 }
