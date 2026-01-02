@@ -1,3 +1,18 @@
+# -*- tab-width: 2; indent-tabs-mode: nil; coding: utf-8 -*-
+# ------------------------------------------------------------------------------
+# Copyright 2022-2026 Alexandre l'Heritier
+# See the top-level LICENSE file for details.
+# SPDX-License-Identifier: Apache-2.0
+# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+# _pzc_update.zsh
+#
+# Core functions to update PZC configuration file.
+# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+
+
+
 _pzc_update_pzcrc_5()
 {
   echo "## ----- PZC configuration file -----" >> ${_PZC_OUTPUT_FILE}

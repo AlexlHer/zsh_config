@@ -1,5 +1,15 @@
-
-## --- Encrypt/Decrypt functions section ---
+# -*- tab-width: 2; indent-tabs-mode: nil; coding: utf-8 -*-
+# ------------------------------------------------------------------------------
+# Copyright 2022-2026 Alexandre l'Heritier
+# See the top-level LICENSE file for details.
+# SPDX-License-Identifier: Apache-2.0
+# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+# _enc_functions.zsh
+#
+# General functions to encrypt and decrypt files with Age/Rage.
+# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 
 

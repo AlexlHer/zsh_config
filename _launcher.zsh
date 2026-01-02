@@ -1,5 +1,15 @@
-
-## ----- PZC Launcher -----
+# -*- tab-width: 2; indent-tabs-mode: nil; coding: utf-8 -*-
+# ------------------------------------------------------------------------------
+# Copyright 2022-2026 Alexandre l'Heritier
+# See the top-level LICENSE file for details.
+# SPDX-License-Identifier: Apache-2.0
+# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+# _launcher.zsh
+#
+# Core functions.
+# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
 
 
@@ -43,7 +53,7 @@ _pzc_welcome()
 _pzc_sources()
 {
   # Source manjaro-zsh-configuration
-  source ${PZC_PZC_DIR}/_manjaro_config.zsh
+  source ${PZC_PZC_DIR}/plugins/manjaro-zsh-config/manjaro-zsh-config
 
   # Source needed dirs creation
   source ${PZC_PZC_DIR}/_dirs.zsh
