@@ -654,6 +654,7 @@ _pzc_launch_pzc_update()
   fi
 
   _pzc_info "Update done. Restarting zsh..."
+  read -s -k $'?Press any key to continue.\n'
   exec zsh
 }
 

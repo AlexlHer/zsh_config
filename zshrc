@@ -59,4 +59,5 @@ echo "Your old configuration file will be updated."
 
 echo "---------------------------"
 echo "First step of the update is done. Restarting zsh..."
+read -s -k $'?Press any key to continue.\n'
 exec zsh
