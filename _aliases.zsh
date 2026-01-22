@@ -66,6 +66,10 @@ alias gitca='_pzc_coal "git commit --amend --no-edit" ; git commit --amend --no-
 alias gitco='_pzc_coal "git checkout" ; git checkout'
 alias gitp='_pzc_coal "git push" ; git push'
 alias gitw='_pzc_coal "git switch -c" ; git switch -c'
+alias gitf='_pzc_coal "git fetch origin" ; git fetch origin'
+alias gitup='_pzc_coal "git rebase origin/main" ; git rebase origin/main'
+
+
 alias gitka='_pzc_coal "gitk --all" ; gitk --all'
 
 
