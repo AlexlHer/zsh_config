@@ -668,9 +668,10 @@ _pzc_check_update()
   if [[ ${_PZC_VERSION_CHECKER_RET} = 2 ]]
   then
     PZC_LOG_ERROR=1
-    _pzc_error "PZC is too old to read your .pzcrc. Please update PZC (git pull)."
-    echo "\033[0;101m\033[30m             Your .pzcrc version:                     v${_PZC_CONFIG_VERSION[1]}.${_PZC_CONFIG_VERSION[2]}.${_PZC_CONFIG_VERSION[3]} \033[0m"
-    echo "\033[0;101m\033[30m             Latest version supported by PZC v${PZC_VERSION[1]}.${PZC_VERSION[2]}.${PZC_VERSION[3]}: v${_PZC_CONFIG_VERSION_NEEDED[1]}.${_PZC_CONFIG_VERSION_NEEDED[2]}.${_PZC_CONFIG_VERSION_NEEDED[3]} \033[0m"
+    _pzc_error "PZC v${PZC_VERSION[1]}.${PZC_VERSION[2]}.${PZC_VERSION[3]} is too old to read your config file .pzcrc. "
+    echo "\033[0;101m\033[30m           Please update PZC ('cd \${PZC_PZC_DIR}' and 'git pull'). "
+    echo "\033[0;101m\033[30m           Your .pzcrc version:                          v${_PZC_CONFIG_VERSION[1]}.${_PZC_CONFIG_VERSION[2]}.${_PZC_CONFIG_VERSION[3]}    "
+    echo "\033[0;101m\033[30m           Latest version supported by your PZC version: v${_PZC_CONFIG_LAST_VERSION[1]}.${_PZC_CONFIG_LAST_VERSION[2]}.${_PZC_CONFIG_LAST_VERSION[3]}    \033[0m"
     _PZC_FATAL_ERROR=1
     return 0
 

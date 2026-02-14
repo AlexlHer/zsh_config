@@ -302,6 +302,7 @@ pconfigarc()
     echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCCORE_CXX_STANDARD=23 \\"
+    echo "  -DBIG_TEST=TRUE \\"
     echo "  -DARCANEFRAMEWORK_BUILD_COMPONENTS=Arcane"
     if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
     then
@@ -343,6 +344,7 @@ configarc()
       -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
       -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \
       -DARCCORE_CXX_STANDARD=23 \
+      -DBIG_TEST=TRUE \
       -DARCANEFRAMEWORK_BUILD_COMPONENTS=Arcane
   
     if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
@@ -410,6 +412,7 @@ pconfigarcgpu()
     echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \\"
     echo "  -DARCCORE_CXX_STANDARD=20 \\"
+    echo "  -DBIG_TEST=TRUE \\"
     echo "  -DARCANEFRAMEWORK_BUILD_COMPONENTS=Arcane"
 
     if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
@@ -478,6 +481,7 @@ configarcgpu()
       -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
       -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \
       -DARCCORE_CXX_STANDARD=20 \
+      -DBIG_TEST=TRUE \
       -DARCANEFRAMEWORK_BUILD_COMPONENTS=Arcane
 
     if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
