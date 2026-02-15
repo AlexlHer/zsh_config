@@ -104,30 +104,40 @@ then
   }
 fi
 
+# ---------------------------------------------------------------
+# ---------------------------------------------------------------
+
+if [[ ${_PZC_MISE_AVAILABLE} = 0 ]]
+then
+  return 0
+fi
+
+# ---------------------------------------------------------------
+# ---------------------------------------------------------------
+
 
 
 # ---------------------------------------------------------------
 # ------------------------ Activate Mise ------------------------
 # ---------------------------------------------------------------
 
-if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
-then
-  _PZC_MISE_LOADED=0
+_PZC_MISE_LOADED=0
 
-  if [[ ${_PZC_MISE_START_AT_LAUNCH} = 1 ]]
-  then
-    _pzc_debug "Activate mise."
+if [[ ${_PZC_MISE_START_AT_LAUNCH} = 1 ]]
+then
+  _pzc_debug "Activate mise."
+  eval "$(${PZC_MISE_BIN} activate zsh)"
+  _PZC_MISE_LOADED=1
+
+else
+  _pzc_debug "Define smise function"
+  function smise()
+  {
+    _pzc_info "Activate mise."
     eval "$(${PZC_MISE_BIN} activate zsh)"
     _PZC_MISE_LOADED=1
-
-  else
-    _pzc_debug "Define smise function"
-    function smise()
-    {
-      _pzc_info "Activate mise."
-      eval "$(${PZC_MISE_BIN} activate zsh)"
-      _PZC_MISE_LOADED=1
-    }
-  fi
-
+  }
 fi
+
+# TODO : Voir pour demander à mise directement.
+PZC_MISE_INSTALL_DIR=${HOME}/.local/share/mise/installs
