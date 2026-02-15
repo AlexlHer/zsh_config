@@ -13,5 +13,5 @@
 
 
 
-export PZC_VERSION=(6 8 0)
-local _PZC_CONFIG_LAST_VERSION=(6 6 0)
+export PZC_VERSION=(6 9 0)
+local _PZC_CONFIG_LAST_VERSION=(6 9 0)

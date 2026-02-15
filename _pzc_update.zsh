@@ -609,6 +609,52 @@ _pzc_update_pzcrc_660()
   ' ${_PZC_OUTPUT_FILE_TMP} > ${_PZC_OUTPUT_FILE}
 }
 
+_pzc_update_pzcrc_690()
+{
+  awk '/# ----------- OH-MY-POSH -----------/ {
+    print "# --------- MISE-EN-PLACE ----------"
+    print "# ----------------------------------"
+    print "# [TODO] If you want to use mise, set this variable to 1."
+    print "# Usefull to install tools after."
+    print "local _PZC_MISE_AVAILABLE=1"
+    print ""
+    print "# [TODO] Uncomment and complete if you have a custom installation of mise (which is not in PATH)."
+    print "#PZC_MISE_BIN="
+    print ""
+    print "# [TODO] Start Mise in same time than PZC (can be slow)."
+    print "# If 0, function smise is available to initialize mise."
+    print "# Needed to use tools installed with mise."
+    print "local _PZC_MISE_START_AT_LAUNCH=1"
+    print ""
+    print ""
+    print "# ----------------------------------"
+    print "# ------------- SPACK --------------"
+    print "# ----------------------------------"
+    print ""
+    print "# [TODO] If you want to use spack, set this variable to 1."
+    print "local _PZC_SPACK_AVAILABLE=1"
+    print ""
+    print "# [TODO] Uncomment and complete if you have a custom installation of spack."
+    print "# Without this var, default spack dir will be ${ENVI_DIR}/spack."
+    print "#PZC_SPACK_PATH="
+    print ""
+    print "# [TODO] Start Spack in same time than PZC (can be slow)."
+    print "# If 0, function ssp is available to source spack."
+    print "local _PZC_SPACK_START_AT_LAUNCH=0"
+    print ""
+    print ""
+    print "# ----------------------------------"
+    print "# ----------- OH-MY-POSH -----------"
+    next
+  } 
+  /local _PZC_CONFIG_VERSION=\(6 6 0\)/ {
+    print "local _PZC_CONFIG_VERSION=(6 9 0)"
+    next
+  }
+  1
+  ' ${_PZC_OUTPUT_FILE_TMP} > ${_PZC_OUTPUT_FILE}
+}
+
 _pzc_launch_pzc_update()
 {
   mv ${_PZC_PZCRC_DIR}/.pzcrc ${_PZC_PZCRC_DIR}/.pzcrc.old
@@ -651,6 +697,15 @@ _pzc_launch_pzc_update()
     _pzc_update_pzcrc_660
     rm ${_PZC_OUTPUT_FILE_TMP}
     _PZC_CONFIG_VERSION=(6 6 0)
+  fi
+
+  if [[ ${_PZC_CONFIG_VERSION[1]} -eq 6 ]] && [[ ${_PZC_CONFIG_VERSION[2]} -eq 6 ]] && [[ ${_PZC_CONFIG_VERSION[3]} -eq 0 ]]
+  then
+    _pzc_info "Updating from v6.6.0 .pzcrc file to v6.9.0 .pzcrc file..."
+    mv ${_PZC_OUTPUT_FILE} ${_PZC_OUTPUT_FILE_TMP}
+    _pzc_update_pzcrc_690
+    rm ${_PZC_OUTPUT_FILE_TMP}
+    _PZC_CONFIG_VERSION=(6 9 0)
   fi
 
   _pzc_info "Update done. Restarting zsh..."

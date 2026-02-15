@@ -7,7 +7,7 @@
 # ----------------------------------
 # ------ Config file version -------
 # ----------------------------------
-local _PZC_CONFIG_VERSION=(6 6 0)
+local _PZC_CONFIG_VERSION=(6 9 0)
 
 # ----------------------------------
 # ------- Log verbose level --------
@@ -68,6 +68,38 @@ local _PZC_LARGE_DIR=${HOME}
 # [TODO] Uncomment and complete if you want to use 'agee' and 'aged' functions.
 #PZC_SSH_PUB=
 #PZC_SSH_PRI=
+
+
+# ----------------------------------
+# --------- MISE-EN-PLACE ----------
+# ----------------------------------
+# [TODO] If you want to use mise, set this variable to 1.
+# Usefull to install tools after.
+local _PZC_MISE_AVAILABLE=1
+
+# [TODO] Uncomment and complete if you have a custom installation of mise (which is not in PATH).
+#PZC_MISE_BIN=
+
+# [TODO] Start Mise in same time than PZC (can be slow).
+# If 0, function smise is available to initialize mise.
+# Needed to use tools installed with mise.
+local _PZC_MISE_START_AT_LAUNCH=1
+
+
+# ----------------------------------
+# ------------- SPACK --------------
+# ----------------------------------
+
+# [TODO] If you want to use spack, set this variable to 1.
+local _PZC_SPACK_AVAILABLE=1
+
+# [TODO] Uncomment and complete if you have a custom installation of spack.
+# Without this var, default spack dir will be ${ENVI_DIR}/spack.
+#PZC_SPACK_PATH=
+
+# [TODO] Start Spack in same time than PZC (can be slow).
+# If 0, function ssp is available to source spack.
+local _PZC_SPACK_START_AT_LAUNCH=0
 
 
 # ----------------------------------

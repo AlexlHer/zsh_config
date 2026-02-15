@@ -39,3 +39,5 @@ git stash pop
 - mold (https://github.com/rui314/mold)
 - atuin (https://github.com/atuinsh/atuin)
 - fzf (https://github.com/junegunn/fzf)
+- mise-en-place (https://github.com/jdx/mise)
+- spack (https://github.com/spack/spack)

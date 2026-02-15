@@ -62,6 +62,12 @@ _pzc_sources()
     return 0
   fi
 
+  # Source Mise-en-place part (optional)
+  source ${PZC_PZC_DIR}/_mise.zsh
+
+  # Source Spack part (optional)
+  source ${PZC_PZC_DIR}/_spack.zsh
+
   # Source external program needed
   source ${PZC_PZC_DIR}/_external.zsh
 
