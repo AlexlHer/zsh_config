@@ -772,7 +772,7 @@ then
 
       if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
       then
-        PZC_ATUIN_BIN=$(mise which --raw atuin 2&>/dev/null)
+        PZC_ATUIN_BIN=$(mise where --raw atuin 2&>/dev/null)
       fi
 
       if [[ -n ${PZC_ATUIN_BIN} ]] && [[ -e ${PZC_ATUIN_BIN} ]]
@@ -832,7 +832,7 @@ then
 
       if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
       then
-        PZC_FZF_BIN=$(mise which --raw fzf 2&>/dev/null)
+        PZC_FZF_BIN=$(mise where --raw fzf 2&>/dev/null)
       fi
 
       if [[ -n ${PZC_FZF_BIN} ]] && [[ -e ${PZC_FZF_BIN} ]]
@@ -924,17 +924,28 @@ then
     _pzc_debug "Define pzc_install_omp function"
     pzc_install_omp()
     {
-      _pzc_info "Install Oh-My-Posh with Mise-en-place..."
+      _pzc_info "Installing Oh-My-Posh with Mise-en-place..."
 
       _pzc_coal_eval "${PZC_MISE_BIN} install oh-my-posh"
 
       if [[ $? = 0 ]]
       then
-        _pzc_info "Reload ZSH..."
-        exec zsh
+        _pzc_info "Enabling Oh-My-Posh..."
+        sed -i 's/local _PZC_OMP_AVAILABLE=0/local _PZC_OMP_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc
+
+        if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
+        then
+          _pzc_info "Reloading ZSH..."
+          exec zsh
+        fi
       else
         _pzc_error "Error with Mise-en-place."
       fi
+    }
+  else
+    pzc_install_omp()
+    {
+      _pzc_info "Oh-My-Posh is already installed."
     }
   fi
 
@@ -948,17 +959,28 @@ then
     _pzc_debug "Define pzc_install_eza function"
     pzc_install_eza()
     {
-      _pzc_info "Install EZA with Mise-en-place..."
+      _pzc_info "Installing EZA with Mise-en-place..."
 
       _pzc_coal_eval "${PZC_MISE_BIN} install eza"
 
       if [[ $? = 0 ]]
       then
-        _pzc_info "Reload ZSH..."
-        exec zsh
+        _pzc_info "Enabling EZA..."
+        sed -i 's/local _PZC_EZA_AVAILABLE=0/local _PZC_EZA_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc
+
+        if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
+        then
+          _pzc_info "Reloading ZSH..."
+          exec zsh
+        fi
       else
         _pzc_error "Error with Mise-en-place."
       fi
+    }
+  else
+    pzc_install_eza()
+    {
+      _pzc_info "EZA is already installed."
     }
   fi
 
@@ -972,17 +994,28 @@ then
     _pzc_debug "Define pzc_install_ccache function"
     pzc_install_ccache()
     {
-      _pzc_info "Install CCache with Mise-en-place..."
+      _pzc_info "Installing CCache with Mise-en-place..."
 
       _pzc_coal_eval "${PZC_MISE_BIN} install ccache"
 
       if [[ $? = 0 ]]
       then
-        _pzc_info "Reload ZSH..."
-        exec zsh
+        _pzc_info "Enabling CCache..."
+        sed -i 's/local _PZC_CCACHE_AVAILABLE=0/local _PZC_CCACHE_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc
+
+        if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
+        then
+          _pzc_info "Reloading ZSH..."
+          exec zsh
+        fi
       else
         _pzc_error "Error with Mise-en-place."
       fi
+    }
+  else
+    pzc_install_ccache()
+    {
+      _pzc_info "CCache is already installed."
     }
   fi
 
@@ -996,17 +1029,28 @@ then
     _pzc_debug "Define pzc_install_mold function"
     pzc_install_mold()
     {
-      _pzc_info "Install Mold with Mise-en-place..."
+      _pzc_info "Installing Mold with Mise-en-place..."
 
       _pzc_coal_eval "${PZC_MISE_BIN} install mold"
 
       if [[ $? = 0 ]]
       then
-        _pzc_info "Reload ZSH..."
-        exec zsh
+        _pzc_info "Enabling Mold..."
+        sed -i 's/local _PZC_MOLD_AVAILABLE=0/local _PZC_MOLD_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc
+
+        if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
+        then
+          _pzc_info "Reloading ZSH..."
+          exec zsh
+        fi
       else
         _pzc_error "Error with Mise-en-place."
       fi
+    }
+  else
+    pzc_install_mold()
+    {
+      _pzc_info "Mold is already installed."
     }
   fi
 
@@ -1020,17 +1064,28 @@ then
     _pzc_debug "Define pzc_install_ninja function"
     pzc_install_ninja()
     {
-      _pzc_info "Install Ninja with Mise-en-place..."
+      _pzc_info "Installing Ninja with Mise-en-place..."
 
       _pzc_coal_eval "${PZC_MISE_BIN} install ninja"
 
       if [[ $? = 0 ]]
       then
-        _pzc_info "Reload ZSH..."
-        exec zsh
+        _pzc_info "Enabling Ninja..."
+        sed -i 's/local _PZC_NINJA_AVAILABLE=0/local _PZC_NINJA_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc
+
+        if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
+        then
+          _pzc_info "Reloading ZSH..."
+          exec zsh
+        fi
       else
         _pzc_error "Error with Mise-en-place."
       fi
+    }
+  else
+    pzc_install_ninja()
+    {
+      _pzc_info "Ninja is already installed."
     }
   fi
 
@@ -1044,17 +1099,28 @@ then
     _pzc_debug "Define pzc_install_cmake function"
     pzc_install_cmake()
     {
-      _pzc_info "Install CMake with Mise-en-place..."
+      _pzc_info "Installing CMake with Mise-en-place..."
 
       _pzc_coal_eval "${PZC_MISE_BIN} install cmake"
 
       if [[ $? = 0 ]]
       then
-        _pzc_info "Reload ZSH..."
-        exec zsh
+        _pzc_info "Enabling CMake..."
+        sed -i 's/local _PZC_CMAKE_AVAILABLE=0/local _PZC_CMAKE_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc
+
+        if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
+        then
+          _pzc_info "Reloading ZSH..."
+          exec zsh
+        fi
       else
         _pzc_error "Error with Mise-en-place."
       fi
+    }
+  else
+    pzc_install_cmake()
+    {
+      _pzc_info "CMake is already installed."
     }
   fi
 
@@ -1068,17 +1134,28 @@ then
     _pzc_debug "Define pzc_install_atuin function"
     pzc_install_atuin()
     {
-      _pzc_info "Install Atuin with Mise-en-place..."
+      _pzc_info "Installing Atuin with Mise-en-place..."
 
       _pzc_coal_eval "${PZC_MISE_BIN} install atuin"
 
       if [[ $? = 0 ]]
       then
-        _pzc_info "Reload ZSH..."
-        exec zsh
+        _pzc_info "Enabling Atuin..."
+        sed -i 's/local _PZC_ATUIN_AVAILABLE=0/local _PZC_ATUIN_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc
+
+        if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
+        then
+          _pzc_info "Reloading ZSH..."
+          exec zsh
+        fi
       else
         _pzc_error "Error with Mise-en-place."
       fi
+    }
+  else
+    pzc_install_atuin()
+    {
+      _pzc_info "Atuin is already installed."
     }
   fi
 
@@ -1092,18 +1169,38 @@ then
     _pzc_debug "Define pzc_install_fzf function"
     pzc_install_fzf()
     {
-      _pzc_info "Install Fzf with Mise-en-place..."
+      _pzc_info "Installing Fzf with Mise-en-place..."
 
       _pzc_coal_eval "${PZC_MISE_BIN} install fzf"
 
       if [[ $? = 0 ]]
       then
-        _pzc_info "Reload ZSH..."
+        _pzc_info "Enabling Fzf..."
+        sed -i 's/local _PZC_FZF_AVAILABLE=0/local _PZC_FZF_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc
+
+        _pzc_info "Reloading ZSH..."
         exec zsh
       else
         _pzc_error "Error with Mise-en-place."
       fi
     }
   fi
+
+  pzc_install_all()
+  {
+    local _PZC_PKG_RESTART=0
+
+    pzc_install_omp
+    pzc_install_eza
+    pzc_install_ccache
+    pzc_install_mold
+    pzc_install_ninja
+    pzc_install_cmake
+    pzc_install_atuin
+    pzc_install_fzf
+
+    _pzc_info "Reloading ZSH..."
+    exec zsh
+  }
 
 fi

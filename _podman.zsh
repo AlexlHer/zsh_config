@@ -110,12 +110,6 @@ then
       pm exec -e DEBIAN_FRONTEND=noninteractive $CONTAINER apt-get install -y $i;
     done
 
-    _pzc_info "Installing OhMyPosh in container..."
-    pm exec $CONTAINER curl -o /root/install.sh https://ohmyposh.dev/install.sh
-    pm exec $CONTAINER chmod u+x /root/install.sh
-    pm exec $CONTAINER mkdir -p /root/.local/bin
-    pm exec $CONTAINER bash -c /root/install.sh
-
     _pzc_info "Installing PZC in container..."
     pm exec $CONTAINER git clone https://github.com/AlexlHer/zsh_config /root/.pzc
 
@@ -127,10 +121,13 @@ then
 
     pm exec $CONTAINER sed -i 's/local _PZC_AGE_AVAILABLE=1/local _PZC_AGE_AVAILABLE=0/g' /root/.pzcrc
     pm exec $CONTAINER sed -i 's/local _PZC_TASK_AVAILABLE=1/local _PZC_TASK_AVAILABLE=0/g' /root/.pzcrc
-    pm exec $CONTAINER sed -i 's/local _PZC_ATUIN_AVAILABLE=1/local _PZC_ATUIN_AVAILABLE=0/g' /root/.pzcrc
-    pm exec $CONTAINER sed -i 's/local _PZC_FZF_AVAILABLE=1/local _PZC_FZF_AVAILABLE=0/g' /root/.pzcrc
     pm exec $CONTAINER sed -i 's/PZC_CHMOD_COMPILING=0/PZC_CHMOD_COMPILING=1/g' /root/.pzcrc
-    pm exec $CONTAINER sed -i 's:#local _PZC_OMP_BIN=:local _PZC_OMP_BIN=/root/.local/bin/oh-my-posh:g' /root/.pzcrc
+
+    _pzc_info "Installing PZC additionnal pkg in container..."
+
+    pm exec $CONTAINER zsh -c "source /root/.zshrc ; eval pzc_install_mise"
+    pm exec $CONTAINER zsh -c "source /root/.zshrc ; eval pzc_install_all"
+
 
     _pzc_info "Copying .zhistory in container..."
     pm cp $HOME/.zhistory $CONTAINER:/root/.zhistory
