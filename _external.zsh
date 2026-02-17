@@ -366,13 +366,12 @@ then
 
       if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
       then
-        _PZC_OMP_BIN=$(mise where --raw oh-my-posh 2&>/dev/null)
+        _PZC_OMP_BIN=$(mise which --raw -C "${ENVI_DIR}/pzc/progs/mise" oh-my-posh 2&>/dev/null)
       fi
 
       if [[ -n ${_PZC_OMP_BIN} ]] && [[ -e ${_PZC_OMP_BIN} ]]
       then
         _PZC_OMP_AVAILABLE=1
-        _PZC_OMP_BIN="${PZC_MISE_INSTALL_DIR}/oh-my-posh/latest/oh-my-posh"
         _pzc_debug "_PZC_OMP_BIN = ${_PZC_OMP_BIN} (with Mise-en-place)"
 
       elif [[ -e ${PZC_PZC_DIR}/progs/oh-my-posh/oh-my-posh ]]
@@ -432,13 +431,12 @@ then
 
       if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
       then
-        PZC_EZA_BIN=$(mise where --raw eza 2&>/dev/null)
+        PZC_EZA_BIN=$(mise which --raw -C "${ENVI_DIR}/pzc/progs/mise" eza 2&>/dev/null)
       fi
 
       if [[ -n ${PZC_EZA_BIN} ]] && [[ -e ${PZC_EZA_BIN} ]]
       then
         _PZC_EZA_AVAILABLE=1
-        PZC_EZA_BIN="${PZC_MISE_INSTALL_DIR}/eza/latest/eza"
         _pzc_debug "PZC_EZA_BIN = ${PZC_EZA_BIN} (with Mise-en-place)"
         alias eza='${PZC_EZA_BIN}'
         _pzc_debug "Define alias eza"
@@ -502,13 +500,12 @@ then
 
       if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
       then
-        PZC_CCACHE_BIN=$(mise where --raw ccache 2&>/dev/null)
+        PZC_CCACHE_BIN=$(mise which --raw -C "${ENVI_DIR}/pzc/progs/mise" ccache 2&>/dev/null)
       fi
 
       if [[ -n ${PZC_CCACHE_BIN} ]] && [[ -e ${PZC_CCACHE_BIN} ]]
       then
         _PZC_CCACHE_AVAILABLE=1
-        PZC_CCACHE_BIN="${PZC_MISE_INSTALL_DIR}/ccache/latest/ccache"
         _pzc_debug "PZC_CCACHE_BIN = ${PZC_CCACHE_BIN} (with Mise-en-place)"
         alias ccache='${PZC_CCACHE_BIN}'
         _pzc_debug "Define alias ccache"
@@ -560,7 +557,8 @@ then
 
       if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
       then
-        _PZC_MOLD_PATH=$(mise where --raw mold 2&>/dev/null)
+        _PZC_MOLD_PATH=$(mise which --raw -C "${ENVI_DIR}/pzc/progs/mise" mold 2&>/dev/null)
+        _PZC_MOLD_PATH=$(dirname "${_PZC_MOLD_PATH}")
       fi
 
       if [[ -n ${_PZC_MOLD_PATH} ]] && [[ -e ${_PZC_MOLD_PATH} ]]
@@ -616,7 +614,8 @@ then
 
       if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
       then
-        _PZC_NINJA_PATH=$(mise where --raw ninja 2&>/dev/null)
+        _PZC_NINJA_PATH=$(mise which --raw -C "${ENVI_DIR}/pzc/progs/mise" ninja 2&>/dev/null)
+        _PZC_NINJA_PATH=$(dirname "${_PZC_NINJA_PATH}")
       fi
 
       if [[ -n ${_PZC_NINJA_PATH} ]] && [[ -e ${_PZC_NINJA_PATH} ]]
@@ -672,7 +671,8 @@ then
 
       if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
       then
-        _PZC_CMAKE_PATH=$(mise where --raw cmake 2&>/dev/null)
+        _PZC_CMAKE_PATH=$(mise which --raw -C "${ENVI_DIR}/pzc/progs/mise" cmake 2&>/dev/null)
+        _PZC_CMAKE_PATH=$(dirname "${_PZC_CMAKE_PATH}")
       fi
 
       if [[ -n ${_PZC_CMAKE_PATH} ]] && [[ -e ${_PZC_CMAKE_PATH} ]]
@@ -772,13 +772,12 @@ then
 
       if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
       then
-        PZC_ATUIN_BIN=$(mise where --raw atuin 2&>/dev/null)
+        PZC_ATUIN_BIN=$(mise which --raw -C "${ENVI_DIR}/pzc/progs/mise" atuin 2&>/dev/null)
       fi
 
       if [[ -n ${PZC_ATUIN_BIN} ]] && [[ -e ${PZC_ATUIN_BIN} ]]
       then
         _PZC_ATUIN_AVAILABLE=1
-        PZC_ATUIN_BIN="${PZC_MISE_INSTALL_DIR}/atuin/latest/atuin"
         _pzc_debug "PZC_ATUIN_BIN = ${PZC_ATUIN_BIN} (with Mise-en-place)"
         alias atuin='${PZC_ATUIN_BIN}'
         _pzc_debug "Define alias atuin"
@@ -832,13 +831,12 @@ then
 
       if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
       then
-        PZC_FZF_BIN=$(mise where --raw fzf 2&>/dev/null)
+        PZC_FZF_BIN=$(mise which --raw -C "${ENVI_DIR}/pzc/progs/mise" fzf 2&>/dev/null)
       fi
 
       if [[ -n ${PZC_FZF_BIN} ]] && [[ -e ${PZC_FZF_BIN} ]]
       then
         _PZC_FZF_AVAILABLE=1
-        PZC_FZF_BIN="${PZC_MISE_INSTALL_DIR}/fzf/latest/fzf"
         _pzc_debug "PZC_FZF_BIN = ${PZC_FZF_BIN} (with Mise-en-place)"
         alias fzf='${PZC_FZF_BIN}'
         _pzc_debug "Define alias fzf"
@@ -933,6 +931,9 @@ then
         _pzc_info "Enabling Oh-My-Posh..."
         sed -i 's/local _PZC_OMP_AVAILABLE=0/local _PZC_OMP_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc
 
+        _pzc_info "Update PZC's mise.toml..."
+        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise\" oh-my-posh"
+
         if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
         then
           _pzc_info "Reloading ZSH..."
@@ -967,6 +968,9 @@ then
       then
         _pzc_info "Enabling EZA..."
         sed -i 's/local _PZC_EZA_AVAILABLE=0/local _PZC_EZA_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc
+
+        _pzc_info "Update PZC's mise.toml..."
+        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise\" eza"
 
         if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
         then
@@ -1003,6 +1007,9 @@ then
         _pzc_info "Enabling CCache..."
         sed -i 's/local _PZC_CCACHE_AVAILABLE=0/local _PZC_CCACHE_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc
 
+        _pzc_info "Update PZC's mise.toml..."
+        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise\" ccache"
+
         if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
         then
           _pzc_info "Reloading ZSH..."
@@ -1037,6 +1044,9 @@ then
       then
         _pzc_info "Enabling Mold..."
         sed -i 's/local _PZC_MOLD_AVAILABLE=0/local _PZC_MOLD_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc
+
+        _pzc_info "Update PZC's mise.toml..."
+        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise\" mold"
 
         if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
         then
@@ -1073,6 +1083,9 @@ then
         _pzc_info "Enabling Ninja..."
         sed -i 's/local _PZC_NINJA_AVAILABLE=0/local _PZC_NINJA_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc
 
+        _pzc_info "Update PZC's mise.toml..."
+        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise\" ninja"
+
         if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
         then
           _pzc_info "Reloading ZSH..."
@@ -1107,6 +1120,9 @@ then
       then
         _pzc_info "Enabling CMake..."
         sed -i 's/local _PZC_CMAKE_AVAILABLE=0/local _PZC_CMAKE_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc
+
+        _pzc_info "Update PZC's mise.toml..."
+        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise\" cmake"
 
         if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
         then
@@ -1143,6 +1159,9 @@ then
         _pzc_info "Enabling Atuin..."
         sed -i 's/local _PZC_ATUIN_AVAILABLE=0/local _PZC_ATUIN_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc
 
+        _pzc_info "Update PZC's mise.toml..."
+        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise\" atuin"
+
         if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
         then
           _pzc_info "Reloading ZSH..."
@@ -1177,6 +1196,9 @@ then
       then
         _pzc_info "Enabling Fzf..."
         sed -i 's/local _PZC_FZF_AVAILABLE=0/local _PZC_FZF_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc
+
+        _pzc_info "Update PZC's mise.toml..."
+        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise\" fzf"
 
         _pzc_info "Reloading ZSH..."
         exec zsh

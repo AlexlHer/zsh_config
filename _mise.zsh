@@ -13,6 +13,8 @@
 
 
 
+mkdir -p "${ENVI_DIR}/pzc/progs/mise"
+
 # ---------------------------------------------------------------
 # ---------------------------- Search ---------------------------
 # ---------------------------------------------------------------
@@ -96,6 +98,9 @@ then
 
     if [[ $? = 0 ]]
     then
+      _pzc_info "Enabling Mise..."
+      sed -i 's/local _PZC_MISE_AVAILABLE=0/local _PZC_MISE_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc
+
       _pzc_info "Reload ZSH..."
       exec zsh
     else
