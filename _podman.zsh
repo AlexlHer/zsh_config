@@ -135,17 +135,29 @@ then
 
     pm exec $CONTAINER sed -i 's/PZC_CHMOD_COMPILING=0/PZC_CHMOD_COMPILING=1/g' /root/.pzcrc
 
-    _pzc_info "Installing PZC additionnal pkg in container..."
-
-    pm exec $CONTAINER zsh -c "source /root/.zshrc ; eval pzc_install_mise"
-    pm exec $CONTAINER zsh -c "source /root/.zshrc ; eval pzc_install_all"
-
 
     _pzc_info "Copying .zhistory in container..."
     pm cp $HOME/.zhistory $CONTAINER:/root/.zhistory
 
+
     echo ""
-    _pzc_info "To install additionnal pkgs, you can execute 'pzc_install_mise' and 'pzc_install_all'."
+    _pzc_info "Install additionnal packages ?"
+    read -q "REPLY?(y/n)"
+    echo ""
+    if [[ ${REPLY} = "y" ]]
+    then
+      _pzc_info "Installing PZC additionnal pkg in container..."
+
+      pm exec $CONTAINER zsh -c "source /root/.zshrc ; eval pzc_install_mise"
+      pm exec $CONTAINER zsh -c "source /root/.zshrc ; eval pzc_install_all"
+
+    else
+      _pzc_info "To install additionnal pkgs, you can execute 'pzc_install_mise' and 'pzc_install_all'."
+
+    fi
+    unset REPLY
+
+    echo ""
     _pzc_info "Executing container..."
 
     if [[ ! -v 2 ]]

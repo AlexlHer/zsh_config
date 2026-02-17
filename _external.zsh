@@ -366,7 +366,7 @@ then
 
       if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
       then
-        _PZC_OMP_BIN=$(mise which --raw -C "${ENVI_DIR}/pzc/progs/mise" oh-my-posh 2&>/dev/null)
+        _PZC_OMP_BIN=$(mise which --raw -E ${HOST} -C "${ENVI_DIR}/pzc/progs/mise" oh-my-posh 2&>/dev/null)
       fi
 
       if [[ -n ${_PZC_OMP_BIN} ]] && [[ -e ${_PZC_OMP_BIN} ]]
@@ -431,7 +431,7 @@ then
 
       if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
       then
-        PZC_EZA_BIN=$(mise which --raw -C "${ENVI_DIR}/pzc/progs/mise" eza 2&>/dev/null)
+        PZC_EZA_BIN=$(mise which --raw -E ${HOST} -C "${ENVI_DIR}/pzc/progs/mise" eza 2&>/dev/null)
       fi
 
       if [[ -n ${PZC_EZA_BIN} ]] && [[ -e ${PZC_EZA_BIN} ]]
@@ -500,7 +500,7 @@ then
 
       if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
       then
-        PZC_CCACHE_BIN=$(mise which --raw -C "${ENVI_DIR}/pzc/progs/mise" ccache 2&>/dev/null)
+        PZC_CCACHE_BIN=$(mise which --raw -E ${HOST} -C "${ENVI_DIR}/pzc/progs/mise" ccache 2&>/dev/null)
       fi
 
       if [[ -n ${PZC_CCACHE_BIN} ]] && [[ -e ${PZC_CCACHE_BIN} ]]
@@ -557,7 +557,7 @@ then
 
       if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
       then
-        _PZC_MOLD_PATH=$(mise which --raw -C "${ENVI_DIR}/pzc/progs/mise" mold 2&>/dev/null)
+        _PZC_MOLD_PATH=$(mise which --raw -E ${HOST} -C "${ENVI_DIR}/pzc/progs/mise" mold 2&>/dev/null)
         _PZC_MOLD_PATH=$(dirname "${_PZC_MOLD_PATH}")
       fi
 
@@ -614,7 +614,7 @@ then
 
       if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
       then
-        _PZC_NINJA_PATH=$(mise which --raw -C "${ENVI_DIR}/pzc/progs/mise" ninja 2&>/dev/null)
+        _PZC_NINJA_PATH=$(mise which --raw -E ${HOST} -C "${ENVI_DIR}/pzc/progs/mise" ninja 2&>/dev/null)
         _PZC_NINJA_PATH=$(dirname "${_PZC_NINJA_PATH}")
       fi
 
@@ -671,7 +671,7 @@ then
 
       if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
       then
-        _PZC_CMAKE_PATH=$(mise which --raw -C "${ENVI_DIR}/pzc/progs/mise" cmake 2&>/dev/null)
+        _PZC_CMAKE_PATH=$(mise which --raw -E ${HOST} -C "${ENVI_DIR}/pzc/progs/mise" cmake 2&>/dev/null)
         _PZC_CMAKE_PATH=$(dirname "${_PZC_CMAKE_PATH}")
       fi
 
@@ -772,7 +772,7 @@ then
 
       if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
       then
-        PZC_ATUIN_BIN=$(mise which --raw -C "${ENVI_DIR}/pzc/progs/mise" atuin 2&>/dev/null)
+        PZC_ATUIN_BIN=$(mise which --raw -E ${HOST} -C "${ENVI_DIR}/pzc/progs/mise" atuin 2&>/dev/null)
       fi
 
       if [[ -n ${PZC_ATUIN_BIN} ]] && [[ -e ${PZC_ATUIN_BIN} ]]
@@ -831,7 +831,7 @@ then
 
       if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
       then
-        PZC_FZF_BIN=$(mise which --raw -C "${ENVI_DIR}/pzc/progs/mise" fzf 2&>/dev/null)
+        PZC_FZF_BIN=$(mise which --raw -E ${HOST} -C "${ENVI_DIR}/pzc/progs/mise" fzf 2&>/dev/null)
       fi
 
       if [[ -n ${PZC_FZF_BIN} ]] && [[ -e ${PZC_FZF_BIN} ]]
@@ -932,7 +932,7 @@ then
         sed -i 's/local _PZC_OMP_AVAILABLE=0/local _PZC_OMP_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc
 
         _pzc_info "Update PZC's mise.toml..."
-        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise\" oh-my-posh"
+        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" oh-my-posh"
 
         if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
         then
@@ -970,7 +970,7 @@ then
         sed -i 's/local _PZC_EZA_AVAILABLE=0/local _PZC_EZA_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc
 
         _pzc_info "Update PZC's mise.toml..."
-        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise\" eza"
+        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" eza"
 
         if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
         then
@@ -1008,7 +1008,7 @@ then
         sed -i 's/local _PZC_CCACHE_AVAILABLE=0/local _PZC_CCACHE_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc
 
         _pzc_info "Update PZC's mise.toml..."
-        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise\" ccache"
+        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" ccache"
 
         if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
         then
@@ -1046,7 +1046,7 @@ then
         sed -i 's/local _PZC_MOLD_AVAILABLE=0/local _PZC_MOLD_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc
 
         _pzc_info "Update PZC's mise.toml..."
-        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise\" mold"
+        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" mold"
 
         if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
         then
@@ -1084,7 +1084,7 @@ then
         sed -i 's/local _PZC_NINJA_AVAILABLE=0/local _PZC_NINJA_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc
 
         _pzc_info "Update PZC's mise.toml..."
-        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise\" ninja"
+        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" ninja"
 
         if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
         then
@@ -1122,7 +1122,7 @@ then
         sed -i 's/local _PZC_CMAKE_AVAILABLE=0/local _PZC_CMAKE_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc
 
         _pzc_info "Update PZC's mise.toml..."
-        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise\" cmake"
+        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" cmake"
 
         if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
         then
@@ -1160,7 +1160,7 @@ then
         sed -i 's/local _PZC_ATUIN_AVAILABLE=0/local _PZC_ATUIN_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc
 
         _pzc_info "Update PZC's mise.toml..."
-        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise\" atuin"
+        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" atuin"
 
         if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
         then
@@ -1198,7 +1198,7 @@ then
         sed -i 's/local _PZC_FZF_AVAILABLE=0/local _PZC_FZF_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc
 
         _pzc_info "Update PZC's mise.toml..."
-        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise\" fzf"
+        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" fzf"
 
         _pzc_info "Reloading ZSH..."
         exec zsh
