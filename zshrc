@@ -15,7 +15,7 @@
 
 ## ----- Old main zshrc -----
 # For PZC before v6 compatibility.
-# TODO : Delete this file in PZC v7.
+# TODO : Delete this file in PZC v8.
 
 
 echo "---------------------------"

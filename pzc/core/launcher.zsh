@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
-# _launcher.zsh
+# launcher.zsh
 #
 # Core functions.
 # ------------------------------------------------------------------------------
@@ -56,50 +56,50 @@ _pzc_sources()
   source ${PZC_PZC_DIR}/plugins/manjaro-zsh-config/manjaro-zsh-config
 
   # Source needed dirs creation
-  source ${PZC_PZC_DIR}/_dirs.zsh
+  source ${PZC_PZC_DIR}/pzc/core/dirs.zsh
   if [[ ${_PZC_FATAL_ERROR} = 1 ]]
   then
     return 0
   fi
 
   # Source Mise-en-place part (optional)
-  source ${PZC_PZC_DIR}/_mise.zsh
+  source ${PZC_PZC_DIR}/pzc/extra/mise.zsh
 
   # Source Spack part (optional)
-  source ${PZC_PZC_DIR}/_spack.zsh
+  source ${PZC_PZC_DIR}/pzc/extra/spack.zsh
 
   # Source external program needed
-  source ${PZC_PZC_DIR}/_external.zsh
+  source ${PZC_PZC_DIR}/pzc/core/external.zsh
 
   # Source variable export
-  source ${PZC_PZC_DIR}/_export.zsh
+  source ${PZC_PZC_DIR}/pzc/core/export.zsh
 
   # Source perso alias (optional)
-  source ${PZC_PZC_DIR}/_aliases.zsh
+  source ${PZC_PZC_DIR}/pzc/extra/aliases.zsh
 
   # Source perso KDE specific part (optional)
-  source ${PZC_PZC_DIR}/_kde.zsh
+  source ${PZC_PZC_DIR}/pzc/extra/kde.zsh
 
   # Source perso encrypt/decrypt functions (optional)
-  source ${PZC_PZC_DIR}/_enc_functions.zsh
+  source ${PZC_PZC_DIR}/pzc/extra/enc_functions.zsh
 
   # Source perso functions (optional)
-  source ${PZC_PZC_DIR}/_functions.zsh
+  source ${PZC_PZC_DIR}/pzc/extra/functions.zsh
 
   # Source CMake specific functions (optional)
-  source ${PZC_PZC_DIR}/_cmake_projects.zsh
+  source ${PZC_PZC_DIR}/pzc/extra/cmake_projects.zsh
 
   # Source Arcane specific functions (optional)
-  source ${PZC_PZC_DIR}/_arcane.zsh
+  source ${PZC_PZC_DIR}/pzc/extra/arcane.zsh
 
   # Source Podman/Docker specific functions (optional)
-  source ${PZC_PZC_DIR}/_podman.zsh
+  source ${PZC_PZC_DIR}/pzc/extra/podman.zsh
 
   # Source Python specific functions (optional)
-  source ${PZC_PZC_DIR}/_python.zsh
+  source ${PZC_PZC_DIR}/pzc/extra/python.zsh
 
   # Source Completion scripts (optional)
-  source ${PZC_PZC_DIR}/completion/_completion.zsh
+  source ${PZC_PZC_DIR}/pzc/extra/completion.zsh
 }
 
 

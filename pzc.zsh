@@ -18,11 +18,11 @@ local _PZC_PZCRC_DIR=${HOME}
 _PZC_CONFIG_STEP=1
 # TODO : Bloquer les scripts si _PZC_CONFIG_STEP == 0 ou unset.
 
-source ${PZC_PZC_DIR}/_internal.zsh
+source ${PZC_PZC_DIR}/pzc/core/internal.zsh
 
 _pzc_main()
 {
-  source ${PZC_PZC_DIR}/_version.zsh
+  source ${PZC_PZC_DIR}/pzc/version.zsh
 
   if [[ ! -e ${_PZC_PZCRC_DIR}/.pzcrc ]]
   then
@@ -38,7 +38,7 @@ _pzc_main()
   source ${_PZC_PZCRC_DIR}/.pzcrc
 
   # Check update...
-  source ${PZC_PZC_DIR}/_pzc_update.zsh
+  source ${PZC_PZC_DIR}/pzc/core/pzc_update.zsh
   _pzc_check_update
   if [[ ${_PZC_FATAL_ERROR} = 1 ]]
   then
@@ -48,7 +48,7 @@ _pzc_main()
 
 
   # Configuration done. Launching PZC...
-  source ${PZC_PZC_DIR}/_launcher.zsh
+  source ${PZC_PZC_DIR}/pzc/core/launcher.zsh
 
   _pzc_sources
   if [[ ${_PZC_FATAL_ERROR} = 1 ]]

@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
-# _aliases.zsh
+# aliases.zsh
 #
 # General aliases.
 # ------------------------------------------------------------------------------
@@ -107,17 +107,6 @@ alias cde='_pzc_coal_eval "cd ${ENVI_DIR}"'
 
 alias tarcxz='_pzc_coal "tar -Ipixz -cf" ; tar -Ipixz -cf'
 alias tarxxz='_pzc_coal "tar -Ipixz -xf" ; tar -Ipixz -xf'
-
-
-
-# ---------------------------------------------------------------
-# ------------------------ Task aliases -------------------------
-# ---------------------------------------------------------------
-
-if [[ ${_PZC_TASK_AVAILABLE} = 1 ]]
-then
-  source ${PZC_PZC_DIR}/plugins/taskwarrior/taskwarrior.plugin.zsh
-fi
 
 
 

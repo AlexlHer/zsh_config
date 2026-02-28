@@ -5,13 +5,22 @@
 # SPDX-License-Identifier: Apache-2.0
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
-# _version.zsh
+# completion.zsh
 #
-# PZC Version.
+# Main completion section.
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
 
 
 
-export PZC_VERSION=(6 9 0)
-local _PZC_CONFIG_LAST_VERSION=(6 9 0)
+if [[ ${_PZC_OMP_AVAILABLE} = 1 ]]
+then
+  source ${PZC_PZC_DIR}/plugins/oh-my-posh/oh-my-posh.zsh
+fi
+
+
+
+if [[ ${_PZC_TASK_AVAILABLE} = 1 ]]
+then
+  source ${PZC_PZC_DIR}/plugins/taskwarrior/taskwarrior.plugin.zsh
+fi
