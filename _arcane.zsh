@@ -33,12 +33,26 @@
 # -------------------------- Aliases ----------------------------
 # ---------------------------------------------------------------
 
-alias gitarc='_pzc_coal_eval "cd ${WORK_DIR}/arcane/framework"'
-alias gitbenchs='_pzc_coal_eval "cd ${WORK_DIR}/arcane/arcane-benchs"'
 alias clonearc='_pzc_coal_eval "mkdir -p ${WORK_DIR}/arcane" ; \
                 _pzc_coal_eval "cd ${WORK_DIR}/arcane" ; \
                 _pzc_coal_eval "git clone --recurse-submodules https://github.com/arcaneframework/framework" ; \
                 gitarc'
+
+function gitarc()
+{
+  local ARCANE_SOURCE_DIR="${WORK_DIR}/arcane/framework"
+  if [[ -v 1 ]]
+  then
+    # TODO : Regex
+    if [[ ${1} == "1" ]]
+    then
+      ARCANE_SOURCE_DIR="${WORK_DIR}/arcane/framework_wt1"
+    else
+      ARCANE_SOURCE_DIR="${WORK_DIR}/arcane/framework_${1}"
+    fi
+  fi
+  _pzc_coal_eval "cd ${ARCANE_SOURCE_DIR}"
+}
 
 
 
@@ -46,7 +60,7 @@ alias clonearc='_pzc_coal_eval "mkdir -p ${WORK_DIR}/arcane" ; \
 # ----------------------- Init functions ------------------------
 # ---------------------------------------------------------------
 
-initarc()
+function initarc()
 {
   _pzc_pensil_begin
 
@@ -71,16 +85,16 @@ initarc()
     _pzc_ecal_eval "ARCANE_TYPE_BUILD=Release"
   fi
 
-  if [[ -v 2 ]]
+  if [[ -v 2 ]] && [[ ${2} != "_" ]] && [[ ${2} != "none" ]]
   then
-    _pzc_ecal_eval "TYPE_BUILD_DIR=${2}"
+    _pzc_ecal_eval "TYPE_BUILD_DIR=${ARCANE_TYPE_BUILD}_${2}"
   else
     _pzc_ecal_eval "TYPE_BUILD_DIR=${ARCANE_TYPE_BUILD}"
   fi
 
-  if [[ -v 3 ]]
+  if [[ -v 3 ]] && [[ ${3} != "_" ]] && [[ ${3} != "none" ]]
   then
-    local _PZC_ARCANE_SOURCE_DIR=${3}
+    local _PZC_ARCANE_SOURCE_DIR=framework_${3}
   else
     local _PZC_ARCANE_SOURCE_DIR=framework
   fi
@@ -96,7 +110,7 @@ initarc()
   _pzc_pensil_end
 }
 
-initap()
+function initap()
 {
   if [[ -v 1 ]]
   then
@@ -107,7 +121,7 @@ initap()
     return 1
   fi
 
-  if [[ -v 2 ]]
+  if [[ -v 2 ]] && [[ ${2} != "_" ]] && [[ ${2} != "none" ]]
   then
     if [[ ${2} == "D" ]] || [[ ${2} == "Debug" ]]
     then
@@ -127,9 +141,9 @@ initap()
     ARCANE_TYPE_BUILD=Release
   fi
 
-  if [[ -v 3 ]]
+  if [[ -v 3 ]] && [[ ${3} != "_" ]] && [[ ${3} != "none" ]]
   then
-    TYPE_BUILD_DIR=${3}
+    TYPE_BUILD_DIR=${ARCANE_TYPE_BUILD}_${3}
   else
     TYPE_BUILD_DIR=${ARCANE_TYPE_BUILD}
   fi
@@ -177,7 +191,7 @@ initap()
 # -------------------- Edit init functions ----------------------
 # ---------------------------------------------------------------
 
-editap()
+function editap()
 {
   if [[ ! -v AP_BUILD_DIR ]]
   then
@@ -233,7 +247,7 @@ editap()
   _pzc_coal_eval "initap ${AP_PROJECT_NAME} ${ARCANE_TYPE_BUILD} ${TYPE_BUILD_DIR}"
 }
 
-editaprm()
+function editaprm()
 {
   if [[ ! -v AP_BUILD_DIR ]]
   then
@@ -274,7 +288,7 @@ editaprm()
 # ---------------------- Config functions -----------------------
 # ---------------------------------------------------------------
 
-pconfigarc()
+function pconfigarc()
 {
   if [[ -v ARCANE_BUILD_DIR ]]
   then
@@ -316,7 +330,7 @@ pconfigarc()
   fi
 }
 
-configarc()
+function configarc()
 {
   if [[ -v ARCANE_BUILD_DIR ]]
   then
@@ -358,7 +372,7 @@ configarc()
   fi
 }
 
-pconfigarcgpu()
+function pconfigarcgpu()
 {
   if [[ -v ARCANE_BUILD_DIR ]]
   then
@@ -427,7 +441,7 @@ pconfigarcgpu()
   fi
 }
 
-configarcgpu()
+function configarcgpu()
 {
   if [[ -v ARCANE_BUILD_DIR ]]
   then
@@ -495,7 +509,7 @@ configarcgpu()
   fi
 }
 
-pconfigap()
+function pconfigap()
 {
   if [[ -v AP_BUILD_DIR ]]
   then
@@ -528,7 +542,7 @@ pconfigap()
   fi
 }
 
-configap()
+function configap()
 {
   if [[ -v AP_BUILD_DIR ]]
   then
@@ -561,7 +575,7 @@ configap()
   fi
 }
 
-pconfigapgpu()
+function pconfigapgpu()
 {
   if [[ -v AP_BUILD_DIR ]]
   then
@@ -618,7 +632,7 @@ pconfigapgpu()
   fi
 }
 
-configapgpu()
+function configapgpu()
 {
   if [[ -v AP_BUILD_DIR ]]
   then
@@ -681,7 +695,7 @@ configapgpu()
 # ------------------- Build/Install functions -------------------
 # ---------------------------------------------------------------
 
-pbiarc()
+function pbiarc()
 {
   if [[ -v ARCANE_BUILD_DIR ]]
   then
@@ -699,7 +713,7 @@ pbiarc()
   fi
 }
 
-biarc()
+function biarc()
 {
   if [[ -v ARCANE_BUILD_DIR ]]
   then
@@ -717,7 +731,7 @@ biarc()
   fi
 }
 
-pdocarc()
+function pdocarc()
 {
   if [[ -v ARCANE_BUILD_DIR ]]
   then
@@ -740,7 +754,7 @@ pdocarc()
   fi
 }
 
-docarc()
+function docarc()
 {
   if [[ -v ARCANE_BUILD_DIR ]]
   then
@@ -769,7 +783,7 @@ docarc()
 # ----------------------- Clear functions -----------------------
 # ---------------------------------------------------------------
 
-cleararc()
+function cleararc()
 {
   if [[ -v ARCANE_BUILD_DIR ]]
   then
@@ -788,7 +802,7 @@ cleararc()
   fi
 }
 
-clearap()
+function clearap()
 {
   if [[ -v AP_BUILD_DIR ]]
   then
