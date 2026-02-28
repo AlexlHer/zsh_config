@@ -24,18 +24,16 @@ _pzc_main()
 {
   source ${PZC_PZC_DIR}/pzc/version.zsh
 
-  if [[ ! -e ${_PZC_PZCRC_DIR}/.pzcrc ]]
+  source ${PZC_PZC_DIR}/pzc/core/pzc_config.zsh
+  _pzc_config
+  if [[ ${_PZC_FATAL_ERROR} = 1 ]]
   then
-    PZC_LOG_INFO=1
-    _pzc_info "Configuration file not found. Creating this file..."
-    cp ${PZC_PZC_DIR}/template.pzcrc ${_PZC_PZCRC_DIR}/.pzcrc
-    _pzc_info "Your configuration file is available here: ${_PZC_PZCRC_DIR}/.pzcrc"
-    _pzc_info "You can edit it with your favorite editor and relaunching zsh after."
-    read -s -k $'?Press any key to continue.\n'
     return 0
   fi
+  unfunction _pzc_config
 
-  source ${_PZC_PZCRC_DIR}/.pzcrc
+  source "${PZC_PZC_CONFIG_FILE}"
+
 
   # Check update...
   source ${PZC_PZC_DIR}/pzc/core/pzc_update.zsh

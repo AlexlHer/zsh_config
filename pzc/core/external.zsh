@@ -55,7 +55,7 @@ then
       
     else
       _PZC_GCC_AVAILABLE=0
-      _pzc_warning "GCC is not installed. You can disable gcc search in .pzcrc."
+      _pzc_warning "GCC is not installed. You can disable gcc search in pzcrc."
 
     fi
   fi
@@ -90,7 +90,7 @@ then
       
     else
       _PZC_GCC_AVAILABLE=0
-      _pzc_warning "G++ is not installed. You can disable g++ search in .pzcrc."
+      _pzc_warning "G++ is not installed. You can disable g++ search in pzcrc."
 
     fi
   fi
@@ -125,7 +125,7 @@ then
       
     else
       _PZC_CLANG_AVAILABLE=0
-      _pzc_warning "CLang is not installed. You can disable clang search in .pzcrc."
+      _pzc_warning "CLang is not installed. You can disable clang search in pzcrc."
 
     fi
   fi
@@ -160,7 +160,7 @@ then
       
     else
       _PZC_CLANG_AVAILABLE=0
-      _pzc_warning "CLang++ is not installed. You can disable clang++ search in .pzcrc."
+      _pzc_warning "CLang++ is not installed. You can disable clang++ search in pzcrc."
 
     fi
   fi
@@ -195,7 +195,7 @@ then
       
     else
       _PZC_NVCC_BIN_AVAILABLE=0
-      _pzc_warning "NVCC is not installed. You can disable nvcc search in .pzcrc."
+      _pzc_warning "NVCC is not installed. You can disable nvcc search in pzcrc."
 
     fi
   fi
@@ -232,7 +232,7 @@ then
 
       else
         _PZC_NVCC_BIN_AVAILABLE=0
-        _pzc_warning "Host compiler for nvcc is not found. You can disable nvcc search in .pzcrc."
+        _pzc_warning "Host compiler for nvcc is not found. You can disable nvcc search in pzcrc."
 
       fi
     fi
@@ -268,7 +268,7 @@ then
       
     else
       _PZC_SYCL_BIN_AVAILABLE=0
-      _pzc_warning "Sycl is not installed. You can disable sycl search in .pzcrc."
+      _pzc_warning "Sycl is not installed. You can disable sycl search in pzcrc."
 
     fi
   fi
@@ -305,7 +305,7 @@ then
 
       else
         _PZC_SYCL_BIN_AVAILABLE=0
-        _pzc_warning "Host compiler for sycl is not found. You can disable sycl search in .pzcrc."
+        _pzc_warning "Host compiler for sycl is not found. You can disable sycl search in pzcrc."
 
       fi
     fi
@@ -384,7 +384,7 @@ then
 
       else
         _PZC_OMP_AVAILABLE=0
-        _pzc_warning "Oh-My-Posh is not installed (https://github.com/JanDeDobbeleer/oh-my-posh). You can install Oh-My-Posh with Mise-en-place with the command 'pzc_install_omp' or disable Oh-My-Posh search in .pzcrc."
+        _pzc_warning "Oh-My-Posh is not installed (https://github.com/JanDeDobbeleer/oh-my-posh). You can install Oh-My-Posh with Mise-en-place with the command 'pzc_install_omp' or disable Oh-My-Posh search in pzcrc."
 
       fi
     fi
@@ -453,7 +453,7 @@ then
         
       else
         _PZC_EZA_AVAILABLE=0
-        _pzc_warning "Eza is not installed (https://github.com/eza-community/eza). You can install eza with Mise-en-place with the command 'pzc_install_eza' or disable eza search in .pzcrc."
+        _pzc_warning "Eza is not installed (https://github.com/eza-community/eza). You can install eza with Mise-en-place with the command 'pzc_install_eza' or disable eza search in pzcrc."
 
       fi
     fi
@@ -512,7 +512,7 @@ then
 
       else
         _PZC_CCACHE_AVAILABLE=0
-        _pzc_warning "CCache is not installed (https://github.com/ccache/ccache). You can install ccache with Mise-en-place with the command 'pzc_install_ccache' or disable ccache search in .pzcrc."
+        _pzc_warning "CCache is not installed (https://github.com/ccache/ccache). You can install ccache with Mise-en-place with the command 'pzc_install_ccache' or disable ccache search in pzcrc."
 
       fi
     fi
@@ -569,7 +569,7 @@ then
 
       else
         _PZC_MOLD_AVAILABLE=0
-        _pzc_warning "Mold is not installed (https://github.com/rui314/mold). You can install mold with Mise-en-place with the command 'pzc_install_mold' or disable mold search in .pzcrc."
+        _pzc_warning "Mold is not installed (https://github.com/rui314/mold). You can install mold with Mise-en-place with the command 'pzc_install_mold' or disable mold search in pzcrc."
 
       fi
     fi
@@ -626,7 +626,7 @@ then
       
       else
         _PZC_NINJA_AVAILABLE=0
-        _pzc_warning "Ninja is not installed (https://github.com/ninja-build/ninja). You can install ninja with Mise-en-place with the command 'pzc_install_ninja' or disable ninja search in .pzcrc."
+        _pzc_warning "Ninja is not installed (https://github.com/ninja-build/ninja). You can install ninja with Mise-en-place with the command 'pzc_install_ninja' or disable ninja search in pzcrc."
 
       fi
     fi
@@ -683,7 +683,7 @@ then
       
       else
         _PZC_CMAKE_AVAILABLE=0
-        _pzc_warning "CMake is not installed (https://github.com/Kitware/CMake). You can install cmake with Mise-en-place with the command 'pzc_install_cmake' or disable cmake search in .pzcrc."
+        _pzc_warning "CMake is not installed (https://github.com/Kitware/CMake). You can install cmake with Mise-en-place with the command 'pzc_install_cmake' or disable cmake search in pzcrc."
 
       fi
     fi
@@ -726,7 +726,7 @@ then
       
     else
       _PZC_TASK_AVAILABLE=0
-      _pzc_warning "Taskwarrior is not installed (https://github.com/GothenburgBitFactory/taskwarrior). You can disable taskwarrior search in .pzcrc."
+      _pzc_warning "Taskwarrior is not installed (https://github.com/GothenburgBitFactory/taskwarrior). You can disable taskwarrior search in pzcrc."
 
     fi
   fi
@@ -784,7 +784,7 @@ then
 
       else
         _PZC_ATUIN_AVAILABLE=0
-        _pzc_warning "Atuin is not installed (https://github.com/atuinsh/atuin). You can install atuin with Mise-en-place with the command 'pzc_install_atuin' or disable atuin search in .pzcrc."
+        _pzc_warning "Atuin is not installed (https://github.com/atuinsh/atuin). You can install atuin with Mise-en-place with the command 'pzc_install_atuin' or disable atuin search in pzcrc."
 
       fi
     fi
@@ -843,7 +843,7 @@ then
 
       else
         _PZC_FZF_AVAILABLE=0
-        _pzc_warning "Fzf is not installed (https://github.com/junegunn/fzf). You can install fzf with Mise-en-place with the command 'pzc_install_fzf' or disable fzf search in .pzcrc."
+        _pzc_warning "Fzf is not installed (https://github.com/junegunn/fzf). You can install fzf with Mise-en-place with the command 'pzc_install_fzf' or disable fzf search in pzcrc."
 
       fi
     fi
@@ -894,7 +894,7 @@ then
 
     else
       _PZC_PYTHON_AVAILABLE=0
-      _pzc_warning "Python is not installed. You can disable python search in .pzcrc."
+      _pzc_warning "Python is not installed. You can disable python search in pzcrc."
 
     fi
   fi
@@ -929,7 +929,7 @@ then
       if [[ $? = 0 ]]
       then
         _pzc_info "Enabling Oh-My-Posh..."
-        _pzc_coal_eval "sed -i 's/local _PZC_OMP_AVAILABLE=0/local _PZC_OMP_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc"
+        _pzc_coal_eval "sed -i 's/local _PZC_OMP_AVAILABLE=0/local _PZC_OMP_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/pzcrc"
 
         _pzc_info "Update PZC's mise.toml..."
         _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" oh-my-posh"
@@ -967,7 +967,7 @@ then
       if [[ $? = 0 ]]
       then
         _pzc_info "Enabling EZA..."
-        _pzc_coal_eval "sed -i 's/local _PZC_EZA_AVAILABLE=0/local _PZC_EZA_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc"
+        _pzc_coal_eval "sed -i 's/local _PZC_EZA_AVAILABLE=0/local _PZC_EZA_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/pzcrc"
 
         _pzc_info "Update PZC's mise.toml..."
         _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" eza"
@@ -1005,7 +1005,7 @@ then
       if [[ $? = 0 ]]
       then
         _pzc_info "Enabling CCache..."
-        _pzc_coal_eval "sed -i 's/local _PZC_CCACHE_AVAILABLE=0/local _PZC_CCACHE_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc"
+        _pzc_coal_eval "sed -i 's/local _PZC_CCACHE_AVAILABLE=0/local _PZC_CCACHE_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/pzcrc"
 
         _pzc_info "Update PZC's mise.toml..."
         _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" ccache"
@@ -1043,7 +1043,7 @@ then
       if [[ $? = 0 ]]
       then
         _pzc_info "Enabling Mold..."
-        _pzc_coal_eval "sed -i 's/local _PZC_MOLD_AVAILABLE=0/local _PZC_MOLD_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc"
+        _pzc_coal_eval "sed -i 's/local _PZC_MOLD_AVAILABLE=0/local _PZC_MOLD_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/pzcrc"
 
         _pzc_info "Update PZC's mise.toml..."
         _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" mold"
@@ -1081,7 +1081,7 @@ then
       if [[ $? = 0 ]]
       then
         _pzc_info "Enabling Ninja..."
-        _pzc_coal_eval "sed -i 's/local _PZC_NINJA_AVAILABLE=0/local _PZC_NINJA_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc"
+        _pzc_coal_eval "sed -i 's/local _PZC_NINJA_AVAILABLE=0/local _PZC_NINJA_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/pzcrc"
 
         _pzc_info "Update PZC's mise.toml..."
         _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" ninja"
@@ -1119,7 +1119,7 @@ then
       if [[ $? = 0 ]]
       then
         _pzc_info "Enabling CMake..."
-        _pzc_coal_eval "sed -i 's/local _PZC_CMAKE_AVAILABLE=0/local _PZC_CMAKE_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc"
+        _pzc_coal_eval "sed -i 's/local _PZC_CMAKE_AVAILABLE=0/local _PZC_CMAKE_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/pzcrc"
 
         _pzc_info "Update PZC's mise.toml..."
         _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" cmake"
@@ -1157,7 +1157,7 @@ then
       if [[ $? = 0 ]]
       then
         _pzc_info "Enabling Atuin..."
-        _pzc_coal_eval "sed -i 's/local _PZC_ATUIN_AVAILABLE=0/local _PZC_ATUIN_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc"
+        _pzc_coal_eval "sed -i 's/local _PZC_ATUIN_AVAILABLE=0/local _PZC_ATUIN_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/pzcrc"
 
         _pzc_info "Update PZC's mise.toml..."
         _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" atuin"
@@ -1195,7 +1195,7 @@ then
       if [[ $? = 0 ]]
       then
         _pzc_info "Enabling Fzf..."
-        _pzc_coal_eval "sed -i 's/local _PZC_FZF_AVAILABLE=0/local _PZC_FZF_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc"
+        _pzc_coal_eval "sed -i 's/local _PZC_FZF_AVAILABLE=0/local _PZC_FZF_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/pzcrc"
 
         _pzc_info "Update PZC's mise.toml..."
         _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" fzf"

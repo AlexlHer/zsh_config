@@ -16,9 +16,9 @@ cp ~/.pzc/template.zshrc ~/.zshrc
 # First init:
 zsh
 
-# Edit "~/.pzcrc":
+# Edit pzcrc:
 # Search "[TODO]" to find lines to edit.
-vim ~/.pzcrc
+vim ~/.config/pzc/pzcrc
 
 # If you have a PATH edit in your old .zshrc, you can edit the new .zshrc:
 vim ~/.zshrc

@@ -307,7 +307,7 @@ then
 else
   todo()
   {
-    _pzc_error "PZC_TODOLIST_PATH not define. Check your .pzcrc."
+    _pzc_error "PZC_TODOLIST_PATH not define. Check your pzcrc."
     return 1
   }
 fi

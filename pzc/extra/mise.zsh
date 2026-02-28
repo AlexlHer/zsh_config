@@ -51,7 +51,7 @@ then
       
     else
       _PZC_MISE_AVAILABLE=0
-      _pzc_warning "Mise-en-place is not installed (https://github.com/jdx/mise). You can install mise-en-place in the PZC environment folder with the command 'pzc_install_mise' or disable mise search in .pzcrc."
+      _pzc_warning "Mise-en-place is not installed (https://github.com/jdx/mise). You can install mise-en-place in the PZC environment folder with the command 'pzc_install_mise' or disable mise search in pzcrc."
 
     fi
   fi
@@ -99,7 +99,7 @@ then
     if [[ $? = 0 ]]
     then
       _pzc_info "Enabling Mise..."
-      sed -i 's/local _PZC_MISE_AVAILABLE=0/local _PZC_MISE_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/.pzcrc
+      sed -i 's/local _PZC_MISE_AVAILABLE=0/local _PZC_MISE_AVAILABLE=1/g' ${PZC_PZC_CONFIG_FILE}
 
       _pzc_info "Reload ZSH..."
       exec zsh
