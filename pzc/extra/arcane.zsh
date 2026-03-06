@@ -23,7 +23,7 @@
 ## $ gitarc
 ##
 ## Build dir:
-## $ cd ${ARCANE_BUILD_DIR}
+## $ cd ${ARCANE_BUILD_DIR_PATH}
 ##
 ## Install dir:
 ## $ cd ${ARCANE_INSTALL_DIR}
@@ -40,18 +40,18 @@ alias clonearc='_pzc_coal_eval "mkdir -p ${WORK_DIR}/arcane" ; \
 
 function gitarc()
 {
-  local ARCANE_SOURCE_DIR="${WORK_DIR}/arcane/framework"
+  local ARCANE_SOURCE_DIR_PATH="${WORK_DIR}/arcane/framework"
   if [[ -v 1 ]]
   then
     # TODO : Regex
     if [[ ${1} == "1" ]]
     then
-      ARCANE_SOURCE_DIR="${WORK_DIR}/arcane/framework_wt1"
+      ARCANE_SOURCE_DIR_PATH="${WORK_DIR}/arcane/framework_wt1"
     else
-      ARCANE_SOURCE_DIR="${WORK_DIR}/arcane/framework_${1}"
+      ARCANE_SOURCE_DIR_PATH="${WORK_DIR}/arcane/framework_${1}"
     fi
   fi
-  _pzc_coal_eval "cd ${ARCANE_SOURCE_DIR}"
+  _pzc_coal_eval "cd ${ARCANE_SOURCE_DIR_PATH}"
 }
 
 
@@ -59,6 +59,167 @@ function gitarc()
 # ---------------------------------------------------------------
 # ----------------------- Init functions ------------------------
 # ---------------------------------------------------------------
+
+function parc()
+{
+  if [[ -v ARCANE_SOURCE_DIR_PATH ]]
+  then
+
+    local _PZC_SAVED_PRESET_PATH="${PZC_EDIT_SCRIPTS}/${ARCANE_SOURCE_DIR}_${TYPE_BUILD_DIR}.json"
+    local _PZC_TMP_PRESET_PATH="${ARCANE_BUILD_DIR_PATH}/${ARCANE_SOURCE_DIR}_${TYPE_BUILD_DIR}.json"
+
+    if [[ ! -e "${_PZC_TMP_PRESET_PATH}" ]]
+    then
+
+      if [[ -e "${_PZC_SAVED_PRESET_PATH}" ]]
+      then
+        _pzc_info "Copy saved preset (${_PZC_SAVED_PRESET_PATH})."
+        cp "${_PZC_SAVED_PRESET_PATH}" "${_PZC_TMP_PRESET_PATH}"
+
+      else
+        _pzc_info "Generation of preset..."
+
+        local _PZC_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/framework.json.in"
+
+        if [[ ${PZC_GPU_AVAILABLE} = 1 ]]
+        then
+          if [[ "${PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
+          then
+            local _PZC_ARCANE_ACCELERATOR_MODE="\"ARCANE_ACCELERATOR_MODE\": \"CUDA\","
+            local _PZC_CMAKE_GPU_COMPILER="\"CMAKE_CUDA_COMPILER\": \"${PZC_GPU_COMPILER}\","
+            if [[ -v PZC_GPU_FLAGS ]]
+            then
+              local _PZC_CMAKE_GPU_FLAGS="\"CMAKE_CUDA_FLAGS\": \"${PZC_GPU_FLAGS}\","
+            fi
+            if [[ -v PZC_GPU_TARGET_ARCH ]]
+            then
+              local _PZC_CMAKE_GPU_ARCH="\"CMAKE_CUDA_ARCHITECTURES\": \"${PZC_GPU_TARGET_ARCH}\","
+            fi
+
+          else
+            local _PZC_ARCANE_ACCELERATOR_MODE="\"ARCANE_ACCELERATOR_MODE\": \"SYCL\","
+            local _PZC_CMAKE_GPU_COMPILER="\"CMAKE_SYCL_COMPILER\": \"${PZC_GPU_COMPILER}\","
+            if [[ -v PZC_GPU_FLAGS ]]
+            then
+              local _PZC_CMAKE_GPU_FLAGS="\"ARCANE_CXX_SYCL_FLAGS\": \"${PZC_GPU_FLAGS}\","
+            fi
+          fi
+          local _PZC_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/framework_gpu.json.in"
+        fi
+        if [[ "${ARCANE_TYPE_BUILD}" == "Check" ]]
+        then
+          local _PZC_CMAKE_BUILD_TYPE="RelWithDebInfo"
+        else
+          local _PZC_CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
+        fi
+
+        sed -e "s|@TYPE_BUILD_DIR@|${TYPE_BUILD_DIR}|g" \
+            -e "s|@BUILD_DIR_PATH@|${ARCANE_BUILD_DIR_PATH}|g" \
+            -e "s|@INSTALL_DIR_PATH@|${ARCANE_INSTALL_DIR_PATH}|g" \
+            -e "s|@PZC_CMAKE_GENERATOR@|${PZC_CMAKE_GENERATOR}|g" \
+            -e "s|@PZC_CMAKE_CXX_COMPILER_LAUNCHER@|${PZC_CMAKE_CXX_COMPILER_LAUNCHER}|g" \
+            -e "s|@PZC_CMAKE_C_COMPILER_LAUNCHER@|${PZC_CMAKE_C_COMPILER_LAUNCHER}|g" \
+            -e "s|@PZC_CMAKE_LINKER_TYPE@|${PZC_CMAKE_LINKER_TYPE}|g" \
+            -e "s|@_PZC_ARCANE_ACCELERATOR_MODE@|${_PZC_ARCANE_ACCELERATOR_MODE}|g" \
+            -e "s|@_PZC_CMAKE_GPU_COMPILER@|${_PZC_CMAKE_GPU_COMPILER}|g" \
+            -e "s|@_PZC_CMAKE_GPU_FLAGS@|${_PZC_CMAKE_GPU_FLAGS}|g" \
+            -e "s|@_PZC_CMAKE_GPU_ARCH@|${_PZC_CMAKE_GPU_ARCH}|g" \
+            -e "s|@PZC_C_COMPILER@|${PZC_C_COMPILER}|g" \
+            -e "s|@PZC_CXX_COMPILER@|${PZC_CXX_COMPILER}|g" \
+            -e "s|@PZC_GPU_HOST_COMPILER@|${PZC_GPU_HOST_COMPILER}|g" \
+            -e "s|@ARCANE_TYPE_BUILD@|${ARCANE_TYPE_BUILD}|g" \
+            -e "s|@_PZC_CMAKE_BUILD_TYPE@|${_PZC_CMAKE_BUILD_TYPE}|g" \
+            ${_PZC_TEMPLATE_PRESET_PATH} > "${_PZC_TMP_PRESET_PATH}"
+
+      fi
+    else
+      _pzc_info "Build preset found (${_PZC_TMP_PRESET_PATH})."
+    fi
+
+  else
+    _pzc_error "Un appel à la fonction initarc est nécessaire avant."
+    return 1
+  fi
+}
+
+function pap()
+{
+  if [[ -v AP_SOURCE_DIR_PATH ]]
+  then
+
+    local _PZC_SAVED_PRESET_PATH="${PZC_EDIT_SCRIPTS}/${AP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+    local _PZC_TMP_PRESET_PATH="${AP_BUILD_DIR_PATH}/${AP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+
+    if [[ ! -e "${_PZC_TMP_PRESET_PATH}" ]]
+    then
+
+      if [[ -e "${_PZC_SAVED_PRESET_PATH}" ]]
+      then
+        _pzc_info "Copy saved preset."
+        cp "${_PZC_SAVED_PRESET_PATH}" "${_PZC_TMP_PRESET_PATH}"
+
+      else
+        _pzc_info "Generation of preset..."
+
+        local _PZC_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/arcane_project.json.in"
+
+        if [[ ${PZC_GPU_AVAILABLE} = 1 ]]
+        then
+          if [[ "${PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
+          then
+            local _PZC_CMAKE_GPU_COMPILER="\"CMAKE_CUDA_COMPILER\": \"${PZC_GPU_COMPILER}\","
+            if [[ -v PZC_GPU_FLAGS ]]
+            then
+              local _PZC_CMAKE_GPU_FLAGS="\"CMAKE_CUDA_FLAGS\": \"${PZC_GPU_FLAGS}\","
+            fi
+            if [[ -v PZC_GPU_TARGET_ARCH ]]
+            then
+              local _PZC_CMAKE_GPU_ARCH="\"CMAKE_CUDA_ARCHITECTURES\": \"${PZC_GPU_TARGET_ARCH}\","
+            fi
+
+          else
+            local _PZC_CMAKE_GPU_COMPILER="\"CMAKE_SYCL_COMPILER\": \"${PZC_GPU_COMPILER}\","
+            if [[ -v PZC_GPU_FLAGS ]]
+            then
+              local _PZC_CMAKE_GPU_FLAGS="\"ARCANE_CXX_SYCL_FLAGS\": \"${PZC_GPU_FLAGS}\","
+            fi
+          fi
+          local _PZC_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/arcane_project_gpu.json.in"
+        fi
+        if [[ "${AP_BUILD_TYPE}" == "Check" ]]
+        then
+          local _PZC_CMAKE_BUILD_TYPE="RelWithDebInfo"
+        else
+          local _PZC_CMAKE_BUILD_TYPE="${AP_BUILD_TYPE}"
+        fi
+
+        sed -e "s|@TYPE_BUILD_DIR@|${TYPE_BUILD_DIR}|g" \
+            -e "s|@BUILD_DIR_PATH@|${AP_BUILD_DIR_PATH}|g" \
+            -e "s|@INSTALL_DIR_PATH@|${AP_INSTALL_DIR_PATH}|g" \
+            -e "s|@PZC_CMAKE_GENERATOR@|${PZC_CMAKE_GENERATOR}|g" \
+            -e "s|@PZC_CMAKE_CXX_COMPILER_LAUNCHER@|${PZC_CMAKE_CXX_COMPILER_LAUNCHER}|g" \
+            -e "s|@PZC_CMAKE_C_COMPILER_LAUNCHER@|${PZC_CMAKE_C_COMPILER_LAUNCHER}|g" \
+            -e "s|@PZC_CMAKE_LINKER_TYPE@|${PZC_CMAKE_LINKER_TYPE}|g" \
+            -e "s|@_PZC_CMAKE_GPU_COMPILER@|${_PZC_CMAKE_GPU_COMPILER}|g" \
+            -e "s|@_PZC_CMAKE_GPU_FLAGS@|${_PZC_CMAKE_GPU_FLAGS}|g" \
+            -e "s|@_PZC_CMAKE_GPU_ARCH@|${_PZC_CMAKE_GPU_ARCH}|g" \
+            -e "s|@PZC_C_COMPILER@|${PZC_C_COMPILER}|g" \
+            -e "s|@PZC_CXX_COMPILER@|${PZC_CXX_COMPILER}|g" \
+            -e "s|@PZC_GPU_HOST_COMPILER@|${PZC_GPU_HOST_COMPILER}|g" \
+            -e "s|@ARCANE_INSTALL_DIR_PATH@|${ARCANE_INSTALL_DIR_PATH}|g" \
+            -e "s|@_PZC_CMAKE_BUILD_TYPE@|${_PZC_CMAKE_BUILD_TYPE}|g" \
+            ${_PZC_TEMPLATE_PRESET_PATH} > "${_PZC_TMP_PRESET_PATH}"
+
+      fi
+    else
+      _pzc_info "Build preset found (${_PZC_TMP_PRESET_PATH})."
+    fi
+
+  else
+    _pzc_error "Un appel à la fonction initap est nécessaire avant."
+    return 1
+  fi
+}
 
 function initarc()
 {
@@ -94,19 +255,19 @@ function initarc()
 
   if [[ -v 3 ]] && [[ ${3} != "_" ]] && [[ ${3} != "none" ]]
   then
-    local _PZC_ARCANE_SOURCE_DIR=framework_${3}
+    ARCANE_SOURCE_DIR=framework_${3}
   else
-    local _PZC_ARCANE_SOURCE_DIR=framework
+    ARCANE_SOURCE_DIR=framework
   fi
 
-  _pzc_ecal_eval "ARCANE_SOURCE_DIR=${WORK_DIR}/arcane/${_PZC_ARCANE_SOURCE_DIR}"
-  _pzc_ecal_eval "ARCANE_BUILD_DIR=${BUILD_DIR}/build_${_PZC_ARCANE_SOURCE_DIR}/${TYPE_BUILD_DIR}"
-  _pzc_ecal_eval "ARCANE_INSTALL_PATH=${INSTALL_DIR}/install_${_PZC_ARCANE_SOURCE_DIR}/${TYPE_BUILD_DIR}"
+  _pzc_ecal_eval "ARCANE_SOURCE_DIR_PATH=${WORK_DIR}/arcane/${ARCANE_SOURCE_DIR}"
+  _pzc_ecal_eval "ARCANE_BUILD_DIR_PATH=${BUILD_DIR}/build_${ARCANE_SOURCE_DIR}/${TYPE_BUILD_DIR}"
+  _pzc_ecal_eval "ARCANE_INSTALL_DIR_PATH=${INSTALL_DIR}/install_${ARCANE_SOURCE_DIR}/${TYPE_BUILD_DIR}"
   echo ""
-  _pzc_ecal_eval "mkdir -p ${ARCANE_BUILD_DIR}"
-  _pzc_ecal_eval "mkdir -p ${ARCANE_INSTALL_PATH}"
+  _pzc_ecal_eval "mkdir -p ${ARCANE_BUILD_DIR_PATH}"
+  _pzc_ecal_eval "mkdir -p ${ARCANE_INSTALL_DIR_PATH}"
   echo ""
-  _pzc_ecal_eval "cd ${ARCANE_BUILD_DIR}"
+  _pzc_ecal_eval "cd ${ARCANE_BUILD_DIR_PATH}"
   _pzc_pensil_end
 }
 
@@ -156,32 +317,32 @@ function initap()
     _pzc_coal_eval "source ${_PZC_EDIT_AP_PATH}"
 
   else
-    ARCANE_INSTALL_PATH="${INSTALL_DIR}/install_framework/${TYPE_BUILD_DIR}"
+    ARCANE_INSTALL_DIR_PATH="${INSTALL_DIR}/install_framework/${TYPE_BUILD_DIR}"
     AP_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
-    AP_PROJECT_DIR="${WORK_DIR}/${AP_PROJECT_NAME}"
-    AP_SOURCE_DIR="${AP_PROJECT_DIR}"
-    AP_BUILD_DIR="${BUILD_DIR}/build_${AP_PROJECT_NAME}/${TYPE_BUILD_DIR}"
-    AP_INSTALL_DIR="${INSTALL_DIR}/install_${AP_PROJECT_NAME}/${TYPE_BUILD_DIR}"
+    AP_PROJECT_DIR_PATH="${WORK_DIR}/${AP_PROJECT_NAME}"
+    AP_SOURCE_DIR_PATH="${AP_PROJECT_DIR_PATH}"
+    AP_BUILD_DIR_PATH="${BUILD_DIR}/build_${AP_PROJECT_NAME}/${TYPE_BUILD_DIR}"
+    AP_INSTALL_DIR_PATH="${INSTALL_DIR}/install_${AP_PROJECT_NAME}/${TYPE_BUILD_DIR}"
   fi
 
-  mkdir -p "${AP_BUILD_DIR}"
-  cd "${AP_BUILD_DIR}"
+  mkdir -p "${AP_BUILD_DIR_PATH}"
+  cd "${AP_BUILD_DIR_PATH}"
 
   _pzc_pensil_begin
   echo "AP_PROJECT_NAME=${AP_PROJECT_NAME}"
   echo "ARCANE_TYPE_BUILD=${ARCANE_TYPE_BUILD}"
   echo "TYPE_BUILD_DIR=${TYPE_BUILD_DIR}"
   echo ""
-  echo "ARCANE_INSTALL_PATH=${ARCANE_INSTALL_PATH}"
+  echo "ARCANE_INSTALL_DIR_PATH=${ARCANE_INSTALL_DIR_PATH}"
   echo ""
   echo "AP_BUILD_TYPE=${AP_BUILD_TYPE}"
-  echo "AP_PROJECT_DIR=${AP_PROJECT_DIR}"
-  echo "AP_SOURCE_DIR=${AP_SOURCE_DIR}"
-  echo "AP_BUILD_DIR=${AP_BUILD_DIR}"
-  echo "AP_INSTALL_DIR=${AP_INSTALL_DIR}"
+  echo "AP_PROJECT_DIR_PATH=${AP_PROJECT_DIR_PATH}"
+  echo "AP_SOURCE_DIR_PATH=${AP_SOURCE_DIR_PATH}"
+  echo "AP_BUILD_DIR_PATH=${AP_BUILD_DIR_PATH}"
+  echo "AP_INSTALL_DIR_PATH=${AP_INSTALL_DIR_PATH}"
   echo ""
-  echo "mkdir -p ${AP_BUILD_DIR}"
-  echo "cd ${AP_BUILD_DIR}"
+  echo "mkdir -p ${AP_BUILD_DIR_PATH}"
+  echo "cd ${AP_BUILD_DIR_PATH}"
   _pzc_pensil_end
 }
 
@@ -193,7 +354,7 @@ function initap()
 
 function editap()
 {
-  if [[ ! -v AP_BUILD_DIR ]]
+  if [[ ! -v AP_BUILD_DIR_PATH ]]
   then
     _pzc_error "Lancer initap avant."
     return 1
@@ -223,22 +384,22 @@ function editap()
     echo "# Subdir of build: ${TYPE_BUILD_DIR}\n" >> ${_PZC_EDIT_AP_PATH}
 
     echo "# Arcane install path:" >> ${_PZC_EDIT_AP_PATH}
-    echo "ARCANE_INSTALL_PATH=${INSTALL_DIR}/install_framework/${TYPE_BUILD_DIR}\n" >> ${_PZC_EDIT_AP_PATH}
+    echo "ARCANE_INSTALL_DIR_PATH=${INSTALL_DIR}/install_framework/${TYPE_BUILD_DIR}\n" >> ${_PZC_EDIT_AP_PATH}
 
     echo "# Type of build for this project:" >> ${_PZC_EDIT_AP_PATH}
     echo "AP_BUILD_TYPE=${ARCANE_TYPE_BUILD}\n" >> ${_PZC_EDIT_AP_PATH}
 
     echo "# Directory with the project:" >> ${_PZC_EDIT_AP_PATH}
-    echo "AP_PROJECT_DIR=${WORK_DIR}/${AP_PROJECT_NAME}\n" >> ${_PZC_EDIT_AP_PATH}
+    echo "AP_PROJECT_DIR_PATH=${WORK_DIR}/${AP_PROJECT_NAME}\n" >> ${_PZC_EDIT_AP_PATH}
 
     echo "# Directory with the project source (with the CMakeLists.txt file):" >> ${_PZC_EDIT_AP_PATH}
-    echo "AP_SOURCE_DIR=${AP_PROJECT_DIR}\n" >> ${_PZC_EDIT_AP_PATH}
+    echo "AP_SOURCE_DIR_PATH=${AP_PROJECT_DIR_PATH}\n" >> ${_PZC_EDIT_AP_PATH}
 
     echo "# Directory needed for the project build:" >> ${_PZC_EDIT_AP_PATH}
-    echo "AP_BUILD_DIR=${BUILD_DIR}/build_${AP_PROJECT_NAME}/${TYPE_BUILD_DIR}\n" >> ${_PZC_EDIT_AP_PATH}
+    echo "AP_BUILD_DIR_PATH=${BUILD_DIR}/build_${AP_PROJECT_NAME}/${TYPE_BUILD_DIR}\n" >> ${_PZC_EDIT_AP_PATH}
 
     echo "# Directory where install the project:" >> ${_PZC_EDIT_AP_PATH}
-    echo "AP_INSTALL_DIR=${INSTALL_DIR}/install_${AP_PROJECT_NAME}/${TYPE_BUILD_DIR}\n" >> ${_PZC_EDIT_AP_PATH}
+    echo "AP_INSTALL_DIR_PATH=${INSTALL_DIR}/install_${AP_PROJECT_NAME}/${TYPE_BUILD_DIR}\n" >> ${_PZC_EDIT_AP_PATH}
 
     _pzc_coal_eval "${PZC_FILE_EDITOR} ${_PZC_EDIT_AP_PATH}"
   fi
@@ -249,7 +410,7 @@ function editap()
 
 function editaprm()
 {
-  if [[ ! -v AP_BUILD_DIR ]]
+  if [[ ! -v AP_BUILD_DIR_PATH ]]
   then
     _pzc_error "Lancer initap avant."
     return 1
@@ -285,155 +446,178 @@ function editaprm()
 
 
 # ---------------------------------------------------------------
+# -------------------- Edit preset functions --------------------
+# ---------------------------------------------------------------
+
+function editparc()
+{
+  if [[ -v ARCANE_BUILD_DIR_PATH ]]
+  then
+
+    local _PZC_TMP_PRESET_PATH="${ARCANE_BUILD_DIR_PATH}/${ARCANE_SOURCE_DIR}_${TYPE_BUILD_DIR}.json"
+
+    if [[ ! -e "${_PZC_TMP_PRESET_PATH}" ]]
+    then
+      _pzc_error "Build preset not found (${_PZC_TMP_PRESET_PATH}). Call 'configarc' or 'parc' command before."
+      return 1
+    fi
+    
+    _pzc_coal_eval "${PZC_FILE_EDITOR} ${_PZC_TMP_PRESET_PATH}"
+
+    _pzc_info "Build preset edited. You can save it in ${PZC_EDIT_SCRIPTS} with 'saveparc' command."
+    
+
+  else
+    _pzc_error "Un appel à la fonction initarc est nécessaire avant."
+    return 1
+  fi
+}
+
+function editpap()
+{
+  if [[ -v AP_BUILD_DIR_PATH ]]
+  then
+
+    local _PZC_TMP_PRESET_PATH="${AP_BUILD_DIR_PATH}/${AP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+
+    if [[ ! -e "${_PZC_TMP_PRESET_PATH}" ]]
+    then
+      _pzc_error "Build preset not found (${_PZC_TMP_PRESET_PATH}). Call 'configap' or 'pap' command before."
+      return 1
+    fi
+    
+    _pzc_coal_eval "${PZC_FILE_EDITOR} ${_PZC_TMP_PRESET_PATH}"
+
+    _pzc_info "Build preset edited. You can save it in ${PZC_EDIT_SCRIPTS} with 'savepap' command."
+    
+
+  else
+    _pzc_error "Un appel à la fonction initap est nécessaire avant."
+    return 1
+  fi
+}
+
+
+
+# ---------------------------------------------------------------
+# -------------------- Save preset functions --------------------
+# ---------------------------------------------------------------
+
+function saveparc()
+{
+  if [[ -v ARCANE_BUILD_DIR_PATH ]]
+  then
+
+    local _PZC_SAVED_PRESET_PATH="${PZC_EDIT_SCRIPTS}/${ARCANE_SOURCE_DIR}_${TYPE_BUILD_DIR}.json"
+    local _PZC_TMP_PRESET_PATH="${ARCANE_BUILD_DIR_PATH}/${ARCANE_SOURCE_DIR}_${TYPE_BUILD_DIR}.json"
+
+    if [[ ! -e "${_PZC_TMP_PRESET_PATH}" ]]
+    then
+      _pzc_error "Build preset not found (${_PZC_TMP_PRESET_PATH}). Call 'configarc' or 'parc' command before."
+      return 1
+    fi
+
+    if [[ -e "${_PZC_SAVED_PRESET_PATH}" ]]
+    then
+      _pzc_error "Saved preset found (${_PZC_SAVED_PRESET_PATH}). Do you want to override it ?"
+      read -q "REPLY?(y/n)"
+      echo ""
+      if [[ ${REPLY} != "y" ]]
+      then
+        unset REPLY
+        return 1
+      fi
+      unset REPLY
+    fi
+
+    _pzc_coal_eval "cp ${_PZC_TMP_PRESET_PATH} ${_PZC_SAVED_PRESET_PATH}"
+
+  else
+    _pzc_error "Un appel à la fonction initarc est nécessaire avant."
+    return 1
+  fi
+}
+
+function savepap()
+{
+  if [[ -v AP_BUILD_DIR_PATH ]]
+  then
+
+    local _PZC_SAVED_PRESET_PATH="${PZC_EDIT_SCRIPTS}/${AP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+    local _PZC_TMP_PRESET_PATH="${AP_BUILD_DIR_PATH}/${AP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+
+    if [[ ! -e "${_PZC_TMP_PRESET_PATH}" ]]
+    then
+      _pzc_error "Build preset not found (${_PZC_TMP_PRESET_PATH}). Call 'configap' or 'pap' command before."
+      return 1
+    fi
+
+    if [[ -e "${_PZC_SAVED_PRESET_PATH}" ]]
+    then
+      _pzc_error "Saved preset found (${_PZC_SAVED_PRESET_PATH}). Do you want to override it ?"
+      read -q "REPLY?(y/n)"
+      echo ""
+      if [[ ${REPLY} != "y" ]]
+      then
+        unset REPLY
+        return 1
+      fi
+      unset REPLY
+    fi
+    
+    _pzc_coal_eval "cp ${_PZC_TMP_PRESET_PATH} ${_PZC_SAVED_PRESET_PATH}"
+
+  else
+    _pzc_error "Un appel à la fonction initap est nécessaire avant."
+    return 1
+  fi
+}
+
+
+
+# ---------------------------------------------------------------
 # ---------------------- Config functions -----------------------
 # ---------------------------------------------------------------
 
-function pconfigarc()
-{
-  if [[ -v ARCANE_BUILD_DIR ]]
-  then
-
-    if [[ "${ARCANE_TYPE_BUILD}" == "Check" ]]
-    then
-      CMAKE_BUILD_TYPE="RelWithDebInfo"
-    else
-      CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
-    fi
-
-    _pzc_pensil_begin
-    echo "cmake \\"
-    echo "  -S ${ARCANE_SOURCE_DIR} \\"
-    echo "  -B ${ARCANE_BUILD_DIR} \\"
-    echo "  -DCMAKE_C_COMPILER=${PZC_C_COMPILER} \\"
-    echo "  -DCMAKE_CXX_COMPILER=${PZC_CXX_COMPILER} \\"
-    echo "  ${PZC_CMAKE_GENERATOR} \\"
-    echo "  ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \\"
-    echo "  ${PZC_CMAKE_C_COMPILER_LAUNCHER} \\"
-    echo "  ${PZC_CMAKE_LINKER_TYPE} \\"
-    echo "  ${_PZC_CMAKE_CODE_COVERAGE} \\"
-    echo "  -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \\"
-    echo "  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \\"
-    echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
-    echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \\"
-    echo "  -DARCCORE_CXX_STANDARD=23 \\"
-    echo "  -DBIG_TEST=TRUE \\"
-    echo "  -DARCANEFRAMEWORK_BUILD_COMPONENTS=Arcane"
-    if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
-    then
-      echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
-    fi
-    _pzc_pensil_end
-
-  else
-    _pzc_error "Un appel à la fonction initarc est nécessaire avant."
-    return 1
-  fi
-}
-
 function configarc()
 {
-  if [[ -v ARCANE_BUILD_DIR ]]
-  then
-    pconfigarc
-
-    if [[ "${ARCANE_TYPE_BUILD}" == "Check" ]]
-    then
-      CMAKE_BUILD_TYPE="RelWithDebInfo"
-    else
-      CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
-    fi
-
-    cmake \
-      -S ${ARCANE_SOURCE_DIR} \
-      -B ${ARCANE_BUILD_DIR} \
-      -DCMAKE_C_COMPILER=${PZC_C_COMPILER} \
-      -DCMAKE_CXX_COMPILER=${PZC_CXX_COMPILER} \
-      ${PZC_CMAKE_GENERATOR} \
-      ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \
-      ${PZC_CMAKE_C_COMPILER_LAUNCHER} \
-      ${PZC_CMAKE_LINKER_TYPE} \
-      ${_PZC_CMAKE_CODE_COVERAGE} \
-      -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \
-      -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
-      -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
-      -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \
-      -DARCCORE_CXX_STANDARD=23 \
-      -DBIG_TEST=TRUE \
-      -DARCANEFRAMEWORK_BUILD_COMPONENTS=Arcane
-  
-    if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
-    then
-      chmod u+x ${ARCANE_BUILD_DIR}/bin/*
-    fi
-
-  else
-    _pzc_error "Un appel à la fonction initarc est nécessaire avant."
-    return 1
-  fi
-}
-
-function pconfigarcgpu()
-{
-  if [[ -v ARCANE_BUILD_DIR ]]
+  if [[ -v ARCANE_BUILD_DIR_PATH ]]
   then
 
-    if [[ "${ARCANE_TYPE_BUILD}" == "Check" ]]
-    then
-      CMAKE_BUILD_TYPE="RelWithDebInfo"
-    else
-      CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
-    fi
+    local _PZC_TMP_PRESET_PATH="${ARCANE_BUILD_DIR_PATH}/${ARCANE_SOURCE_DIR}_${TYPE_BUILD_DIR}.json"
 
-    if [[ "${PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
-    then
-      _PZC_ARCANE_ACCELERATOR_MODE="-DARCANE_ACCELERATOR_MODE=CUDA"
-      _PZC_CMAKE_GPU_COMPILER="-DCMAKE_CUDA_COMPILER=${PZC_GPU_COMPILER}"
-      if [[ -v PZC_GPU_FLAGS ]]
-      then
-        _PZC_CMAKE_GPU_FLAGS="-DCMAKE_CUDA_FLAGS=${PZC_GPU_FLAGS}"
-      fi
-      if [[ -v PZC_GPU_TARGET_ARCH ]]
-      then
-        _PZC_CMAKE_GPU_ARCH="-DCMAKE_CUDA_ARCHITECTURES=${PZC_GPU_TARGET_ARCH}"
-      fi
+    _pzc_info "Generation of CMakeUserPresets.json in Arcane source..."
+    echo "{\"version\": 4,\"include\": [\"${_PZC_TMP_PRESET_PATH}\"]}" > "${ARCANE_SOURCE_DIR_PATH}/CMakeUserPresets.json"
 
-    else
-      _PZC_ARCANE_ACCELERATOR_MODE="-DARCANE_ACCELERATOR_MODE=SYCL"
-      _PZC_CMAKE_GPU_COMPILER="-DCMAKE_SYCL_COMPILER=${PZC_GPU_COMPILER}"
-      if [[ -v PZC_GPU_FLAGS ]]
-      then
-        _PZC_CMAKE_GPU_FLAGS="-DARCANE_CXX_SYCL_FLAGS=${PZC_GPU_FLAGS}"
-      fi
+    if [[ ! -e "${_PZC_TMP_PRESET_PATH}" ]]
+    then
+      _pzc_info "Build preset not found (${_PZC_TMP_PRESET_PATH}). Generation..."
+      parc
     fi
+    
 
     _pzc_pensil_begin
+
     echo "cmake \\"
-    echo "  -S ${ARCANE_SOURCE_DIR} \\"
-    echo "  -B ${ARCANE_BUILD_DIR} \\"
-    echo "  -DCMAKE_C_COMPILER=${PZC_C_COMPILER} \\"
-    echo "  -DCMAKE_CXX_COMPILER=${PZC_GPU_HOST_COMPILER} \\"
-    echo "  ${PZC_CMAKE_GENERATOR} \\"
-    echo "  ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \\"
-    echo "  ${PZC_CMAKE_C_COMPILER_LAUNCHER} \\"
-    echo "  ${PZC_CMAKE_LINKER_TYPE} \\"
-    echo "  ${_PZC_CMAKE_CODE_COVERAGE} \\"
-    echo "  ${_PZC_ARCANE_ACCELERATOR_MODE} \\"
-    echo "  ${_PZC_CMAKE_GPU_COMPILER} \\"
-    echo "  ${_PZC_CMAKE_GPU_FLAGS} \\"
-    echo "  ${_PZC_CMAKE_GPU_ARCH} \\"
-    echo "  -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \\"
-    echo "  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \\"
-    echo "  -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \\"
-    echo "  -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \\"
-    echo "  -DARCCORE_CXX_STANDARD=20 \\"
-    echo "  -DBIG_TEST=TRUE \\"
-    echo "  -DARCANEFRAMEWORK_BUILD_COMPONENTS=Arcane"
+    echo "  -S ${ARCANE_SOURCE_DIR_PATH} \\"
+    echo "  --preset ${TYPE_BUILD_DIR}"
 
     if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
     then
-      echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
+      echo "chmod u+x ${ARCANE_BUILD_DIR_PATH}/bin/*"
     fi
+
     _pzc_pensil_end
+
+
+    cmake \
+      -S ${ARCANE_SOURCE_DIR_PATH} \
+      --preset "${TYPE_BUILD_DIR}"
+
+    if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
+    then
+      chmod u+x "${ARCANE_BUILD_DIR_PATH}/bin/*"
+    fi
 
   else
     _pzc_error "Un appel à la fonction initarc est nécessaire avant."
@@ -443,64 +627,41 @@ function pconfigarcgpu()
 
 function configarcgpu()
 {
-  if [[ -v ARCANE_BUILD_DIR ]]
+  if [[ -v ARCANE_BUILD_DIR_PATH ]]
   then
-    pconfigarcgpu
 
-    if [[ "${ARCANE_TYPE_BUILD}" == "Check" ]]
+    local _PZC_TMP_PRESET_PATH="${ARCANE_BUILD_DIR_PATH}/${ARCANE_SOURCE_DIR}_${TYPE_BUILD_DIR}.json"
+
+    _pzc_info "Generation of CMakeUserPresets.json in Arcane source..."
+    echo "{\"version\": 4,\"include\": [\"${_PZC_TMP_PRESET_PATH}\"]}" > "${ARCANE_SOURCE_DIR_PATH}/CMakeUserPresets.json"
+
+    if [[ ! -e "${_PZC_TMP_PRESET_PATH}" ]]
     then
-      CMAKE_BUILD_TYPE="RelWithDebInfo"
-    else
-      CMAKE_BUILD_TYPE="${ARCANE_TYPE_BUILD}"
+      _pzc_info "Build preset not found (${_PZC_TMP_PRESET_PATH}). Generation..."
+      parc
     fi
 
-    if [[ "${PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
-    then
-      _PZC_ARCANE_ACCELERATOR_MODE="-DARCANE_ACCELERATOR_MODE=CUDA"
-      _PZC_CMAKE_GPU_COMPILER="-DCMAKE_CUDA_COMPILER=${PZC_GPU_COMPILER}"
-      if [[ -v PZC_GPU_FLAGS ]]
-      then
-        _PZC_CMAKE_GPU_FLAGS="-DCMAKE_CUDA_FLAGS=${PZC_GPU_FLAGS}"
-      fi
-      if [[ -v PZC_GPU_TARGET_ARCH ]]
-      then
-        _PZC_CMAKE_GPU_ARCH="-DCMAKE_CUDA_ARCHITECTURES=${PZC_GPU_TARGET_ARCH}"
-      fi
+    _pzc_pensil_begin
 
-    else
-      _PZC_ARCANE_ACCELERATOR_MODE="-DARCANE_ACCELERATOR_MODE=SYCL"
-      _PZC_CMAKE_GPU_COMPILER="-DCMAKE_SYCL_COMPILER=${PZC_GPU_COMPILER}"
-      if [[ -v PZC_GPU_FLAGS ]]
-      then
-        _PZC_CMAKE_GPU_FLAGS="-DARCANE_CXX_SYCL_FLAGS=${PZC_GPU_FLAGS}"
-      fi
-    fi
-
-    cmake \
-      -S ${ARCANE_SOURCE_DIR} \
-      -B ${ARCANE_BUILD_DIR} \
-      -DCMAKE_C_COMPILER=${PZC_C_COMPILER} \
-      -DCMAKE_CXX_COMPILER=${PZC_GPU_HOST_COMPILER} \
-      ${PZC_CMAKE_GENERATOR} \
-      ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \
-      ${PZC_CMAKE_C_COMPILER_LAUNCHER} \
-      ${PZC_CMAKE_LINKER_TYPE} \
-      ${_PZC_CMAKE_CODE_COVERAGE} \
-      ${_PZC_ARCANE_ACCELERATOR_MODE} \
-      ${_PZC_CMAKE_GPU_COMPILER} \
-      ${_PZC_CMAKE_GPU_FLAGS} \
-      ${_PZC_CMAKE_GPU_ARCH} \
-      -DCMAKE_INSTALL_PREFIX=${ARCANE_INSTALL_PATH} \
-      -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
-      -DARCANE_BUILD_TYPE=${ARCANE_TYPE_BUILD} \
-      -DARCCORE_BUILD_MODE=${ARCANE_TYPE_BUILD} \
-      -DARCCORE_CXX_STANDARD=20 \
-      -DBIG_TEST=TRUE \
-      -DARCANEFRAMEWORK_BUILD_COMPONENTS=Arcane
+    echo "cmake \\"
+    echo "  -S ${ARCANE_SOURCE_DIR_PATH} \\"
+    echo "  --preset ${TYPE_BUILD_DIR}_gpu"
 
     if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
     then
-      chmod u+x ${ARCANE_BUILD_DIR}/bin/*
+      echo "chmod u+x ${ARCANE_BUILD_DIR_PATH}/bin/*"
+    fi
+
+    _pzc_pensil_end
+
+
+    cmake \
+      -S ${ARCANE_SOURCE_DIR_PATH} \
+      --preset "${TYPE_BUILD_DIR}_gpu"
+
+    if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
+    then
+      chmod u+x "${ARCANE_BUILD_DIR_PATH}/bin/*"
     fi
 
   else
@@ -509,123 +670,37 @@ function configarcgpu()
   fi
 }
 
-function pconfigap()
-{
-  if [[ -v AP_BUILD_DIR ]]
-  then
-
-    if [[ "${AP_BUILD_TYPE}" == "Check" ]]
-    then
-      CMAKE_BUILD_TYPE="RelWithDebInfo"
-    else
-      CMAKE_BUILD_TYPE="${AP_BUILD_TYPE}"
-    fi
-
-    _pzc_pensil_begin
-    echo "cmake \\"
-    echo "  -S ${AP_SOURCE_DIR} \\"
-    echo "  -B ${AP_BUILD_DIR} \\"
-    echo "  -DCMAKE_C_COMPILER=${PZC_C_COMPILER} \\"
-    echo "  -DCMAKE_CXX_COMPILER=${PZC_CXX_COMPILER} \\"
-    echo "  ${PZC_CMAKE_GENERATOR} \\"
-    echo "  ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \\"
-    echo "  ${PZC_CMAKE_C_COMPILER_LAUNCHER} \\"
-    echo "  ${PZC_CMAKE_LINKER_TYPE} \\"
-    echo "  -DCMAKE_INSTALL_PREFIX=${AP_INSTALL_DIR} \\"
-    echo "  -DCMAKE_PREFIX_PATH=${ARCANE_INSTALL_PATH} \\"
-    echo "  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
-    _pzc_pensil_end
-      
-  else
-    _pzc_error "Lancer initap avant."
-    return 1
-  fi
-}
-
 function configap()
 {
-  if [[ -v AP_BUILD_DIR ]]
+  if [[ -v AP_BUILD_DIR_PATH ]]
   then
     _pzc_info "Configure Arcane Project: ${AP_PROJECT_NAME}"
-    pconfigap
 
-    if [[ "${AP_BUILD_TYPE}" == "Check" ]]
+    local _PZC_TMP_PRESET_PATH="${AP_BUILD_DIR_PATH}/${AP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+
+    _pzc_info "Generation of CMakeUserPresets.json in ${AP_PROJECT_NAME} source..."
+    echo "{\"version\": 4,\"include\": [\"${_PZC_TMP_PRESET_PATH}\"]}" > "${AP_SOURCE_DIR_PATH}/CMakeUserPresets.json"
+
+    if [[ ! -e "${_PZC_TMP_PRESET_PATH}" ]]
     then
-      CMAKE_BUILD_TYPE="RelWithDebInfo"
-    else
-      CMAKE_BUILD_TYPE="${AP_BUILD_TYPE}"
+      _pzc_info "Build preset not found (${_PZC_TMP_PRESET_PATH}). Generation..."
+      pap
     fi
-
-    cmake \
-      -S ${AP_SOURCE_DIR} \
-      -B ${AP_BUILD_DIR} \
-      -DCMAKE_C_COMPILER=${PZC_C_COMPILER} \
-      -DCMAKE_CXX_COMPILER=${PZC_CXX_COMPILER} \
-      ${PZC_CMAKE_GENERATOR} \
-      ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \
-      ${PZC_CMAKE_C_COMPILER_LAUNCHER} \
-      ${PZC_CMAKE_LINKER_TYPE} \
-      -DCMAKE_INSTALL_PREFIX=${AP_INSTALL_DIR} \
-      -DCMAKE_PREFIX_PATH=${ARCANE_INSTALL_PATH} \
-      -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-      
-  else
-    _pzc_error "Lancer initap avant."
-    return 1
-  fi
-}
-
-function pconfigapgpu()
-{
-  if [[ -v AP_BUILD_DIR ]]
-  then
-
-    if [[ "${AP_BUILD_TYPE}" == "Check" ]]
-    then
-      CMAKE_BUILD_TYPE="RelWithDebInfo"
-    else
-      CMAKE_BUILD_TYPE="${AP_BUILD_TYPE}"
-    fi
-
-    if [[ "${PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
-    then
-      _PZC_CMAKE_GPU_COMPILER="-DCMAKE_CUDA_COMPILER=${PZC_GPU_COMPILER}"
-      if [[ -v PZC_GPU_FLAGS ]]
-      then
-        _PZC_CMAKE_GPU_FLAGS="-DCMAKE_CUDA_FLAGS=${PZC_GPU_FLAGS}"
-      fi
-      if [[ -v PZC_GPU_TARGET_ARCH ]]
-      then
-        _PZC_CMAKE_GPU_ARCH="-DCMAKE_CUDA_ARCHITECTURES=${PZC_GPU_TARGET_ARCH}"
-      fi
-
-    else
-      _PZC_CMAKE_GPU_COMPILER="-DCMAKE_SYCL_COMPILER=${PZC_GPU_COMPILER}"
-      if [[ -v PZC_GPU_FLAGS ]]
-      then
-        _PZC_CMAKE_GPU_FLAGS="-DARCANE_CXX_SYCL_FLAGS=${PZC_GPU_FLAGS}"
-      fi
-    fi
+    
 
     _pzc_pensil_begin
+
     echo "cmake \\"
-    echo "  -S ${AP_SOURCE_DIR} \\"
-    echo "  -B ${AP_BUILD_DIR} \\"
-    echo "  -DCMAKE_C_COMPILER=${PZC_C_COMPILER} \\"
-    echo "  -DCMAKE_CXX_COMPILER=${PZC_GPU_HOST_COMPILER} \\"
-    echo "  ${PZC_CMAKE_GENERATOR} \\"
-    echo "  ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \\"
-    echo "  ${PZC_CMAKE_C_COMPILER_LAUNCHER} \\"
-    echo "  ${PZC_CMAKE_LINKER_TYPE} \\"
-    echo "  ${_PZC_CMAKE_GPU_COMPILER} \\"
-    echo "  ${_PZC_CMAKE_GPU_FLAGS} \\"
-    echo "  ${_PZC_CMAKE_GPU_ARCH} \\"
-    echo "  -DCMAKE_INSTALL_PREFIX=${AP_INSTALL_DIR} \\"
-    echo "  -DCMAKE_PREFIX_PATH=${ARCANE_INSTALL_PATH} \\"
-    echo "  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \\"
-    echo "  -DWANT_PROF_ACC=TRUE"
+    echo "  -S ${AP_SOURCE_DIR_PATH} \\"
+    echo "  --preset ${TYPE_BUILD_DIR}"
+
     _pzc_pensil_end
 
+
+    cmake \
+      -S ${AP_SOURCE_DIR_PATH} \
+      --preset "${TYPE_BUILD_DIR}"
+      
   else
     _pzc_error "Lancer initap avant."
     return 1
@@ -634,54 +709,34 @@ function pconfigapgpu()
 
 function configapgpu()
 {
-  if [[ -v AP_BUILD_DIR ]]
+  if [[ -v AP_BUILD_DIR_PATH ]]
   then
     _pzc_info "Configure Arcane Project GPU: ${AP_PROJECT_NAME}"
-    pconfigapgpu
 
-    if [[ "${AP_BUILD_TYPE}" == "Check" ]]
+    local _PZC_TMP_PRESET_PATH="${AP_BUILD_DIR_PATH}/${AP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+
+    _pzc_info "Generation of CMakeUserPresets.json in ${AP_PROJECT_NAME} source..."
+    echo "{\"version\": 4,\"include\": [\"${_PZC_TMP_PRESET_PATH}\"]}" > "${AP_SOURCE_DIR_PATH}/CMakeUserPresets.json"
+
+    if [[ ! -e "${_PZC_TMP_PRESET_PATH}" ]]
     then
-      CMAKE_BUILD_TYPE="RelWithDebInfo"
-    else
-      CMAKE_BUILD_TYPE="${AP_BUILD_TYPE}"
+      _pzc_info "Build preset not found (${_PZC_TMP_PRESET_PATH}). Generation..."
+      pap
     fi
+    
 
-    if [[ "${PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
-    then
-      _PZC_CMAKE_GPU_COMPILER="-DCMAKE_CUDA_COMPILER=${PZC_GPU_COMPILER}"
-      if [[ -v PZC_GPU_FLAGS ]]
-      then
-        _PZC_CMAKE_GPU_FLAGS="-DCMAKE_CUDA_FLAGS=${PZC_GPU_FLAGS}"
-      fi
-      if [[ -v PZC_GPU_TARGET_ARCH ]]
-      then
-        _PZC_CMAKE_GPU_ARCH="-DCMAKE_CUDA_ARCHITECTURES=${PZC_GPU_TARGET_ARCH}"
-      fi
+    _pzc_pensil_begin
 
-    else
-      _PZC_CMAKE_GPU_COMPILER="-DCMAKE_SYCL_COMPILER=${PZC_GPU_COMPILER}"
-      if [[ -v PZC_GPU_FLAGS ]]
-      then
-        _PZC_CMAKE_GPU_FLAGS="-DARCANE_CXX_SYCL_FLAGS=${PZC_GPU_FLAGS}"
-      fi
-    fi
+    echo "cmake \\"
+    echo "  -S ${AP_SOURCE_DIR_PATH} \\"
+    echo "  --preset ${TYPE_BUILD_DIR}_gpu"
+
+    _pzc_pensil_end
+
 
     cmake \
-      -S ${AP_SOURCE_DIR} \
-      -B ${AP_BUILD_DIR} \
-      -DCMAKE_C_COMPILER=${PZC_C_COMPILER} \
-      -DCMAKE_CXX_COMPILER=${PZC_GPU_HOST_COMPILER} \
-      ${PZC_CMAKE_GENERATOR} \
-      ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \
-      ${PZC_CMAKE_C_COMPILER_LAUNCHER} \
-      ${PZC_CMAKE_LINKER_TYPE} \
-      ${_PZC_CMAKE_GPU_COMPILER} \
-      ${_PZC_CMAKE_GPU_FLAGS} \
-      ${_PZC_CMAKE_GPU_ARCH} \
-      -DCMAKE_INSTALL_PREFIX=${AP_INSTALL_DIR} \
-      -DCMAKE_PREFIX_PATH=${ARCANE_INSTALL_PATH} \
-      -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
-      -DWANT_PROF_ACC=TRUE
+      -S ${AP_SOURCE_DIR_PATH} \
+      --preset "${TYPE_BUILD_DIR}_gpu"
 
   else
     _pzc_error "Lancer initap avant."
@@ -695,58 +750,17 @@ function configapgpu()
 # ------------------- Build/Install functions -------------------
 # ---------------------------------------------------------------
 
-function pbiarc()
-{
-  if [[ -v ARCANE_BUILD_DIR ]]
-  then
-    _pzc_pensil_begin
-    if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
-    then
-      echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
-    fi
-    echo "cmake --build ${ARCANE_BUILD_DIR} --target install"
-    _pzc_pensil_end
-
-  else
-    _pzc_error "Un appel à la fonction initarc est nécessaire avant."
-    return 1
-  fi
-}
-
 function biarc()
 {
-  if [[ -v ARCANE_BUILD_DIR ]]
+  if [[ -v ARCANE_BUILD_DIR_PATH ]]
   then
     pbiarc
 
     if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
     then
-      chmod u+x ${ARCANE_BUILD_DIR}/bin/*
+      chmod u+x ${ARCANE_BUILD_DIR_PATH}/bin/*
     fi
-    cmake --build ${ARCANE_BUILD_DIR} --target install
-
-  else
-    _pzc_error "Un appel à la fonction initarc est nécessaire avant."
-    return 1
-  fi
-}
-
-function pdocarc()
-{
-  if [[ -v ARCANE_BUILD_DIR ]]
-  then
-    _pzc_pensil_begin
-    if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
-    then
-      echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
-    fi
-    echo "cmake --build ${ARCANE_BUILD_DIR}"
-    if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
-    then
-      echo "chmod u+x ${ARCANE_BUILD_DIR}/bin/*"
-    fi
-    echo "cmake --build ${ARCANE_BUILD_DIR} --target ${1}doc"
-    _pzc_pensil_end
+    cmake --build ${ARCANE_BUILD_DIR_PATH} --target install
 
   else
     _pzc_error "Un appel à la fonction initarc est nécessaire avant."
@@ -756,20 +770,20 @@ function pdocarc()
 
 function docarc()
 {
-  if [[ -v ARCANE_BUILD_DIR ]]
+  if [[ -v ARCANE_BUILD_DIR_PATH ]]
   then
     pdocarc
 
     if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
     then
-      chmod u+x ${ARCANE_BUILD_DIR}/bin/*
+      chmod u+x ${ARCANE_BUILD_DIR_PATH}/bin/*
     fi
-    cmake --build ${ARCANE_BUILD_DIR}
+    cmake --build ${ARCANE_BUILD_DIR_PATH}
     if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
     then
-      chmod u+x ${ARCANE_BUILD_DIR}/bin/*
+      chmod u+x ${ARCANE_BUILD_DIR_PATH}/bin/*
     fi
-    cmake --build ${ARCANE_BUILD_DIR} --target ${1}doc
+    cmake --build ${ARCANE_BUILD_DIR_PATH} --target ${1}doc
 
   else
     _pzc_error "Un appel à la fonction initarc est nécessaire avant."
@@ -785,15 +799,15 @@ function docarc()
 
 function cleararc()
 {
-  if [[ -v ARCANE_BUILD_DIR ]]
+  if [[ -v ARCANE_BUILD_DIR_PATH ]]
   then
     _pzc_pensil_begin
-    _pzc_ecal_eval "cd ${ARCANE_BUILD_DIR}/.."
-    _pzc_ecal_eval "rm -r ${ARCANE_BUILD_DIR}"
-    _pzc_ecal_eval "rm -r ${ARCANE_INSTALL_PATH}"
-    _pzc_ecal_eval "mkdir ${ARCANE_BUILD_DIR}"
-    _pzc_ecal_eval "mkdir ${ARCANE_INSTALL_PATH}"
-    _pzc_ecal_eval "cd ${ARCANE_BUILD_DIR}"
+    _pzc_ecal_eval "cd ${ARCANE_BUILD_DIR_PATH}/.."
+    _pzc_ecal_eval "rm -r ${ARCANE_BUILD_DIR_PATH}"
+    _pzc_ecal_eval "rm -r ${ARCANE_INSTALL_DIR_PATH}"
+    _pzc_ecal_eval "mkdir ${ARCANE_BUILD_DIR_PATH}"
+    _pzc_ecal_eval "mkdir ${ARCANE_INSTALL_DIR_PATH}"
+    _pzc_ecal_eval "cd ${ARCANE_BUILD_DIR_PATH}"
     _pzc_pensil_end
 
   else
@@ -804,15 +818,15 @@ function cleararc()
 
 function clearap()
 {
-  if [[ -v AP_BUILD_DIR ]]
+  if [[ -v AP_BUILD_DIR_PATH ]]
   then
     _pzc_pensil_begin
-    _pzc_ecal_eval "cd ${AP_BUILD_DIR}/.."
-    _pzc_ecal_eval "rm -r ${AP_BUILD_DIR}"
-    _pzc_ecal_eval "rm -r ${AP_INSTALL_DIR}"
-    _pzc_ecal_eval "mkdir ${AP_BUILD_DIR}"
-    _pzc_ecal_eval "mkdir ${AP_INSTALL_DIR}"
-    _pzc_ecal_eval "cd ${AP_BUILD_DIR}"
+    _pzc_ecal_eval "cd ${AP_BUILD_DIR_PATH}/.."
+    _pzc_ecal_eval "rm -r ${AP_BUILD_DIR_PATH}"
+    _pzc_ecal_eval "rm -r ${AP_INSTALL_DIR_PATH}"
+    _pzc_ecal_eval "mkdir ${AP_BUILD_DIR_PATH}"
+    _pzc_ecal_eval "mkdir ${AP_INSTALL_DIR_PATH}"
+    _pzc_ecal_eval "cd ${AP_BUILD_DIR_PATH}"
     _pzc_pensil_end
 
   else

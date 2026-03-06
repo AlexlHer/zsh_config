@@ -1,0 +1,26 @@
+{
+  "version": 4,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 26,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "@TYPE_BUILD_DIR@",
+      "description": "Build @TYPE_BUILD_DIR@",
+      "binaryDir": "@BUILD_DIR_PATH@",
+      "installDir": "@INSTALL_DIR_PATH@",
+      "generator": "@PZC_CMAKE_GENERATOR@",
+      "cacheVariables": {
+        @PZC_CMAKE_CXX_COMPILER_LAUNCHER@
+        @PZC_CMAKE_C_COMPILER_LAUNCHER@
+        @PZC_CMAKE_LINKER_TYPE@
+        "CMAKE_BUILD_TYPE": "@_PZC_CMAKE_BUILD_TYPE@",
+        "CMAKE_C_COMPILER": "@PZC_C_COMPILER@",
+        "CMAKE_CXX_COMPILER": "@PZC_CXX_COMPILER@",
+        "CMAKE_PREFIX_PATH": "@ARCANE_INSTALL_DIR_PATH@"
+      }
+    }
+  ]
+}

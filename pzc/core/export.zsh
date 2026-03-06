@@ -50,8 +50,8 @@ then
   mkdir -p ${CCACHE_DIR}
 
   _pzc_debug "Set PZC_CMAKE_CXX/CC_COMPILER_LAUNCHER"
-  export PZC_CMAKE_CXX_COMPILER_LAUNCHER="-DCMAKE_CXX_COMPILER_LAUNCHER=${PZC_CCACHE_BIN}"
-  export PZC_CMAKE_C_COMPILER_LAUNCHER="-DCMAKE_C_COMPILER_LAUNCHER=${PZC_CCACHE_BIN}"
+  export PZC_CMAKE_CXX_COMPILER_LAUNCHER="\"CMAKE_CXX_COMPILER_LAUNCHER\": \"${PZC_CCACHE_BIN}\","
+  export PZC_CMAKE_C_COMPILER_LAUNCHER="\"CMAKE_C_COMPILER_LAUNCHER\": \"${PZC_CCACHE_BIN}\","
 
 fi
 
@@ -68,7 +68,7 @@ then
   if [[ ${_PZC_CMAKE_VERSION_MINOR} -gt 28 ]] || [[ ${_PZC_CMAKE_VERSION_MAJOR} -gt 3 ]] #>= 3.29
   then
     _pzc_debug "CMake >= 3.29 : Add PZC_CMAKE_LINKER_TYPE var"
-    export PZC_CMAKE_LINKER_TYPE="-DCMAKE_LINKER_TYPE=MOLD"
+    export PZC_CMAKE_LINKER_TYPE="\"CMAKE_LINKER_TYPE\": \"MOLD\","
 
   else
     _pzc_debug "CMake < 3.29 : Set CFLAGS / CXXFLAGS"
@@ -93,11 +93,13 @@ then
   export CXXFLAGS="${CXXFLAGS} -fdiagnostics-color=always"
 
   _pzc_debug "Add -GNinja"
-  PZC_CMAKE_GENERATOR="-GNinja"
+  PZC_CMAKE_GENERATOR="Ninja"
 
   _pzc_debug "Customize status message"
   export NINJA_STATUS="-> %p [%f/%t][%r] "
-
+else
+  _pzc_debug "Add -GMake"
+  PZC_CMAKE_GENERATOR="Make"
 fi
 
 
@@ -106,7 +108,7 @@ fi
 # ----------------------- C/C++ compiler ------------------------
 # ---------------------------------------------------------------
 
-if [[ ${_PZC_C_CXX_AVAILABLE} = 1 ]]
+if [[ ${PZC_C_CXX_AVAILABLE} = 1 ]]
 then
   if [[ ${_PZC_C_CXX_DEFAULT_COMPILER} = "GCC" ]]
   then
@@ -153,7 +155,7 @@ fi
 # ------------------------ GPU compiler -------------------------
 # ---------------------------------------------------------------
 
-if [[ ${_PZC_GPU_AVAILABLE} = 1 ]]
+if [[ ${PZC_GPU_AVAILABLE} = 1 ]]
 then
   if [[ ${PZC_GPU_DEFAULT_COMPILER} = "NVCC" ]]
   then

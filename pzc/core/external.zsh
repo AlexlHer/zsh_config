@@ -318,18 +318,18 @@ fi
 
 if [[ ${_PZC_GCC_AVAILABLE} = 1 ]] || [[ ${_PZC_CLANG_AVAILABLE} = 1 ]]
 then
-  local _PZC_C_CXX_AVAILABLE=1
+  PZC_C_CXX_AVAILABLE=1
 
 else
-  local _PZC_C_CXX_AVAILABLE=0
+  PZC_C_CXX_AVAILABLE=0
 fi
 
 if [[ ${_PZC_NVCC_BIN_AVAILABLE} = 1 ]] || [[ ${_PZC_SYCL_BIN_AVAILABLE} = 1 ]]
 then
-  local _PZC_GPU_AVAILABLE=1
+  PZC_GPU_AVAILABLE=1
 
 else
-  local _PZC_GPU_AVAILABLE=0
+  PZC_GPU_AVAILABLE=0
 fi
 
 
