@@ -9,8 +9,8 @@
     {
       "name": "@_PZC_CMAKE_BUILD_TYPE@",
       "description": "Build Arcane @TYPE_BUILD_DIR@",
-      "binaryDir": "@BUILD_DIR_PATH@",
-      "installDir": "@INSTALL_DIR_PATH@",
+      "binaryDir": "@CMP_BUILD_DIR_PATH@",
+      "installDir": "@CMP_INSTALL_DIR_PATH@",
       "generator": "@PZC_CMAKE_GENERATOR@",
       "cacheVariables": {
         @PZC_CMAKE_CXX_COMPILER_LAUNCHER@
@@ -19,8 +19,8 @@
         "CMAKE_BUILD_TYPE": "@_PZC_CMAKE_BUILD_TYPE@",
         "CMAKE_C_COMPILER": "@PZC_C_COMPILER@",
         "CMAKE_CXX_COMPILER": "@PZC_CXX_COMPILER@",
-        "ARCANE_BUILD_TYPE": "@ARCANE_TYPE_BUILD@",
-        "ARCCORE_BUILD_MODE": "@ARCANE_TYPE_BUILD@",
+        "ARCANE_BUILD_TYPE": "@CMP_BUILD_TYPE@",
+        "ARCCORE_BUILD_MODE": "@CMP_BUILD_TYPE@",
         "ARCCORE_CXX_STANDARD": "23",
         "BIG_TEST": "TRUE",
         "ARCANEFRAMEWORK_BUILD_COMPONENTS": "Arcane"
@@ -29,8 +29,8 @@
     {
       "name": "@_PZC_CMAKE_BUILD_TYPE@_gpu",
       "description": "Build Arcane @TYPE_BUILD_DIR@ for GPU",
-      "binaryDir": "@BUILD_DIR_PATH@",
-      "installDir": "@INSTALL_DIR_PATH@",
+      "binaryDir": "@CMP_BUILD_DIR_PATH@",
+      "installDir": "@CMP_INSTALL_DIR_PATH@",
       "generator": "@PZC_CMAKE_GENERATOR@",
       "cacheVariables": {
         @PZC_CMAKE_CXX_COMPILER_LAUNCHER@
@@ -43,8 +43,8 @@
         "CMAKE_BUILD_TYPE": "@_PZC_CMAKE_BUILD_TYPE@",
         "CMAKE_C_COMPILER": "@PZC_C_COMPILER@",
         "CMAKE_CXX_COMPILER": "@PZC_GPU_HOST_COMPILER@",
-        "ARCANE_BUILD_TYPE": "@ARCANE_TYPE_BUILD@",
-        "ARCCORE_BUILD_MODE": "@ARCANE_TYPE_BUILD@",
+        "ARCANE_BUILD_TYPE": "@CMP_BUILD_TYPE@",
+        "ARCCORE_BUILD_MODE": "@CMP_BUILD_TYPE@",
         "ARCCORE_CXX_STANDARD": "20",
         "BIG_TEST": "TRUE",
         "ARCANEFRAMEWORK_BUILD_COMPONENTS": "Arcane"

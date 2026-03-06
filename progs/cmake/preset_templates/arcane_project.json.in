@@ -9,8 +9,8 @@
     {
       "name": "@_PZC_CMAKE_BUILD_TYPE@",
       "description": "Build @PROJECT_NAME@ @TYPE_BUILD_DIR@",
-      "binaryDir": "@BUILD_DIR_PATH@",
-      "installDir": "@INSTALL_DIR_PATH@",
+      "binaryDir": "@CMP_BUILD_DIR_PATH@",
+      "installDir": "@CMP_INSTALL_DIR_PATH@",
       "generator": "@PZC_CMAKE_GENERATOR@",
       "cacheVariables": {
         @PZC_CMAKE_CXX_COMPILER_LAUNCHER@
