@@ -7,8 +7,8 @@
   },
   "configurePresets": [
     {
-      "name": "@TYPE_BUILD_DIR@",
-      "description": "Build @TYPE_BUILD_DIR@",
+      "name": "@_PZC_CMAKE_BUILD_TYPE@",
+      "description": "Build Arcane @TYPE_BUILD_DIR@",
       "binaryDir": "@BUILD_DIR_PATH@",
       "installDir": "@INSTALL_DIR_PATH@",
       "generator": "@PZC_CMAKE_GENERATOR@",

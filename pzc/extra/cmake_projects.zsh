@@ -23,22 +23,86 @@ mkdir -p ${PZC_EDIT_SCRIPTS}
 
 
 # ---------------------------------------------------------------
-# -------------------- Compatibility update ---------------------
-# ---------------------------------------------------------------
-# TODO : Delete this part in PZC v7
-
-if [[ -d ${PZC_PZC_DIR}/arcane_scripts ]]
-then
-  _pzc_info "An old PZC version have been created arcane_scripts folder. Moving these scripts in ${PZC_EDIT_SCRIPTS}..."
-  mv ${PZC_PZC_DIR}/arcane_scripts/* ${PZC_EDIT_SCRIPTS}
-  mv ${PZC_PZC_DIR}/arcane_scripts ${TMP_DIR}
-fi
-
-# ---------------------------------------------------------------
 # ----------------------- Init functions ------------------------
 # ---------------------------------------------------------------
 
-initcmp()
+function pcmp()
+{
+  if [[ ! -v CMP_SOURCE_DIR_PATH ]]
+  then
+    _pzc_error "You need to call 'initcmp' command before."
+    return 1
+  fi
+
+  local _PZC_SAVED_PRESET_PATH="${PZC_EDIT_SCRIPTS}/${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+  local _PZC_TMP_PRESET_PATH="${CMP_BUILD_DIR_PATH}/${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+
+  if [[ -e "${_PZC_TMP_PRESET_PATH}" ]]
+  then
+    _pzc_info "Build preset found (${_PZC_TMP_PRESET_PATH})."
+    return 0
+  fi
+
+  if [[ -e "${_PZC_SAVED_PRESET_PATH}" ]]
+  then
+    _pzc_info "Copying saved preset (${_PZC_SAVED_PRESET_PATH}) in build dir..."
+    cp "${_PZC_SAVED_PRESET_PATH}" "${_PZC_TMP_PRESET_PATH}"
+    return 0
+  fi
+
+  _pzc_info "Generation of preset in build dir..."
+
+  local _PZC_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/generic.json.in"
+
+  if [[ ${PZC_GPU_AVAILABLE} = 1 ]]
+  then
+    if [[ "${PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
+    then
+      local _PZC_CMAKE_GPU_COMPILER="\"CMAKE_CUDA_COMPILER\": \"${PZC_GPU_COMPILER}\","
+      if [[ -v PZC_GPU_FLAGS ]]
+      then
+        local _PZC_CMAKE_GPU_FLAGS="\"CMAKE_CUDA_FLAGS\": \"${PZC_GPU_FLAGS}\","
+      fi
+      if [[ -v PZC_GPU_TARGET_ARCH ]]
+      then
+        local _PZC_CMAKE_GPU_ARCH="\"CMAKE_CUDA_ARCHITECTURES\": \"${PZC_GPU_TARGET_ARCH}\","
+      fi
+
+    else
+      local _PZC_CMAKE_GPU_COMPILER="\"CMAKE_SYCL_COMPILER\": \"${PZC_GPU_COMPILER}\","
+    fi
+    local _PZC_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/generic_gpu.json.in"
+  fi
+
+  if [[ "${CMP_BUILD_TYPE}" == "Check" ]]
+  then
+    local _PZC_CMAKE_BUILD_TYPE="RelWithDebInfo"
+  else
+    local _PZC_CMAKE_BUILD_TYPE="${CMP_BUILD_TYPE}"
+  fi
+
+  sed -e "s|@TYPE_BUILD_DIR@|${TYPE_BUILD_DIR}|g" \
+      -e "s|@PROJECT_NAME@|${CMP_PROJECT_NAME}|g" \
+      -e "s|@BUILD_DIR_PATH@|${CMP_BUILD_DIR_PATH}|g" \
+      -e "s|@INSTALL_DIR_PATH@|${CMP_INSTALL_DIR_PATH}|g" \
+      -e "s|@PZC_CMAKE_GENERATOR@|${PZC_CMAKE_GENERATOR}|g" \
+      -e "s|@PZC_CMAKE_CXX_COMPILER_LAUNCHER@|${PZC_CMAKE_CXX_COMPILER_LAUNCHER}|g" \
+      -e "s|@PZC_CMAKE_C_COMPILER_LAUNCHER@|${PZC_CMAKE_C_COMPILER_LAUNCHER}|g" \
+      -e "s|@PZC_CMAKE_LINKER_TYPE@|${PZC_CMAKE_LINKER_TYPE}|g" \
+      -e "s|@_PZC_CMAKE_GPU_COMPILER@|${_PZC_CMAKE_GPU_COMPILER}|g" \
+      -e "s|@_PZC_CMAKE_GPU_FLAGS@|${_PZC_CMAKE_GPU_FLAGS}|g" \
+      -e "s|@_PZC_CMAKE_GPU_ARCH@|${_PZC_CMAKE_GPU_ARCH}|g" \
+      -e "s|@PZC_C_COMPILER@|${PZC_C_COMPILER}|g" \
+      -e "s|@PZC_CXX_COMPILER@|${PZC_CXX_COMPILER}|g" \
+      -e "s|@PZC_GPU_HOST_COMPILER@|${PZC_GPU_HOST_COMPILER}|g" \
+      -e "s|@_PZC_CMAKE_BUILD_TYPE@|${_PZC_CMAKE_BUILD_TYPE}|g" \
+      ${_PZC_TEMPLATE_PRESET_PATH} > "${_PZC_TMP_PRESET_PATH}"
+}
+
+# ---------------------------------------------------------------
+# ---------------------------------------------------------------
+
+function initcmp()
 {
   if [[ -v 1 ]]
   then
@@ -85,27 +149,27 @@ initcmp()
 
   else
     CMP_BUILD_TYPE="${CMP_BUILD_TYPE}"
-    CMP_PROJECT_DIR="${WORK_DIR}/${CMP_PROJECT_NAME}"
-    CMP_SOURCE_DIR="${CMP_PROJECT_DIR}"
-    CMP_BUILD_DIR="${BUILD_DIR}/build_${CMP_PROJECT_NAME}/${TYPE_BUILD_DIR}"
-    CMP_INSTALL_DIR="${INSTALL_DIR}/install_${CMP_PROJECT_NAME}/${TYPE_BUILD_DIR}"
+    CMP_PROJECT_DIR_PATH="${WORK_DIR}/${CMP_PROJECT_NAME}"
+    CMP_SOURCE_DIR_PATH="${CMP_PROJECT_DIR_PATH}"
+    CMP_BUILD_DIR_PATH="${BUILD_DIR}/build_${CMP_PROJECT_NAME}/${TYPE_BUILD_DIR}"
+    CMP_INSTALL_DIR_PATH="${INSTALL_DIR}/install_${CMP_PROJECT_NAME}/${TYPE_BUILD_DIR}"
   fi
 
-  mkdir -p "${CMP_BUILD_DIR}"
-  cd "${CMP_BUILD_DIR}"
+  mkdir -p "${CMP_BUILD_DIR_PATH}"
+  cd "${CMP_BUILD_DIR_PATH}"
 
   _pzc_pensil_begin
   echo "CMP_PROJECT_NAME=${CMP_PROJECT_NAME}"
   echo "TYPE_BUILD_DIR=${TYPE_BUILD_DIR}"
   echo ""
   echo "CMP_BUILD_TYPE=${CMP_BUILD_TYPE}"
-  echo "CMP_PROJECT_DIR=${CMP_PROJECT_DIR}"
-  echo "CMP_SOURCE_DIR=${CMP_SOURCE_DIR}"
-  echo "CMP_BUILD_DIR=${CMP_BUILD_DIR}"
-  echo "CMP_INSTALL_DIR=${CMP_INSTALL_DIR}"
+  echo "CMP_PROJECT_DIR_PATH=${CMP_PROJECT_DIR_PATH}"
+  echo "CMP_SOURCE_DIR_PATH=${CMP_SOURCE_DIR_PATH}"
+  echo "CMP_BUILD_DIR_PATH=${CMP_BUILD_DIR_PATH}"
+  echo "CMP_INSTALL_DIR_PATH=${CMP_INSTALL_DIR_PATH}"
   echo ""
-  echo "mkdir -p ${CMP_BUILD_DIR}"
-  echo "cd ${CMP_BUILD_DIR}"
+  echo "mkdir -p ${CMP_BUILD_DIR_PATH}"
+  echo "cd ${CMP_BUILD_DIR_PATH}"
   _pzc_pensil_end
 }
 
@@ -115,11 +179,11 @@ initcmp()
 # -------------------- Edit init functions ----------------------
 # ---------------------------------------------------------------
 
-editcmp()
+function editcmp()
 {
-  if [[ ! -v CMP_BUILD_DIR ]]
+  if [[ ! -v CMP_BUILD_DIR_PATH ]]
   then
-    _pzc_error "Lancer initcmp avant."
+    _pzc_error "You need to call 'initcmp' command before."
     return 1
   fi
 
@@ -150,16 +214,16 @@ editcmp()
     echo "CMP_BUILD_TYPE=${CMP_BUILD_TYPE}\n" >> ${_PZC_EDIT_CMP_PATH}
 
     echo "# Directory with the project:" >> ${_PZC_EDIT_CMP_PATH}
-    echo "CMP_PROJECT_DIR=${WORK_DIR}/${CMP_PROJECT_NAME}\n" >> ${_PZC_EDIT_CMP_PATH}
+    echo "CMP_PROJECT_DIR_PATH=${WORK_DIR}/${CMP_PROJECT_NAME}\n" >> ${_PZC_EDIT_CMP_PATH}
 
     echo "# Directory with the project source (with the CMakeLists.txt file):" >> ${_PZC_EDIT_CMP_PATH}
-    echo "CMP_SOURCE_DIR=${CMP_PROJECT_DIR}\n" >> ${_PZC_EDIT_CMP_PATH}
+    echo "CMP_SOURCE_DIR_PATH=${CMP_PROJECT_DIR_PATH}\n" >> ${_PZC_EDIT_CMP_PATH}
 
     echo "# Directory needed for the project build:" >> ${_PZC_EDIT_CMP_PATH}
-    echo "CMP_BUILD_DIR=${BUILD_DIR}/build_${CMP_PROJECT_NAME}/${TYPE_BUILD_DIR}\n" >> ${_PZC_EDIT_CMP_PATH}
+    echo "CMP_BUILD_DIR_PATH=${BUILD_DIR}/build_${CMP_PROJECT_NAME}/${TYPE_BUILD_DIR}\n" >> ${_PZC_EDIT_CMP_PATH}
 
     echo "# Directory where install the project:" >> ${_PZC_EDIT_CMP_PATH}
-    echo "CMP_INSTALL_DIR=${INSTALL_DIR}/install_${CMP_PROJECT_NAME}/${TYPE_BUILD_DIR}\n" >> ${_PZC_EDIT_CMP_PATH}
+    echo "CMP_INSTALL_DIR_PATH=${INSTALL_DIR}/install_${CMP_PROJECT_NAME}/${TYPE_BUILD_DIR}\n" >> ${_PZC_EDIT_CMP_PATH}
 
     _pzc_coal_eval "${PZC_FILE_EDITOR} ${_PZC_EDIT_CMP_PATH}"
   fi
@@ -168,11 +232,14 @@ editcmp()
   _pzc_coal_eval "initcmp ${CMP_PROJECT_NAME} ${CMP_BUILD_TYPE} ${TYPE_BUILD_DIR}"
 }
 
-editcmprm()
+# ---------------------------------------------------------------
+# ---------------------------------------------------------------
+
+function editcmprm()
 {
-  if [[ ! -v CMP_BUILD_DIR ]]
+  if [[ ! -v CMP_BUILD_DIR_PATH ]]
   then
-    _pzc_error "Lancer initcmp avant."
+    _pzc_error "You need to call 'initcmp' command before."
     return 1
   fi
 
@@ -206,71 +273,150 @@ editcmprm()
 
 
 # ---------------------------------------------------------------
+# -------------------- Edit preset functions --------------------
+# ---------------------------------------------------------------
+
+function editpcmp()
+{
+  if [[ ! -v CMP_BUILD_DIR_PATH ]]
+  then
+    _pzc_error "You need to call 'initcmp' command before."
+    return 1
+  fi
+
+  local _PZC_TMP_PRESET_PATH="${CMP_BUILD_DIR_PATH}/${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+
+  if [[ ! -e "${_PZC_TMP_PRESET_PATH}" ]]
+  then
+    _pzc_info "Build preset not found (${_PZC_TMP_PRESET_PATH}). Generation..."
+    pcmp
+  fi
+  
+  _pzc_coal_eval "${PZC_FILE_EDITOR} ${_PZC_TMP_PRESET_PATH}"
+
+  _pzc_info "Build preset edited. You can save it in ${PZC_EDIT_SCRIPTS} with 'savepcmp' command."
+}
+
+
+
+# ---------------------------------------------------------------
+# -------------------- Save preset functions --------------------
+# ---------------------------------------------------------------
+
+function savepcmp()
+{
+  if [[ ! -v CMP_BUILD_DIR_PATH ]]
+  then
+    _pzc_error "You need to call 'initcmp' command before."
+    return 1
+  fi
+
+  local _PZC_SAVED_PRESET_PATH="${PZC_EDIT_SCRIPTS}/${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+  local _PZC_TMP_PRESET_PATH="${CMP_BUILD_DIR_PATH}/${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+
+  if [[ ! -e "${_PZC_TMP_PRESET_PATH}" ]]
+  then
+    _pzc_error "Build preset not found (${_PZC_TMP_PRESET_PATH}). Call 'configcmp' or 'pcmp' command before."
+    return 1
+  fi
+
+  if [[ -e "${_PZC_SAVED_PRESET_PATH}" ]]
+  then
+    _pzc_error "Saved preset found (${_PZC_SAVED_PRESET_PATH}). Do you want to override it ?"
+    read -q "REPLY?(y/n)"
+    echo ""
+    if [[ ${REPLY} != "y" ]]
+    then
+      unset REPLY
+      return 1
+    fi
+    unset REPLY
+  fi
+  
+  _pzc_coal_eval "cp ${_PZC_TMP_PRESET_PATH} ${_PZC_SAVED_PRESET_PATH}"
+}
+
+
+
+# ---------------------------------------------------------------
 # ---------------------- Config functions -----------------------
 # ---------------------------------------------------------------
 
-pconfigcmp()
+function configcmp()
 {
-  if [[ -v CMP_BUILD_DIR ]]
+  if [[ ! -v CMP_BUILD_DIR_PATH ]]
   then
-
-    if [[ "${CMP_BUILD_TYPE}" == "Check" ]]
-    then
-      CMAKE_BUILD_TYPE="RelWithDebInfo"
-    else
-      CMAKE_BUILD_TYPE="${CMP_BUILD_TYPE}"
-    fi
-
-    _pzc_pensil_begin
-    echo "cmake \\"
-    echo "  -S ${CMP_SOURCE_DIR} \\"
-    echo "  -B ${CMP_BUILD_DIR} \\"
-    echo "  -DCMAKE_C_COMPILER=${PZC_C_COMPILER} \\"
-    echo "  -DCMAKE_CXX_COMPILER=${PZC_CXX_COMPILER} \\"
-    echo "  ${PZC_CMAKE_GENERATOR} \\"
-    echo "  ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \\"
-    echo "  ${PZC_CMAKE_C_COMPILER_LAUNCHER} \\"
-    echo "  ${PZC_CMAKE_LINKER_TYPE} \\"
-    echo "  -DCMAKE_INSTALL_PREFIX=${CMP_INSTALL_DIR} \\"
-    echo "  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
-    _pzc_pensil_end
-      
-  else
-    _pzc_error "Lancer initcmp avant."
+    _pzc_error "You need to call 'initcmp' command before."
     return 1
   fi
+
+  _pzc_info "Configure CMake Project: ${CMP_PROJECT_NAME}..."
+
+  local _PZC_TMP_PRESET_PATH="${CMP_BUILD_DIR_PATH}/${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+
+  _pzc_info "Generation of CMakeUserPresets.json in ${CMP_PROJECT_NAME} source..."
+  echo "{\"version\": 4,\"include\": [\"${_PZC_TMP_PRESET_PATH}\"]}" > "${CMP_SOURCE_DIR_PATH}/CMakeUserPresets.json"
+
+  if [[ ! -e "${_PZC_TMP_PRESET_PATH}" ]]
+  then
+    _pzc_info "Build preset not found (${_PZC_TMP_PRESET_PATH}). Generation..."
+    pcmp
+  fi
+
+  _pzc_info "Use build preset (${_PZC_TMP_PRESET_PATH})."
+
+  _pzc_pensil_begin
+
+  echo "cmake \\"
+  echo "  -S ${CMP_SOURCE_DIR_PATH} \\"
+  echo "  --preset ${TYPE_BUILD_DIR}"
+
+  _pzc_pensil_end
+
+
+  cmake \
+    -S ${CMP_SOURCE_DIR_PATH} \
+    --preset "${TYPE_BUILD_DIR}"
 }
 
-configcmp()
+# ---------------------------------------------------------------
+# ---------------------------------------------------------------
+
+function configcmpgpu()
 {
-  if [[ -v CMP_BUILD_DIR ]]
+  if [[ ! -v CMP_BUILD_DIR_PATH ]]
   then
-    _pzc_info "Configure CMake Project: ${CMP_PROJECT_NAME}"
-    pconfigcmp
-
-    if [[ "${CMP_BUILD_TYPE}" == "Check" ]]
-    then
-      CMAKE_BUILD_TYPE="RelWithDebInfo"
-    else
-      CMAKE_BUILD_TYPE="${CMP_BUILD_TYPE}"
-    fi
-
-    cmake \
-      -S ${CMP_SOURCE_DIR} \
-      -B ${CMP_BUILD_DIR} \
-      -DCMAKE_C_COMPILER=${PZC_C_COMPILER} \
-      -DCMAKE_CXX_COMPILER=${PZC_CXX_COMPILER} \
-      ${PZC_CMAKE_GENERATOR} \
-      ${PZC_CMAKE_CXX_COMPILER_LAUNCHER} \
-      ${PZC_CMAKE_C_COMPILER_LAUNCHER} \
-      ${PZC_CMAKE_LINKER_TYPE} \
-      -DCMAKE_INSTALL_PREFIX=${CMP_INSTALL_DIR} \
-      -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-      
-  else
-    _pzc_error "Lancer initcmp avant."
+    _pzc_error "You need to call 'initcmp' command before."
     return 1
   fi
+
+  _pzc_info "Configure CMake Project GPU: ${CMP_PROJECT_NAME}..."
+
+  local _PZC_TMP_PRESET_PATH="${CMP_BUILD_DIR_PATH}/${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+
+  _pzc_info "Generation of CMakeUserPresets.json in ${CMP_PROJECT_NAME} source..."
+  echo "{\"version\": 4,\"include\": [\"${_PZC_TMP_PRESET_PATH}\"]}" > "${CMP_SOURCE_DIR_PATH}/CMakeUserPresets.json"
+
+  if [[ ! -e "${_PZC_TMP_PRESET_PATH}" ]]
+  then
+    _pzc_info "Build preset not found (${_PZC_TMP_PRESET_PATH}). Generation..."
+    pcmp
+  fi
+
+  _pzc_info "Use build preset (${_PZC_TMP_PRESET_PATH})."
+
+  _pzc_pensil_begin
+
+  echo "cmake \\"
+  echo "  -S ${CMP_SOURCE_DIR_PATH} \\"
+  echo "  --preset ${TYPE_BUILD_DIR}_gpu"
+
+  _pzc_pensil_end
+
+
+  cmake \
+    -S ${CMP_SOURCE_DIR_PATH} \
+    --preset "${TYPE_BUILD_DIR}_gpu"
 }
 
 
@@ -281,19 +427,18 @@ configcmp()
 
 clearcmp()
 {
-  if [[ -v CMP_BUILD_DIR ]]
+  if [[ ! -v CMP_BUILD_DIR_PATH ]]
   then
-    _pzc_pensil_begin
-    _pzc_ecal_eval "cd ${CMP_BUILD_DIR}/.."
-    _pzc_ecal_eval "rm -r ${CMP_BUILD_DIR}"
-    _pzc_ecal_eval "rm -r ${CMP_INSTALL_DIR}"
-    _pzc_ecal_eval "mkdir ${CMP_BUILD_DIR}"
-    _pzc_ecal_eval "mkdir ${CMP_INSTALL_DIR}"
-    _pzc_ecal_eval "cd ${CMP_BUILD_DIR}"
-    _pzc_pensil_end
-
-  else
-    _pzc_error "Un appel à la fonction initcmp est nécessaire avant."
+    _pzc_error "You need to call 'initcmp' command before."
     return 1
   fi
+
+  _pzc_pensil_begin
+  _pzc_ecal_eval "cd ${CMP_BUILD_DIR_PATH}/.."
+  _pzc_ecal_eval "rm -r ${CMP_BUILD_DIR_PATH}"
+  _pzc_ecal_eval "rm -r ${CMP_INSTALL_DIR_PATH}"
+  _pzc_ecal_eval "mkdir ${CMP_BUILD_DIR_PATH}"
+  _pzc_ecal_eval "mkdir ${CMP_INSTALL_DIR_PATH}"
+  _pzc_ecal_eval "cd ${CMP_BUILD_DIR_PATH}"
+  _pzc_pensil_end
 }
