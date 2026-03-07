@@ -13,8 +13,6 @@
 
 
 
-local _PZC_PZCRC_DIR=${HOME}
-
 _PZC_CONFIG_STEP=1
 # TODO : Bloquer les scripts si _PZC_CONFIG_STEP == 0 ou unset.
 

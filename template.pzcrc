@@ -7,7 +7,7 @@
 # ----------------------------------
 # ------ Config file version -------
 # ----------------------------------
-local _PZC_CONFIG_VERSION=(6 9 0)
+local _PZC_CONFIG_VERSION=(7 0 0)
 
 # ----------------------------------
 # ------- Log verbose level --------
@@ -119,7 +119,7 @@ local _PZC_OMP_AVAILABLE=1
 # ------------ AGE/RAGE ------------
 # ----------------------------------
 # [TODO] If you want to use age or rage, set this variable to 1.
-local _PZC_AGE_AVAILABLE=1
+local _PZC_AGE_AVAILABLE=0
 
 # [TODO] Uncomment and complete if you have a custom installation of age or rage (which is not in PATH).
 #PZC_AGE_BIN=

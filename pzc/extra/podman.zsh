@@ -122,7 +122,6 @@ then
     pm exec $CONTAINER sed -i 's/local _PZC_MISE_AVAILABLE=1/local _PZC_MISE_AVAILABLE=0/g' /root/.pzcrc
     pm exec $CONTAINER sed -i 's/local _PZC_SPACK_AVAILABLE=1/local _PZC_SPACK_AVAILABLE=0/g' /root/.pzcrc
     pm exec $CONTAINER sed -i 's/local _PZC_OMP_AVAILABLE=1/local _PZC_OMP_AVAILABLE=0/g' /root/.pzcrc
-    pm exec $CONTAINER sed -i 's/local _PZC_AGE_AVAILABLE=1/local _PZC_AGE_AVAILABLE=0/g' /root/.pzcrc
     pm exec $CONTAINER sed -i 's/local _PZC_EZA_AVAILABLE=1/local _PZC_EZA_AVAILABLE=0/g' /root/.pzcrc
     pm exec $CONTAINER sed -i 's/local _PZC_CCACHE_AVAILABLE=1/local _PZC_CCACHE_AVAILABLE=0/g' /root/.pzcrc
     pm exec $CONTAINER sed -i 's/local _PZC_MOLD_AVAILABLE=1/local _PZC_MOLD_AVAILABLE=0/g' /root/.pzcrc

@@ -929,7 +929,7 @@ then
       if [[ $? = 0 ]]
       then
         _pzc_info "Enabling Oh-My-Posh..."
-        _pzc_coal_eval "sed -i 's/local _PZC_OMP_AVAILABLE=0/local _PZC_OMP_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/pzcrc"
+        _pzc_coal_eval "sed -i 's/local _PZC_OMP_AVAILABLE=0/local _PZC_OMP_AVAILABLE=1/g' ${PZC_PZC_CONFIG_FILE}"
 
         _pzc_info "Update PZC's mise.toml..."
         _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" oh-my-posh"
@@ -967,7 +967,7 @@ then
       if [[ $? = 0 ]]
       then
         _pzc_info "Enabling EZA..."
-        _pzc_coal_eval "sed -i 's/local _PZC_EZA_AVAILABLE=0/local _PZC_EZA_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/pzcrc"
+        _pzc_coal_eval "sed -i 's/local _PZC_EZA_AVAILABLE=0/local _PZC_EZA_AVAILABLE=1/g' ${PZC_PZC_CONFIG_FILE}"
 
         _pzc_info "Update PZC's mise.toml..."
         _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" eza"
@@ -1005,7 +1005,7 @@ then
       if [[ $? = 0 ]]
       then
         _pzc_info "Enabling CCache..."
-        _pzc_coal_eval "sed -i 's/local _PZC_CCACHE_AVAILABLE=0/local _PZC_CCACHE_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/pzcrc"
+        _pzc_coal_eval "sed -i 's/local _PZC_CCACHE_AVAILABLE=0/local _PZC_CCACHE_AVAILABLE=1/g' ${PZC_PZC_CONFIG_FILE}"
 
         _pzc_info "Update PZC's mise.toml..."
         _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" ccache"
@@ -1043,7 +1043,7 @@ then
       if [[ $? = 0 ]]
       then
         _pzc_info "Enabling Mold..."
-        _pzc_coal_eval "sed -i 's/local _PZC_MOLD_AVAILABLE=0/local _PZC_MOLD_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/pzcrc"
+        _pzc_coal_eval "sed -i 's/local _PZC_MOLD_AVAILABLE=0/local _PZC_MOLD_AVAILABLE=1/g' ${PZC_PZC_CONFIG_FILE}"
 
         _pzc_info "Update PZC's mise.toml..."
         _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" mold"
@@ -1081,7 +1081,7 @@ then
       if [[ $? = 0 ]]
       then
         _pzc_info "Enabling Ninja..."
-        _pzc_coal_eval "sed -i 's/local _PZC_NINJA_AVAILABLE=0/local _PZC_NINJA_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/pzcrc"
+        _pzc_coal_eval "sed -i 's/local _PZC_NINJA_AVAILABLE=0/local _PZC_NINJA_AVAILABLE=1/g' ${PZC_PZC_CONFIG_FILE}"
 
         _pzc_info "Update PZC's mise.toml..."
         _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" ninja"
@@ -1119,7 +1119,7 @@ then
       if [[ $? = 0 ]]
       then
         _pzc_info "Enabling CMake..."
-        _pzc_coal_eval "sed -i 's/local _PZC_CMAKE_AVAILABLE=0/local _PZC_CMAKE_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/pzcrc"
+        _pzc_coal_eval "sed -i 's/local _PZC_CMAKE_AVAILABLE=0/local _PZC_CMAKE_AVAILABLE=1/g' ${PZC_PZC_CONFIG_FILE}"
 
         _pzc_info "Update PZC's mise.toml..."
         _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" cmake"
@@ -1157,7 +1157,7 @@ then
       if [[ $? = 0 ]]
       then
         _pzc_info "Enabling Atuin..."
-        _pzc_coal_eval "sed -i 's/local _PZC_ATUIN_AVAILABLE=0/local _PZC_ATUIN_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/pzcrc"
+        _pzc_coal_eval "sed -i 's/local _PZC_ATUIN_AVAILABLE=0/local _PZC_ATUIN_AVAILABLE=1/g' ${PZC_PZC_CONFIG_FILE}"
 
         _pzc_info "Update PZC's mise.toml..."
         _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" atuin"
@@ -1195,7 +1195,7 @@ then
       if [[ $? = 0 ]]
       then
         _pzc_info "Enabling Fzf..."
-        _pzc_coal_eval "sed -i 's/local _PZC_FZF_AVAILABLE=0/local _PZC_FZF_AVAILABLE=1/g' ${_PZC_PZCRC_DIR}/pzcrc"
+        _pzc_coal_eval "sed -i 's/local _PZC_FZF_AVAILABLE=0/local _PZC_FZF_AVAILABLE=1/g' ${PZC_PZC_CONFIG_FILE}"
 
         _pzc_info "Update PZC's mise.toml..."
         _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" fzf"

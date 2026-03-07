@@ -609,7 +609,7 @@ _pzc_update_pzcrc_660()
   ' ${_PZC_OUTPUT_FILE_TMP} > ${_PZC_OUTPUT_FILE}
 }
 
-_pzc_update_pzcrc_690()
+_pzc_update_pzcrc_700()
 {
   awk '/# ----------- OH-MY-POSH -----------/ {
     print "# --------- MISE-EN-PLACE ----------"
@@ -648,7 +648,7 @@ _pzc_update_pzcrc_690()
     next
   } 
   /local _PZC_CONFIG_VERSION=\(6 6 0\)/ {
-    print "local _PZC_CONFIG_VERSION=(6 9 0)"
+    print "local _PZC_CONFIG_VERSION=(7 0 0)"
     next
   }
   1
@@ -701,11 +701,11 @@ _pzc_launch_pzc_update()
 
   if [[ ${_PZC_CONFIG_VERSION[1]} -eq 6 ]] && [[ ${_PZC_CONFIG_VERSION[2]} -eq 6 ]] && [[ ${_PZC_CONFIG_VERSION[3]} -eq 0 ]]
   then
-    _pzc_info "Updating from v6.6.0 pzcrc file to v6.9.0 pzcrc file..."
+    _pzc_info "Updating from v6.6.0 pzcrc file to v7.0.0 pzcrc file..."
     mv ${_PZC_OUTPUT_FILE} ${_PZC_OUTPUT_FILE_TMP}
-    _pzc_update_pzcrc_690
+    _pzc_update_pzcrc_700
     rm ${_PZC_OUTPUT_FILE_TMP}
-    _PZC_CONFIG_VERSION=(6 9 0)
+    _PZC_CONFIG_VERSION=(7 0 0)
   fi
 
   _pzc_info "Update done. Restarting zsh..."
