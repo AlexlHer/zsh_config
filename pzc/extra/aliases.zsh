@@ -115,3 +115,4 @@ alias tarxxz='_pzc_coal "tar -Ipixz -xf" ; tar -Ipixz -xf'
 # ---------------------------------------------------------------
 
 alias c='clear'
+alias pzc_config='_pzc_coal_eval "${PZC_FILE_EDITOR} ${PZC_PZC_CONFIG_FILE}"'

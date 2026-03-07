@@ -111,7 +111,7 @@ then
     done
 
     _pzc_info "Installing PZC in container..."
-    pm exec $CONTAINER git clone -b dev/ah-spack-mise https://github.com/AlexlHer/zsh_config /root/.pzc
+    pm exec $CONTAINER git clone https://github.com/AlexlHer/zsh_config /root/.pzc
 
     pm exec $CONTAINER cp /root/.pzc/template.zshrc /root/.zshrc
     pm exec $CONTAINER cp /root/.pzc/template.pzcrc /root/.pzcrc

@@ -4,29 +4,31 @@
 # Goto home:
 cd
 
-# Move ~/.zshrc:
+# Save current ~/.zshrc:
 mv ~/.zshrc ~/.zshrc.old
 
-# Clone this repo in your home:
-git clone https://github.com/AlexlHer/zsh_config .pzc
+# Clone this repo wherever you want (default : in your home directory):
+git clone https://github.com/AlexlHer/zsh_config ~/.pzc
 
-# Copy ~/.pzc/home.zshrc to ~/.zshrc:
+# Copy ~/.pzc/home.zshrc from repo cloned to ~/.zshrc:
 cp ~/.pzc/template.zshrc ~/.zshrc
+
+# You can edit this file:
+# If you have a PATH edit in your old .zshrc, you can add it:
+vim ~/.zshrc
 
 # First init:
 zsh
 
 # Edit pzcrc:
 # Search "[TODO]" to find lines to edit.
-vim ~/.config/pzc/pzcrc
+pzc_config
 
-# If you have a PATH edit in your old .zshrc, you can edit the new .zshrc:
-vim ~/.zshrc
 ```
 
 ## Update
 ```sh
-cd ~/.pzc
+cd ${PZC_PZC_DIR}
 git stash
 git pull
 git stash pop

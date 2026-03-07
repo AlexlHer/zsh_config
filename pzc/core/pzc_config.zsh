@@ -52,9 +52,8 @@ function _pzc_config()
       _pzc_info "Configuration file not found. Creating this file..."
       cp ${PZC_PZC_DIR}/template.pzcrc ${PZC_PZC_CONFIG_FILE}
       _pzc_info "Your configuration file is available here: ${PZC_PZC_CONFIG_FILE}"
-      _pzc_info "You can edit it with your favorite editor and relaunching zsh after."
+      _pzc_info "You can edit it with 'pzc_config' command."
       read -s -k $'?Press any key to continue.\n'
-      exit 0
     fi
   fi
 }
