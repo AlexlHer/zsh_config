@@ -86,6 +86,9 @@ _pzc_sources()
   # Source perso functions (optional)
   source ${PZC_PZC_DIR}/pzc/extra/functions.zsh
 
+  # Source internal CMake specific functions (for cmake_projects.zsh et arcane.zsh) (optional)
+  source ${PZC_PZC_DIR}/pzc/extra/internal_cmake_projects.zsh
+
   # Source CMake specific functions (optional)
   source ${PZC_PZC_DIR}/pzc/extra/cmake_projects.zsh
 
