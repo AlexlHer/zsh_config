@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
-# _launcher.zsh
+# launcher.zsh
 #
 # Core functions.
 # ------------------------------------------------------------------------------
@@ -34,7 +34,7 @@ _pzc_welcome()
   echo "Personal ZSH Configuration v${PZC_VERSION[1]}.${PZC_VERSION[2]}.${PZC_VERSION[3]}"
   echo ""
 
-  _pzc_debug "Debug mode activated. Edit your .pzcrc to disable it."
+  _pzc_debug "Debug mode activated. Edit your pzcrc to disable it."
 
   # f70bb3d582a4067500f28f479a07f7ee523b3984 (08/07/2022) : v1.0.0
   # 24b601f7644e9d5a900546fb06f563a35b4f66b5 (13/01/2023) : v2.0.0
@@ -56,44 +56,53 @@ _pzc_sources()
   source ${PZC_PZC_DIR}/plugins/manjaro-zsh-config/manjaro-zsh-config
 
   # Source needed dirs creation
-  source ${PZC_PZC_DIR}/_dirs.zsh
+  source ${PZC_PZC_DIR}/pzc/core/dirs.zsh
   if [[ ${_PZC_FATAL_ERROR} = 1 ]]
   then
     return 0
   fi
 
+  # Source Mise-en-place part (optional)
+  source ${PZC_PZC_DIR}/pzc/extra/mise.zsh
+
+  # Source Spack part (optional)
+  source ${PZC_PZC_DIR}/pzc/extra/spack.zsh
+
   # Source external program needed
-  source ${PZC_PZC_DIR}/_external.zsh
+  source ${PZC_PZC_DIR}/pzc/core/external.zsh
 
   # Source variable export
-  source ${PZC_PZC_DIR}/_export.zsh
+  source ${PZC_PZC_DIR}/pzc/core/export.zsh
 
   # Source perso alias (optional)
-  source ${PZC_PZC_DIR}/_aliases.zsh
+  source ${PZC_PZC_DIR}/pzc/extra/aliases.zsh
 
   # Source perso KDE specific part (optional)
-  source ${PZC_PZC_DIR}/_kde.zsh
+  source ${PZC_PZC_DIR}/pzc/extra/kde.zsh
 
   # Source perso encrypt/decrypt functions (optional)
-  source ${PZC_PZC_DIR}/_enc_functions.zsh
+  source ${PZC_PZC_DIR}/pzc/extra/enc_functions.zsh
 
   # Source perso functions (optional)
-  source ${PZC_PZC_DIR}/_functions.zsh
+  source ${PZC_PZC_DIR}/pzc/extra/functions.zsh
+
+  # Source internal CMake specific functions (for cmake_projects.zsh et arcane.zsh) (optional)
+  source ${PZC_PZC_DIR}/pzc/extra/internal_cmake_projects.zsh
 
   # Source CMake specific functions (optional)
-  source ${PZC_PZC_DIR}/_cmake_projects.zsh
+  source ${PZC_PZC_DIR}/pzc/extra/cmake_projects.zsh
 
   # Source Arcane specific functions (optional)
-  source ${PZC_PZC_DIR}/_arcane.zsh
+  source ${PZC_PZC_DIR}/pzc/extra/arcane.zsh
 
   # Source Podman/Docker specific functions (optional)
-  source ${PZC_PZC_DIR}/_podman.zsh
+  source ${PZC_PZC_DIR}/pzc/extra/podman.zsh
 
   # Source Python specific functions (optional)
-  source ${PZC_PZC_DIR}/_python.zsh
+  source ${PZC_PZC_DIR}/pzc/extra/python.zsh
 
   # Source Completion scripts (optional)
-  source ${PZC_PZC_DIR}/completion/_completion.zsh
+  source ${PZC_PZC_DIR}/pzc/extra/completion.zsh
 }
 
 

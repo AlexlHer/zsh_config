@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
-# _podman.zsh
+# podman.zsh
 #
 # Podman/Docker specific functions/aliases.
 # ------------------------------------------------------------------------------
@@ -104,17 +104,11 @@ then
     _pzc_info "Installing additionnal packages in container..."
     pm exec $CONTAINER apt-get update
 
-    for i in wget curl zsh unzip git vim gdb xcb libgtk-3-common libasound2 libasound2t64 libdbus-glib-1-2 mold eza;
+    for i in wget curl zsh unzip git vim gdb xcb libgtk-3-common libasound2 libasound2t64 libdbus-glib-1-2;
     do 
       _pzc_info "Installing $i..."
       pm exec -e DEBIAN_FRONTEND=noninteractive $CONTAINER apt-get install -y $i;
     done
-
-    _pzc_info "Installing OhMyPosh in container..."
-    pm exec $CONTAINER curl -o /root/install.sh https://ohmyposh.dev/install.sh
-    pm exec $CONTAINER chmod u+x /root/install.sh
-    pm exec $CONTAINER mkdir -p /root/.local/bin
-    pm exec $CONTAINER bash -c /root/install.sh
 
     _pzc_info "Installing PZC in container..."
     pm exec $CONTAINER git clone https://github.com/AlexlHer/zsh_config /root/.pzc
@@ -125,15 +119,42 @@ then
     pm exec $CONTAINER sed -i 's:.*export WORK_DIR=.*:export WORK_DIR="/root/work":' /root/.pzcrc
     pm exec $CONTAINER sed -i 's:.*local _PZC_LARGE_DIR=.*:local _PZC_LARGE_DIR="/root/pzc_dirs":' /root/.pzcrc
 
-    pm exec $CONTAINER sed -i 's/local _PZC_AGE_AVAILABLE=1/local _PZC_AGE_AVAILABLE=0/g' /root/.pzcrc
+    pm exec $CONTAINER sed -i 's/local _PZC_MISE_AVAILABLE=1/local _PZC_MISE_AVAILABLE=0/g' /root/.pzcrc
+    pm exec $CONTAINER sed -i 's/local _PZC_SPACK_AVAILABLE=1/local _PZC_SPACK_AVAILABLE=0/g' /root/.pzcrc
+    pm exec $CONTAINER sed -i 's/local _PZC_OMP_AVAILABLE=1/local _PZC_OMP_AVAILABLE=0/g' /root/.pzcrc
+    pm exec $CONTAINER sed -i 's/local _PZC_EZA_AVAILABLE=1/local _PZC_EZA_AVAILABLE=0/g' /root/.pzcrc
+    pm exec $CONTAINER sed -i 's/local _PZC_CCACHE_AVAILABLE=1/local _PZC_CCACHE_AVAILABLE=0/g' /root/.pzcrc
+    pm exec $CONTAINER sed -i 's/local _PZC_MOLD_AVAILABLE=1/local _PZC_MOLD_AVAILABLE=0/g' /root/.pzcrc
+    pm exec $CONTAINER sed -i 's/local _PZC_NINJA_AVAILABLE=1/local _PZC_NINJA_AVAILABLE=0/g' /root/.pzcrc
+    pm exec $CONTAINER sed -i 's/local _PZC_CMAKE_AVAILABLE=1/local _PZC_CMAKE_AVAILABLE=0/g' /root/.pzcrc
     pm exec $CONTAINER sed -i 's/local _PZC_TASK_AVAILABLE=1/local _PZC_TASK_AVAILABLE=0/g' /root/.pzcrc
     pm exec $CONTAINER sed -i 's/local _PZC_ATUIN_AVAILABLE=1/local _PZC_ATUIN_AVAILABLE=0/g' /root/.pzcrc
     pm exec $CONTAINER sed -i 's/local _PZC_FZF_AVAILABLE=1/local _PZC_FZF_AVAILABLE=0/g' /root/.pzcrc
+    pm exec $CONTAINER sed -i 's/local _PZC_PYTHON_AVAILABLE=1/local _PZC_PYTHON_AVAILABLE=0/g' /root/.pzcrc
+
     pm exec $CONTAINER sed -i 's/PZC_CHMOD_COMPILING=0/PZC_CHMOD_COMPILING=1/g' /root/.pzcrc
-    pm exec $CONTAINER sed -i 's:#local _PZC_OMP_BIN=:local _PZC_OMP_BIN=/root/.local/bin/oh-my-posh:g' /root/.pzcrc
+
 
     _pzc_info "Copying .zhistory in container..."
     pm cp $HOME/.zhistory $CONTAINER:/root/.zhistory
+
+
+    echo ""
+    _pzc_info "Install additionnal packages ?"
+    read -q "REPLY?(y/n)"
+    echo ""
+    if [[ ${REPLY} = "y" ]]
+    then
+      _pzc_info "Installing PZC additionnal pkg in container..."
+
+      pm exec $CONTAINER zsh -c "source /root/.zshrc ; eval pzc_install_mise"
+      pm exec $CONTAINER zsh -c "source /root/.zshrc ; eval pzc_install_all"
+
+    else
+      _pzc_info "To install additionnal pkgs, you can execute 'pzc_install_mise' and 'pzc_install_all'."
+
+    fi
+    unset REPLY
 
     echo ""
     _pzc_info "Executing container..."

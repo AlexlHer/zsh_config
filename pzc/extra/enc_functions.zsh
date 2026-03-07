@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
-# _enc_functions.zsh
+# enc_functions.zsh
 #
 # General functions to encrypt and decrypt files with Age/Rage.
 # ------------------------------------------------------------------------------
@@ -58,14 +58,14 @@ then
         
       else
         _PZC_AGE_AVAILABLE=0
-        _pzc_warning "Age is not installed (https://github.com/FiloSottile/age). You can install age in the PZC folder with the command 'pzc_install_age' or disable age search in .pzcrc."
+        _pzc_warning "Age is not installed (https://github.com/FiloSottile/age). You can install age in the PZC folder with the command 'pzc_install_age' or disable age search in pzcrc."
 
       fi
     fi
   else
     unset PZC_AGE_BIN
     _PZC_AGE_AVAILABLE=0
-    _pzc_warning "Public key and/or private key not defined in .pzcrc."
+    _pzc_warning "Public key and/or private key not defined in pzcrc."
     _pzc_debug "PZC_SSH_PUB = ${PZC_SSH_PUB}"
     _pzc_debug "PZC_SSH_PRI = ${PZC_SSH_PRI}"
 

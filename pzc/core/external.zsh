@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
-# _external.zsh
+# external.zsh
 #
 # Check availability of external progs.
 # ------------------------------------------------------------------------------
@@ -55,7 +55,7 @@ then
       
     else
       _PZC_GCC_AVAILABLE=0
-      _pzc_warning "GCC is not installed. You can disable gcc search in .pzcrc."
+      _pzc_warning "GCC is not installed. You can disable gcc search in pzcrc."
 
     fi
   fi
@@ -90,7 +90,7 @@ then
       
     else
       _PZC_GCC_AVAILABLE=0
-      _pzc_warning "G++ is not installed. You can disable g++ search in .pzcrc."
+      _pzc_warning "G++ is not installed. You can disable g++ search in pzcrc."
 
     fi
   fi
@@ -125,7 +125,7 @@ then
       
     else
       _PZC_CLANG_AVAILABLE=0
-      _pzc_warning "CLang is not installed. You can disable clang search in .pzcrc."
+      _pzc_warning "CLang is not installed. You can disable clang search in pzcrc."
 
     fi
   fi
@@ -160,7 +160,7 @@ then
       
     else
       _PZC_CLANG_AVAILABLE=0
-      _pzc_warning "CLang++ is not installed. You can disable clang++ search in .pzcrc."
+      _pzc_warning "CLang++ is not installed. You can disable clang++ search in pzcrc."
 
     fi
   fi
@@ -195,7 +195,7 @@ then
       
     else
       _PZC_NVCC_BIN_AVAILABLE=0
-      _pzc_warning "NVCC is not installed. You can disable nvcc search in .pzcrc."
+      _pzc_warning "NVCC is not installed. You can disable nvcc search in pzcrc."
 
     fi
   fi
@@ -232,7 +232,7 @@ then
 
       else
         _PZC_NVCC_BIN_AVAILABLE=0
-        _pzc_warning "Host compiler for nvcc is not found. You can disable nvcc search in .pzcrc."
+        _pzc_warning "Host compiler for nvcc is not found. You can disable nvcc search in pzcrc."
 
       fi
     fi
@@ -268,7 +268,7 @@ then
       
     else
       _PZC_SYCL_BIN_AVAILABLE=0
-      _pzc_warning "Sycl is not installed. You can disable sycl search in .pzcrc."
+      _pzc_warning "Sycl is not installed. You can disable sycl search in pzcrc."
 
     fi
   fi
@@ -305,7 +305,7 @@ then
 
       else
         _PZC_SYCL_BIN_AVAILABLE=0
-        _pzc_warning "Host compiler for sycl is not found. You can disable sycl search in .pzcrc."
+        _pzc_warning "Host compiler for sycl is not found. You can disable sycl search in pzcrc."
 
       fi
     fi
@@ -318,18 +318,18 @@ fi
 
 if [[ ${_PZC_GCC_AVAILABLE} = 1 ]] || [[ ${_PZC_CLANG_AVAILABLE} = 1 ]]
 then
-  local _PZC_C_CXX_AVAILABLE=1
+  PZC_C_CXX_AVAILABLE=1
 
 else
-  local _PZC_C_CXX_AVAILABLE=0
+  PZC_C_CXX_AVAILABLE=0
 fi
 
 if [[ ${_PZC_NVCC_BIN_AVAILABLE} = 1 ]] || [[ ${_PZC_SYCL_BIN_AVAILABLE} = 1 ]]
 then
-  local _PZC_GPU_AVAILABLE=1
+  PZC_GPU_AVAILABLE=1
 
 else
-  local _PZC_GPU_AVAILABLE=0
+  PZC_GPU_AVAILABLE=0
 fi
 
 
@@ -360,18 +360,33 @@ then
     then
       _PZC_OMP_BIN=oh-my-posh
       _PZC_OMP_AVAILABLE=1
-      _pzc_debug "_PZC_OMP_BIN = ${_PZC_OMP_BIN} (in PATH)"
-
-    elif [[ -e ${PZC_PZC_DIR}/progs/oh-my-posh/oh-my-posh ]]
-    then
-      _PZC_OMP_BIN=${PZC_PZC_DIR}/progs/oh-my-posh/oh-my-posh
-      _PZC_OMP_AVAILABLE=1
-      _pzc_debug "_PZC_OMP_BIN = ${_PZC_OMP_BIN} (in pzc)"
+      _pzc_debug "Oh-My-Posh found in PATH"
 
     else
-      _PZC_OMP_AVAILABLE=0
-      _pzc_warning "Oh-My-Posh is not installed (https://github.com/JanDeDobbeleer/oh-my-posh). You can install Oh-My-Posh in the PZC folder with the command 'pzc_install_omp' or disable Oh-My-Posh search in .pzcrc."
 
+      if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
+      then
+        _PZC_OMP_BIN=$(mise which --raw -E ${HOST} -C "${ENVI_DIR}/pzc/progs/mise" oh-my-posh 2&>/dev/null)
+      fi
+
+      if [[ -n ${_PZC_OMP_BIN} ]] && [[ -e ${_PZC_OMP_BIN} ]]
+      then
+        _PZC_OMP_AVAILABLE=1
+        _pzc_debug "_PZC_OMP_BIN = ${_PZC_OMP_BIN} (with Mise-en-place)"
+
+      elif [[ -e ${PZC_PZC_DIR}/progs/oh-my-posh/oh-my-posh ]]
+      then
+        _pzc_warning "Your installation of Oh-My-Posh is deprecated, please reinstall it with Mise-en-place and remove your actual install (${PZC_PZC_DIR}/progs/oh-my-posh/oh-my-posh)."
+        _pzc_info "You can install Oh-My-Posh with Mise-en-place with this command 'pzc_install_omp'."
+        _PZC_OMP_BIN=${PZC_PZC_DIR}/progs/oh-my-posh/oh-my-posh
+        _PZC_OMP_AVAILABLE=1
+        _pzc_debug "_PZC_OMP_BIN = ${_PZC_OMP_BIN} (in pzc)"
+
+      else
+        _PZC_OMP_AVAILABLE=0
+        _pzc_warning "Oh-My-Posh is not installed (https://github.com/JanDeDobbeleer/oh-my-posh). You can install Oh-My-Posh with Mise-en-place with the command 'pzc_install_omp' or disable Oh-My-Posh search in pzcrc."
+
+      fi
     fi
   fi
 
@@ -410,40 +425,37 @@ then
     then
       PZC_EZA_BIN=eza
       _PZC_EZA_AVAILABLE=1
-      _pzc_debug "PZC_EZA_BIN = ${PZC_EZA_BIN} (in PATH)"
+      _pzc_debug "EZA found in PATH"
 
-    elif [[ -e ${PZC_PZC_DIR}/progs/eza/eza ]]
-    then
-      PZC_EZA_BIN=${PZC_PZC_DIR}/progs/eza/eza
-      _PZC_EZA_AVAILABLE=1
-      _pzc_debug "PZC_EZA_BIN = ${PZC_EZA_BIN} (in pzc)"
-      alias eza='${PZC_EZA_BIN}'
-      _pzc_debug "Define alias eza"
-
-    # TODO : Deprecated
-    elif [[ -x "$(command -v exa)" ]]
-    then
-      PZC_EZA_BIN=exa
-      _PZC_EZA_AVAILABLE=1
-      _PZC_EXA_DEPRECATED=1
-      _pzc_debug "PZC_EZA_BIN = ${PZC_EZA_BIN} (in PATH / EXA)"
-      _pzc_warning "EXA-LS is deprecated, please update to the EZA-LS fork (https://github.com/eza-community/eza) and remove your actual EXA-LS install."
-      _pzc_info "You can install eza in the PZC folder with the command 'pzc_install_eza' or disable eza search in .pzcrc."
-
-    # TODO : Deprecated
-    elif [[ -e ${PZC_PZC_DIR}/progs/exa/exa ]]
-    then
-      PZC_EZA_BIN=${PZC_PZC_DIR}/progs/exa/exa
-      _PZC_EZA_AVAILABLE=1
-      _PZC_EXA_DEPRECATED=1
-      _pzc_debug "PZC_EZA_BIN = ${PZC_EZA_BIN} (in pzc / EXA)"
-      _pzc_warning "EXA-LS is deprecated, please update to the EZA-LS fork (https://github.com/eza-community/eza) and remove your actual EXA-LS install ($PZC_EZA_BIN)."
-      _pzc_info "You can install eza in the PZC folder with the command 'pzc_install_eza' or disable eza search in .pzcrc."
-      
     else
-      _PZC_EZA_AVAILABLE=0
-      _pzc_warning "Eza is not installed (https://github.com/eza-community/eza). You can install eza in the PZC folder with the command 'pzc_install_eza' or disable eza search in .pzcrc."
 
+      if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
+      then
+        PZC_EZA_BIN=$(mise which --raw -E ${HOST} -C "${ENVI_DIR}/pzc/progs/mise" eza 2&>/dev/null)
+      fi
+
+      if [[ -n ${PZC_EZA_BIN} ]] && [[ -e ${PZC_EZA_BIN} ]]
+      then
+        _PZC_EZA_AVAILABLE=1
+        _pzc_debug "PZC_EZA_BIN = ${PZC_EZA_BIN} (with Mise-en-place)"
+        alias eza='${PZC_EZA_BIN}'
+        _pzc_debug "Define alias eza"
+
+      elif [[ -e ${PZC_PZC_DIR}/progs/eza/eza ]]
+      then
+        _pzc_warning "Your installation of EZA-LS is deprecated, please reinstall it with Mise-en-place and remove your actual EZA-LS install (${PZC_PZC_DIR}/progs/eza/eza)."
+        _pzc_info "You can install eza with Mise-en-place with this command 'pzc_install_eza'."
+        PZC_EZA_BIN=${PZC_PZC_DIR}/progs/eza/eza
+        _PZC_EZA_AVAILABLE=1
+        _pzc_debug "PZC_EZA_BIN = ${PZC_EZA_BIN} (in pzc)"
+        alias eza='${PZC_EZA_BIN}'
+        _pzc_debug "Define alias eza"
+        
+      else
+        _PZC_EZA_AVAILABLE=0
+        _pzc_warning "Eza is not installed (https://github.com/eza-community/eza). You can install eza with Mise-en-place with the command 'pzc_install_eza' or disable eza search in pzcrc."
+
+      fi
     fi
   fi
 
@@ -482,12 +494,27 @@ then
     then
       PZC_CCACHE_BIN=ccache
       _PZC_CCACHE_AVAILABLE=1
-      _pzc_debug "PZC_CCACHE_BIN = ${PZC_CCACHE_BIN} (in PATH)"
-      
-    else
-      _PZC_CCACHE_AVAILABLE=0
-      _pzc_warning "CCache is not installed (https://github.com/ccache/ccache). You can disable ccache search in .pzcrc."
+      _pzc_debug "CCache found in PATH"
 
+    else
+
+      if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
+      then
+        PZC_CCACHE_BIN=$(mise which --raw -E ${HOST} -C "${ENVI_DIR}/pzc/progs/mise" ccache 2&>/dev/null)
+      fi
+
+      if [[ -n ${PZC_CCACHE_BIN} ]] && [[ -e ${PZC_CCACHE_BIN} ]]
+      then
+        _PZC_CCACHE_AVAILABLE=1
+        _pzc_debug "PZC_CCACHE_BIN = ${PZC_CCACHE_BIN} (with Mise-en-place)"
+        alias ccache='${PZC_CCACHE_BIN}'
+        _pzc_debug "Define alias ccache"
+
+      else
+        _PZC_CCACHE_AVAILABLE=0
+        _pzc_warning "CCache is not installed (https://github.com/ccache/ccache). You can install ccache with Mise-en-place with the command 'pzc_install_ccache' or disable ccache search in pzcrc."
+
+      fi
     fi
   fi
 
@@ -525,11 +552,26 @@ then
     then
       _PZC_MOLD_AVAILABLE=1
       _pzc_debug "Mold found in PATH"
-      
-    else
-      _PZC_MOLD_AVAILABLE=0
-      _pzc_warning "Mold is not installed (https://github.com/rui314/mold). You can disable mold search in .pzcrc."
 
+    else
+
+      if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
+      then
+        _PZC_MOLD_PATH=$(mise which --raw -E ${HOST} -C "${ENVI_DIR}/pzc/progs/mise" mold 2&>/dev/null)
+        _PZC_MOLD_PATH=$(dirname "${_PZC_MOLD_PATH}")
+      fi
+
+      if [[ -n ${_PZC_MOLD_PATH} ]] && [[ -e ${_PZC_MOLD_PATH} ]]
+      then
+        _PZC_MOLD_AVAILABLE=1
+        _pzc_debug "_PZC_MOLD_PATH = ${_PZC_MOLD_PATH} (with Mise-en-place / add in PATH)"
+        export PATH=${_PZC_MOLD_PATH}:$PATH
+
+      else
+        _PZC_MOLD_AVAILABLE=0
+        _pzc_warning "Mold is not installed (https://github.com/rui314/mold). You can install mold with Mise-en-place with the command 'pzc_install_mold' or disable mold search in pzcrc."
+
+      fi
     fi
   fi
 
@@ -567,11 +609,26 @@ then
     then
       _PZC_NINJA_AVAILABLE=1
       _pzc_debug "Ninja found in PATH"
-      
-    else
-      _PZC_NINJA_AVAILABLE=0
-      _pzc_warning "Ninja is not installed (https://github.com/ninja-build/ninja). You can disable ninja search in .pzcrc."
 
+    else
+
+      if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
+      then
+        _PZC_NINJA_PATH=$(mise which --raw -E ${HOST} -C "${ENVI_DIR}/pzc/progs/mise" ninja 2&>/dev/null)
+        _PZC_NINJA_PATH=$(dirname "${_PZC_NINJA_PATH}")
+      fi
+
+      if [[ -n ${_PZC_NINJA_PATH} ]] && [[ -e ${_PZC_NINJA_PATH} ]]
+      then
+        _PZC_NINJA_AVAILABLE=1
+        _pzc_debug "_PZC_NINJA_PATH = ${_PZC_NINJA_PATH} (with Mise-en-place / add in PATH)"
+        export PATH=${_PZC_NINJA_PATH}:$PATH
+      
+      else
+        _PZC_NINJA_AVAILABLE=0
+        _pzc_warning "Ninja is not installed (https://github.com/ninja-build/ninja). You can install ninja with Mise-en-place with the command 'pzc_install_ninja' or disable ninja search in pzcrc."
+
+      fi
     fi
   fi
 
@@ -609,11 +666,26 @@ then
     then
       _PZC_CMAKE_AVAILABLE=1
       _pzc_debug "CMake found in PATH"
-      
-    else
-      _PZC_CMAKE_AVAILABLE=0
-      _pzc_warning "CMake is not installed (https://github.com/Kitware/CMake). You can disable cmake search in .pzcrc."
 
+    else
+
+      if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
+      then
+        _PZC_CMAKE_PATH=$(mise which --raw -E ${HOST} -C "${ENVI_DIR}/pzc/progs/mise" cmake 2&>/dev/null)
+        _PZC_CMAKE_PATH=$(dirname "${_PZC_CMAKE_PATH}")
+      fi
+
+      if [[ -n ${_PZC_CMAKE_PATH} ]] && [[ -e ${_PZC_CMAKE_PATH} ]]
+      then
+        _PZC_CMAKE_AVAILABLE=1
+        _pzc_debug "_PZC_CMAKE_PATH = ${_PZC_CMAKE_PATH} (with Mise-en-place / add in PATH)"
+        export PATH=${_PZC_CMAKE_PATH}:$PATH
+      
+      else
+        _PZC_CMAKE_AVAILABLE=0
+        _pzc_warning "CMake is not installed (https://github.com/Kitware/CMake). You can install cmake with Mise-en-place with the command 'pzc_install_cmake' or disable cmake search in pzcrc."
+
+      fi
     fi
   fi
 
@@ -654,7 +726,7 @@ then
       
     else
       _PZC_TASK_AVAILABLE=0
-      _pzc_warning "Taskwarrior is not installed (https://github.com/GothenburgBitFactory/taskwarrior). You can disable taskwarrior search in .pzcrc."
+      _pzc_warning "Taskwarrior is not installed (https://github.com/GothenburgBitFactory/taskwarrior). You can disable taskwarrior search in pzcrc."
 
     fi
   fi
@@ -694,12 +766,27 @@ then
     then
       PZC_ATUIN_BIN=atuin
       _PZC_ATUIN_AVAILABLE=1
-      _pzc_debug "PZC_ATUIN_BIN = ${PZC_ATUIN_BIN} (in PATH)"
+      _pzc_debug "Atuin found in PATH"
       
     else
-      _PZC_ATUIN_AVAILABLE=0
-      _pzc_warning "Atuin is not installed (https://github.com/atuinsh/atuin). You can disable atuin search in .pzcrc."
 
+      if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
+      then
+        PZC_ATUIN_BIN=$(mise which --raw -E ${HOST} -C "${ENVI_DIR}/pzc/progs/mise" atuin 2&>/dev/null)
+      fi
+
+      if [[ -n ${PZC_ATUIN_BIN} ]] && [[ -e ${PZC_ATUIN_BIN} ]]
+      then
+        _PZC_ATUIN_AVAILABLE=1
+        _pzc_debug "PZC_ATUIN_BIN = ${PZC_ATUIN_BIN} (with Mise-en-place)"
+        alias atuin='${PZC_ATUIN_BIN}'
+        _pzc_debug "Define alias atuin"
+
+      else
+        _PZC_ATUIN_AVAILABLE=0
+        _pzc_warning "Atuin is not installed (https://github.com/atuinsh/atuin). You can install atuin with Mise-en-place with the command 'pzc_install_atuin' or disable atuin search in pzcrc."
+
+      fi
     fi
   fi
 
@@ -738,12 +825,27 @@ then
     then
       PZC_FZF_BIN=fzf
       _PZC_FZF_AVAILABLE=1
-      _pzc_debug "PZC_FZF_BIN = ${PZC_FZF_BIN} (in PATH)"
-      
-    else
-      _PZC_FZF_AVAILABLE=0
-      _pzc_warning "Fzf is not installed (https://github.com/junegunn/fzf). You can disable fzf search in .pzcrc."
+      _pzc_debug "Fzf found in PATH"
 
+    else
+
+      if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
+      then
+        PZC_FZF_BIN=$(mise which --raw -E ${HOST} -C "${ENVI_DIR}/pzc/progs/mise" fzf 2&>/dev/null)
+      fi
+
+      if [[ -n ${PZC_FZF_BIN} ]] && [[ -e ${PZC_FZF_BIN} ]]
+      then
+        _PZC_FZF_AVAILABLE=1
+        _pzc_debug "PZC_FZF_BIN = ${PZC_FZF_BIN} (with Mise-en-place)"
+        alias fzf='${PZC_FZF_BIN}'
+        _pzc_debug "Define alias fzf"
+
+      else
+        _PZC_FZF_AVAILABLE=0
+        _pzc_warning "Fzf is not installed (https://github.com/junegunn/fzf). You can install fzf with Mise-en-place with the command 'pzc_install_fzf' or disable fzf search in pzcrc."
+
+      fi
     fi
   fi
 
@@ -792,7 +894,7 @@ then
 
     else
       _PZC_PYTHON_AVAILABLE=0
-      _pzc_warning "Python is not installed. You can disable python search in .pzcrc."
+      _pzc_warning "Python is not installed. You can disable python search in pzcrc."
 
     fi
   fi
@@ -808,68 +910,322 @@ fi
 # ---------------------- PZC Install Part -----------------------
 # ---------------------------------------------------------------
 
-# ------------------------
-# ------ Oh-My-Posh ------
-# ------------------------
-
-if [[ ${_PZC_OMP_AVAILABLE} = 0 ]]
+if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
 then
-  _pzc_debug "Define pzc_install_omp function"
-  pzc_install_omp()
+
+  # ------------------------
+  # ------ Oh-My-Posh ------
+  # ------------------------
+
+  if [[ ${_PZC_OMP_AVAILABLE} = 0 ]]
+  then
+    _pzc_debug "Define pzc_install_omp function"
+    pzc_install_omp()
+    {
+      _pzc_info "Installing Oh-My-Posh with Mise-en-place..."
+
+      _pzc_coal_eval "${PZC_MISE_BIN} install oh-my-posh"
+
+      if [[ $? = 0 ]]
+      then
+        _pzc_info "Enabling Oh-My-Posh..."
+        _pzc_coal_eval "sed -i 's/local _PZC_OMP_AVAILABLE=0/local _PZC_OMP_AVAILABLE=1/g' ${PZC_PZC_CONFIG_FILE}"
+
+        _pzc_info "Update PZC's mise.toml..."
+        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" oh-my-posh"
+
+        if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
+        then
+          _pzc_info "Reloading ZSH..."
+          exec zsh
+        fi
+      else
+        _pzc_error "Error with Mise-en-place."
+      fi
+    }
+  else
+    pzc_install_omp()
+    {
+      _pzc_info "Oh-My-Posh is already installed."
+    }
+  fi
+
+
+  # ------------------------
+  # --------- EZA ----------
+  # ------------------------
+
+  if [[ ${_PZC_EZA_AVAILABLE} = 0 ]]
+  then
+    _pzc_debug "Define pzc_install_eza function"
+    pzc_install_eza()
+    {
+      _pzc_info "Installing EZA with Mise-en-place..."
+
+      _pzc_coal_eval "${PZC_MISE_BIN} install eza"
+
+      if [[ $? = 0 ]]
+      then
+        _pzc_info "Enabling EZA..."
+        _pzc_coal_eval "sed -i 's/local _PZC_EZA_AVAILABLE=0/local _PZC_EZA_AVAILABLE=1/g' ${PZC_PZC_CONFIG_FILE}"
+
+        _pzc_info "Update PZC's mise.toml..."
+        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" eza"
+
+        if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
+        then
+          _pzc_info "Reloading ZSH..."
+          exec zsh
+        fi
+      else
+        _pzc_error "Error with Mise-en-place."
+      fi
+    }
+  else
+    pzc_install_eza()
+    {
+      _pzc_info "EZA is already installed."
+    }
+  fi
+
+
+  # ------------------------
+  # -------- CCache --------
+  # ------------------------
+
+  if [[ ${_PZC_CCACHE_AVAILABLE} = 0 ]]
+  then
+    _pzc_debug "Define pzc_install_ccache function"
+    pzc_install_ccache()
+    {
+      _pzc_info "Installing CCache with Mise-en-place..."
+
+      _pzc_coal_eval "${PZC_MISE_BIN} install ccache"
+
+      if [[ $? = 0 ]]
+      then
+        _pzc_info "Enabling CCache..."
+        _pzc_coal_eval "sed -i 's/local _PZC_CCACHE_AVAILABLE=0/local _PZC_CCACHE_AVAILABLE=1/g' ${PZC_PZC_CONFIG_FILE}"
+
+        _pzc_info "Update PZC's mise.toml..."
+        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" ccache"
+
+        if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
+        then
+          _pzc_info "Reloading ZSH..."
+          exec zsh
+        fi
+      else
+        _pzc_error "Error with Mise-en-place."
+      fi
+    }
+  else
+    pzc_install_ccache()
+    {
+      _pzc_info "CCache is already installed."
+    }
+  fi
+
+
+  # ------------------------
+  # --------- Mold ---------
+  # ------------------------
+
+  if [[ ${_PZC_MOLD_AVAILABLE} = 0 ]]
+  then
+    _pzc_debug "Define pzc_install_mold function"
+    pzc_install_mold()
+    {
+      _pzc_info "Installing Mold with Mise-en-place..."
+
+      _pzc_coal_eval "${PZC_MISE_BIN} install mold"
+
+      if [[ $? = 0 ]]
+      then
+        _pzc_info "Enabling Mold..."
+        _pzc_coal_eval "sed -i 's/local _PZC_MOLD_AVAILABLE=0/local _PZC_MOLD_AVAILABLE=1/g' ${PZC_PZC_CONFIG_FILE}"
+
+        _pzc_info "Update PZC's mise.toml..."
+        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" mold"
+
+        if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
+        then
+          _pzc_info "Reloading ZSH..."
+          exec zsh
+        fi
+      else
+        _pzc_error "Error with Mise-en-place."
+      fi
+    }
+  else
+    pzc_install_mold()
+    {
+      _pzc_info "Mold is already installed."
+    }
+  fi
+
+
+  # ------------------------
+  # --------- Ninja --------
+  # ------------------------
+
+  if [[ ${_PZC_NINJA_AVAILABLE} = 0 ]]
+  then
+    _pzc_debug "Define pzc_install_ninja function"
+    pzc_install_ninja()
+    {
+      _pzc_info "Installing Ninja with Mise-en-place..."
+
+      _pzc_coal_eval "${PZC_MISE_BIN} install ninja"
+
+      if [[ $? = 0 ]]
+      then
+        _pzc_info "Enabling Ninja..."
+        _pzc_coal_eval "sed -i 's/local _PZC_NINJA_AVAILABLE=0/local _PZC_NINJA_AVAILABLE=1/g' ${PZC_PZC_CONFIG_FILE}"
+
+        _pzc_info "Update PZC's mise.toml..."
+        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" ninja"
+
+        if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
+        then
+          _pzc_info "Reloading ZSH..."
+          exec zsh
+        fi
+      else
+        _pzc_error "Error with Mise-en-place."
+      fi
+    }
+  else
+    pzc_install_ninja()
+    {
+      _pzc_info "Ninja is already installed."
+    }
+  fi
+
+
+  # ------------------------
+  # --------- CMake --------
+  # ------------------------
+
+  if [[ ${_PZC_CMAKE_AVAILABLE} = 0 ]]
+  then
+    _pzc_debug "Define pzc_install_cmake function"
+    pzc_install_cmake()
+    {
+      _pzc_info "Installing CMake with Mise-en-place..."
+
+      _pzc_coal_eval "${PZC_MISE_BIN} install cmake"
+
+      if [[ $? = 0 ]]
+      then
+        _pzc_info "Enabling CMake..."
+        _pzc_coal_eval "sed -i 's/local _PZC_CMAKE_AVAILABLE=0/local _PZC_CMAKE_AVAILABLE=1/g' ${PZC_PZC_CONFIG_FILE}"
+
+        _pzc_info "Update PZC's mise.toml..."
+        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" cmake"
+
+        if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
+        then
+          _pzc_info "Reloading ZSH..."
+          exec zsh
+        fi
+      else
+        _pzc_error "Error with Mise-en-place."
+      fi
+    }
+  else
+    pzc_install_cmake()
+    {
+      _pzc_info "CMake is already installed."
+    }
+  fi
+
+
+  # ------------------------
+  # --------- Atuin --------
+  # ------------------------
+
+  if [[ ${_PZC_ATUIN_AVAILABLE} = 0 ]]
+  then
+    _pzc_debug "Define pzc_install_atuin function"
+    pzc_install_atuin()
+    {
+      _pzc_info "Installing Atuin with Mise-en-place..."
+
+      _pzc_coal_eval "${PZC_MISE_BIN} install atuin"
+
+      if [[ $? = 0 ]]
+      then
+        _pzc_info "Enabling Atuin..."
+        _pzc_coal_eval "sed -i 's/local _PZC_ATUIN_AVAILABLE=0/local _PZC_ATUIN_AVAILABLE=1/g' ${PZC_PZC_CONFIG_FILE}"
+
+        _pzc_info "Update PZC's mise.toml..."
+        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" atuin"
+
+        if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
+        then
+          _pzc_info "Reloading ZSH..."
+          exec zsh
+        fi
+      else
+        _pzc_error "Error with Mise-en-place."
+      fi
+    }
+  else
+    pzc_install_atuin()
+    {
+      _pzc_info "Atuin is already installed."
+    }
+  fi
+
+
+  # ------------------------
+  # --------- Fzf ----------
+  # ------------------------
+
+  if [[ ${_PZC_FZF_AVAILABLE} = 0 ]]
+  then
+    _pzc_debug "Define pzc_install_fzf function"
+    pzc_install_fzf()
+    {
+      _pzc_info "Installing Fzf with Mise-en-place..."
+
+      _pzc_coal_eval "${PZC_MISE_BIN} install fzf"
+
+      if [[ $? = 0 ]]
+      then
+        _pzc_info "Enabling Fzf..."
+        _pzc_coal_eval "sed -i 's/local _PZC_FZF_AVAILABLE=0/local _PZC_FZF_AVAILABLE=1/g' ${PZC_PZC_CONFIG_FILE}"
+
+        _pzc_info "Update PZC's mise.toml..."
+        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" fzf"
+
+        if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
+        then
+          _pzc_info "Reloading ZSH..."
+          exec zsh
+        fi
+      else
+        _pzc_error "Error with Mise-en-place."
+      fi
+    }
+  fi
+
+  pzc_install_all()
   {
-    _pzc_info "Install Oh-My-Posh in PZC folder..."
+    local _PZC_PKG_RESTART=0
 
-    _pzc_debug "MkDir progs/oh-my-posh"
-    mkdir -p "${PZC_PZC_DIR}/progs/oh-my-posh"
+    pzc_install_omp
+    pzc_install_eza
+    pzc_install_ccache
+    pzc_install_mold
+    pzc_install_ninja
+    pzc_install_cmake
+    pzc_install_atuin
+    pzc_install_fzf
 
-    _pzc_debug "Download Oh-My-Posh in PZC folder"
-    wget -q -O "${PZC_PZC_DIR}/progs/oh-my-posh/oh-my-posh" "https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64"
-
-    _pzc_debug "Change permission Oh-My-Posh exe"
-    chmod u+x "${PZC_PZC_DIR}/progs/oh-my-posh/oh-my-posh"
-
-    if [[ $? = 0 ]]
-    then
-      _pzc_info "Reload ZSH..."
-      exec zsh
-    else
-      _pzc_error "Error with wget call."
-    fi
+    _pzc_info "Reloading ZSH..."
+    exec zsh
   }
-fi
 
-
-
-
-# ------------------------
-# --------- EZA ----------
-# ------------------------
-
-if [[ ${_PZC_EZA_AVAILABLE} = 0 ]] || [[ ${_PZC_EXA_DEPRECATED} = 1 ]]
-then
-  _pzc_debug "Define pzc_install_eza function"
-  pzc_install_eza()
-  {
-    _pzc_info "Install EZA in PZC folder..."
-
-    _pzc_debug "Download EZA in TMP folder"
-    wget -q -O "${TMP_DIR}/eza_archive.tar.gz" "https://github.com/eza-community/eza/releases/latest/download/eza_x86_64-unknown-linux-gnu.tar.gz"
-
-    _pzc_debug "Untar EZA archive in TMP folder"
-    tar -zxf "${TMP_DIR}/eza_archive.tar.gz" -C "${TMP_DIR}"
-
-    _pzc_debug "MkDir progs/eza"
-    mkdir -p "${PZC_PZC_DIR}/progs/eza"
-
-    _pzc_debug "Copy eza bin"
-    cp "${TMP_DIR}/eza" "${PZC_PZC_DIR}/progs/eza/"
-
-    if [[ $? = 0 ]]
-    then
-      _pzc_info "Reload ZSH..."
-      exec zsh
-    else
-      _pzc_error "Error with wget call."
-    fi
-  }
 fi

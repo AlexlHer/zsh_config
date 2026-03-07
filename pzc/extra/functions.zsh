@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
-# _functions.zsh
+# functions.zsh
 #
 # General functions.
 # ------------------------------------------------------------------------------
@@ -307,7 +307,7 @@ then
 else
   todo()
   {
-    _pzc_error "PZC_TODOLIST_PATH not define. Check your .pzcrc."
+    _pzc_error "PZC_TODOLIST_PATH not define. Check your pzcrc."
     return 1
   }
 fi
@@ -342,5 +342,38 @@ cleartmpdev()
   else
     _pzc_error "Temporary development environment dir not found."
     
+  fi
+}
+
+
+
+# ---------------------------------------------------------------
+# ------------------------ Git functions ------------------------
+# ---------------------------------------------------------------
+
+function gitwt()
+{
+  local WORKTREE="wt1"
+  if [[ -v 1 ]]
+  then
+    # TODO : Regex
+    if [[ ${1} != "1" ]]
+    then
+      WORKTREE="${1}"
+    fi
+  else
+    _pzc_info "No argument, defining 'WORKTREE' to '${WORKTREE}'..."
+  fi
+
+  local WT_SOURCE_DIR="${PWD}_${WORKTREE}"
+
+  _pzc_coal_eval "git worktree add -b dev/new-branch-${WORKTREE} \"${WT_SOURCE_DIR}\""
+
+  if [[ $? = 0 ]]
+  then
+    _pzc_coal_eval "cd \"${WT_SOURCE_DIR}\""
+
+  else
+    _pzc_error "Error with git call."
   fi
 }

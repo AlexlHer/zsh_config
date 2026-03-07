@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
-# _dirs.zsh
+# dirs.zsh
 #
 # Core part to create PZC directories.
 # ------------------------------------------------------------------------------
@@ -109,7 +109,7 @@ mkdir -p ${TMP_DIR} ${WORK_DIR} ${BUILD_DIR} ${INSTALL_DIR} ${ENVI_DIR} ${CONTAI
 
 if [[ $? != 0 ]]
 then
-  _pzc_error "Error with mkdir. Check your export dir in .pzcrc. Enable debug mode in .pzcrc for more info."
+  _pzc_error "Error with mkdir. Check your export dir in pzcrc. Enable debug mode in pzcrc for more info."
   _PZC_FATAL_ERROR=1
 fi
 

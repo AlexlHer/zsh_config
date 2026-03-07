@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
-# _pzc_update.zsh
+# pzc_update.zsh
 #
 # Core functions to update PZC configuration file.
 # ------------------------------------------------------------------------------
@@ -609,26 +609,72 @@ _pzc_update_pzcrc_660()
   ' ${_PZC_OUTPUT_FILE_TMP} > ${_PZC_OUTPUT_FILE}
 }
 
+_pzc_update_pzcrc_700()
+{
+  awk '/# ----------- OH-MY-POSH -----------/ {
+    print "# --------- MISE-EN-PLACE ----------"
+    print "# ----------------------------------"
+    print "# [TODO] If you want to use mise, set this variable to 1."
+    print "# Usefull to install tools after."
+    print "local _PZC_MISE_AVAILABLE=1"
+    print ""
+    print "# [TODO] Uncomment and complete if you have a custom installation of mise (which is not in PATH)."
+    print "#PZC_MISE_BIN="
+    print ""
+    print "# [TODO] Start Mise in same time than PZC (can be slow)."
+    print "# If 0, function smise is available to initialize mise."
+    print "# Needed to use tools installed with mise."
+    print "local _PZC_MISE_START_AT_LAUNCH=1"
+    print ""
+    print ""
+    print "# ----------------------------------"
+    print "# ------------- SPACK --------------"
+    print "# ----------------------------------"
+    print ""
+    print "# [TODO] If you want to use spack, set this variable to 1."
+    print "local _PZC_SPACK_AVAILABLE=1"
+    print ""
+    print "# [TODO] Uncomment and complete if you have a custom installation of spack."
+    print "# Without this var, default spack dir will be ${ENVI_DIR}/spack."
+    print "#PZC_SPACK_PATH="
+    print ""
+    print "# [TODO] Start Spack in same time than PZC (can be slow)."
+    print "# If 0, function ssp is available to source spack."
+    print "local _PZC_SPACK_START_AT_LAUNCH=0"
+    print ""
+    print ""
+    print "# ----------------------------------"
+    print "# ----------- OH-MY-POSH -----------"
+    next
+  } 
+  /local _PZC_CONFIG_VERSION=\(6 6 0\)/ {
+    print "local _PZC_CONFIG_VERSION=(7 0 0)"
+    next
+  }
+  1
+  ' ${_PZC_OUTPUT_FILE_TMP} > ${_PZC_OUTPUT_FILE}
+}
+
 _pzc_launch_pzc_update()
 {
-  mv ${_PZC_PZCRC_DIR}/.pzcrc ${_PZC_PZCRC_DIR}/.pzcrc.old
-  _pzc_info "A copy of your .pzcrc is available here: ${_PZC_PZCRC_DIR}/.pzcrc.old"
+  mv ${PZC_PZC_CONFIG_FILE} ${PZC_PZC_CONFIG_FILE}.old
+  _pzc_info "A copy of your pzcrc is available here: ${PZC_PZC_CONFIG_FILE}.old"
 
-  local _PZC_OUTPUT_FILE="${_PZC_PZCRC_DIR}/.pzcrc"
-  local _PZC_OUTPUT_FILE_TMP="${_PZC_PZCRC_DIR}/.pzcrc.tmp"
+  local _PZC_OUTPUT_FILE="${PZC_PZC_CONFIG_FILE}"
+  local _PZC_OUTPUT_FILE_TMP="${PZC_PZC_CONFIG_FILE}.tmp"
 
   if [[ ${_PZC_CONFIG_VERSION[1]} -eq 5 ]]
   then
-    _pzc_info "Updating from .zshrc file (PZC v5 or lower) to v6.0.0 .pzcrc file..."
+    _pzc_info "Updating from .zshrc file (PZC v5 or lower) to v6.0.0 pzcrc file..."
     _pzc_update_pzcrc_5
     _PZC_CONFIG_VERSION=(6 0 0)
   else
-    cp ${_PZC_PZCRC_DIR}/.pzcrc.old ${_PZC_OUTPUT_FILE}
+    cp ${PZC_PZC_CONFIG_FILE}.old ${_PZC_OUTPUT_FILE}
   fi
 
   if [[ ${_PZC_CONFIG_VERSION[1]} -eq 6 ]] && [[ ${_PZC_CONFIG_VERSION[2]} -eq 0 ]] && [[ ${_PZC_CONFIG_VERSION[3]} -eq 0 ]]
   then
-    _pzc_info "Updating from v6.0.0 .pzcrc file to v6.2.0 .pzcrc file..."
+    _pzc_info "Updating from v6.0.0 pzcrc file to v6.2.0 pzcrc file..."
     mv ${_PZC_OUTPUT_FILE} ${_PZC_OUTPUT_FILE_TMP}
     _pzc_update_pzcrc_620
     rm ${_PZC_OUTPUT_FILE_TMP}
@@ -637,7 +683,7 @@ _pzc_launch_pzc_update()
 
   if [[ ${_PZC_CONFIG_VERSION[1]} -eq 6 ]] && [[ ${_PZC_CONFIG_VERSION[2]} -eq 2 ]] && [[ ${_PZC_CONFIG_VERSION[3]} -eq 0 ]]
   then
-    _pzc_info "Updating from v6.2.0 .pzcrc file to v6.4.0 .pzcrc file..."
+    _pzc_info "Updating from v6.2.0 pzcrc file to v6.4.0 pzcrc file..."
     mv ${_PZC_OUTPUT_FILE} ${_PZC_OUTPUT_FILE_TMP}
     _pzc_update_pzcrc_640
     rm ${_PZC_OUTPUT_FILE_TMP}
@@ -646,11 +692,20 @@ _pzc_launch_pzc_update()
 
   if [[ ${_PZC_CONFIG_VERSION[1]} -eq 6 ]] && [[ ${_PZC_CONFIG_VERSION[2]} -eq 4 ]] && [[ ${_PZC_CONFIG_VERSION[3]} -eq 0 ]]
   then
-    _pzc_info "Updating from v6.4.0 .pzcrc file to v6.6.0 .pzcrc file..."
+    _pzc_info "Updating from v6.4.0 pzcrc file to v6.6.0 pzcrc file..."
     mv ${_PZC_OUTPUT_FILE} ${_PZC_OUTPUT_FILE_TMP}
     _pzc_update_pzcrc_660
     rm ${_PZC_OUTPUT_FILE_TMP}
     _PZC_CONFIG_VERSION=(6 6 0)
+  fi
+
+  if [[ ${_PZC_CONFIG_VERSION[1]} -eq 6 ]] && [[ ${_PZC_CONFIG_VERSION[2]} -eq 6 ]] && [[ ${_PZC_CONFIG_VERSION[3]} -eq 0 ]]
+  then
+    _pzc_info "Updating from v6.6.0 pzcrc file to v7.0.0 pzcrc file..."
+    mv ${_PZC_OUTPUT_FILE} ${_PZC_OUTPUT_FILE_TMP}
+    _pzc_update_pzcrc_700
+    rm ${_PZC_OUTPUT_FILE_TMP}
+    _PZC_CONFIG_VERSION=(7 0 0)
   fi
 
   _pzc_info "Update done. Restarting zsh..."
@@ -660,7 +715,7 @@ _pzc_launch_pzc_update()
 
 _pzc_check_update()
 {
-  source ${PZC_PZC_DIR}/_version_checker.zsh
+  source ${PZC_PZC_DIR}/pzc/core/version_checker.zsh
 
   local _PZC_VERSION_CHECKER_RET=0
   _pzc_version_checker ${_PZC_CONFIG_VERSION} ${_PZC_CONFIG_LAST_VERSION}
@@ -668,9 +723,9 @@ _pzc_check_update()
   if [[ ${_PZC_VERSION_CHECKER_RET} = 2 ]]
   then
     PZC_LOG_ERROR=1
-    _pzc_error "PZC v${PZC_VERSION[1]}.${PZC_VERSION[2]}.${PZC_VERSION[3]} is too old to read your config file .pzcrc. "
+    _pzc_error "PZC v${PZC_VERSION[1]}.${PZC_VERSION[2]}.${PZC_VERSION[3]} is too old to read your config file pzcrc. "
     echo "\033[0;101m\033[30m           Please update PZC ('cd \${PZC_PZC_DIR}' and 'git pull'). "
-    echo "\033[0;101m\033[30m           Your .pzcrc version:                          v${_PZC_CONFIG_VERSION[1]}.${_PZC_CONFIG_VERSION[2]}.${_PZC_CONFIG_VERSION[3]}    "
+    echo "\033[0;101m\033[30m           Your pzcrc version:                           v${_PZC_CONFIG_VERSION[1]}.${_PZC_CONFIG_VERSION[2]}.${_PZC_CONFIG_VERSION[3]}    "
     echo "\033[0;101m\033[30m           Latest version supported by your PZC version: v${_PZC_CONFIG_LAST_VERSION[1]}.${_PZC_CONFIG_LAST_VERSION[2]}.${_PZC_CONFIG_LAST_VERSION[3]}    \033[0m"
     _PZC_FATAL_ERROR=1
     return 0
@@ -680,14 +735,14 @@ _pzc_check_update()
     PZC_LOG_INFO=1
     PZC_LOG_WARNING=1
     PZC_LOG_ERROR=1
-    _pzc_info "Your .pzcrc file is not up to date. Updating..."
+    _pzc_info "Your pzcrc file is not up to date. Updating..."
     _pzc_launch_pzc_update
     # Ne devrait pas aller ici.
     _PZC_FATAL_ERROR=1
     return 0
 
   else
-    _pzc_debug ".pzcrc Checker OK"
+    _pzc_debug "pzcrc Checker OK"
   fi
 
   unfunction _pzc_version_checker

@@ -13,32 +13,28 @@
 
 
 
-local _PZC_PZCRC_DIR=${HOME}
-
 _PZC_CONFIG_STEP=1
 # TODO : Bloquer les scripts si _PZC_CONFIG_STEP == 0 ou unset.
 
-source ${PZC_PZC_DIR}/_internal.zsh
+source ${PZC_PZC_DIR}/pzc/core/internal.zsh
 
 _pzc_main()
 {
-  source ${PZC_PZC_DIR}/_version.zsh
+  source ${PZC_PZC_DIR}/pzc/version.zsh
 
-  if [[ ! -e ${_PZC_PZCRC_DIR}/.pzcrc ]]
+  source ${PZC_PZC_DIR}/pzc/core/pzc_config.zsh
+  _pzc_config
+  if [[ ${_PZC_FATAL_ERROR} = 1 ]]
   then
-    PZC_LOG_INFO=1
-    _pzc_info "Configuration file not found. Creating this file..."
-    cp ${PZC_PZC_DIR}/template.pzcrc ${_PZC_PZCRC_DIR}/.pzcrc
-    _pzc_info "Your configuration file is available here: ${_PZC_PZCRC_DIR}/.pzcrc"
-    _pzc_info "You can edit it with your favorite editor and relaunching zsh after."
-    read -s -k $'?Press any key to continue.\n'
     return 0
   fi
+  unfunction _pzc_config
 
-  source ${_PZC_PZCRC_DIR}/.pzcrc
+  source "${PZC_PZC_CONFIG_FILE}"
+
 
   # Check update...
-  source ${PZC_PZC_DIR}/_pzc_update.zsh
+  source ${PZC_PZC_DIR}/pzc/core/pzc_update.zsh
   _pzc_check_update
   if [[ ${_PZC_FATAL_ERROR} = 1 ]]
   then
@@ -48,7 +44,7 @@ _pzc_main()
 
 
   # Configuration done. Launching PZC...
-  source ${PZC_PZC_DIR}/_launcher.zsh
+  source ${PZC_PZC_DIR}/pzc/core/launcher.zsh
 
   _pzc_sources
   if [[ ${_PZC_FATAL_ERROR} = 1 ]]
