@@ -5,6 +5,13 @@
     "minor": 26,
     "patch": 0
   },
+  "vendor": {
+    "pzc": {
+      "cmpSourceDir": "@CMP_SOURCE_DIR@",
+      "cmpBuildDir": "@CMP_BUILD_DIR@",
+      "cmpInstallDir": "@CMP_INSTALL_DIR@"
+    }
+  },
   "configurePresets": [
     {
       "name": "@CMP_BUILD_TYPE@",
@@ -13,9 +20,9 @@
       "installDir": "@CMP_INSTALL_DIR@",
       "generator": "@PZC_CMAKE_GENERATOR@",
       "cacheVariables": {
-        @PZC_CMAKE_CXX_COMPILER_LAUNCHER@
-        @PZC_CMAKE_C_COMPILER_LAUNCHER@
-        @PZC_CMAKE_LINKER_TYPE@
+@PZC_CMAKE_C_COMPILER_LAUNCHER@
+@PZC_CMAKE_LINKER_TYPE@
+@_PZC_CMAKE_PREFIX_PATH@
         "CMAKE_BUILD_TYPE": "@PZC_CMAKE_BUILD_TYPE@",
         "CMAKE_C_COMPILER": "@PZC_C_COMPILER@",
         "CMAKE_CXX_COMPILER": "@PZC_CXX_COMPILER@"
@@ -28,12 +35,10 @@
       "installDir": "@CMP_INSTALL_DIR@",
       "generator": "@PZC_CMAKE_GENERATOR@",
       "cacheVariables": {
-        @PZC_CMAKE_CXX_COMPILER_LAUNCHER@
-        @PZC_CMAKE_C_COMPILER_LAUNCHER@
-        @PZC_CMAKE_LINKER_TYPE@
-        @_PZC_CMAKE_GPU_COMPILER@
-        @_PZC_CMAKE_GPU_FLAGS@
-        @_PZC_CMAKE_GPU_ARCH@
+@PZC_CMAKE_C_COMPILER_LAUNCHER@
+@PZC_CMAKE_LINKER_TYPE@
+@_PZC_CMAKE_PREFIX_PATH@
+@_PZC_CMAKE_GPU@
         "CMAKE_BUILD_TYPE": "@PZC_CMAKE_BUILD_TYPE@",
         "CMAKE_C_COMPILER": "@PZC_C_COMPILER@",
         "CMAKE_CXX_COMPILER": "@PZC_GPU_HOST_COMPILER@"

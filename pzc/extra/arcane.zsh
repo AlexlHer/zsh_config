@@ -57,55 +57,11 @@ function gitarc()
 
 
 # ---------------------------------------------------------------
-# ------------------ Generate preset functions ------------------
-# ---------------------------------------------------------------
-
-function parc()
-{
-  _pzc_common_pcmp "framework"
-
-  local RET_CODE=$?
-
-  if [[ $RET_CODE = 1 ]]
-  then
-    _pzc_error "You need to call 'initarc' command before."
-    return 1
-  elif [[ $RET_CODE = 2 ]]
-  then
-    _pzc_error "Internal error"
-    return 1
-  fi
-}
-
-# ---------------------------------------------------------------
-# ---------------------------------------------------------------
-
-function pap()
-{
-  _pzc_common_pcmp "arcane_project"
-
-  local RET_CODE=$?
-
-  if [[ $RET_CODE = 1 ]]
-  then
-    _pzc_error "You need to call 'initap' command before."
-    return 1
-  elif [[ $RET_CODE = 2 ]]
-  then
-    _pzc_error "Internal error"
-    return 1
-  fi
-}
-
-
-
-# ---------------------------------------------------------------
 # ----------------------- Init functions ------------------------
 # ---------------------------------------------------------------
 
 function initarc()
 {
-
   if [[ -v 3 ]] && [[ ${3} != "_" ]] && [[ ${3} != "none" ]]
   then
     CMP_PROJECT_NAME=framework_${3}
@@ -113,15 +69,23 @@ function initarc()
     CMP_PROJECT_NAME=framework
   fi
 
-  _pzc_common_initcmp 1 ${CMP_PROJECT_NAME} ${1} ${2}
+  _pzc_info "Setting up Arcane Framework development environment: ${CMP_PROJECT_NAME}"
 
+  CMP_PROJECT_TYPE=2
+
+  _pzc_common_initcmp ${CMP_PROJECT_NAME} ${1} ${2}
+  local RET_CODE=$?
+
+  if [[ $RET_CODE != 0 ]]
+  then
+    return 1
+  fi
 
   _pzc_pensil_begin
   echo "CMP_PROJECT_NAME=${CMP_PROJECT_NAME}"
   echo "TYPE_BUILD_DIR=${TYPE_BUILD_DIR}"
   echo ""
   echo "CMP_BUILD_TYPE=${CMP_BUILD_TYPE}"
-  echo "CMP_PROJECT_DIR=${CMP_PROJECT_DIR}"
   echo "CMP_SOURCE_DIR=${CMP_SOURCE_DIR}"
   echo "CMP_BUILD_DIR=${CMP_BUILD_DIR}"
   echo "CMP_INSTALL_DIR=${CMP_INSTALL_DIR}"
@@ -136,11 +100,16 @@ function initarc()
 
 function initap()
 {
-  _pzc_common_initcmp 0 ${1} ${2} ${3}
+  _pzc_info "Setting up Arcane-based project development environment: ${CMP_PROJECT_NAME}"
 
-  if [[ ! -v ARCANE_INSTALL_DIR ]]
+  CMP_PROJECT_TYPE=3
+
+  _pzc_common_initcmp ${1} ${2} ${3}
+  local RET_CODE=$?
+
+  if [[ $RET_CODE != 0 ]]
   then
-    ARCANE_INSTALL_DIR="${INSTALL_DIR}/install_framework/${TYPE_BUILD_DIR}"
+    return 1
   fi
 
   _pzc_pensil_begin
@@ -148,7 +117,6 @@ function initap()
   echo "TYPE_BUILD_DIR=${TYPE_BUILD_DIR}"
   echo ""
   echo "CMP_BUILD_TYPE=${CMP_BUILD_TYPE}"
-  echo "CMP_PROJECT_DIR=${CMP_PROJECT_DIR}"
   echo "CMP_SOURCE_DIR=${CMP_SOURCE_DIR}"
   echo "CMP_BUILD_DIR=${CMP_BUILD_DIR}"
   echo "CMP_INSTALL_DIR=${CMP_INSTALL_DIR}"
@@ -163,47 +131,24 @@ function initap()
 
 
 # ---------------------------------------------------------------
-# -------------------- Edit init functions ----------------------
+# ------------------ Generate preset functions ------------------
 # ---------------------------------------------------------------
 
-function editap()
+function parc()
 {
-  _pzc_common_editcmp 1
-
-  local RET_CODE=$?
-
-  if [[ $RET_CODE = 1 ]]
-  then
-    _pzc_error "You need to call 'initap' command before."
-    return 1
-  fi
-
-  echo ""
-  _pzc_coal_eval "initap ${CMP_PROJECT_NAME} ${CMP_BUILD_TYPE} ${TYPE_BUILD_DIR}"
+  _pzc_warning "Deprecated function : use 'pcmp' instead."
+  pcmp
+  return $?
 }
 
 # ---------------------------------------------------------------
 # ---------------------------------------------------------------
 
-function editaprm()
+function pap()
 {
-  _pzc_common_editcmprm
-
-  local RET_CODE=$?
-
-  if [[ $RET_CODE = 1 ]]
-  then
-    _pzc_error "You need to call 'initap' command before."
-    return 1
-
-  elif [[ $RET_CODE = 2 ]]
-  then
-    _pzc_warning "The edit script doesn't exist."
-    return 1
-  fi
-
-  echo ""
-  _pzc_coal_eval "initap ${CMP_PROJECT_NAME} ${CMP_BUILD_TYPE} ${TYPE_BUILD_DIR}"
+  _pzc_warning "Deprecated function : use 'pcmp' instead."
+  pcmp
+  return $?
 }
 
 
@@ -214,23 +159,9 @@ function editaprm()
 
 function editparc()
 {
-  if [[ ! -v CMP_BUILD_DIR ]]
-  then
-    _pzc_error "You need to call 'initarc' command before."
-    return 1
-  fi
-
-  local _PZC_TMP_PRESET_PATH="${CMP_BUILD_DIR}/${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
-
-  if [[ ! -e "${_PZC_TMP_PRESET_PATH}" ]]
-  then
-    _pzc_info "Build preset not found (${_PZC_TMP_PRESET_PATH}). Generation..."
-    parc
-  fi
-  
-  _pzc_coal_eval "${PZC_FILE_EDITOR} ${_PZC_TMP_PRESET_PATH}"
-
-  _pzc_info "Build preset edited. You can save it in ${PZC_EDIT_SCRIPTS} with 'saveparc' command."
+  _pzc_warning "Deprecated function : use 'editpcmp' instead."
+  editpcmp
+  return $?
 }
 
 # ---------------------------------------------------------------
@@ -238,23 +169,9 @@ function editparc()
 
 function editpap()
 {
-  if [[ ! -v CMP_BUILD_DIR ]]
-  then
-    _pzc_error "You need to call 'initap' command before."
-    return 1
-  fi
-
-  local _PZC_TMP_PRESET_PATH="${CMP_BUILD_DIR}/${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
-
-  if [[ ! -e "${_PZC_TMP_PRESET_PATH}" ]]
-  then
-    _pzc_info "Build preset not found (${_PZC_TMP_PRESET_PATH}). Generation..."
-    pap
-  fi
-  
-  _pzc_coal_eval "${PZC_FILE_EDITOR} ${_PZC_TMP_PRESET_PATH}"
-
-  _pzc_info "Build preset edited. You can save it in ${PZC_EDIT_SCRIPTS} with 'savepap' command."
+  _pzc_warning "Deprecated function : use 'editpcmp' instead."
+  editpcmp
+  return $?
 }
 
 
@@ -265,35 +182,9 @@ function editpap()
 
 function saveparc()
 {
-  if [[ ! -v CMP_BUILD_DIR ]]
-  then
-    _pzc_error "You need to call 'initarc' command before."
-    return 1
-  fi
-
-  local _PZC_SAVED_PRESET_PATH="${PZC_EDIT_SCRIPTS}/${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
-  local _PZC_TMP_PRESET_PATH="${CMP_BUILD_DIR}/${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
-
-  if [[ ! -e "${_PZC_TMP_PRESET_PATH}" ]]
-  then
-    _pzc_error "Build preset not found (${_PZC_TMP_PRESET_PATH}). Call 'configarc' or 'parc' command before."
-    return 1
-  fi
-
-  if [[ -e "${_PZC_SAVED_PRESET_PATH}" ]]
-  then
-    _pzc_error "Saved preset found (${_PZC_SAVED_PRESET_PATH}). Do you want to override it ?"
-    read -q "REPLY?(y/n)"
-    echo ""
-    if [[ ${REPLY} != "y" ]]
-    then
-      unset REPLY
-      return 1
-    fi
-    unset REPLY
-  fi
-
-  _pzc_coal_eval "cp ${_PZC_TMP_PRESET_PATH} ${_PZC_SAVED_PRESET_PATH}"
+  _pzc_warning "Deprecated function : use 'savepcmp' instead."
+  savepcmp
+  return $?
 }
 
 # ---------------------------------------------------------------
@@ -301,35 +192,9 @@ function saveparc()
 
 function savepap()
 {
-  if [[ ! -v CMP_BUILD_DIR ]]
-  then
-    _pzc_error "You need to call 'initap' command before."
-    return 1
-  fi
-
-  local _PZC_SAVED_PRESET_PATH="${PZC_EDIT_SCRIPTS}/${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
-  local _PZC_TMP_PRESET_PATH="${CMP_BUILD_DIR}/${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
-
-  if [[ ! -e "${_PZC_TMP_PRESET_PATH}" ]]
-  then
-    _pzc_error "Build preset not found (${_PZC_TMP_PRESET_PATH}). Call 'configap' or 'pap' command before."
-    return 1
-  fi
-
-  if [[ -e "${_PZC_SAVED_PRESET_PATH}" ]]
-  then
-    _pzc_error "Saved preset found (${_PZC_SAVED_PRESET_PATH}). Do you want to override it ?"
-    read -q "REPLY?(y/n)"
-    echo ""
-    if [[ ${REPLY} != "y" ]]
-    then
-      unset REPLY
-      return 1
-    fi
-    unset REPLY
-  fi
-  
-  _pzc_coal_eval "cp ${_PZC_TMP_PRESET_PATH} ${_PZC_SAVED_PRESET_PATH}"
+  _pzc_warning "Deprecated function : use 'savepcmp' instead."
+  savepcmp
+  return $?
 }
 
 
@@ -340,23 +205,9 @@ function savepap()
 
 function configarc()
 {
-  _pzc_info "Configure Arcane Framework..."
-
-  _pzc_common_configcmp
-
-  local RET_CODE=$?
-
-  if [[ $RET_CODE = 1 ]]
-  then
-    _pzc_error "You need to call 'initarc' command before."
-    return 1
-
-  elif [[ $RET_CODE = 2 ]]
-  then
-    _pzc_info "Build preset not found (${_PZC_TMP_PRESET_PATH}). Generation..."
-    parc
-    _pzc_common_configcmp
-  fi
+  _pzc_warning "Deprecated function : use 'configcmp' instead."
+  configcmp
+  return $?
 }
 
 # ---------------------------------------------------------------
@@ -364,23 +215,9 @@ function configarc()
 
 function configarcgpu()
 {
-  _pzc_info "Configure Arcane Framework GPU..."
-
-  _pzc_common_configcmp 1
-
-  local RET_CODE=$?
-
-  if [[ $RET_CODE = 1 ]]
-  then
-    _pzc_error "You need to call 'initarc' command before."
-    return 1
-
-  elif [[ $RET_CODE = 2 ]]
-  then
-    _pzc_info "Build preset not found (${_PZC_TMP_PRESET_PATH}). Generation..."
-    parc
-    _pzc_common_configcmp 1
-  fi
+  _pzc_warning "Deprecated function : use 'configcmpgpu' instead."
+  configcmpgpu
+  return $?
 }
 
 # ---------------------------------------------------------------
@@ -388,23 +225,9 @@ function configarcgpu()
 
 function configap()
 {
-  _pzc_info "Configure Arcane Project: ${CMP_PROJECT_NAME}..."
-
-  _pzc_common_configcmp
-
-  local RET_CODE=$?
-
-  if [[ $RET_CODE = 1 ]]
-  then
-    _pzc_error "You need to call 'initap' command before."
-    return 1
-
-  elif [[ $RET_CODE = 2 ]]
-  then
-    _pzc_info "Build preset not found (${_PZC_TMP_PRESET_PATH}). Generation..."
-    pap
-    _pzc_common_configcmp
-  fi
+  _pzc_warning "Deprecated function : use 'configcmp' instead."
+  configcmp
+  return $?
 }
 
 # ---------------------------------------------------------------
@@ -412,23 +235,9 @@ function configap()
 
 function configapgpu()
 {
-  _pzc_info "Configure Arcane Project GPU: ${CMP_PROJECT_NAME}..."
-
-  _pzc_common_configcmp 1
-
-  local RET_CODE=$?
-
-  if [[ $RET_CODE = 1 ]]
-  then
-    _pzc_error "You need to call 'initap' command before."
-    return 1
-
-  elif [[ $RET_CODE = 2 ]]
-  then
-    _pzc_info "Build preset not found (${_PZC_TMP_PRESET_PATH}). Generation..."
-    pap
-    _pzc_common_configcmp 1
-  fi
+  _pzc_warning "Deprecated function : use 'configcmpgpu' instead."
+  configcmpgpu
+  return $?
 }
 
 
@@ -439,17 +248,9 @@ function configapgpu()
 
 function biarc()
 {
-  if [[ ! -v CMP_BUILD_DIR ]]
-  then
-    _pzc_error "You need to call 'initarc' command before."
-    return 1
-  fi
-
-  if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
-  then
-    chmod u+x ${CMP_BUILD_DIR}/bin/*
-  fi
-  cmake --build ${CMP_BUILD_DIR} --target install
+  _pzc_warning "Deprecated function : use 'bicmp' instead."
+  bicmp
+  return $?
 }
 
 # ---------------------------------------------------------------
@@ -483,20 +284,9 @@ function docarc()
 
 function cleararc()
 {
-  if [[ ! -v CMP_BUILD_DIR ]]
-  then
-    _pzc_error "You need to call 'initarc' command before."
-    return 1
-  fi
-  
-  _pzc_pensil_begin
-  _pzc_ecal_eval "cd ${CMP_BUILD_DIR}/.."
-  _pzc_ecal_eval "rm -r ${CMP_BUILD_DIR}"
-  _pzc_ecal_eval "rm -r ${CMP_INSTALL_DIR}"
-  _pzc_ecal_eval "mkdir ${CMP_BUILD_DIR}"
-  _pzc_ecal_eval "mkdir ${CMP_INSTALL_DIR}"
-  _pzc_ecal_eval "cd ${CMP_BUILD_DIR}"
-  _pzc_pensil_end
+  _pzc_warning "Deprecated function : use 'clearcmp' instead."
+  clearcmp
+  return $?
 }
 
 # ---------------------------------------------------------------
@@ -504,18 +294,7 @@ function cleararc()
 
 function clearap()
 {
-  if [[ ! -v CMP_BUILD_DIR ]]
-  then
-    _pzc_error "You need to call 'initap' command before."
-    return 1
-  fi
-
-  _pzc_pensil_begin
-  _pzc_ecal_eval "cd ${CMP_BUILD_DIR}/.."
-  _pzc_ecal_eval "rm -r ${CMP_BUILD_DIR}"
-  _pzc_ecal_eval "rm -r ${CMP_INSTALL_DIR}"
-  _pzc_ecal_eval "mkdir ${CMP_BUILD_DIR}"
-  _pzc_ecal_eval "mkdir ${CMP_INSTALL_DIR}"
-  _pzc_ecal_eval "cd ${CMP_BUILD_DIR}"
-  _pzc_pensil_end
+  _pzc_warning "Deprecated function : use 'clearcmp' instead."
+  clearcmp
+  return $?
 }
