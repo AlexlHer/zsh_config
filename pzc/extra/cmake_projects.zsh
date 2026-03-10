@@ -19,17 +19,13 @@
 
 function pcmp()
 {
-  _pzc_common_pcmp "generic"
+  _pzc_common_pcmp
 
   local RET_CODE=$?
 
   if [[ $RET_CODE = 1 ]]
   then
-    _pzc_error "You need to call 'initcmp' command before."
-    return 1
-  elif [[ $RET_CODE = 2 ]]
-  then
-    _pzc_error "Internal error"
+    _pzc_error "You need to call initialisation command before ('initarc' for Arcane, 'initap' for Arcane project, 'initcmp' for CMake project)."
     return 1
   fi
 }
@@ -42,14 +38,21 @@ function pcmp()
 
 function initcmp()
 {
-  _pzc_common_initcmp 0 ${1} ${2} ${3}
+  CMP_PROJECT_TYPE=1
 
+  _pzc_common_initcmp ${1} ${2} ${3}
+  local RET_CODE=$?
+
+  if [[ $RET_CODE != 0 ]]
+  then
+    return 1
+  fi
+  
   _pzc_pensil_begin
   echo "CMP_PROJECT_NAME=${CMP_PROJECT_NAME}"
   echo "TYPE_BUILD_DIR=${TYPE_BUILD_DIR}"
   echo ""
   echo "CMP_BUILD_TYPE=${CMP_BUILD_TYPE}"
-  echo "CMP_PROJECT_DIR=${CMP_PROJECT_DIR}"
   echo "CMP_SOURCE_DIR=${CMP_SOURCE_DIR}"
   echo "CMP_BUILD_DIR=${CMP_BUILD_DIR}"
   echo "CMP_INSTALL_DIR=${CMP_INSTALL_DIR}"
@@ -62,60 +65,14 @@ function initcmp()
 
 
 # ---------------------------------------------------------------
-# -------------------- Edit init functions ----------------------
-# ---------------------------------------------------------------
-
-function editcmp()
-{
-  _pzc_common_editcmp
-
-  local RET_CODE=$?
-
-  if [[ $RET_CODE = 1 ]]
-  then
-    _pzc_error "You need to call 'initcmp' command before."
-    return 1
-  fi
-
-  echo ""
-  _pzc_coal_eval "initcmp ${CMP_PROJECT_NAME} ${CMP_BUILD_TYPE} ${TYPE_BUILD_DIR}"
-}
-
-# ---------------------------------------------------------------
-# ---------------------------------------------------------------
-
-function editcmprm()
-{
-  _pzc_common_editcmprm
-
-  local RET_CODE=$?
-
-  if [[ $RET_CODE = 1 ]]
-  then
-    _pzc_error "You need to call 'initcmp' command before."
-    return 1
-
-  elif [[ $RET_CODE = 2 ]]
-  then
-    _pzc_warning "The edit script doesn't exist."
-    return 1
-  fi
-
-  echo ""
-  _pzc_coal_eval "initcmp ${CMP_PROJECT_NAME} ${CMP_BUILD_TYPE} ${TYPE_BUILD_DIR}"
-}
-
-
-
-# ---------------------------------------------------------------
 # -------------------- Edit preset functions --------------------
 # ---------------------------------------------------------------
 
 function editpcmp()
 {
-  if [[ ! -v CMP_BUILD_DIR ]]
+  if [[ ! -v CMP_PROJECT_TYPE ]]
   then
-    _pzc_error "You need to call 'initcmp' command before."
+    _pzc_error "You need to call initialisation command before ('initarc' for Arcane, 'initap' for Arcane project, 'initcmp' for CMake project)."
     return 1
   fi
 
@@ -140,9 +97,9 @@ function editpcmp()
 
 function savepcmp()
 {
-  if [[ ! -v CMP_BUILD_DIR ]]
+  if [[ ! -v CMP_PROJECT_TYPE ]]
   then
-    _pzc_error "You need to call 'initcmp' command before."
+    _pzc_error "You need to call initialisation command before ('initarc' for Arcane, 'initap' for Arcane project, 'initcmp' for CMake project)."
     return 1
   fi
 
@@ -187,7 +144,7 @@ function configcmp()
 
   if [[ $RET_CODE = 1 ]]
   then
-    _pzc_error "You need to call 'initcmp' command before."
+    _pzc_error "You need to call initialisation command before ('initarc' for Arcane, 'initap' for Arcane project, 'initcmp' for CMake project)."
     return 1
 
   elif [[ $RET_CODE = 2 ]]
@@ -211,7 +168,7 @@ function configcmpgpu()
 
   if [[ $RET_CODE = 1 ]]
   then
-    _pzc_error "You need to call 'initcmp' command before."
+    _pzc_error "You need to call initialisation command before ('initarc' for Arcane, 'initap' for Arcane project, 'initcmp' for CMake project)."
     return 1
 
   elif [[ $RET_CODE = 2 ]]
@@ -225,14 +182,43 @@ function configcmpgpu()
 
 
 # ---------------------------------------------------------------
+# ------------------- Build/Install functions -------------------
+# ---------------------------------------------------------------
+
+function bicmp()
+{
+  if [[ ! -v CMP_PROJECT_TYPE ]]
+  then
+    _pzc_error "You need to call initialisation command before ('initarc' for Arcane, 'initap' for Arcane project, 'initcmp' for CMake project)."
+    return 1
+  fi
+
+  if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
+  then
+    chmod u+x ${CMP_BUILD_DIR}/bin/*
+  fi
+  cmake --build ${CMP_BUILD_DIR} --target install
+
+  local RET_CODE=$?
+  if [[ $RET_CODE != 0 ]]
+  then
+    return 1
+  fi
+
+  _pzc_info "${CMP_PROJECT_NAME} is installed in dir: \"${CMP_INSTALL_DIR}\""
+}
+
+
+
+# ---------------------------------------------------------------
 # ----------------------- Clear functions -----------------------
 # ---------------------------------------------------------------
 
 clearcmp()
 {
-  if [[ ! -v CMP_BUILD_DIR ]]
+  if [[ ! -v CMP_PROJECT_TYPE ]]
   then
-    _pzc_error "You need to call 'initcmp' command before."
+    _pzc_error "You need to call initialisation command before ('initarc' for Arcane, 'initap' for Arcane project, 'initcmp' for CMake project)."
     return 1
   fi
 

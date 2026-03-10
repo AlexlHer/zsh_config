@@ -5,6 +5,13 @@
     "minor": 26,
     "patch": 0
   },
+  "vendor": {
+    "pzc": {
+      "cmpSourceDir": "@CMP_SOURCE_DIR@",
+      "cmpBuildDir": "@CMP_BUILD_DIR@",
+      "cmpInstallDir": "@CMP_INSTALL_DIR@"
+    }
+  },
   "configurePresets": [
     {
       "name": "@CMP_BUILD_TYPE@",
