@@ -41,9 +41,6 @@ function _pzc_common_pcmp()
   if [[ ${CMP_PROJECT_TYPE} = 2 ]]
   then
     local _PZC_TEMPLATE_NAME="framework"
-  elif [[ ${CMP_PROJECT_TYPE} = 3 ]]
-  then
-    local _PZC_TEMPLATE_NAME="arcane_project"
   else
     local _PZC_TEMPLATE_NAME="generic"
   fi
@@ -68,30 +65,39 @@ function _pzc_common_pcmp()
 
   local _PZC_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/${_PZC_TEMPLATE_NAME}.json.in"
 
+  local _PZC_CMAKE_GPU=""
+  local _PZC_CMAKE_ARCANE_GPU=""
+  local _PZC_CMAKE_PREFIX_PATH=""
+
   if [[ ${PZC_GPU_AVAILABLE} = 1 ]]
   then
     if [[ "${PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
     then
-      local _PZC_ARCANE_ACCELERATOR_MODE="\"ARCANE_ACCELERATOR_MODE\": \"CUDA\","
-      local _PZC_CMAKE_GPU_COMPILER="\"CMAKE_CUDA_COMPILER\": \"${PZC_GPU_COMPILER}\","
+      _PZC_CMAKE_ARCANE_GPU="${_PZC_CMAKE_ARCANE_GPU}\n        \"ARCANE_ACCELERATOR_MODE\": \"CUDA\","
+      _PZC_CMAKE_GPU="${_PZC_CMAKE_GPU}\n        \"CMAKE_CUDA_COMPILER\": \"${PZC_GPU_COMPILER}\","
       if [[ -v PZC_GPU_FLAGS ]]
       then
-        local _PZC_CMAKE_GPU_FLAGS="\"CMAKE_CUDA_FLAGS\": \"${PZC_GPU_FLAGS}\","
+        _PZC_CMAKE_GPU="${_PZC_CMAKE_GPU}\n        \"CMAKE_CUDA_FLAGS\": \"${PZC_GPU_FLAGS}\","
       fi
       if [[ -v PZC_GPU_TARGET_ARCH ]]
       then
-        local _PZC_CMAKE_GPU_ARCH="\"CMAKE_CUDA_ARCHITECTURES\": \"${PZC_GPU_TARGET_ARCH}\","
+        _PZC_CMAKE_GPU="${_PZC_CMAKE_GPU}\n        \"CMAKE_CUDA_ARCHITECTURES\": \"${PZC_GPU_TARGET_ARCH}\","
       fi
 
     else
-      local _PZC_ARCANE_ACCELERATOR_MODE="\"ARCANE_ACCELERATOR_MODE\": \"SYCL\","
-      local _PZC_CMAKE_GPU_COMPILER="\"CMAKE_SYCL_COMPILER\": \"${PZC_GPU_COMPILER}\","
+      _PZC_CMAKE_ARCANE_GPU="${_PZC_CMAKE_ARCANE_GPU}\n        \"ARCANE_ACCELERATOR_MODE\": \"SYCL\","
+      _PZC_CMAKE_GPU="${_PZC_CMAKE_GPU}\n        \"CMAKE_SYCL_COMPILER\": \"${PZC_GPU_COMPILER}\","
       if [[ -v PZC_GPU_FLAGS ]]
       then
-        local _PZC_CMAKE_GPU_FLAGS="\"ARCANE_CXX_SYCL_FLAGS\": \"${PZC_GPU_FLAGS}\","
+        _PZC_CMAKE_ARCANE_GPU="${_PZC_CMAKE_ARCANE_GPU}\n        \"ARCANE_CXX_SYCL_FLAGS\": \"${PZC_GPU_FLAGS}\","
       fi
     fi
     local _PZC_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/${_PZC_TEMPLATE_NAME}_gpu.json.in"
+  fi
+
+  if [[ ${CMP_PROJECT_TYPE} = 3 ]]
+  then
+    _PZC_CMAKE_PREFIX_PATH="${_PZC_CMAKE_PREFIX_PATH}\n        \"CMAKE_PREFIX_PATH\": \"${ARCANE_INSTALL_DIR}\","
   fi
 
   sed -e "s|@TYPE_BUILD_DIR@|${TYPE_BUILD_DIR}|g" \
@@ -100,19 +106,16 @@ function _pzc_common_pcmp()
       -e "s|@CMP_BUILD_DIR@|${CMP_BUILD_DIR}|g" \
       -e "s|@CMP_INSTALL_DIR@|${CMP_INSTALL_DIR}|g" \
       -e "s|@PZC_CMAKE_GENERATOR@|${PZC_CMAKE_GENERATOR}|g" \
-      -e "s|@PZC_CMAKE_CXX_COMPILER_LAUNCHER@|${PZC_CMAKE_CXX_COMPILER_LAUNCHER}|g" \
       -e "s|@PZC_CMAKE_C_COMPILER_LAUNCHER@|${PZC_CMAKE_C_COMPILER_LAUNCHER}|g" \
       -e "s|@PZC_CMAKE_LINKER_TYPE@|${PZC_CMAKE_LINKER_TYPE}|g" \
-      -e "s|@_PZC_ARCANE_ACCELERATOR_MODE@|${_PZC_ARCANE_ACCELERATOR_MODE}|g" \
-      -e "s|@_PZC_CMAKE_GPU_COMPILER@|${_PZC_CMAKE_GPU_COMPILER}|g" \
-      -e "s|@_PZC_CMAKE_GPU_FLAGS@|${_PZC_CMAKE_GPU_FLAGS}|g" \
-      -e "s|@_PZC_CMAKE_GPU_ARCH@|${_PZC_CMAKE_GPU_ARCH}|g" \
+      -e "s|@_PZC_CMAKE_GPU@|${_PZC_CMAKE_GPU}|g" \
       -e "s|@PZC_C_COMPILER@|${PZC_C_COMPILER}|g" \
       -e "s|@PZC_CXX_COMPILER@|${PZC_CXX_COMPILER}|g" \
       -e "s|@PZC_GPU_HOST_COMPILER@|${PZC_GPU_HOST_COMPILER}|g" \
       -e "s|@CMP_BUILD_TYPE@|${CMP_BUILD_TYPE}|g" \
       -e "s|@PZC_CMAKE_BUILD_TYPE@|${PZC_CMAKE_BUILD_TYPE}|g" \
-      -e "s|@ARCANE_INSTALL_DIR@|${ARCANE_INSTALL_DIR}|g" \
+      -e "s|@_PZC_CMAKE_ARCANE_GPU@|${_PZC_CMAKE_ARCANE_GPU}|g" \
+      -e "s|@_PZC_CMAKE_PREFIX_PATH@|${_PZC_CMAKE_PREFIX_PATH}|g" \
       ${_PZC_TEMPLATE_PRESET_PATH} > "${_PZC_TMP_PRESET_PATH}"
 }
 

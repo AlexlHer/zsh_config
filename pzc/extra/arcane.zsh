@@ -64,10 +64,7 @@ function parc()
 {
   _pzc_warning "Deprecated function : use 'pcmp' instead."
   pcmp
-  if [[ $? != 0 ]]
-  then
-    return 1
-  fi
+  return $?
 }
 
 # ---------------------------------------------------------------
@@ -77,10 +74,7 @@ function pap()
 {
   _pzc_warning "Deprecated function : use 'pcmp' instead."
   pcmp
-  if [[ $? != 0 ]]
-  then
-    return 1
-  fi
+  return $?
 }
 
 
@@ -164,10 +158,7 @@ function editparc()
 {
   _pzc_warning "Deprecated function : use 'editpcmp' instead."
   editpcmp
-  if [[ $? != 0 ]]
-  then
-    return 1
-  fi
+  return $?
 }
 
 # ---------------------------------------------------------------
@@ -177,10 +168,7 @@ function editpap()
 {
   _pzc_warning "Deprecated function : use 'editpcmp' instead."
   editpcmp
-  if [[ $? != 0 ]]
-  then
-    return 1
-  fi
+  return $?
 }
 
 
@@ -193,10 +181,7 @@ function saveparc()
 {
   _pzc_warning "Deprecated function : use 'savepcmp' instead."
   savepcmp
-  if [[ $? != 0 ]]
-  then
-    return 1
-  fi
+  return $?
 }
 
 # ---------------------------------------------------------------
@@ -206,10 +191,7 @@ function savepap()
 {
   _pzc_warning "Deprecated function : use 'savepcmp' instead."
   savepcmp
-  if [[ $? != 0 ]]
-  then
-    return 1
-  fi
+  return $?
 }
 
 
@@ -222,10 +204,7 @@ function configarc()
 {
   _pzc_warning "Deprecated function : use 'configcmp' instead."
   configcmp
-  if [[ $? != 0 ]]
-  then
-    return 1
-  fi
+  return $?
 }
 
 # ---------------------------------------------------------------
@@ -235,10 +214,7 @@ function configarcgpu()
 {
   _pzc_warning "Deprecated function : use 'configcmpgpu' instead."
   configcmpgpu
-  if [[ $? != 0 ]]
-  then
-    return 1
-  fi
+  return $?
 }
 
 # ---------------------------------------------------------------
@@ -248,10 +224,7 @@ function configap()
 {
   _pzc_warning "Deprecated function : use 'configcmp' instead."
   configcmp
-  if [[ $? != 0 ]]
-  then
-    return 1
-  fi
+  return $?
 }
 
 # ---------------------------------------------------------------
@@ -261,10 +234,7 @@ function configapgpu()
 {
   _pzc_warning "Deprecated function : use 'configcmpgpu' instead."
   configcmpgpu
-  if [[ $? != 0 ]]
-  then
-    return 1
-  fi
+  return $?
 }
 
 
@@ -277,10 +247,7 @@ function biarc()
 {
   _pzc_warning "Deprecated function : use 'bicmp' instead."
   bicmp
-  if [[ $? != 0 ]]
-  then
-    return 1
-  fi
+  return $?
 }
 
 # ---------------------------------------------------------------
@@ -316,10 +283,7 @@ function cleararc()
 {
   _pzc_warning "Deprecated function : use 'clearcmp' instead."
   clearcmp
-  if [[ $? != 0 ]]
-  then
-    return 1
-  fi
+  return $?
 }
 
 # ---------------------------------------------------------------
@@ -329,8 +293,5 @@ function clearap()
 {
   _pzc_warning "Deprecated function : use 'clearcmp' instead."
   clearcmp
-  if [[ $? != 0 ]]
-  then
-    return 1
-  fi
+  return $?
 }
