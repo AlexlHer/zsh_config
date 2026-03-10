@@ -57,41 +57,19 @@ function gitarc()
 
 
 # ---------------------------------------------------------------
-# ------------------ Generate preset functions ------------------
-# ---------------------------------------------------------------
-
-function parc()
-{
-  _pzc_warning "Deprecated function : use 'pcmp' instead."
-  pcmp
-  return $?
-}
-
-# ---------------------------------------------------------------
-# ---------------------------------------------------------------
-
-function pap()
-{
-  _pzc_warning "Deprecated function : use 'pcmp' instead."
-  pcmp
-  return $?
-}
-
-
-
-# ---------------------------------------------------------------
 # ----------------------- Init functions ------------------------
 # ---------------------------------------------------------------
 
 function initarc()
 {
-
   if [[ -v 3 ]] && [[ ${3} != "_" ]] && [[ ${3} != "none" ]]
   then
     CMP_PROJECT_NAME=framework_${3}
   else
     CMP_PROJECT_NAME=framework
   fi
+
+  _pzc_info "Setting up Arcane Framework development environment: ${CMP_PROJECT_NAME}"
 
   CMP_PROJECT_TYPE=2
 
@@ -122,6 +100,8 @@ function initarc()
 
 function initap()
 {
+  _pzc_info "Setting up Arcane-based project development environment: ${CMP_PROJECT_NAME}"
+
   CMP_PROJECT_TYPE=3
 
   _pzc_common_initcmp ${1} ${2} ${3}
@@ -146,6 +126,29 @@ function initap()
   echo "mkdir -p ${CMP_BUILD_DIR}"
   echo "cd ${CMP_BUILD_DIR}"
   _pzc_pensil_end
+}
+
+
+
+# ---------------------------------------------------------------
+# ------------------ Generate preset functions ------------------
+# ---------------------------------------------------------------
+
+function parc()
+{
+  _pzc_warning "Deprecated function : use 'pcmp' instead."
+  pcmp
+  return $?
+}
+
+# ---------------------------------------------------------------
+# ---------------------------------------------------------------
+
+function pap()
+{
+  _pzc_warning "Deprecated function : use 'pcmp' instead."
+  pcmp
+  return $?
 }
 
 

@@ -14,30 +14,13 @@
 
 
 # ---------------------------------------------------------------
-# ------------------ Generate preset functions ------------------
-# ---------------------------------------------------------------
-
-function pcmp()
-{
-  _pzc_common_pcmp
-
-  local RET_CODE=$?
-
-  if [[ $RET_CODE = 1 ]]
-  then
-    _pzc_error "You need to call initialisation command before ('initarc' for Arcane, 'initap' for Arcane project, 'initcmp' for CMake project)."
-    return 1
-  fi
-}
-
-
-
-# ---------------------------------------------------------------
 # ----------------------- Init functions ------------------------
 # ---------------------------------------------------------------
 
 function initcmp()
 {
+  _pzc_info "Setting up CMake project development environment: ${CMP_PROJECT_NAME}"
+
   CMP_PROJECT_TYPE=1
 
   _pzc_common_initcmp ${1} ${2} ${3}
@@ -60,6 +43,25 @@ function initcmp()
   echo "mkdir -p ${CMP_BUILD_DIR}"
   echo "cd ${CMP_BUILD_DIR}"
   _pzc_pensil_end
+}
+
+
+
+# ---------------------------------------------------------------
+# ------------------ Generate preset functions ------------------
+# ---------------------------------------------------------------
+
+function pcmp()
+{
+  _pzc_common_pcmp
+
+  local RET_CODE=$?
+
+  if [[ $RET_CODE = 1 ]]
+  then
+    _pzc_error "You need to call initialisation command before ('initarc' for Arcane, 'initap' for Arcane project, 'initcmp' for CMake project)."
+    return 1
+  fi
 }
 
 

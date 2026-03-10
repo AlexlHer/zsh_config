@@ -134,7 +134,6 @@ function _pzc_common_initcmp()
 
   if [[ -v 1 ]]
   then
-    _pzc_info "Initialize CMake Project: ${1}"
     CMP_PROJECT_NAME=${1}
   else
     _pzc_error "Need project name (first arg)"
