@@ -6,16 +6,23 @@
     "patch": 0
   },
   "vendor": {
+    "$comment": [
+      "Initialisation part for PZC. You can edit it.",
+      "Call 'initarc'/'initap'/'initcmp' and 'clearcmp' to update paths in configurePresets part."
+    ],
     "pzc": {
+      "pzcPresetsVersion": [7,2,0],
       "cmpSourceDir": "@CMP_SOURCE_DIR@",
       "cmpBuildDir": "@CMP_BUILD_DIR@",
       "cmpInstallDir": "@CMP_INSTALL_DIR@"
     }
   },
+  @PZC_CMAKE_PRESET_INCLUDES@
   "configurePresets": [
     {
-      "name": "@CMP_BUILD_TYPE@",
+      "name": "@PZC_CMAKE_PRESET_NAME@@CMP_BUILD_TYPE@",
       "description": "Build @PROJECT_NAME@ @TYPE_BUILD_DIR@",
+      @PZC_CMAKE_PRESET_HIDDEN_INHERITS@
       "binaryDir": "@CMP_BUILD_DIR@",
       "installDir": "@CMP_INSTALL_DIR@",
       "generator": "@PZC_CMAKE_GENERATOR@",

@@ -45,23 +45,18 @@ function _pzc_common_pcmp()
     local _PZC_TEMPLATE_NAME="generic"
   fi
 
-  local _PZC_SAVED_PRESET_PATH="${PZC_EDIT_SCRIPTS}/${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
-  local _PZC_TMP_PRESET_PATH="${CMP_BUILD_DIR}/${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+  local _PZC_SAVED_USER_PRESET_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
 
-  if [[ -e "${_PZC_TMP_PRESET_PATH}" ]]
+  local _PZC_TMP_USER_PRESET_PATH="${CMP_BUILD_DIR}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+  local _PZC_TMP_PRESET_PATH="${CMP_BUILD_DIR}/pzc_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+
+  if [[ -e "${_PZC_TMP_USER_PRESET_PATH}" ]] && [[ -e "${_PZC_TMP_PRESET_PATH}" ]]
   then
-    _pzc_info "Build preset found (${_PZC_TMP_PRESET_PATH})."
+    _pzc_info "Default build preset and user build preset found (${_PZC_TMP_USER_PRESET_PATH})."
     return 0
   fi
 
-  if [[ -e "${_PZC_SAVED_PRESET_PATH}" ]]
-  then
-    _pzc_info "Copying saved preset (${_PZC_SAVED_PRESET_PATH}) in build dir..."
-    cp "${_PZC_SAVED_PRESET_PATH}" "${_PZC_TMP_PRESET_PATH}"
-    return 0
-  fi
-
-  _pzc_info "Generation of preset in build dir..."
+  _pzc_info "Generation of default build preset in build dir (${_PZC_TMP_PRESET_PATH})..."
 
   local _PZC_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/${_PZC_TEMPLATE_NAME}.json.in"
 
@@ -116,7 +111,43 @@ function _pzc_common_pcmp()
       -e "s|@PZC_CMAKE_BUILD_TYPE@|${PZC_CMAKE_BUILD_TYPE}|g" \
       -e "s|@_PZC_CMAKE_ARCANE_GPU@|${_PZC_CMAKE_ARCANE_GPU}|g" \
       -e "s|@_PZC_CMAKE_PREFIX_PATH@|${_PZC_CMAKE_PREFIX_PATH}|g" \
+      -e "s|@PZC_CMAKE_PRESET_INCLUDES@||g" \
+      -e "s|@PZC_CMAKE_PRESET_NAME@|PZC_|g" \
+      -e "s|@PZC_CMAKE_PRESET_HIDDEN_INHERITS@|\"hidden\" : true,|g" \
+      -e "s|@PZC_CMAKE_PRESET_HIDDEN_INHERITS_GPU@|\"hidden\" : true,|g" \
       ${_PZC_TEMPLATE_PRESET_PATH} > "${_PZC_TMP_PRESET_PATH}"
+
+
+  if [[ -e "${_PZC_SAVED_USER_PRESET_PATH}" ]]
+  then
+    _pzc_info "Copying saved user build preset in build dir (${_PZC_SAVED_USER_PRESET_PATH})..."
+    cp "${_PZC_SAVED_USER_PRESET_PATH}" "${_PZC_TMP_USER_PRESET_PATH}"
+    return 0
+  fi
+
+  _pzc_info "Generation of default user build preset in build dir (${_PZC_TMP_USER_PRESET_PATH})..."
+
+  sed -e "s|@TYPE_BUILD_DIR@|${TYPE_BUILD_DIR}|g" \
+      -e "s|@PROJECT_NAME@|${CMP_PROJECT_NAME}|g" \
+      -e "s|@CMP_SOURCE_DIR@|${CMP_SOURCE_DIR}|g" \
+      -e "s|@CMP_BUILD_DIR@|${CMP_BUILD_DIR}|g" \
+      -e "s|@CMP_INSTALL_DIR@|${CMP_INSTALL_DIR}|g" \
+      -e "s|@PZC_CMAKE_GENERATOR@|${PZC_CMAKE_GENERATOR}|g" \
+      -e "s|@PZC_CMAKE_C_COMPILER_LAUNCHER@|${PZC_CMAKE_C_COMPILER_LAUNCHER}|g" \
+      -e "s|@PZC_CMAKE_LINKER_TYPE@|${PZC_CMAKE_LINKER_TYPE}|g" \
+      -e "s|@_PZC_CMAKE_GPU@|${_PZC_CMAKE_GPU}|g" \
+      -e "s|@PZC_C_COMPILER@|${PZC_C_COMPILER}|g" \
+      -e "s|@PZC_CXX_COMPILER@|${PZC_CXX_COMPILER}|g" \
+      -e "s|@PZC_GPU_HOST_COMPILER@|${PZC_GPU_HOST_COMPILER}|g" \
+      -e "s|@CMP_BUILD_TYPE@|${CMP_BUILD_TYPE}|g" \
+      -e "s|@PZC_CMAKE_BUILD_TYPE@|${PZC_CMAKE_BUILD_TYPE}|g" \
+      -e "s|@_PZC_CMAKE_ARCANE_GPU@|${_PZC_CMAKE_ARCANE_GPU}|g" \
+      -e "s|@_PZC_CMAKE_PREFIX_PATH@|${_PZC_CMAKE_PREFIX_PATH}|g" \
+      -e "s|@PZC_CMAKE_PRESET_INCLUDES@|\"include\": [\"${_PZC_TMP_PRESET_PATH}\"],|g" \
+      -e "s|@PZC_CMAKE_PRESET_NAME@||g" \
+      -e "s|@PZC_CMAKE_PRESET_HIDDEN_INHERITS@|\"inherits\" : \"PZC_${TYPE_BUILD_DIR}\",|g" \
+      -e "s|@PZC_CMAKE_PRESET_HIDDEN_INHERITS_GPU@|\"inherits\" : \"PZC_${TYPE_BUILD_DIR}_gpu\",|g" \
+      ${_PZC_TEMPLATE_PRESET_PATH} > "${_PZC_TMP_USER_PRESET_PATH}"
 }
 
 
@@ -171,23 +202,23 @@ function _pzc_common_initcmp()
     TYPE_BUILD_DIR=${CMP_BUILD_TYPE}
   fi
 
-  local _PZC_SAVED_PRESET_PATH="${PZC_EDIT_SCRIPTS}/${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+  local _PZC_SAVED_USER_PRESET_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
 
-  if [[ -e ${_PZC_SAVED_PRESET_PATH} ]]
+  if [[ -e ${_PZC_SAVED_USER_PRESET_PATH} ]]
   then
     _pzc_info "The edit script exist. Overwrite default initialization."
-    CMP_SOURCE_DIR=$(jq -r '.vendor.pzc.cmpSourceDir' ${_PZC_SAVED_PRESET_PATH})
-    CMP_BUILD_DIR=$(jq -r '.vendor.pzc.cmpBuildDir' ${_PZC_SAVED_PRESET_PATH})
-    CMP_INSTALL_DIR=$(jq -r '.vendor.pzc.cmpInstallDir' ${_PZC_SAVED_PRESET_PATH})
+    CMP_SOURCE_DIR=$(jq -r '.vendor.pzc.cmpSourceDir' ${_PZC_SAVED_USER_PRESET_PATH})
+    CMP_BUILD_DIR=$(jq -r '.vendor.pzc.cmpBuildDir' ${_PZC_SAVED_USER_PRESET_PATH})
+    CMP_INSTALL_DIR=$(jq -r '.vendor.pzc.cmpInstallDir' ${_PZC_SAVED_USER_PRESET_PATH})
 
     if [[ ${CMP_PROJECT_TYPE} = 3 ]]
     then
-      ARCANE_INSTALL_DIR=$(jq -r '.vendor.pzc.cmpArcaneInstallDir' ${_PZC_SAVED_PRESET_PATH})
+      ARCANE_INSTALL_DIR=$(jq -r '.vendor.pzc.cmpArcaneInstallDir' ${_PZC_SAVED_USER_PRESET_PATH})
     fi
 
     if [[ ${CMP_SOURCE_DIR} == "null" ]]
     then
-      _pzc_error "Invalid saved preset, check vendor part (${_PZC_SAVED_PRESET_PATH}). Remove it to regenerate correct preset."
+      _pzc_error "Invalid saved preset, check vendor part (${_PZC_SAVED_USER_PRESET_PATH}). Remove it to regenerate correct preset."
       return 2
     fi
 
@@ -226,19 +257,19 @@ function _pzc_common_configcmp()
   then
     return 1
   fi
-  local _PZC_TMP_PRESET_PATH="${CMP_BUILD_DIR}/${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+  local _PZC_TMP_USER_PRESET_PATH="${CMP_BUILD_DIR}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
 
-  if [[ ! -e "${_PZC_TMP_PRESET_PATH}" ]]
+  if [[ ! -e "${_PZC_TMP_USER_PRESET_PATH}" ]]
   then
     return 2
   fi
 
 
   _pzc_info "Generation of CMakeUserPresets.json in ${CMP_PROJECT_NAME} source..."
-  echo "{\"version\": 4,\"include\": [\"${_PZC_TMP_PRESET_PATH}\"]}" > "${CMP_SOURCE_DIR}/CMakeUserPresets.json"
+  echo "{\"version\": 4,\"include\": [\"${_PZC_TMP_USER_PRESET_PATH}\"]}" > "${CMP_SOURCE_DIR}/CMakeUserPresets.json"
 
 
-  _pzc_info "Use build preset (${_PZC_TMP_PRESET_PATH})."
+  _pzc_info "Use build preset (${_PZC_TMP_USER_PRESET_PATH})."
 
   _pzc_pensil_begin
 

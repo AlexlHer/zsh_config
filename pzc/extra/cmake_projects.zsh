@@ -78,15 +78,15 @@ function editpcmp()
     return 1
   fi
 
-  local _PZC_TMP_PRESET_PATH="${CMP_BUILD_DIR}/${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+  local _PZC_TMP_USER_PRESET_PATH="${CMP_BUILD_DIR}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
 
-  if [[ ! -e "${_PZC_TMP_PRESET_PATH}" ]]
+  if [[ ! -e "${_PZC_TMP_USER_PRESET_PATH}" ]]
   then
-    _pzc_info "Build preset not found (${_PZC_TMP_PRESET_PATH}). Generation..."
+    _pzc_info "Build preset not found (${_PZC_TMP_USER_PRESET_PATH}). Generation..."
     pcmp
   fi
   
-  _pzc_coal_eval "${PZC_FILE_EDITOR} ${_PZC_TMP_PRESET_PATH}"
+  _pzc_coal_eval "${PZC_FILE_EDITOR} ${_PZC_TMP_USER_PRESET_PATH}"
 
   _pzc_info "Build preset edited. You can save it in ${PZC_EDIT_SCRIPTS} with 'savepcmp' command."
 }
@@ -105,18 +105,18 @@ function savepcmp()
     return 1
   fi
 
-  local _PZC_SAVED_PRESET_PATH="${PZC_EDIT_SCRIPTS}/${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
-  local _PZC_TMP_PRESET_PATH="${CMP_BUILD_DIR}/${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+  local _PZC_SAVED_USER_PRESET_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+  local _PZC_TMP_USER_PRESET_PATH="${CMP_BUILD_DIR}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
 
-  if [[ ! -e "${_PZC_TMP_PRESET_PATH}" ]]
+  if [[ ! -e "${_PZC_TMP_USER_PRESET_PATH}" ]]
   then
-    _pzc_error "Build preset not found (${_PZC_TMP_PRESET_PATH}). Call 'configcmp' or 'pcmp' command before."
+    _pzc_error "Build preset not found (${_PZC_TMP_USER_PRESET_PATH}). Call 'configcmp' or 'pcmp' command before."
     return 1
   fi
 
-  if [[ -e "${_PZC_SAVED_PRESET_PATH}" ]]
+  if [[ -e "${_PZC_SAVED_USER_PRESET_PATH}" ]]
   then
-    _pzc_error "Saved preset found (${_PZC_SAVED_PRESET_PATH}). Do you want to override it ?"
+    _pzc_error "Saved preset found (${_PZC_SAVED_USER_PRESET_PATH}). Do you want to override it ?"
     read -q "REPLY?(y/n)"
     echo ""
     if [[ ${REPLY} != "y" ]]
@@ -127,7 +127,7 @@ function savepcmp()
     unset REPLY
   fi
   
-  _pzc_coal_eval "cp ${_PZC_TMP_PRESET_PATH} ${_PZC_SAVED_PRESET_PATH}"
+  _pzc_coal_eval "cp ${_PZC_TMP_USER_PRESET_PATH} ${_PZC_SAVED_USER_PRESET_PATH}"
 }
 
 
@@ -151,7 +151,7 @@ function configcmp()
 
   elif [[ $RET_CODE = 2 ]]
   then
-    _pzc_info "Build preset not found (${_PZC_TMP_PRESET_PATH}). Generation..."
+    _pzc_info "Build preset not found. Generation..."
     pcmp
     _pzc_common_configcmp
   fi
@@ -175,7 +175,7 @@ function configcmpgpu()
 
   elif [[ $RET_CODE = 2 ]]
   then
-    _pzc_info "Build preset not found (${_PZC_TMP_PRESET_PATH}). Generation..."
+    _pzc_info "Build preset not found. Generation..."
     pcmp
     _pzc_common_configcmp 1
   fi
