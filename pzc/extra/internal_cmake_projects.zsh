@@ -145,8 +145,8 @@ function _pzc_common_pcmp()
       -e "s|@_PZC_CMAKE_PREFIX_PATH@|${_PZC_CMAKE_PREFIX_PATH}|g" \
       -e "s|@PZC_CMAKE_PRESET_INCLUDES@|\"include\": [\"${_PZC_TMP_PRESET_PATH}\"],|g" \
       -e "s|@PZC_CMAKE_PRESET_NAME@||g" \
-      -e "s|@PZC_CMAKE_PRESET_HIDDEN_INHERITS@|\"inherits\" : \"PZC_${TYPE_BUILD_DIR}\",|g" \
-      -e "s|@PZC_CMAKE_PRESET_HIDDEN_INHERITS_GPU@|\"inherits\" : \"PZC_${TYPE_BUILD_DIR}_gpu\",|g" \
+      -e "s|@PZC_CMAKE_PRESET_HIDDEN_INHERITS@|\"inherits\" : \"PZC_${CMP_BUILD_TYPE}\",|g" \
+      -e "s|@PZC_CMAKE_PRESET_HIDDEN_INHERITS_GPU@|\"inherits\" : \"PZC_${CMP_BUILD_TYPE}_gpu\",|g" \
       ${_PZC_TEMPLATE_PRESET_PATH} > "${_PZC_TMP_USER_PRESET_PATH}"
 }
 
