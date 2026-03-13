@@ -8,7 +8,7 @@
 
 __zic_fzf_prog() {
   [ -n "$TMUX_PANE" ] && [ "${FZF_TMUX:-0}" != 0 ] && [ ${LINES:-40} -gt 15 ] \
-    && echo "fzf-tmux -d${FZF_TMUX_HEIGHT:-40%}" || echo "fzf"
+    && echo "fzf-tmux -d${FZF_TMUX_HEIGHT:-40%}" || echo "${PZC_FZF_BIN}"
 }
 
 __zic_matched_subdir_list() {
