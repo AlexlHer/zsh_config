@@ -130,6 +130,44 @@ function savepcmp()
   _pzc_coal_eval "cp ${_PZC_TMP_USER_PRESET_PATH} ${_PZC_SAVED_USER_PRESET_PATH}"
 }
 
+# ---------------------------------------------------------------
+# ---------------------------------------------------------------
+
+function savepcmpg()
+{
+  if [[ ! -v CMP_PROJECT_TYPE ]]
+  then
+    _pzc_error "You need to call initialisation command before ('initarc' for Arcane, 'initap' for Arcane project, 'initcmp' for CMake project)."
+    return 1
+  fi
+
+  local _PZC_SAVED_USER_PRESET_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}_${CMP_VARIANT}.json"
+  local _PZC_TMP_USER_PRESET_PATH="${CMP_BUILD_DIR}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+
+  if [[ ! -e "${_PZC_TMP_USER_PRESET_PATH}" ]]
+  then
+    _pzc_error "Build preset not found (${_PZC_TMP_USER_PRESET_PATH}). Call 'configcmp' or 'pcmp' command before."
+    return 1
+  fi
+
+  if [[ -e "${_PZC_SAVED_USER_PRESET_PATH}" ]]
+  then
+    _pzc_error "Saved preset found (${_PZC_SAVED_USER_PRESET_PATH}). Do you want to override it ?"
+    read -q "REPLY?(y/n)"
+    echo ""
+    if [[ ${REPLY} != "y" ]]
+    then
+      unset REPLY
+      return 1
+    fi
+    unset REPLY
+  fi
+
+  _pzc_warning "Removing cmpSourceDir/cmpBuildDir/cmpInstallDir is recommended. You can reedit you file if needed and resave it."
+
+  _pzc_coal_eval "cp ${_PZC_TMP_USER_PRESET_PATH} ${_PZC_SAVED_USER_PRESET_PATH}"
+}
+
 
 
 # ---------------------------------------------------------------
@@ -153,6 +191,10 @@ function configcmp()
   then
     _pzc_info "Build preset not found. Generation..."
     pcmp
+    if [[ $? != 0 ]]
+    then
+      return 1
+    fi
     _pzc_common_configcmp
   fi
 }
@@ -177,6 +219,10 @@ function configcmpgpu()
   then
     _pzc_info "Build preset not found. Generation..."
     pcmp
+    if [[ $? != 0 ]]
+    then
+      return 1
+    fi
     _pzc_common_configcmp 1
   fi
 }

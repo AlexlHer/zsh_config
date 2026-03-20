@@ -48,6 +48,7 @@ function _pzc_common_pcmp()
 
 
   local _PZC_SAVED_USER_PRESET_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+  local _PZC_SAVED_USER_PRESET_GENERIC_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}_${CMP_VARIANT}.json"
 
   local _PZC_TMP_USER_PRESET_PATH="${CMP_BUILD_DIR}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
   local _PZC_TMP_PRESET_PATH="${CMP_BUILD_DIR}/generated_default_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
@@ -101,19 +102,20 @@ function _pzc_common_pcmp()
   local _PZC_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/${_PZC_TEMPLATE_NAME}.json.in"
 
   sed \
-    -e "s|@CMP_DIR_BUILD_TYPE@|${TYPE_BUILD_DIR}|g" \
     -e "s|@CMP_PROJECT_NAME@|${CMP_PROJECT_NAME}|g" \
     -e "s|@CMP_SOURCE_DIR@|${CMP_SOURCE_DIR}|g" \
     -e "s|@CMP_BUILD_DIR@|${CMP_BUILD_DIR}|g" \
     -e "s|@CMP_INSTALL_DIR@|${CMP_INSTALL_DIR}|g" \
+    -e "s|@CMP_DIR_BUILD_TYPE@|${TYPE_BUILD_DIR}|g" \
+    -e "s|@CMP_BUILD_TYPE@|${CMP_BUILD_TYPE}|g" \
+    -e "s|@CMP_VARIANT@|${CMP_VARIANT}|g" \
+    -e "s|@CMP_CMAKE_BUILD_TYPE@|${PZC_CMAKE_BUILD_TYPE}|g" \
     -e "s|@CMP_CMAKE_GENERATOR@|${PZC_CMAKE_GENERATOR}|g" \
     -e "s|@CMP_CMAKE_C_CXX_COMPILER_LAUNCHER@|${PZC_CMAKE_C_COMPILER_LAUNCHER}|g" \
     -e "s|@CMP_CMAKE_LINKER_TYPE@|${PZC_CMAKE_LINKER_TYPE}|g" \
     -e "s|@CMP_CMAKE_C_COMPILER@|${PZC_C_COMPILER}|g" \
     -e "s|@CMP_CMAKE_CXX_COMPILER@|${PZC_CXX_COMPILER}|g" \
     -e "s|@CMP_GPU_HOST_COMPILER@|${PZC_GPU_HOST_COMPILER}|g" \
-    -e "s|@CMP_BUILD_TYPE@|${CMP_BUILD_TYPE}|g" \
-    -e "s|@CMP_CMAKE_BUILD_TYPE@|${PZC_CMAKE_BUILD_TYPE}|g" \
     -e "s|@CMP_CMAKE_CUDA_COMPILER@|${CMAKE_CUDA_COMPILER}|g" \
     -e "s|@CMP_CMAKE_CUDA_FLAGS@|${CMAKE_CUDA_FLAGS}|g" \
     -e "s|@CMP_CMAKE_CUDA_ARCHITECTURES@|${CMAKE_CUDA_ARCHITECTURES}|g" \
@@ -122,7 +124,7 @@ function _pzc_common_pcmp()
     -e "s|@CMP_ARCANE_CXX_SYCL_FLAGS@|${ARCANE_CXX_SYCL_FLAGS}|g" \
     -e "s|@CMP_ARCANE_ACCELERATOR_MODE@|${ARCANE_ACCELERATOR_MODE}|g" \
     \
-    ${_PZC_TEMPLATE_PRESET_PATH} > "${_PZC_TMP_PRESET_PATH}"
+    "${_PZC_TEMPLATE_PRESET_PATH}" > "${_PZC_TMP_PRESET_PATH}"
 
   if [[ -e "${_PZC_TMP_USER_PRESET_PATH}" ]]
   then
@@ -137,6 +139,13 @@ function _pzc_common_pcmp()
     return 0
   fi
 
+  if [[ -e "${_PZC_SAVED_USER_PRESET_GENERIC_PATH}" ]]
+  then
+    _pzc_info "Copying saved general user build preset in build dir (${_PZC_SAVED_USER_PRESET_GENERIC_PATH})..."
+    cp "${_PZC_SAVED_USER_PRESET_GENERIC_PATH}" "${_PZC_TMP_USER_PRESET_PATH}"
+    return 0
+  fi
+
   _pzc_info "Generation of default user build preset in build dir (${_PZC_TMP_USER_PRESET_PATH})..."
 
   local _PZC_EMPTY_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/${_PZC_EMPTY_TEMPLATE_NAME}.json.in"
@@ -147,7 +156,7 @@ function _pzc_common_pcmp()
     -e "s|@PZC_CMP_INSTALL_DIR@|${CMP_INSTALL_DIR}|g" \
     -e "s|@PZC_CMP_OTHER_VAR@|${_PZC_ARCANE_INSTALL_DIR}|g" \
     \
-    ${_PZC_EMPTY_TEMPLATE_PRESET_PATH} > "${_PZC_TMP_USER_PRESET_PATH}"
+    "${_PZC_EMPTY_TEMPLATE_PRESET_PATH}" > "${_PZC_TMP_USER_PRESET_PATH}"
 }
 
 # ---------------------------------------------------------------
@@ -222,19 +231,20 @@ function _pzc_common_generate_user_preset()
   fi
 
   sed \
-    -e "s|@CMP_DIR_BUILD_TYPE@|${TYPE_BUILD_DIR}|g" \
     -e "s|@CMP_PROJECT_NAME@|${CMP_PROJECT_NAME}|g" \
     -e "s|@CMP_SOURCE_DIR@|${CMP_SOURCE_DIR}|g" \
     -e "s|@CMP_BUILD_DIR@|${CMP_BUILD_DIR}|g" \
     -e "s|@CMP_INSTALL_DIR@|${CMP_INSTALL_DIR}|g" \
+    -e "s|@CMP_DIR_BUILD_TYPE@|${TYPE_BUILD_DIR}|g" \
+    -e "s|@CMP_BUILD_TYPE@|${CMP_BUILD_TYPE}|g" \
+    -e "s|@CMP_VARIANT@|${CMP_VARIANT}|g" \
+    -e "s|@CMP_CMAKE_BUILD_TYPE@|${PZC_CMAKE_BUILD_TYPE}|g" \
     -e "s|@CMP_CMAKE_GENERATOR@|${PZC_CMAKE_GENERATOR}|g" \
     -e "s|@CMP_CMAKE_C_CXX_COMPILER_LAUNCHER@|${PZC_CMAKE_C_COMPILER_LAUNCHER}|g" \
     -e "s|@CMP_CMAKE_LINKER_TYPE@|${PZC_CMAKE_LINKER_TYPE}|g" \
     -e "s|@CMP_CMAKE_C_COMPILER@|${PZC_C_COMPILER}|g" \
     -e "s|@CMP_CMAKE_CXX_COMPILER@|${PZC_CXX_COMPILER}|g" \
     -e "s|@CMP_GPU_HOST_COMPILER@|${PZC_GPU_HOST_COMPILER}|g" \
-    -e "s|@CMP_BUILD_TYPE@|${CMP_BUILD_TYPE}|g" \
-    -e "s|@CMP_CMAKE_BUILD_TYPE@|${PZC_CMAKE_BUILD_TYPE}|g" \
     -e "s|@CMP_CMAKE_CUDA_COMPILER@|${CMAKE_CUDA_COMPILER}|g" \
     -e "s|@CMP_CMAKE_CUDA_FLAGS@|${CMAKE_CUDA_FLAGS}|g" \
     -e "s|@CMP_CMAKE_CUDA_ARCHITECTURES@|${CMAKE_CUDA_ARCHITECTURES}|g" \
@@ -243,7 +253,7 @@ function _pzc_common_generate_user_preset()
     -e "s|@CMP_ARCANE_CXX_SYCL_FLAGS@|${ARCANE_CXX_SYCL_FLAGS}|g" \
     -e "s|@CMP_ARCANE_ACCELERATOR_MODE@|${ARCANE_ACCELERATOR_MODE}|g" \
     \
-    ${_PZC_TMP_USER_PRESET_PATH} > "${_PZC_TMP_GEN_USER_PRESET_PATH}"
+    "${_PZC_TMP_USER_PRESET_PATH}" > "${_PZC_TMP_GEN_USER_PRESET_PATH}"
 }
 
 
@@ -293,8 +303,10 @@ function _pzc_common_initcmp()
 
   if [[ -v 3 ]] && [[ ${3} != "_" ]] && [[ ${3} != "none" ]]
   then
+    CMP_VARIANT=${3}
     TYPE_BUILD_DIR=${CMP_BUILD_TYPE}_${3}
   else
+    CMP_VARIANT=""
     TYPE_BUILD_DIR=${CMP_BUILD_TYPE}
   fi
 
