@@ -1,0 +1,52 @@
+{
+  "version": 10,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 31,
+    "patch": 0
+  },
+  "vendor": {
+    "$comment": [
+      "Initialisation part for PZC. You can edit it.",
+      "Call 'initarc'/'initap'/'initcmp' and 'clearcmp' to update paths in configurePresets part.",
+      "Call 'savepcmp' to save this file."
+    ],
+    "pzc": {
+      "cmpSourceDir": "@PZC_CMP_SOURCE_DIR@",
+      "cmpBuildDir": "@PZC_CMP_BUILD_DIR@",
+      "cmpInstallDir": "@PZC_CMP_INSTALL_DIR@",
+      @PZC_CMP_OTHER_VAR@
+      "pzcPresetsVersion": [7,3,0]
+    }
+  },
+  "include": ["@CMP_BUILD_DIR@/generated_default_@CMP_PROJECT_NAME@_@CMP_DIR_BUILD_TYPE@.json"],
+  "configurePresets": [
+    {
+      "name": "@PZC_CMAKE_PRESET_NAME@@CMP_BUILD_TYPE@",
+      "description": "Build @CMP_PROJECT_NAME@ @CMP_DIR_BUILD_TYPE@",
+      "inherits" : ["PZC_@CMP_BUILD_TYPE@"],
+
+      "$comment": "You can copy variables from PZC preset to override it.",
+      "cacheVariables": {
+      }
+    }
+  ],
+  "$comment": [
+    "Available PZC @variables@ to use in this file (except in 'vendor' part):",
+    "",
+    "CMP_DIR_BUILD_TYPE : Folder to build and install project (example: Debug_hdf5mpi).",
+    "CMP_PROJECT_NAME : Name of the project. Commonly the repo name folder.",
+    "CMP_SOURCE_DIR : Location of the sources.",
+    "CMP_BUILD_DIR : Location of the build dir.",
+    "CMP_INSTALL_DIR : Location of the install dir.",
+    "CMP_CMAKE_GENERATOR : Name of the generator (Ninja or Unix Makefiles)",
+    "CMP_CMAKE_C_CXX_COMPILER_LAUNCHER : Path of the compiler launcher (ccache ou null)",
+    "CMP_CMAKE_LINKER_TYPE : Name of the linker (mold or null)",
+    "CMP_CMAKE_C_COMPILER : Path of the C compiler.",
+    "CMP_CMAKE_CXX_COMPILER : Path of the C++ compiler.",
+    "CMP_GPU_HOST_COMPILER : Path of the C++ compiler used with GPU compiler.",
+    "CMP_BUILD_TYPE : Build type (Debug/Check/Release).",
+    "CMP_CMAKE_BUILD_TYPE : CMake build type (Debug/RelWithDebInfo/Release).",
+    "CMP_CMAKE_PREFIX_PATH : (paths or empty string)."
+  ]
+}

@@ -195,6 +195,16 @@ function bicmp()
     return 1
   fi
 
+  if [[ ! -e "${CMP_BUILD_DIR}/CMakeCache.txt" ]]
+  then
+    _pzc_info "CMakeCache.txt not found. Calling 'configcmp' before build..."
+    configcmp
+    if [[ $? != 0 ]]
+    then
+      return 1
+    fi
+  fi
+
   if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
   then
     chmod u+x ${CMP_BUILD_DIR}/bin/*
