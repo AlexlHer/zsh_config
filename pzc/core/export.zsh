@@ -50,8 +50,9 @@ then
   mkdir -p ${CCACHE_DIR}
 
   _pzc_debug "Set PZC_CMAKE_CXX/CC_COMPILER_LAUNCHER"
-  export PZC_CMAKE_C_COMPILER_LAUNCHER="        \"CMAKE_C_COMPILER_LAUNCHER\": \"${PZC_CCACHE_BIN}\",\n        \"CMAKE_CXX_COMPILER_LAUNCHER\": \"${PZC_CCACHE_BIN}\","
-
+  export PZC_CMAKE_C_COMPILER_LAUNCHER="${PZC_CCACHE_BIN}"
+else
+  export PZC_CMAKE_C_COMPILER_LAUNCHER="null"
 fi
 
 
@@ -67,12 +68,13 @@ then
   if [[ ${_PZC_CMAKE_VERSION_MINOR} -gt 28 ]] || [[ ${_PZC_CMAKE_VERSION_MAJOR} -gt 3 ]] #>= 3.29
   then
     _pzc_debug "CMake >= 3.29 : Add PZC_CMAKE_LINKER_TYPE var"
-    export PZC_CMAKE_LINKER_TYPE="        \"CMAKE_LINKER_TYPE\": \"MOLD\","
+    export PZC_CMAKE_LINKER_TYPE="MOLD"
 
   else
     _pzc_debug "CMake < 3.29 : Set CFLAGS / CXXFLAGS"
     export CFLAGS="${CFLAGS} -fuse-ld=mold"
     export CXXFLAGS="${CXXFLAGS} -fuse-ld=mold"
+    export PZC_CMAKE_LINKER_TYPE="null"
 
   fi
 fi
@@ -98,7 +100,7 @@ then
   export NINJA_STATUS="-> %p [%f/%t][%r] "
 else
   _pzc_debug "Add -GMake"
-  PZC_CMAKE_GENERATOR="Make"
+  PZC_CMAKE_GENERATOR="Unix Makefiles"
 fi
 
 
