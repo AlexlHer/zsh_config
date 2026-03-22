@@ -72,23 +72,23 @@ function _pzc_common_pcmp()
 
     if [[ "${PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
     then
-      ARCANE_ACCELERATOR_MODE="\"CUDA\""
-      CMAKE_CUDA_COMPILER="\"${PZC_GPU_COMPILER}\""
+      ARCANE_ACCELERATOR_MODE="CUDA"
+      CMAKE_CUDA_COMPILER="${PZC_GPU_COMPILER}"
       if [[ -v PZC_GPU_FLAGS ]]
       then
-        CMAKE_CUDA_FLAGS="\"${PZC_GPU_FLAGS}\""
+        CMAKE_CUDA_FLAGS="${PZC_GPU_FLAGS}"
       fi
       if [[ -v PZC_GPU_TARGET_ARCH ]]
       then
-        CMAKE_CUDA_ARCHITECTURES="\"${PZC_GPU_TARGET_ARCH}\""
+        CMAKE_CUDA_ARCHITECTURES="${PZC_GPU_TARGET_ARCH}"
       fi
 
     else
-      ARCANE_ACCELERATOR_MODE="\"SYCL\""
-      CMAKE_SYCL_COMPILER="\"${PZC_GPU_COMPILER}\""
+      ARCANE_ACCELERATOR_MODE="SYCL"
+      CMAKE_SYCL_COMPILER="${PZC_GPU_COMPILER}"
       if [[ -v PZC_GPU_FLAGS ]]
       then
-        ARCANE_CXX_SYCL_FLAGS="\"${PZC_GPU_FLAGS}\""
+        ARCANE_CXX_SYCL_FLAGS="${PZC_GPU_FLAGS}"
       fi
     fi
   fi
@@ -125,6 +125,9 @@ function _pzc_common_pcmp()
     -e "s|@CMP_ARCANE_ACCELERATOR_MODE@|${ARCANE_ACCELERATOR_MODE}|g" \
     \
     "${_PZC_TEMPLATE_PRESET_PATH}" > "${_PZC_TMP_PRESET_PATH}"
+
+  # Comme les guillemets sont dans le template, on doit faire le remplacement des null dans un second temps.
+  sed -i 's|"null"|null|g' "${_PZC_TMP_PRESET_PATH}"
 
   if [[ -e "${_PZC_TMP_USER_PRESET_PATH}" ]]
   then
@@ -204,23 +207,23 @@ function _pzc_common_generate_user_preset()
 
     if [[ "${PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
     then
-      ARCANE_ACCELERATOR_MODE="\"CUDA\""
-      CMAKE_CUDA_COMPILER="\"${PZC_GPU_COMPILER}\""
+      ARCANE_ACCELERATOR_MODE="CUDA"
+      CMAKE_CUDA_COMPILER="${PZC_GPU_COMPILER}"
       if [[ -v PZC_GPU_FLAGS ]]
       then
-        CMAKE_CUDA_FLAGS="\"${PZC_GPU_FLAGS}\""
+        CMAKE_CUDA_FLAGS="${PZC_GPU_FLAGS}"
       fi
       if [[ -v PZC_GPU_TARGET_ARCH ]]
       then
-        CMAKE_CUDA_ARCHITECTURES="\"${PZC_GPU_TARGET_ARCH}\""
+        CMAKE_CUDA_ARCHITECTURES="${PZC_GPU_TARGET_ARCH}"
       fi
 
     else
-      ARCANE_ACCELERATOR_MODE="\"SYCL\""
-      CMAKE_SYCL_COMPILER="\"${PZC_GPU_COMPILER}\""
+      ARCANE_ACCELERATOR_MODE="SYCL"
+      CMAKE_SYCL_COMPILER="${PZC_GPU_COMPILER}"
       if [[ -v PZC_GPU_FLAGS ]]
       then
-        ARCANE_CXX_SYCL_FLAGS="\"${PZC_GPU_FLAGS}\""
+        ARCANE_CXX_SYCL_FLAGS="${PZC_GPU_FLAGS}"
       fi
     fi
   fi
@@ -254,6 +257,9 @@ function _pzc_common_generate_user_preset()
     -e "s|@CMP_ARCANE_ACCELERATOR_MODE@|${ARCANE_ACCELERATOR_MODE}|g" \
     \
     "${_PZC_TMP_USER_PRESET_PATH}" > "${_PZC_TMP_GEN_USER_PRESET_PATH}"
+
+  # Comme les guillemets sont dans le template, on doit faire le remplacement des null dans un second temps.
+  sed -i 's|"null"|null|g' "${_PZC_TMP_GEN_USER_PRESET_PATH}"
 }
 
 
