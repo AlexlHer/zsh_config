@@ -163,7 +163,13 @@ function savepcmpg()
     unset REPLY
   fi
 
-  _pzc_warning "Removing cmpSourceDir/cmpBuildDir/cmpInstallDir is recommended. You can reedit you file if needed and resave it."
+  _pzc_warning "Removing cmpSourceDir/cmpBuildDir/cmpInstallDir if present..."
+
+  jq \
+    'del(.vendor.pzc.cmpSourceDir, .vendor.pzc.cmpBuildDir, .vendor.pzc.cmpInstallDir, .vendor.pzc.cmpArcaneInstallDir)' \
+    ${_PZC_TMP_USER_PRESET_PATH} > ${_PZC_TMP_USER_PRESET_PATH}.tmp
+
+  \mv ${_PZC_TMP_USER_PRESET_PATH}.tmp ${_PZC_TMP_USER_PRESET_PATH}
 
   _pzc_coal_eval "cp ${_PZC_TMP_USER_PRESET_PATH} ${_PZC_SAVED_USER_PRESET_PATH}"
 }
