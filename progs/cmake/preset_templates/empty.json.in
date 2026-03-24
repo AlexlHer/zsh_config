@@ -16,7 +16,8 @@
       "cmpBuildDir": "@PZC_CMP_BUILD_DIR@",
       "cmpInstallDir": "@PZC_CMP_INSTALL_DIR@",
       @PZC_CMP_OTHER_VAR@
-      "pzcPresetsVersion": [7,3,0]
+      "cmpDependencies": [],
+      "pzcPresetsVersion": [7,4,0]
     }
   },
   "include": ["@CMP_BUILD_DIR@/generated_default_@CMP_PROJECT_NAME@_@CMP_DIR_BUILD_TYPE@.json"],

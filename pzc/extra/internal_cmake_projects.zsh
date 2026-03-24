@@ -439,3 +439,79 @@ function _pzc_common_configcmp()
     chmod u+x "${CMP_BUILD_DIR}/bin/*"
   fi
 }
+
+
+
+# ---------------------------------------------------------------
+# ----------------------  -----------------------
+# ---------------------------------------------------------------
+
+function _pzc_common_depcmp()
+{
+  if [[ ! -v CMP_PROJECT_TYPE ]]
+  then
+    return 3
+  fi
+
+  if [[ -v 1 ]]
+  then
+    local ADD_CMP_PROJECT_NAME=${1}
+  else
+    _pzc_error "Need dep project name (first arg)"
+    return 1
+  fi
+
+  if [[ -v 2 ]] && [[ ${2} != "_" ]] && [[ ${2} != "none" ]]
+  then
+    if [[ ${2} == "D" ]] || [[ ${2} == "Debug" ]]
+    then
+      local ADD_CMP_BUILD_TYPE=Debug
+    elif [[ ${2} == "C" ]] || [[ ${2} == "Check" ]]
+    then
+      local ADD_CMP_BUILD_TYPE=Check
+    elif [[ ${2} == "R" ]] || [[ ${2} == "Release" ]]
+    then
+      local ADD_CMP_BUILD_TYPE=Release
+    else
+      _pzc_error "Invalid 'ADD_CMP_BUILD_TYPE' [D or C or R] (second arg)"
+      return 1
+    fi
+  else
+    _pzc_info "No argument, defining 'ADD_CMP_BUILD_TYPE' to 'Release'"
+    local ADD_CMP_BUILD_TYPE=Release
+  fi
+
+  if [[ -v 3 ]] && [[ ${3} != "_" ]] && [[ ${3} != "none" ]]
+  then
+    local ADD_CMP_VARIANT=${3}
+  else
+    local ADD_CMP_VARIANT="_"
+  fi
+
+  local _PZC_TMP_USER_PRESET_PATH="${CMP_BUILD_DIR}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+  if [[ ! -e "${_PZC_TMP_USER_PRESET_PATH}" ]]
+  then
+    return 2
+  fi
+
+  if [[ -v 4 ]]
+  then
+    if [[ ${4} == 1 ]]
+    then
+      # Ajout
+      jq \
+        ".vendor.pzc.cmpDependencies += [[\"${ADD_CMP_PROJECT_NAME}\", \"${ADD_CMP_BUILD_TYPE}\", \"${ADD_CMP_VARIANT}\"]]" \
+        "${_PZC_TMP_USER_PRESET_PATH}" > "${_PZC_TMP_USER_PRESET_PATH}.tmp"
+    elif [[ ${4} == 2 ]]
+    then
+      # Suppression
+      jq \
+        ".vendor.pzc.cmpDependencies -= [[\"${ADD_CMP_PROJECT_NAME}\", \"${ADD_CMP_BUILD_TYPE}\", \"${ADD_CMP_VARIANT}\"]]" \
+        "${_PZC_TMP_USER_PRESET_PATH}" > "${_PZC_TMP_USER_PRESET_PATH}.tmp"
+    fi
+  else
+    return 4
+  fi
+
+  \mv "${_PZC_TMP_USER_PRESET_PATH}.tmp" "${_PZC_TMP_USER_PRESET_PATH}"
+}
