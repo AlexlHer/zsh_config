@@ -515,3 +515,65 @@ function _pzc_common_depcmp()
 
   \mv "${_PZC_TMP_USER_PRESET_PATH}.tmp" "${_PZC_TMP_USER_PRESET_PATH}"
 }
+
+# ---------------------------------------------------------------
+# ---------------------------------------------------------------
+
+function _pzc_common_bidep()
+{
+  if [[ ! -v CMP_PROJECT_TYPE ]]
+  then
+    return 3
+  fi
+
+  local _PZC_TMP_USER_PRESET_PATH="${CMP_BUILD_DIR}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+  if [[ ! -e "${_PZC_TMP_USER_PRESET_PATH}" ]]
+  then
+    return 2
+  fi
+
+  local ACTUAL_CMP_PROJECT_TYPE=${CMP_PROJECT_TYPE}
+  local ACTUAL_CMP_PROJECT_NAME=${CMP_PROJECT_NAME}
+  local ACTUAL_CMP_BUILD_TYPE=${CMP_BUILD_TYPE}
+  local ACTUAL_CMP_VARIANT=${CMP_VARIANT}
+
+  # Dépendences uniquement de type 1.
+  CMP_PROJECT_TYPE=1
+
+  jq -r '.vendor.pzc.cmpDependencies[] | @tsv' "${_PZC_TMP_USER_PRESET_PATH}" | while read -r var1 var2 var3
+  do
+    _pzc_info "Build install ${var1} ${var2} ${var3}"
+    _pzc_common_initcmp ${var1} ${var2} ${var3}
+
+    if [[ ! -e "${CMP_BUILD_DIR}/CMakeCache.txt" ]]
+    then
+      _pzc_info "CMakeCache.txt not found. Calling 'configcmp' before build..."
+      configcmp
+      if [[ $? != 0 ]]
+      then
+        return 1
+      fi
+    fi
+
+    if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
+    then
+      chmod u+x ${CMP_BUILD_DIR}/bin/*
+    fi
+    cmake --build ${CMP_BUILD_DIR} --target install
+
+    local RET_CODE=$?
+    if [[ $RET_CODE != 0 ]]
+    then
+      return 1
+    fi
+
+    _pzc_info "${CMP_PROJECT_NAME} is installed in dir: \"${CMP_INSTALL_DIR}\""
+
+  done
+
+  CMP_PROJECT_TYPE=${ACTUAL_CMP_PROJECT_TYPE}
+
+  _pzc_info "Reload project ${ACTUAL_CMP_PROJECT_NAME} ${ACTUAL_CMP_BUILD_TYPE} ${ACTUAL_CMP_VARIANT}"
+  # Attention : ACTUAL_CMP_VARIANT peut être vide.
+  _pzc_common_initcmp ${ACTUAL_CMP_PROJECT_NAME} ${ACTUAL_CMP_BUILD_TYPE} ${ACTUAL_CMP_VARIANT}
+}
