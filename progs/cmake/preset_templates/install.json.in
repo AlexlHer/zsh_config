@@ -7,33 +7,25 @@
   },
   "vendor": {
     "$comment": [
-      "Initialisation part for PZC. You can edit it.",
-      "Call 'initarc'/'initap'/'initcmp' and 'clearcmp' to update paths in configurePresets part.",
-      "Call 'savepcmp' to save this file."
+      "Initialisation part for PZC. You can edit it."
     ],
     "pzc": {
-      "cmpSourceDir": "@PZC_CMP_SOURCE_DIR@",
-      "cmpBuildDir": "@PZC_CMP_BUILD_DIR@",
-      "cmpInstallDir": "@PZC_CMP_INSTALL_DIR@",
-      @PZC_CMP_OTHER_VAR@
-      "cmpDependencies": [],
       "pzcPresetsVersion": [7,4,0]
     }
   },
-  "include": ["@CMP_BUILD_DIR@/generated_default_@CMP_PROJECT_NAME@_@CMP_DIR_BUILD_TYPE@.json"],
   "configurePresets": [
     {
-      "name": "@CMP_BUILD_TYPE@",
-      "description": "Build @CMP_PROJECT_NAME@ @CMP_DIR_BUILD_TYPE@",
-      "inherits" : ["PZC_@CMP_BUILD_TYPE@"],
+      "name": "@CMP_PROJECT_NAME@_@CMP_BUILD_TYPE@_@CMP_VARIANT@",
+      "description": "Import @CMP_PROJECT_NAME@ @CMP_DIR_BUILD_TYPE@",
 
-      "$comment": "You can copy variables from PZC preset to override it.",
+      "$comment": "You can add PROJECT_ROOT CMake variable here.",
       "cacheVariables": {
+        "@CMP_PROJECT_NAME@_ROOT": "@CMP_INSTALL_DIR@"
       }
     }
   ],
   "$comment": [
-    "Available PZC @variables@ to use in this file:",
+    "Available PZC @variables@ to use in this file (except in 'vendor' part):",
     "",
     "CMP_PROJECT_NAME :                  Name of the project. Commonly the repo name folder         (example: hdf5)",
     "CMP_SOURCE_DIR :                    Location of the sources                                    (example: /home/user/work/hdf5)",

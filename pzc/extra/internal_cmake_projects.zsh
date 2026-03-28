@@ -26,35 +26,21 @@ mkdir -p ${PZC_EDIT_SCRIPTS}
 # ------------------ Generate preset functions ------------------
 # ---------------------------------------------------------------
 
-function _pzc_common_pcmp()
+function _pzc_common_configure_preset()
 {
-  if [[ ! -v CMP_SOURCE_DIR ]]
+  if [[ -v 1 ]] && [[ -e "${1}" ]]
   then
-    return 1
-  fi
-
-  if [[ ! -v CMP_PROJECT_TYPE ]]
-  then
-    return 1
-  fi
-
-  if [[ ${CMP_PROJECT_TYPE} = 2 ]]
-  then
-    local _PZC_TEMPLATE_NAME="framework"
+    local PZC_TO_CONFIG=${1}
   else
-    local _PZC_TEMPLATE_NAME="generic"
+    return 1
   fi
-  local _PZC_EMPTY_TEMPLATE_NAME="empty"
 
-
-  local _PZC_SAVED_USER_PRESET_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
-  local _PZC_SAVED_USER_PRESET_GENERIC_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}_${CMP_VARIANT}.json"
-
-  local _PZC_TMP_USER_PRESET_PATH="${CMP_BUILD_DIR}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
-  local _PZC_TMP_PRESET_PATH="${CMP_BUILD_DIR}/generated_default_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
-
-  _pzc_info "Generation of default build preset in build dir (${_PZC_TMP_PRESET_PATH})..."
-
+  if [[ -v 2 ]]
+  then
+    local PZC_TARGET=${2}
+  else
+    return 2
+  fi
 
   local ARCANE_ACCELERATOR_MODE="null"
   local ARCANE_CXX_SYCL_FLAGS="null"
@@ -63,7 +49,6 @@ function _pzc_common_pcmp()
   local CMAKE_CUDA_FLAGS="null"
   local CMAKE_CUDA_ARCHITECTURES="null"
   local CMAKE_SYCL_COMPILER="null"
-  local _PZC_ARCANE_INSTALL_DIR=""
 
   if [[ ${PZC_GPU_AVAILABLE} = 1 ]]
   then
@@ -96,10 +81,7 @@ function _pzc_common_pcmp()
   if [[ ${CMP_PROJECT_TYPE} = 3 ]]
   then
     _PZC_CMAKE_PREFIX_PATH="${ARCANE_INSTALL_DIR}"
-    _PZC_ARCANE_INSTALL_DIR="\"cmpArcaneInstallDir\": \"${ARCANE_INSTALL_DIR}\","
   fi
-
-  local _PZC_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/${_PZC_TEMPLATE_NAME}.json.in"
 
   sed \
     -e "s|@CMP_PROJECT_NAME@|${CMP_PROJECT_NAME}|g" \
@@ -124,10 +106,46 @@ function _pzc_common_pcmp()
     -e "s|@CMP_ARCANE_CXX_SYCL_FLAGS@|${ARCANE_CXX_SYCL_FLAGS}|g" \
     -e "s|@CMP_ARCANE_ACCELERATOR_MODE@|${ARCANE_ACCELERATOR_MODE}|g" \
     \
-    "${_PZC_TEMPLATE_PRESET_PATH}" > "${_PZC_TMP_PRESET_PATH}"
+    "${1}" > "${2}"
 
   # Comme les guillemets sont dans le template, on doit faire le remplacement des null dans un second temps.
-  sed -i 's|"null"|null|g' "${_PZC_TMP_PRESET_PATH}"
+  sed -i 's|"null"|null|g' "${2}"
+}
+
+# ---------------------------------------------------------------
+# ---------------------------------------------------------------
+
+function _pzc_common_pcmp()
+{
+  if [[ ! -v CMP_SOURCE_DIR ]]
+  then
+    return 1
+  fi
+
+  if [[ ! -v CMP_PROJECT_TYPE ]]
+  then
+    return 1
+  fi
+
+  if [[ ${CMP_PROJECT_TYPE} = 2 ]]
+  then
+    local _PZC_TEMPLATE_NAME="framework"
+  else
+    local _PZC_TEMPLATE_NAME="generic"
+  fi
+  local _PZC_EMPTY_TEMPLATE_NAME="empty"
+
+
+  local _PZC_SAVED_USER_PRESET_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+  local _PZC_SAVED_USER_PRESET_GENERIC_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}_${CMP_VARIANT}.json"
+
+  local _PZC_TMP_USER_PRESET_PATH="${CMP_BUILD_DIR}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+  local _PZC_TMP_PRESET_PATH="${CMP_BUILD_DIR}/generated_default_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+
+  _pzc_info "Generation of default build preset in build dir (${_PZC_TMP_PRESET_PATH})..."
+
+  local _PZC_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/${_PZC_TEMPLATE_NAME}.json.in"
+  _pzc_common_configure_preset "${_PZC_TEMPLATE_PRESET_PATH}" "${_PZC_TMP_PRESET_PATH}"
 
   if [[ -e "${_PZC_TMP_USER_PRESET_PATH}" ]]
   then
@@ -150,6 +168,13 @@ function _pzc_common_pcmp()
   fi
 
   _pzc_info "Generation of default user build preset in build dir (${_PZC_TMP_USER_PRESET_PATH})..."
+
+  local _PZC_ARCANE_INSTALL_DIR=""
+
+  if [[ ${CMP_PROJECT_TYPE} = 3 ]]
+  then
+    _PZC_ARCANE_INSTALL_DIR="\"cmpArcaneInstallDir\": \"${ARCANE_INSTALL_DIR}\","
+  fi
 
   local _PZC_EMPTY_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/${_PZC_EMPTY_TEMPLATE_NAME}.json.in"
 
@@ -191,75 +216,85 @@ function _pzc_common_generate_user_preset()
 
   _pzc_info "Generation of user build preset in build dir (${_PZC_TMP_GEN_USER_PRESET_PATH})..."
 
+  _pzc_common_configure_preset "${_PZC_TMP_USER_PRESET_PATH}" "${_PZC_TMP_GEN_USER_PRESET_PATH}"
+}
 
-  local ARCANE_ACCELERATOR_MODE="null"
-  local ARCANE_CXX_SYCL_FLAGS="null"
-  local _PZC_CMAKE_PREFIX_PATH=""
-  local CMAKE_CUDA_COMPILER="null"
-  local CMAKE_CUDA_FLAGS="null"
-  local CMAKE_CUDA_ARCHITECTURES="null"
-  local CMAKE_SYCL_COMPILER="null"
+# ---------------------------------------------------------------
+# ---------------------------------------------------------------
 
-  if [[ ${PZC_GPU_AVAILABLE} = 1 ]]
+function _pzc_common_ipcmp()
+{
+  if [[ ! -v CMP_SOURCE_DIR ]]
   then
-    local _PZC_TEMPLATE_NAME="${_PZC_TEMPLATE_NAME}_gpu"
-    local _PZC_EMPTY_TEMPLATE_NAME="${_PZC_EMPTY_TEMPLATE_NAME}_gpu"
-
-    if [[ "${PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
-    then
-      ARCANE_ACCELERATOR_MODE="CUDA"
-      CMAKE_CUDA_COMPILER="${PZC_GPU_COMPILER}"
-      if [[ -v PZC_GPU_FLAGS ]]
-      then
-        CMAKE_CUDA_FLAGS="${PZC_GPU_FLAGS}"
-      fi
-      if [[ -v PZC_GPU_TARGET_ARCH ]]
-      then
-        CMAKE_CUDA_ARCHITECTURES="${PZC_GPU_TARGET_ARCH}"
-      fi
-
-    else
-      ARCANE_ACCELERATOR_MODE="SYCL"
-      CMAKE_SYCL_COMPILER="${PZC_GPU_COMPILER}"
-      if [[ -v PZC_GPU_FLAGS ]]
-      then
-        ARCANE_CXX_SYCL_FLAGS="${PZC_GPU_FLAGS}"
-      fi
-    fi
+    return 1
   fi
 
-  if [[ ${CMP_PROJECT_TYPE} = 3 ]]
+  if [[ ! -v CMP_PROJECT_TYPE ]]
   then
-    _PZC_CMAKE_PREFIX_PATH="${ARCANE_INSTALL_DIR}"
+    return 1
   fi
+
+  local _PZC_SAVED_INSTALL_PRESET_PATH="${PZC_EDIT_SCRIPTS}/install_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+  local _PZC_SAVED_INSTALL_PRESET_GENERIC_PATH="${PZC_EDIT_SCRIPTS}/install_${CMP_PROJECT_NAME}_${CMP_VARIANT}.json"
+
+  local _PZC_TMP_INSTALL_PRESET_PATH="${CMP_BUILD_DIR}/install_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+
+
+  if [[ -e "${_PZC_TMP_INSTALL_PRESET_PATH}" ]]
+  then
+    _pzc_info "User install preset found (${_PZC_TMP_INSTALL_PRESET_PATH})."
+    return 0
+  fi
+
+  if [[ -e "${_PZC_SAVED_INSTALL_PRESET_PATH}" ]]
+  then
+    _pzc_info "Copying saved user install preset in build dir (${_PZC_SAVED_INSTALL_PRESET_PATH})..."
+    cp "${_PZC_SAVED_INSTALL_PRESET_PATH}" "${_PZC_TMP_INSTALL_PRESET_PATH}"
+    return 0
+  fi
+
+  if [[ -e "${_PZC_SAVED_INSTALL_PRESET_GENERIC_PATH}" ]]
+  then
+    _pzc_info "Copying saved general user install preset in build dir (${_PZC_SAVED_INSTALL_PRESET_GENERIC_PATH})..."
+    cp "${_PZC_SAVED_INSTALL_PRESET_GENERIC_PATH}" "${_PZC_TMP_INSTALL_PRESET_PATH}"
+    return 0
+  fi
+
+  _pzc_info "Generation of default user install preset in build dir (${_PZC_TMP_INSTALL_PRESET_PATH})..."
+
+  local _PZC_EMPTY_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/install.json.in"
 
   sed \
-    -e "s|@CMP_PROJECT_NAME@|${CMP_PROJECT_NAME}|g" \
-    -e "s|@CMP_SOURCE_DIR@|${CMP_SOURCE_DIR}|g" \
-    -e "s|@CMP_BUILD_DIR@|${CMP_BUILD_DIR}|g" \
-    -e "s|@CMP_INSTALL_DIR@|${CMP_INSTALL_DIR}|g" \
-    -e "s|@CMP_DIR_BUILD_TYPE@|${TYPE_BUILD_DIR}|g" \
-    -e "s|@CMP_BUILD_TYPE@|${CMP_BUILD_TYPE}|g" \
-    -e "s|@CMP_VARIANT@|${CMP_VARIANT}|g" \
-    -e "s|@CMP_CMAKE_BUILD_TYPE@|${PZC_CMAKE_BUILD_TYPE}|g" \
-    -e "s|@CMP_CMAKE_GENERATOR@|${PZC_CMAKE_GENERATOR}|g" \
-    -e "s|@CMP_CMAKE_C_CXX_COMPILER_LAUNCHER@|${PZC_CMAKE_C_COMPILER_LAUNCHER}|g" \
-    -e "s|@CMP_CMAKE_LINKER_TYPE@|${PZC_CMAKE_LINKER_TYPE}|g" \
-    -e "s|@CMP_CMAKE_C_COMPILER@|${PZC_C_COMPILER}|g" \
-    -e "s|@CMP_CMAKE_CXX_COMPILER@|${PZC_CXX_COMPILER}|g" \
-    -e "s|@CMP_GPU_HOST_COMPILER@|${PZC_GPU_HOST_COMPILER}|g" \
-    -e "s|@CMP_CMAKE_CUDA_COMPILER@|${CMAKE_CUDA_COMPILER}|g" \
-    -e "s|@CMP_CMAKE_CUDA_FLAGS@|${CMAKE_CUDA_FLAGS}|g" \
-    -e "s|@CMP_CMAKE_CUDA_ARCHITECTURES@|${CMAKE_CUDA_ARCHITECTURES}|g" \
-    -e "s|@CMP_CMAKE_SYCL_COMPILER@|${CMAKE_SYCL_COMPILER}|g" \
-    -e "s|@CMP_CMAKE_PREFIX_PATH@|${_PZC_CMAKE_PREFIX_PATH}|g" \
-    -e "s|@CMP_ARCANE_CXX_SYCL_FLAGS@|${ARCANE_CXX_SYCL_FLAGS}|g" \
-    -e "s|@CMP_ARCANE_ACCELERATOR_MODE@|${ARCANE_ACCELERATOR_MODE}|g" \
+    -e "s|@PZC_CMP_SOURCE_DIR@|${CMP_SOURCE_DIR}|g" \
+    -e "s|@PZC_CMP_BUILD_DIR@|${CMP_BUILD_DIR}|g" \
+    -e "s|@PZC_CMP_INSTALL_DIR@|${CMP_INSTALL_DIR}|g" \
+    -e "s|@PZC_CMP_OTHER_VAR@|${_PZC_ARCANE_INSTALL_DIR}|g" \
     \
-    "${_PZC_TMP_USER_PRESET_PATH}" > "${_PZC_TMP_GEN_USER_PRESET_PATH}"
+    "${_PZC_EMPTY_TEMPLATE_PRESET_PATH}" > "${_PZC_TMP_INSTALL_PRESET_PATH}"
+}
 
-  # Comme les guillemets sont dans le template, on doit faire le remplacement des null dans un second temps.
-  sed -i 's|"null"|null|g' "${_PZC_TMP_GEN_USER_PRESET_PATH}"
+# ---------------------------------------------------------------
+# ---------------------------------------------------------------
+
+function _pzc_common_generate_install_preset()
+{
+  if [[ ! -v CMP_SOURCE_DIR ]]
+  then
+    return 1
+  fi
+
+  if [[ ! -v CMP_PROJECT_TYPE ]]
+  then
+    return 1
+  fi
+
+
+  local _PZC_TMP_INSTALL_PRESET_PATH="${CMP_BUILD_DIR}/install_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+  local _PZC_TMP_GEN_INSTALL_PRESET_PATH="${CMP_INSTALL_DIR}/generated_install_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+
+  _pzc_info "Generation of install build preset in build dir (${_PZC_TMP_GEN_INSTALL_PRESET_PATH})..."
+
+  _pzc_common_configure_preset "${_PZC_TMP_INSTALL_PRESET_PATH}" "${_PZC_TMP_GEN_INSTALL_PRESET_PATH}"
 }
 
 

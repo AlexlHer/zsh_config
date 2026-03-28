@@ -64,6 +64,22 @@ function pcmp()
   fi
 }
 
+# ---------------------------------------------------------------
+# ---------------------------------------------------------------
+
+function ipcmp()
+{
+  _pzc_common_ipcmp
+
+  local RET_CODE=$?
+
+  if [[ $RET_CODE = 1 ]]
+  then
+    _pzc_error "You need to call initialisation command before ('initarc' for Arcane, 'initap' for Arcane project, 'initcmp' for CMake project)."
+    return 1
+  fi
+}
+
 
 
 # ---------------------------------------------------------------
@@ -91,6 +107,29 @@ function editpcmp()
   _pzc_info "Build preset edited. You can save it in ${PZC_EDIT_SCRIPTS} with 'savepcmp' command."
 }
 
+# ---------------------------------------------------------------
+# ---------------------------------------------------------------
+
+function editipcmp()
+{
+  if [[ ! -v CMP_PROJECT_TYPE ]]
+  then
+    _pzc_error "You need to call initialisation command before ('initarc' for Arcane, 'initap' for Arcane project, 'initcmp' for CMake project)."
+    return 1
+  fi
+
+  local _PZC_TMP_INSTALL_PRESET_PATH="${CMP_BUILD_DIR}/install_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+
+  if [[ ! -e "${_PZC_TMP_INSTALL_PRESET_PATH}" ]]
+  then
+    _pzc_info "Install preset not found (${_PZC_TMP_INSTALL_PRESET_PATH}). Generation..."
+    pcmp
+  fi
+  
+  _pzc_coal_eval "${PZC_FILE_EDITOR} ${_PZC_TMP_INSTALL_PRESET_PATH}"
+
+  _pzc_info "Install preset edited. You can save it in ${PZC_EDIT_SCRIPTS} with 'saveipcmp' command."
+}
 
 
 # ---------------------------------------------------------------
@@ -174,6 +213,78 @@ function savepcmpg()
   _pzc_coal_eval "cp ${_PZC_TMP_USER_PRESET_PATH} ${_PZC_SAVED_USER_PRESET_PATH}"
 }
 
+# ---------------------------------------------------------------
+# ---------------------------------------------------------------
+
+function saveipcmp()
+{
+  if [[ ! -v CMP_PROJECT_TYPE ]]
+  then
+    _pzc_error "You need to call initialisation command before ('initarc' for Arcane, 'initap' for Arcane project, 'initcmp' for CMake project)."
+    return 1
+  fi
+
+  local _PZC_SAVED_USER_PRESET_PATH="${PZC_EDIT_SCRIPTS}/install_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+  local _PZC_TMP_USER_PRESET_PATH="${CMP_BUILD_DIR}/install_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+
+  if [[ ! -e "${_PZC_TMP_USER_PRESET_PATH}" ]]
+  then
+    _pzc_error "Install preset not found (${_PZC_TMP_USER_PRESET_PATH}). Call 'configcmp' or 'ipcmp' command before."
+    return 1
+  fi
+
+  if [[ -e "${_PZC_SAVED_USER_PRESET_PATH}" ]]
+  then
+    _pzc_error "Saved preset found (${_PZC_SAVED_USER_PRESET_PATH}). Do you want to override it ?"
+    read -q "REPLY?(y/n)"
+    echo ""
+    if [[ ${REPLY} != "y" ]]
+    then
+      unset REPLY
+      return 1
+    fi
+    unset REPLY
+  fi
+  
+  _pzc_coal_eval "cp ${_PZC_TMP_USER_PRESET_PATH} ${_PZC_SAVED_USER_PRESET_PATH}"
+}
+
+# ---------------------------------------------------------------
+# ---------------------------------------------------------------
+
+function saveipcmpg()
+{
+  if [[ ! -v CMP_PROJECT_TYPE ]]
+  then
+    _pzc_error "You need to call initialisation command before ('initarc' for Arcane, 'initap' for Arcane project, 'initcmp' for CMake project)."
+    return 1
+  fi
+
+  local _PZC_SAVED_USER_PRESET_PATH="${PZC_EDIT_SCRIPTS}/install_${CMP_PROJECT_NAME}_${CMP_VARIANT}.json"
+  local _PZC_TMP_USER_PRESET_PATH="${CMP_BUILD_DIR}/install_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+
+  if [[ ! -e "${_PZC_TMP_USER_PRESET_PATH}" ]]
+  then
+    _pzc_error "Install preset not found (${_PZC_TMP_USER_PRESET_PATH}). Call 'configcmp' or 'ipcmp' command before."
+    return 1
+  fi
+
+  if [[ -e "${_PZC_SAVED_USER_PRESET_PATH}" ]]
+  then
+    _pzc_error "Saved preset found (${_PZC_SAVED_USER_PRESET_PATH}). Do you want to override it ?"
+    read -q "REPLY?(y/n)"
+    echo ""
+    if [[ ${REPLY} != "y" ]]
+    then
+      unset REPLY
+      return 1
+    fi
+    unset REPLY
+  fi
+
+  _pzc_coal_eval "cp ${_PZC_TMP_USER_PRESET_PATH} ${_PZC_SAVED_USER_PRESET_PATH}"
+}
+
 
 
 # ---------------------------------------------------------------
@@ -197,6 +308,7 @@ function configcmp()
   then
     _pzc_info "Build preset not found. Generation..."
     pcmp
+    ipcmp
     if [[ $? != 0 ]]
     then
       return 1
@@ -225,6 +337,7 @@ function configcmpgpu()
   then
     _pzc_info "Build preset not found. Generation..."
     pcmp
+    ipcmp
     if [[ $? != 0 ]]
     then
       return 1
@@ -263,13 +376,18 @@ function bicmp()
   fi
   cmake --build ${CMP_BUILD_DIR} --target install
 
-  local RET_CODE=$?
-  if [[ $RET_CODE != 0 ]]
+  if [[ $? != 0 ]]
   then
     return 1
   fi
 
   _pzc_info "${CMP_PROJECT_NAME} is installed in dir: \"${CMP_INSTALL_DIR}\""
+
+  _pzc_common_generate_install_preset
+  if [[ $? != 0 ]]
+  then
+    return 1
+  fi
 }
 
 

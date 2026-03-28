@@ -42,7 +42,7 @@
     }
   ],
   "$comment": [
-    "Available PZC @variables@ to use in this file (except in 'vendor' part):",
+    "Available PZC @variables@ to use in this file:",
     "",
     "CMP_PROJECT_NAME :                  Name of the project. Commonly the repo name folder         (example: hdf5)",
     "CMP_SOURCE_DIR :                    Location of the sources                                    (example: /home/user/work/hdf5)",
