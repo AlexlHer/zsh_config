@@ -390,6 +390,24 @@ function bicmp()
   fi
 }
 
+# ---------------------------------------------------------------
+# ---------------------------------------------------------------
+
+function bidep()
+{
+  if [[ ! -v CMP_PROJECT_TYPE ]]
+  then
+    _pzc_error "You need to call initialisation command before ('initarc' for Arcane, 'initap' for Arcane project, 'initcmp' for CMake project)."
+    return 1
+  fi
+
+  _pzc_common_bidep
+  if [[ $? != 0 ]]
+  then
+    return 1
+  fi
+}
+
 
 
 # ---------------------------------------------------------------
@@ -412,4 +430,71 @@ clearcmp()
   _pzc_ecal_eval "mkdir ${CMP_INSTALL_DIR}"
   _pzc_ecal_eval "cd ${CMP_BUILD_DIR}"
   _pzc_pensil_end
+}
+
+
+
+# ---------------------------------------------------------------
+# ------------------- Dependencies functions --------------------
+# ---------------------------------------------------------------
+
+function adepcmp()
+{
+  if [[ ! -v CMP_PROJECT_TYPE ]]
+  then
+    _pzc_error "You need to call initialisation command before ('initarc' for Arcane, 'initap' for Arcane project, 'initcmp' for CMake project)."
+    return 1
+  fi
+
+  if [[ ! -v 1 ]] || [[ ! -v 2 ]] || [[ ! -v 3 ]]
+  then
+    _pzc_info "adepcmp [dependency project name] [dependency build type OR '_'] [dependency variant name OR '_']"
+    return 0
+  fi
+  
+
+  _pzc_common_depcmp ${1} ${2} ${3} 1
+  local RET_CODE=$?
+  if [[ $RET_CODE == 2 ]]
+  then
+    _pzc_error "User preset not found. Execute 'pcmp' command to generate it."
+    return 1
+  fi
+
+  if [[ $RET_CODE != 0 ]]
+  then
+    return 1
+  fi
+}
+
+# ---------------------------------------------------------------
+# ---------------------------------------------------------------
+
+function rdepcmp()
+{
+  if [[ ! -v CMP_PROJECT_TYPE ]]
+  then
+    _pzc_error "You need to call initialisation command before ('initarc' for Arcane, 'initap' for Arcane project, 'initcmp' for CMake project)."
+    return 1
+  fi
+
+  if [[ ! -v 1 ]] || [[ ! -v 2 ]] || [[ ! -v 3 ]]
+  then
+    _pzc_info "rdepcmp [dependency project name] [dependency build type OR '_'] [dependency variant name OR '_']"
+    return 0
+  fi
+  
+
+  _pzc_common_depcmp ${1} ${2} ${3} 2
+  local RET_CODE=$?
+  if [[ $RET_CODE == 2 ]]
+  then
+    _pzc_error "User preset not found. Execute 'pcmp' command to generate it."
+    return 1
+  fi
+
+  if [[ $RET_CODE != 0 ]]
+  then
+    return 1
+  fi
 }

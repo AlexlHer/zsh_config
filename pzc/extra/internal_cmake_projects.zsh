@@ -146,6 +146,10 @@ function _pzc_common_pcmp()
 
   local _PZC_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/${_PZC_TEMPLATE_NAME}.json.in"
   _pzc_common_configure_preset "${_PZC_TEMPLATE_PRESET_PATH}" "${_PZC_TMP_PRESET_PATH}"
+  if [[ $? != 0 ]]
+  then
+    return $?
+  fi
 
   if [[ -e "${_PZC_TMP_USER_PRESET_PATH}" ]]
   then
@@ -216,7 +220,10 @@ function _pzc_common_generate_user_preset()
 
   _pzc_info "Generation of user build preset in build dir (${_PZC_TMP_GEN_USER_PRESET_PATH})..."
   _pzc_common_configure_preset "${_PZC_TMP_USER_PRESET_PATH}" "${_PZC_TMP_GEN_USER_PRESET_PATH}"
-
+  if [[ $? != 0 ]]
+  then
+    return $?
+  fi
 
   jq -r '.vendor.pzc.cmpDependencies[] | @tsv' "${_PZC_TMP_USER_PRESET_PATH}" | while read -r var1 var2 var3
   do
@@ -231,7 +238,7 @@ function _pzc_common_generate_user_preset()
     local _PZC_INSTALL_PRESET="${INSTALL_DIR}/install_${var1}/${_PZC_TYPE_BUILD_DIR}/generated_install_${var1}_${var2}_${var3}.json"
     if [[ ! -e "${_PZC_INSTALL_PRESET}" ]]
     then
-      _pzc_error "Dependency install preset not found. Check dependency install dir or execute 'bidep' command."
+      _pzc_error "Dependency install preset not found. Check dependency install dir or execute 'bidep' command (${INSTALL_DIR}/install_${var1}/${_PZC_TYPE_BUILD_DIR}/generated_install_${var1}_${var2}_${var3}.json)."
       return 2
     fi
 
@@ -324,6 +331,10 @@ function _pzc_common_generate_install_preset()
   _pzc_info "Generation of install build preset in build dir (${_PZC_TMP_GEN_INSTALL_PRESET_PATH})..."
 
   _pzc_common_configure_preset "${_PZC_TMP_INSTALL_PRESET_PATH}" "${_PZC_TMP_GEN_INSTALL_PRESET_PATH}"
+  if [[ $? != 0 ]]
+  then
+    return $?
+  fi
 }
 
 
@@ -625,13 +636,17 @@ function _pzc_common_bidep()
     fi
     cmake --build ${CMP_BUILD_DIR} --target install
 
-    local RET_CODE=$?
-    if [[ $RET_CODE != 0 ]]
+    if [[ $? != 0 ]]
     then
       return 1
     fi
 
     _pzc_info "${CMP_PROJECT_NAME} is installed in dir: \"${CMP_INSTALL_DIR}\""
+    _pzc_common_generate_install_preset
+    if [[ $? != 0 ]]
+    then
+      return $?
+    fi
 
   done
 
