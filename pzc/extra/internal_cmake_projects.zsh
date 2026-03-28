@@ -215,8 +215,37 @@ function _pzc_common_generate_user_preset()
   local _PZC_TMP_GEN_USER_PRESET_PATH="${CMP_BUILD_DIR}/generated_user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
 
   _pzc_info "Generation of user build preset in build dir (${_PZC_TMP_GEN_USER_PRESET_PATH})..."
-
   _pzc_common_configure_preset "${_PZC_TMP_USER_PRESET_PATH}" "${_PZC_TMP_GEN_USER_PRESET_PATH}"
+
+
+  jq -r '.vendor.pzc.cmpDependencies[] | @tsv' "${_PZC_TMP_USER_PRESET_PATH}" | while read -r var1 var2 var3
+  do
+    _pzc_info "Add dependency : ${var1} ${var2} ${var3}"
+
+    local _PZC_TYPE_BUILD_DIR="${var2}"
+    if [[ ${var3} != "_" ]]
+    then
+      _PZC_TYPE_BUILD_DIR=${_PZC_TYPE_BUILD_DIR}_${var3}
+    fi
+
+    local _PZC_INSTALL_PRESET="${INSTALL_DIR}/install_${var1}/${_PZC_TYPE_BUILD_DIR}/generated_install_${var1}_${var2}_${var3}.json"
+    if [[ ! -e "${_PZC_INSTALL_PRESET}" ]]
+    then
+      _pzc_error "Dependency install preset not found. Check dependency install dir or execute 'bidep' command."
+      return 2
+    fi
+
+    jq \
+      ".include += [\"${INSTALL_DIR}/install_${var1}/${_PZC_TYPE_BUILD_DIR}/generated_install_${var1}_${var2}_${var3}.json\"]" \
+      "${_PZC_TMP_GEN_USER_PRESET_PATH}" > "${_PZC_TMP_GEN_USER_PRESET_PATH}.tmp"
+    \mv "${_PZC_TMP_GEN_USER_PRESET_PATH}.tmp" "${_PZC_TMP_GEN_USER_PRESET_PATH}"
+
+    jq \
+      ".configurePresets[].inherits += [\"${var1}_${var2}_${var3}\"]" \
+      "${_PZC_TMP_GEN_USER_PRESET_PATH}" > "${_PZC_TMP_GEN_USER_PRESET_PATH}.tmp"
+    \mv "${_PZC_TMP_GEN_USER_PRESET_PATH}.tmp" "${_PZC_TMP_GEN_USER_PRESET_PATH}"
+
+  done
 }
 
 # ---------------------------------------------------------------
@@ -427,7 +456,7 @@ function _pzc_common_configcmp()
   _pzc_common_generate_user_preset
   if [[ $? != 0 ]]
   then
-    return 1
+    return $?
   fi
 
   _pzc_info "Use user build preset (${_PZC_TMP_GEN_USER_PRESET_PATH})."
