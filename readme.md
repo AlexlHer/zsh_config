@@ -8,7 +8,7 @@ cd
 mv ~/.zshrc ~/.zshrc.old
 
 # Clone this repo wherever you want (default : in your home directory):
-git clone https://github.com/AlexlHer/zsh_config ~/.pzc
+git clone https://github.com/AlexlHer/pzc ~/.pzc
 
 # Copy ~/.pzc/home.zshrc from repo cloned to ~/.zshrc:
 cp ~/.pzc/template.zshrc ~/.zshrc
