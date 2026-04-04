@@ -53,7 +53,7 @@ function _pzc_cmp_error_message()
 
   elif [[ ${1} == 14 ]]
   then
-    _pzc_error "Generated configuration user preset not found. Call 'configcmp' or 'pcmp' command before."
+    _pzc_error "Final configuration user preset not generated. Call 'configcmp' or 'pcmp' command before."
     return 1
 
   elif [[ ${1} == 15 ]]

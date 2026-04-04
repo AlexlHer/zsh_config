@@ -154,7 +154,7 @@ function _pzc_common_pcmp()
   local _PZC_TMP_USER_PRESET_PATH="${CMP_BUILD_DIR}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
   local _PZC_TMP_PRESET_PATH="${CMP_BUILD_DIR}/generated_default_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
 
-  _pzc_info "Generation of default build preset in build dir (${_PZC_TMP_PRESET_PATH})..."
+  _pzc_info "Creation of default configuration preset in build dir (${_PZC_TMP_PRESET_PATH})..."
 
   local _PZC_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/${_PZC_TEMPLATE_NAME}.json.in"
   _pzc_common_configure_preset "${_PZC_TEMPLATE_PRESET_PATH}" "${_PZC_TMP_PRESET_PATH}"
@@ -165,25 +165,25 @@ function _pzc_common_pcmp()
 
   if [[ -e "${_PZC_TMP_USER_PRESET_PATH}" ]]
   then
-    _pzc_info "User build preset found (${_PZC_TMP_USER_PRESET_PATH})."
+    _pzc_info "Configuration user preset found (${_PZC_TMP_USER_PRESET_PATH})."
     return 0
   fi
 
   if [[ -e "${_PZC_SAVED_USER_PRESET_PATH}" ]]
   then
-    _pzc_info "Copying saved user build preset in build dir (${_PZC_SAVED_USER_PRESET_PATH})..."
+    _pzc_info "Copying saved configuration user preset in build dir (${_PZC_SAVED_USER_PRESET_PATH})..."
     cp "${_PZC_SAVED_USER_PRESET_PATH}" "${_PZC_TMP_USER_PRESET_PATH}"
     return 0
   fi
 
   if [[ -e "${_PZC_SAVED_USER_PRESET_GENERIC_PATH}" ]]
   then
-    _pzc_info "Copying saved general user build preset in build dir (${_PZC_SAVED_USER_PRESET_GENERIC_PATH})..."
+    _pzc_info "Copying saved general configuration user preset in build dir (${_PZC_SAVED_USER_PRESET_GENERIC_PATH})..."
     cp "${_PZC_SAVED_USER_PRESET_GENERIC_PATH}" "${_PZC_TMP_USER_PRESET_PATH}"
     return 0
   fi
 
-  _pzc_info "Generation of default user build preset in build dir (${_PZC_TMP_USER_PRESET_PATH})..."
+  _pzc_info "Creation of configuration user preset in build dir (${_PZC_TMP_USER_PRESET_PATH})..."
 
   local _PZC_ARCANE_INSTALL_DIR=""
 
@@ -235,7 +235,7 @@ function _pzc_common_generate_user_preset()
   local _PZC_TMP_USER_PRESET_PATH="${CMP_BUILD_DIR}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
   local _PZC_TMP_GEN_USER_PRESET_PATH="${CMP_BUILD_DIR}/generated_user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
 
-  _pzc_info "Generation of user build preset in build dir (${_PZC_TMP_GEN_USER_PRESET_PATH})..."
+  _pzc_info "Generation of final configuration user preset in build dir (${_PZC_TMP_GEN_USER_PRESET_PATH})..."
   _pzc_common_configure_preset "${_PZC_TMP_USER_PRESET_PATH}" "${_PZC_TMP_GEN_USER_PRESET_PATH}"
   if [[ $? != 0 ]]
   then
@@ -299,25 +299,25 @@ function _pzc_common_ipcmp()
 
   if [[ -e "${_PZC_TMP_INSTALL_PRESET_PATH}" ]]
   then
-    _pzc_info "User install preset found (${_PZC_TMP_INSTALL_PRESET_PATH})."
+    _pzc_info "Installation user preset found (${_PZC_TMP_INSTALL_PRESET_PATH})."
     return 0
   fi
 
   if [[ -e "${_PZC_SAVED_INSTALL_PRESET_PATH}" ]]
   then
-    _pzc_info "Copying saved user install preset in build dir (${_PZC_SAVED_INSTALL_PRESET_PATH})..."
+    _pzc_info "Copying saved installation user preset in build dir (${_PZC_SAVED_INSTALL_PRESET_PATH})..."
     cp "${_PZC_SAVED_INSTALL_PRESET_PATH}" "${_PZC_TMP_INSTALL_PRESET_PATH}"
     return 0
   fi
 
   if [[ -e "${_PZC_SAVED_INSTALL_PRESET_GENERIC_PATH}" ]]
   then
-    _pzc_info "Copying saved general user install preset in build dir (${_PZC_SAVED_INSTALL_PRESET_GENERIC_PATH})..."
+    _pzc_info "Copying saved general installation user preset in build dir (${_PZC_SAVED_INSTALL_PRESET_GENERIC_PATH})..."
     cp "${_PZC_SAVED_INSTALL_PRESET_GENERIC_PATH}" "${_PZC_TMP_INSTALL_PRESET_PATH}"
     return 0
   fi
 
-  _pzc_info "Generation of default user install preset in build dir (${_PZC_TMP_INSTALL_PRESET_PATH})..."
+  _pzc_info "Creation of installation user preset in build dir (${_PZC_TMP_INSTALL_PRESET_PATH})..."
 
   local _PZC_EMPTY_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/install.json.in"
 
@@ -355,7 +355,7 @@ function _pzc_common_generate_install_preset()
   local _PZC_TMP_INSTALL_PRESET_PATH="${CMP_BUILD_DIR}/install_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
   local _PZC_TMP_GEN_INSTALL_PRESET_PATH="${CMP_INSTALL_DIR}/generated_install_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
 
-  _pzc_info "Generation of install build preset in build dir (${_PZC_TMP_GEN_INSTALL_PRESET_PATH})..."
+  _pzc_info "Generation of final installation user preset in build dir (${_PZC_TMP_GEN_INSTALL_PRESET_PATH})..."
 
   _pzc_common_configure_preset "${_PZC_TMP_INSTALL_PRESET_PATH}" "${_PZC_TMP_GEN_INSTALL_PRESET_PATH}"
   if [[ $? != 0 ]]
@@ -450,7 +450,7 @@ function _pzc_common_initcmp()
   # Si le preset contient des infos d'initialisation.
   if [[ -e ${_PZC_SAVED_USER_PRESET_GENERIC_PATH} ]]
   then
-    _pzc_info "The edit script exist. Overwrite default initialization."
+    _pzc_info "A saved general configuration user preset found. Overwrite default initialization."
     local _PZC_CMP_SOURCE_DIR=$(jq -r '.vendor.pzc.cmpSourceDir' ${_PZC_SAVED_USER_PRESET_GENERIC_PATH})
 
     if [[ ${_PZC_CMP_SOURCE_DIR} != "null" ]]
@@ -462,7 +462,7 @@ function _pzc_common_initcmp()
   # Si le preset contient des infos d'initialisation.
   if [[ -e ${_PZC_SAVED_USER_PRESET_PATH} ]]
   then
-    _pzc_info "The edit script exist. Overwrite default initialization."
+    _pzc_info "A saved configuration user preset found. Overwrite default initialization."
     local _PZC_CMP_SOURCE_DIR=$(jq -r '.vendor.pzc.cmpSourceDir' ${_PZC_SAVED_USER_PRESET_PATH})
     local _PZC_CMP_BUILD_DIR=$(jq -r '.vendor.pzc.cmpBuildDir' ${_PZC_SAVED_USER_PRESET_PATH})
     local _PZC_CMP_INSTALL_DIR=$(jq -r '.vendor.pzc.cmpInstallDir' ${_PZC_SAVED_USER_PRESET_PATH})
@@ -522,14 +522,11 @@ function _pzc_common_configcmp()
 
   local _PZC_TMP_GEN_USER_PRESET_PATH="${CMP_BUILD_DIR}/generated_user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
 
-  _pzc_info "Generation of user build preset from ${_PZC_TMP_USER_PRESET_PATH}..."
   _pzc_common_generate_user_preset
   if [[ $? != 0 ]]
   then
     return $?
   fi
-
-  _pzc_info "Use user build preset (${_PZC_TMP_GEN_USER_PRESET_PATH})."
 
   _pzc_info "Generation of CMakeUserPresets.json in ${CMP_PROJECT_NAME} source..."
   echo "{\"version\": 4,\"include\": [\"${_PZC_TMP_GEN_USER_PRESET_PATH}\"]}" > "${CMP_SOURCE_DIR}/CMakeUserPresets.json"
@@ -593,7 +590,7 @@ function _pzc_common_generate_and_configcmp()
   local RET_CODE=$?
   if [[ $RET_CODE = 13 ]]
   then
-    _pzc_info "Build preset not found. Generation..."
+    _pzc_info "Configuration user preset not found. Generation..."
 
     _pzc_common_pcmp
     if [[ $? != 0 ]]
