@@ -84,11 +84,6 @@ function _pzc_common_configure_preset()
     fi
   fi
 
-  if [[ ${CMP_PROJECT_TYPE} = 3 ]]
-  then
-    _PZC_CMAKE_PREFIX_PATH="${ARCANE_INSTALL_DIR}"
-  fi
-
   sed \
     -e "s|@CMP_PROJECT_NAME@|${CMP_PROJECT_NAME}|g" \
     -e "s|@CMP_SOURCE_DIR@|${CMP_SOURCE_DIR}|g" \
@@ -202,7 +197,7 @@ function _pzc_common_pcmp()
 
   if [[ ${CMP_PROJECT_TYPE} = 3 ]]
   then
-    _pzc_common_depcmp framework ${CMP_BUILD_TYPE} ${CMP_VARIANT} 1
+    _pzc_common_depcmp framework @ ${CMP_VARIANT} 1
     return $?
   fi
 }
@@ -246,7 +241,7 @@ function _pzc_common_generate_user_preset()
     return $?
   fi
 
-  jq -r '.vendor.pzc.cmpDependencies[] | @tsv' "${_PZC_TMP_USER_PRESET_PATH}" | while read -r var1 var2 var3
+  jq -r '.vendor.pzc.cmpDependencies[] | @tsv' "${_PZC_TMP_GEN_USER_PRESET_PATH}" | while read -r var1 var2 var3
   do
     _pzc_info "Add dependency -- Name : ${var1} -- Type : ${var2} -- Variant : ${var3}"
 
@@ -259,8 +254,7 @@ function _pzc_common_generate_user_preset()
     local _PZC_INSTALL_PRESET="${INSTALL_DIR}/install_${var1}/${_PZC_TYPE_BUILD_DIR}/generated_install_${var1}_${_PZC_TYPE_BUILD_DIR}.json"
     if [[ ! -e "${_PZC_INSTALL_PRESET}" ]]
     then
-      _pzc_error "Dependency install preset not found. Check dependency install dir or execute 'bidep' command (${_PZC_INSTALL_PRESET})."
-      return 16
+      _pzc_warning "Dependency install preset not found. Check dependency install dir or execute 'bidep' command (${_PZC_INSTALL_PRESET})."
     fi
 
     jq \
@@ -388,7 +382,7 @@ function _pzc_common_generate_install_preset()
 
 #! \brief Fonction permettant d'initaliser le projet. Appel obligatoire pour pouvoir utiliser les autres fonctions.
 #!
-#! Cette fonction va initialiser les variables d'environnement nécessaire pour les autres fonctions.
+#! Cette fonction va initialiser les variables d'environnement nécessaires pour les autres fonctions.
 #!
 #! \param 1 Le nom du projet.
 #! \param 2 Le type build du projet.
@@ -453,6 +447,14 @@ function _pzc_common_initcmp()
 
   local _PZC_SAVED_USER_PRESET_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
 
+
+  # D'abord, on définit les chemins par défauts.
+  # Ensuite, on regarde s'il y a des presets de config user 1/2 sauvegardés.
+  # - Si le preset général existe, on remplace les valeurs par défaut par celles du preset de config général.
+  # - Si le preset typé existe, on remplace les valeurs déjà définies par celles du preset de config typé.
+  # Enfin, si un preset de configuration user 1/2 est trouvé dans le chemin du build dir déjà défini (par défaut ou
+  # grâce au preset typé), il sera utilisé pour remplacer les valeurs déjà définies.
+
   # Valeurs par défaut.
   if [[ ${CMP_PROJECT_TYPE} = 2 ]]
   then
@@ -464,7 +466,8 @@ function _pzc_common_initcmp()
   CMP_BUILD_DIR="${BUILD_DIR}/build_${CMP_PROJECT_NAME}/${TYPE_BUILD_DIR}"
   CMP_INSTALL_DIR="${INSTALL_DIR}/install_${CMP_PROJECT_NAME}/${TYPE_BUILD_DIR}"
 
-  # Si le preset contient des infos d'initialisation.
+
+  # Si le preset sauvegardé de configuration général user 1/2 contient des infos d'initialisation.
   if [[ -e ${_PZC_SAVED_USER_PRESET_GENERIC_PATH} ]]
   then
     _pzc_info "A saved general configuration user preset found. Overwrite default initialization."
@@ -476,7 +479,7 @@ function _pzc_common_initcmp()
     fi
   fi
 
-  # Si le preset contient des infos d'initialisation.
+  # Si le preset sauvegardé de configuration typé user 1/2 contient des infos d'initialisation.
   if [[ -e ${_PZC_SAVED_USER_PRESET_PATH} ]]
   then
     _pzc_info "A saved configuration user preset found. Overwrite default initialization."
@@ -497,6 +500,30 @@ function _pzc_common_initcmp()
       CMP_INSTALL_DIR=${_PZC_CMP_INSTALL_DIR}
     fi
   fi
+
+  # Si le preset de configuration user 1/2 contient des infos d'initialisation.
+  local _PZC_TMP_USER_PRESET_PATH="${CMP_BUILD_DIR}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+  if [[ -e ${_PZC_TMP_USER_PRESET_PATH} ]]
+  then
+    _pzc_info "A configuration user preset found. Overwrite default initialization."
+    local _PZC_CMP_SOURCE_DIR=$(jq -r '.vendor.pzc.cmpSourceDir' ${_PZC_TMP_USER_PRESET_PATH})
+    local _PZC_CMP_BUILD_DIR=$(jq -r '.vendor.pzc.cmpBuildDir' ${_PZC_TMP_USER_PRESET_PATH})
+    local _PZC_CMP_INSTALL_DIR=$(jq -r '.vendor.pzc.cmpInstallDir' ${_PZC_TMP_USER_PRESET_PATH})
+
+    if [[ ${_PZC_CMP_SOURCE_DIR} != "null" ]]
+    then
+      CMP_SOURCE_DIR=${_PZC_CMP_SOURCE_DIR}
+    fi
+    if [[ ${_PZC_CMP_BUILD_DIR} != "null" ]]
+    then
+      CMP_BUILD_DIR=${_PZC_CMP_BUILD_DIR}
+    fi
+    if [[ ${_PZC_CMP_INSTALL_DIR} != "null" ]]
+    then
+      CMP_INSTALL_DIR=${_PZC_CMP_INSTALL_DIR}
+    fi
+  fi
+
 
   mkdir -p "${CMP_BUILD_DIR}"
   mkdir -p "${CMP_INSTALL_DIR}"
@@ -632,7 +659,7 @@ function _pzc_common_generate_and_configcmp()
 
 
 # ---------------------------------------------------------------
-# ----------------------  -----------------------
+# -------------------- Dependencies functions -------------------
 # ---------------------------------------------------------------
 
 #! \brief Fonction permettant d'ajouter ou supprimer une dépendance du preset de configuration utilisateur 1/2.
@@ -664,7 +691,7 @@ function _pzc_common_depcmp()
     return 1
   fi
 
-  if [[ -v 2 ]] && [[ ${2} != "_" ]] && [[ ${2} != "none" ]]
+  if [[ -v 2 ]] && [[ ${2} != "_" ]] && [[ ${2} != "none" ]] && [[ ${2} != "@" ]]
   then
     if [[ ${2} == "D" ]] || [[ ${2} == "Debug" ]]
     then
@@ -680,8 +707,7 @@ function _pzc_common_depcmp()
       return 1
     fi
   else
-    _pzc_info "No argument, defining 'ADD_CMP_BUILD_TYPE' to 'Release'"
-    local ADD_CMP_BUILD_TYPE=Release
+    local ADD_CMP_BUILD_TYPE="@CMP_BUILD_TYPE@"
   fi
 
   if [[ -v 3 ]] && [[ ${3} != "_" ]] && [[ ${3} != "none" ]]
@@ -736,6 +762,7 @@ function _pzc_common_bidep()
     return 10
   fi
 
+  # On génère le preset de configuration user 2/2 pour avoir les cmpDependencies 2/2.
   _pzc_common_generate_user_preset
   if [[ $? != 0 ]]
   then
@@ -753,12 +780,20 @@ function _pzc_common_bidep()
   local ACTUAL_CMP_BUILD_TYPE=${CMP_BUILD_TYPE}
   local ACTUAL_CMP_VARIANT=${CMP_VARIANT}
 
-  # Dépendences uniquement de type 1.
-  CMP_PROJECT_TYPE=1
-
   jq -r '.vendor.pzc.cmpDependencies[] | @tsv' "${_PZC_TMP_GEN_USER_PRESET_PATH}" | while read -r var1 var2 var3
   do
+    echo ""
     _pzc_info "Build and install dependency -- Name : ${var1} -- Type : ${var2} -- Variant : ${var3}"
+    echo ""
+
+    # Aujourd'hui, framework est un nom réservé désignant Arcane framework (donc CMP_PROJECT_TYPE=2).
+    if [[ ${var1} == "framework" ]]
+    then
+      CMP_PROJECT_TYPE=2
+    else
+      CMP_PROJECT_TYPE=1
+    fi
+
     _pzc_common_initcmp ${var1} ${var2} ${var3}
 
     _pzc_info "Configure CMake Project: ${CMP_PROJECT_NAME}..."
@@ -793,6 +828,19 @@ function _pzc_common_bidep()
 
   CMP_PROJECT_TYPE=${ACTUAL_CMP_PROJECT_TYPE}
 
+  echo ""
   _pzc_info "Reload project -- Name : ${ACTUAL_CMP_PROJECT_NAME} -- Type : ${ACTUAL_CMP_BUILD_TYPE} -- Variant : ${ACTUAL_CMP_VARIANT}"
   _pzc_common_initcmp ${ACTUAL_CMP_PROJECT_NAME} ${ACTUAL_CMP_BUILD_TYPE} ${ACTUAL_CMP_VARIANT}
+  _pzc_pensil_begin
+  echo "CMP_PROJECT_NAME=${CMP_PROJECT_NAME}"
+  echo "TYPE_BUILD_DIR=${TYPE_BUILD_DIR}"
+  echo ""
+  echo "CMP_BUILD_TYPE=${CMP_BUILD_TYPE}"
+  echo "CMP_SOURCE_DIR=${CMP_SOURCE_DIR}"
+  echo "CMP_BUILD_DIR=${CMP_BUILD_DIR}"
+  echo "CMP_INSTALL_DIR=${CMP_INSTALL_DIR}"
+  echo ""
+  echo "mkdir -p ${CMP_BUILD_DIR}"
+  echo "cd ${CMP_BUILD_DIR}"
+  _pzc_pensil_end
 }
