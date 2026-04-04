@@ -747,14 +747,14 @@ function _pzc_common_bidep()
     _pzc_info "Build install ${var1} ${var2} ${var3}"
     _pzc_common_initcmp ${var1} ${var2} ${var3}
 
-    if [[ ! -e "${CMP_BUILD_DIR}/CMakeCache.txt" ]]
+    _pzc_info "Configure CMake Project: ${CMP_PROJECT_NAME}..."
+
+    _pzc_common_generate_and_configcmp 0
+    local RET_CODE=$?
+    if [[ ${RET_CODE} != 0 ]]
     then
-      _pzc_info "CMakeCache.txt not found. Calling 'configcmp' before build..."
-      configcmp
-      if [[ $? != 0 ]]
-      then
-        return 1
-      fi
+      _pzc_cmp_error_message ${RET_CODE}
+      return $?
     fi
 
     if [[ ${PZC_CHMOD_COMPILING} = 1 ]]
