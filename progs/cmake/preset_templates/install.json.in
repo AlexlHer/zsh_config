@@ -1,0 +1,42 @@
+{
+  "version": 10,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 31,
+    "patch": 0
+  },
+  "vendor": {
+    "pzc": {
+      "pzcPresetsVersion": [7,4,0]
+    }
+  },
+  "configurePresets": [
+    {
+      "name": "@CMP_PROJECT_NAME@_@CMP_BUILD_TYPE@_@CMP_VARIANT@",
+      "description": "Import @CMP_PROJECT_NAME@ @CMP_DIR_BUILD_TYPE@",
+
+      "$comment": "You can add PROJECT_ROOT CMake variable here.",
+      "cacheVariables": {
+        "@CMP_PROJECT_NAME@_ROOT": "@CMP_INSTALL_DIR@"
+      }
+    }
+  ],
+  "$comment": [
+    "Available PZC @variables@ to use in this file:",
+    "",
+    "CMP_PROJECT_NAME :                  Name of the project. Commonly the repo name folder         (example: hdf5)",
+    "CMP_SOURCE_DIR :                    Location of the sources                                    (example: /home/user/work/hdf5)",
+    "CMP_BUILD_DIR :                     Location of the build dir                                  (example: /home/user/build/build_hdf5/check_hdf5mpi)",
+    "CMP_INSTALL_DIR :                   Location of the install dir                                (example: /home/user/install/install_hdf5/check_hdf5mpi)",
+    "CMP_DIR_BUILD_TYPE :                Folder to build and install project                        (example: check_hdf5mpi)",
+    "CMP_BUILD_TYPE :                    Build type (debug/check/release)                           (example: check)",
+    "CMP_VARIANT :                       Variant name                                               (example: hdf5mpi)",
+    "CMP_CMAKE_BUILD_TYPE :              CMake-compatible build type (Debug/RelWithDebInfo/Release) (example: RelWithDebInfo)",
+    "CMP_CMAKE_GENERATOR :               Name of the generator (Ninja or Unix Makefiles)            (example: Ninja)",
+    "CMP_CMAKE_C_CXX_COMPILER_LAUNCHER : Path of the compiler launcher (ccache ou null)             (example: /usr/bin/ccache)",
+    "CMP_CMAKE_LINKER_TYPE :             Name of the linker (mold or null)                          (example: /usr/bin/mold)",
+    "CMP_CMAKE_C_COMPILER :              Path of the C compiler                                     (example: /usr/bin/gcc)",
+    "CMP_CMAKE_CXX_COMPILER :            Path of the C++ compiler                                   (example: /usr/bin/g++)",
+    "CMP_CMAKE_PREFIX_PATH :             (paths or empty string)                                    (example: /home/user/install/install_mpich/check)"
+  ]
+}

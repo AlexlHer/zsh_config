@@ -74,11 +74,10 @@ function initarc()
   CMP_PROJECT_TYPE=2
 
   _pzc_common_initcmp ${CMP_PROJECT_NAME} ${1} ${2}
-  local RET_CODE=$?
-
-  if [[ $RET_CODE != 0 ]]
+  if [[ $? != 0 ]]
   then
-    return 1
+    _pzc_cmp_error_message $?
+    return $?
   fi
 
   _pzc_pensil_begin
@@ -105,11 +104,10 @@ function initap()
   CMP_PROJECT_TYPE=3
 
   _pzc_common_initcmp ${1} ${2} ${3}
-  local RET_CODE=$?
-
-  if [[ $RET_CODE != 0 ]]
+  if [[ $? != 0 ]]
   then
-    return 1
+    _pzc_cmp_error_message $?
+    return $?
   fi
 
   _pzc_pensil_begin
@@ -120,8 +118,6 @@ function initap()
   echo "CMP_SOURCE_DIR=${CMP_SOURCE_DIR}"
   echo "CMP_BUILD_DIR=${CMP_BUILD_DIR}"
   echo "CMP_INSTALL_DIR=${CMP_INSTALL_DIR}"
-  echo ""
-  echo "ARCANE_INSTALL_DIR=${ARCANE_INSTALL_DIR}"
   echo ""
   echo "mkdir -p ${CMP_BUILD_DIR}"
   echo "cd ${CMP_BUILD_DIR}"
