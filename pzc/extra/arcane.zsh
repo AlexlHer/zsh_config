@@ -119,8 +119,6 @@ function initap()
   echo "CMP_BUILD_DIR=${CMP_BUILD_DIR}"
   echo "CMP_INSTALL_DIR=${CMP_INSTALL_DIR}"
   echo ""
-  echo "ARCANE_INSTALL_DIR=${ARCANE_INSTALL_DIR}"
-  echo ""
   echo "mkdir -p ${CMP_BUILD_DIR}"
   echo "cd ${CMP_BUILD_DIR}"
   _pzc_pensil_end

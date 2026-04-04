@@ -242,7 +242,13 @@ function savepcmpg()
     return $?
   fi
 
-  local _PZC_SAVED_USER_PRESET_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}_${CMP_VARIANT}.json"
+  if [[ ${CMP_VARIANT} == "_" ]]
+  then
+    local _PZC_SAVED_USER_PRESET_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}.json"
+  else
+    local _PZC_SAVED_USER_PRESET_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}_${CMP_VARIANT}.json"
+  fi
+
   local _PZC_TMP_USER_PRESET_PATH="${CMP_BUILD_DIR}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
 
   if [[ ! -e "${_PZC_TMP_USER_PRESET_PATH}" ]]
@@ -322,7 +328,13 @@ function saveipcmpg()
     return $?
   fi
 
-  local _PZC_SAVED_USER_PRESET_PATH="${PZC_EDIT_SCRIPTS}/install_${CMP_PROJECT_NAME}_${CMP_VARIANT}.json"
+  if [[ ${CMP_VARIANT} == "_" ]]
+  then
+    local _PZC_SAVED_USER_PRESET_PATH="${PZC_EDIT_SCRIPTS}/install_${CMP_PROJECT_NAME}.json"
+  else
+    local _PZC_SAVED_USER_PRESET_PATH="${PZC_EDIT_SCRIPTS}/install_${CMP_PROJECT_NAME}_${CMP_VARIANT}.json"
+  fi
+
   local _PZC_TMP_USER_PRESET_PATH="${CMP_BUILD_DIR}/install_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
 
   if [[ ! -e "${_PZC_TMP_USER_PRESET_PATH}" ]]
