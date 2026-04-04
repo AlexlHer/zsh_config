@@ -49,6 +49,7 @@ function _pzc_common_configure_preset()
     return 12
   fi
 
+  local ARCANE_BUILD_TYPE=""
   local ARCANE_ACCELERATOR_MODE="null"
   local ARCANE_CXX_SYCL_FLAGS="null"
   local _PZC_CMAKE_PREFIX_PATH=""
@@ -84,6 +85,20 @@ function _pzc_common_configure_preset()
     fi
   fi
 
+  if [[ ${CMP_BUILD_TYPE} == "debug" ]]
+  then
+    ARCANE_BUILD_TYPE="Debug"
+  elif [[ ${CMP_BUILD_TYPE} == "check" ]]
+  then
+    ARCANE_BUILD_TYPE="Check"
+  elif [[ ${CMP_BUILD_TYPE} == "release" ]]
+  then
+    ARCANE_BUILD_TYPE="Release"
+  else
+    _pzc_debug "Bad CMP_BUILD_TYPE"
+    return 2
+  fi
+
   sed \
     -e "s|@CMP_PROJECT_NAME@|${CMP_PROJECT_NAME}|g" \
     -e "s|@CMP_SOURCE_DIR@|${CMP_SOURCE_DIR}|g" \
@@ -104,6 +119,7 @@ function _pzc_common_configure_preset()
     -e "s|@CMP_CMAKE_CUDA_ARCHITECTURES@|${CMAKE_CUDA_ARCHITECTURES}|g" \
     -e "s|@CMP_CMAKE_SYCL_COMPILER@|${CMAKE_SYCL_COMPILER}|g" \
     -e "s|@CMP_CMAKE_PREFIX_PATH@|${_PZC_CMAKE_PREFIX_PATH}|g" \
+    -e "s|@CMP_ARCANE_BUILD_TYPE@|${ARCANE_BUILD_TYPE}|g" \
     -e "s|@CMP_ARCANE_CXX_SYCL_FLAGS@|${ARCANE_CXX_SYCL_FLAGS}|g" \
     -e "s|@CMP_ARCANE_ACCELERATOR_MODE@|${ARCANE_ACCELERATOR_MODE}|g" \
     \
@@ -407,25 +423,25 @@ function _pzc_common_initcmp()
 
   if [[ -v 2 ]] && [[ ${2} != "_" ]] && [[ ${2} != "none" ]]
   then
-    if [[ ${2} == "D" ]] || [[ ${2} == "Debug" ]]
+    if [[ ${2} == "d" ]] || [[ ${2} == "debug" ]] || [[ ${2} == "D" ]] || [[ ${2} == "Debug" ]]
     then
-      CMP_BUILD_TYPE=Debug
+      CMP_BUILD_TYPE="debug"
       PZC_CMAKE_BUILD_TYPE="Debug"
-    elif [[ ${2} == "C" ]] || [[ ${2} == "Check" ]]
+    elif [[ ${2} == "c" ]] || [[ ${2} == "check" ]] || [[ ${2} == "C" ]] || [[ ${2} == "Check" ]]
     then
-      CMP_BUILD_TYPE=Check
+      CMP_BUILD_TYPE="check"
       PZC_CMAKE_BUILD_TYPE="RelWithDebInfo"
-    elif [[ ${2} == "R" ]] || [[ ${2} == "Release" ]]
+    elif [[ ${2} == "r" ]] || [[ ${2} == "release" ]] || [[ ${2} == "R" ]] || [[ ${2} == "Release" ]]
     then
-      CMP_BUILD_TYPE=Release
+      CMP_BUILD_TYPE="release"
       PZC_CMAKE_BUILD_TYPE="Release"
     else
       _pzc_error "Invalid 'CMP_BUILD_TYPE' [D or C or R] (second arg)"
       return 1
     fi
   else
-    _pzc_info "No argument, defining 'CMP_BUILD_TYPE' to 'Release'"
-    CMP_BUILD_TYPE=Release
+    _pzc_info "No argument, defining 'CMP_BUILD_TYPE' to 'release'"
+    CMP_BUILD_TYPE="release"
     PZC_CMAKE_BUILD_TYPE="Release"
   fi
 
@@ -693,15 +709,15 @@ function _pzc_common_depcmp()
 
   if [[ -v 2 ]] && [[ ${2} != "_" ]] && [[ ${2} != "none" ]] && [[ ${2} != "@" ]]
   then
-    if [[ ${2} == "D" ]] || [[ ${2} == "Debug" ]]
+    if [[ ${2} == "d" ]] || [[ ${2} == "debug" ]] || [[ ${2} == "D" ]] || [[ ${2} == "Debug" ]]
     then
-      local ADD_CMP_BUILD_TYPE=Debug
-    elif [[ ${2} == "C" ]] || [[ ${2} == "Check" ]]
+      local ADD_CMP_BUILD_TYPE=debug
+    elif [[ ${2} == "c" ]] || [[ ${2} == "check" ]] || [[ ${2} == "C" ]] || [[ ${2} == "Check" ]]
     then
-      local ADD_CMP_BUILD_TYPE=Check
-    elif [[ ${2} == "R" ]] || [[ ${2} == "Release" ]]
+      local ADD_CMP_BUILD_TYPE=check
+    elif [[ ${2} == "r" ]] || [[ ${2} == "release" ]] || [[ ${2} == "R" ]] || [[ ${2} == "Release" ]]
     then
-      local ADD_CMP_BUILD_TYPE=Release
+      local ADD_CMP_BUILD_TYPE=release
     else
       _pzc_error "Invalid 'ADD_CMP_BUILD_TYPE' [D or C or R] (second arg)"
       return 1
