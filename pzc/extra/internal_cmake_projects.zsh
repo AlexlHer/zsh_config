@@ -149,13 +149,8 @@ function _pzc_common_pcmp()
     return 10
   fi
 
-  if [[ ${CMP_VARIANT} == "_" ]]
-  then
-    local _PZC_SAVED_USER_PRESET_GENERIC_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}.json"
-  else
-    local _PZC_SAVED_USER_PRESET_GENERIC_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}_${CMP_VARIANT}.json"
-  fi
-
+  local _PZC_SAVED_USER_PRESET_GENERIC_GENERIC_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}.json"
+  local _PZC_SAVED_USER_PRESET_GENERIC_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}_${CMP_VARIANT}.json"
   local _PZC_SAVED_USER_PRESET_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
 
   local _PZC_TMP_USER_PRESET_PATH="${CMP_BUILD_DIR}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
@@ -196,6 +191,13 @@ function _pzc_common_pcmp()
   then
     _pzc_info "Copying saved general configuration user preset in build dir (${_PZC_SAVED_USER_PRESET_GENERIC_PATH})..."
     cp "${_PZC_SAVED_USER_PRESET_GENERIC_PATH}" "${_PZC_TMP_USER_PRESET_PATH}"
+    return 0
+  fi
+
+  if [[ -e "${_PZC_SAVED_USER_PRESET_GENERIC_GENERIC_PATH}" ]]
+  then
+    _pzc_info "Copying saved general general configuration user preset in build dir (${_PZC_SAVED_USER_PRESET_GENERIC_GENERIC_PATH})..."
+    cp "${_PZC_SAVED_USER_PRESET_GENERIC_GENERIC_PATH}" "${_PZC_TMP_USER_PRESET_PATH}"
     return 0
   fi
 
@@ -305,14 +307,10 @@ function _pzc_common_ipcmp()
     return 10
   fi
 
-  if [[ ${CMP_VARIANT} == "_" ]]
-  then
-    local _PZC_SAVED_INSTALL_PRESET_GENERIC_PATH="${PZC_EDIT_SCRIPTS}/install_${CMP_PROJECT_NAME}.json"
-  else
-    local _PZC_SAVED_INSTALL_PRESET_GENERIC_PATH="${PZC_EDIT_SCRIPTS}/install_${CMP_PROJECT_NAME}_${CMP_VARIANT}.json"
-  fi
-
+  local _PZC_SAVED_INSTALL_PRESET_GENERIC_GENERIC_PATH="${PZC_EDIT_SCRIPTS}/install_${CMP_PROJECT_NAME}.json"
+  local _PZC_SAVED_INSTALL_PRESET_GENERIC_PATH="${PZC_EDIT_SCRIPTS}/install_${CMP_PROJECT_NAME}_${CMP_VARIANT}.json"
   local _PZC_SAVED_INSTALL_PRESET_PATH="${PZC_EDIT_SCRIPTS}/install_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+
   local _PZC_TMP_INSTALL_PRESET_PATH="${CMP_BUILD_DIR}/install_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
 
 
@@ -333,6 +331,13 @@ function _pzc_common_ipcmp()
   then
     _pzc_info "Copying saved general installation user preset in build dir (${_PZC_SAVED_INSTALL_PRESET_GENERIC_PATH})..."
     cp "${_PZC_SAVED_INSTALL_PRESET_GENERIC_PATH}" "${_PZC_TMP_INSTALL_PRESET_PATH}"
+    return 0
+  fi
+
+  if [[ -e "${_PZC_SAVED_INSTALL_PRESET_GENERIC_GENERIC_PATH}" ]]
+  then
+    _pzc_info "Copying saved general general installation user preset in build dir (${_PZC_SAVED_INSTALL_PRESET_GENERIC_GENERIC_PATH})..."
+    cp "${_PZC_SAVED_INSTALL_PRESET_GENERIC_GENERIC_PATH}" "${_PZC_TMP_INSTALL_PRESET_PATH}"
     return 0
   fi
 
@@ -454,12 +459,8 @@ function _pzc_common_initcmp()
     TYPE_BUILD_DIR=${CMP_BUILD_TYPE}
   fi
 
-  if [[ ${CMP_VARIANT} == "_" ]]
-  then
-    local _PZC_SAVED_USER_PRESET_GENERIC_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}.json"
-  else
-    local _PZC_SAVED_USER_PRESET_GENERIC_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}_${CMP_VARIANT}.json"
-  fi
+  local _PZC_SAVED_USER_PRESET_GENERIC_GENERIC_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}.json"
+  local _PZC_SAVED_USER_PRESET_GENERIC_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}_${CMP_VARIANT}.json"
 
   local _PZC_SAVED_USER_PRESET_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
 
@@ -482,6 +483,17 @@ function _pzc_common_initcmp()
   CMP_BUILD_DIR="${BUILD_DIR}/build_${CMP_PROJECT_NAME}/${TYPE_BUILD_DIR}"
   CMP_INSTALL_DIR="${INSTALL_DIR}/install_${CMP_PROJECT_NAME}/${TYPE_BUILD_DIR}"
 
+  # Si le preset sauvegardé de configuration général2 user 1/2 contient des infos d'initialisation.
+  if [[ -e ${_PZC_SAVED_USER_PRESET_GENERIC_GENERIC_PATH} ]]
+  then
+    _pzc_info "A saved general general configuration user preset found. Overwrite default initialization."
+    local _PZC_CMP_SOURCE_DIR=$(jq -r '.vendor.pzc.cmpSourceDir' ${_PZC_SAVED_USER_PRESET_GENERIC_GENERIC_PATH})
+
+    if [[ ${_PZC_CMP_SOURCE_DIR} != "null" ]]
+    then
+      CMP_SOURCE_DIR=${_PZC_CMP_SOURCE_DIR}
+    fi
+  fi
 
   # Si le preset sauvegardé de configuration général user 1/2 contient des infos d'initialisation.
   if [[ -e ${_PZC_SAVED_USER_PRESET_GENERIC_PATH} ]]

@@ -242,13 +242,54 @@ function savepcmpg()
     return $?
   fi
 
-  if [[ ${CMP_VARIANT} == "_" ]]
+
+  local _PZC_SAVED_USER_PRESET_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}_${CMP_VARIANT}.json"
+  local _PZC_TMP_USER_PRESET_PATH="${CMP_BUILD_DIR}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+
+  if [[ ! -e "${_PZC_TMP_USER_PRESET_PATH}" ]]
   then
-    local _PZC_SAVED_USER_PRESET_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}.json"
-  else
-    local _PZC_SAVED_USER_PRESET_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}_${CMP_VARIANT}.json"
+    _pzc_cmp_error_message 13
+    return $?
   fi
 
+  if [[ -e "${_PZC_SAVED_USER_PRESET_PATH}" ]]
+  then
+    _pzc_error "Saved preset found (${_PZC_SAVED_USER_PRESET_PATH}). Do you want to override it ?"
+    read -q "REPLY?(y/n)"
+    echo ""
+    if [[ ${REPLY} != "y" ]]
+    then
+      unset REPLY
+      return 1
+    fi
+    unset REPLY
+  fi
+
+  _pzc_warning "Removing cmpBuildDir/cmpInstallDir if present..."
+
+  jq \
+    'del(.vendor.pzc.cmpBuildDir, .vendor.pzc.cmpInstallDir, .vendor.pzc.cmpArcaneInstallDir)' \
+    ${_PZC_TMP_USER_PRESET_PATH} > ${_PZC_TMP_USER_PRESET_PATH}.tmp
+
+  \mv ${_PZC_TMP_USER_PRESET_PATH}.tmp ${_PZC_TMP_USER_PRESET_PATH}
+
+  _pzc_coal_eval "cp ${_PZC_TMP_USER_PRESET_PATH} ${_PZC_SAVED_USER_PRESET_PATH}"
+}
+
+
+# ---------------------------------------------------------------
+# ---------------------------------------------------------------
+
+function savepcmpgg()
+{
+  if [[ ! -v CMP_PROJECT_TYPE ]]
+  then
+    _pzc_cmp_error_message 10
+    return $?
+  fi
+
+
+  local _PZC_SAVED_USER_PRESET_PATH="${PZC_EDIT_SCRIPTS}/user_${CMP_PROJECT_NAME}.json"
   local _PZC_TMP_USER_PRESET_PATH="${CMP_BUILD_DIR}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
 
   if [[ ! -e "${_PZC_TMP_USER_PRESET_PATH}" ]]
@@ -328,13 +369,45 @@ function saveipcmpg()
     return $?
   fi
 
-  if [[ ${CMP_VARIANT} == "_" ]]
+
+  local _PZC_SAVED_USER_PRESET_PATH="${PZC_EDIT_SCRIPTS}/install_${CMP_PROJECT_NAME}_${CMP_VARIANT}.json"
+  local _PZC_TMP_USER_PRESET_PATH="${CMP_BUILD_DIR}/install_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
+
+  if [[ ! -e "${_PZC_TMP_USER_PRESET_PATH}" ]]
   then
-    local _PZC_SAVED_USER_PRESET_PATH="${PZC_EDIT_SCRIPTS}/install_${CMP_PROJECT_NAME}.json"
-  else
-    local _PZC_SAVED_USER_PRESET_PATH="${PZC_EDIT_SCRIPTS}/install_${CMP_PROJECT_NAME}_${CMP_VARIANT}.json"
+    _pzc_cmp_error_message 15
+    return $?
   fi
 
+  if [[ -e "${_PZC_SAVED_USER_PRESET_PATH}" ]]
+  then
+    _pzc_error "Saved preset found (${_PZC_SAVED_USER_PRESET_PATH}). Do you want to override it ?"
+    read -q "REPLY?(y/n)"
+    echo ""
+    if [[ ${REPLY} != "y" ]]
+    then
+      unset REPLY
+      return 1
+    fi
+    unset REPLY
+  fi
+
+  _pzc_coal_eval "cp ${_PZC_TMP_USER_PRESET_PATH} ${_PZC_SAVED_USER_PRESET_PATH}"
+}
+
+# ---------------------------------------------------------------
+# ---------------------------------------------------------------
+
+function saveipcmpgg()
+{
+  if [[ ! -v CMP_PROJECT_TYPE ]]
+  then
+    _pzc_cmp_error_message 10
+    return $?
+  fi
+
+
+  local _PZC_SAVED_USER_PRESET_PATH="${PZC_EDIT_SCRIPTS}/install_${CMP_PROJECT_NAME}.json"
   local _PZC_TMP_USER_PRESET_PATH="${CMP_BUILD_DIR}/install_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
 
   if [[ ! -e "${_PZC_TMP_USER_PRESET_PATH}" ]]
