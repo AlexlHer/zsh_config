@@ -1,0 +1,6 @@
+{
+  "pzcVersion": [7,6,0],
+  "projects": {
+    "arcane": ["arcane/version"]
+  }
+}

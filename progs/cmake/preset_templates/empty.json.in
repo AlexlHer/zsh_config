@@ -17,7 +17,7 @@
       "cmpInstallDir": "@PZC_CMP_INSTALL_DIR@",
       @PZC_CMP_OTHER_VAR@
       "cmpDependencies": [],
-      "pzcPresetsVersion": [7,4,0]
+      "pzcPresetsVersion": [7,6,0]
     }
   },
   "include": ["@CMP_BUILD_DIR@/generated_default_@CMP_PROJECT_NAME@_@CMP_DIR_BUILD_TYPE@.json"],
@@ -44,7 +44,7 @@
   "$comment": [
     "Available PZC @variables@ to use in this file:",
     "",
-    "CMP_PROJECT_NAME :                  Name of the project. Commonly the repo name folder         (example: hdf5)",
+    "CMP_PROJECT_NAME :                  Name of the repo folder                                    (example: hdf5)",
     "CMP_SOURCE_DIR :                    Location of the sources                                    (example: /home/user/work/hdf5)",
     "CMP_BUILD_DIR :                     Location of the build dir                                  (example: /home/user/build/build_hdf5/check_hdf5mpi)",
     "CMP_INSTALL_DIR :                   Location of the install dir                                (example: /home/user/install/install_hdf5/check_hdf5mpi)",
