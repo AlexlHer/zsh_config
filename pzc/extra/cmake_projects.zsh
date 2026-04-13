@@ -58,7 +58,7 @@ function _pzc_cmp_error_message()
 
   elif [[ ${1} == 15 ]]
   then
-    _pzc_error "Installation user preset not found. Call 'configcmp' or 'ipcmp' command before."
+    _pzc_error "Installation user preset not found. Call 'configcmp' or 'pcmp' command before."
     return 1
 
   fi
@@ -113,13 +113,7 @@ function pcmp()
     _pzc_cmp_error_message ${RET_CODE}
     return $?
   fi
-}
 
-# ---------------------------------------------------------------
-# ---------------------------------------------------------------
-
-function ipcmp()
-{
   _pzc_common_ipcmp
   local RET_CODE=$?
   if [[ ${RET_CODE} != 0 ]]
@@ -180,6 +174,7 @@ function editipcmp()
   then
     _pzc_info "Install preset not found (${_PZC_TMP_INSTALL_PRESET_PATH}). Generation..."
 
+    _pzc_common_ipcmp
     local RET_CODE=$?
     if [[ ${RET_CODE} != 0 ]]
     then
@@ -510,7 +505,25 @@ function bicmp()
 
   _pzc_common_generate_install_preset
   local RET_CODE=$?
-  if [[ ${RET_CODE} != 0 ]]
+  if [[ ${RET_CODE} = 11 ]]
+  then
+    _pzc_info "Installation user preset not found. Generation..."
+
+    _pzc_common_ipcmp
+    local RET_CODE2=$?
+    if [[ ${RET_CODE2} != 0 ]]
+    then
+      return ${RET_CODE2}
+    fi
+
+    _pzc_common_generate_install_preset
+    local RET_CODE2=$?
+    if [[ ${RET_CODE2} != 0 ]]
+    then
+      return ${RET_CODE2}
+    fi
+
+  elif [[ ${RET_CODE} != 0 ]]
   then
     _pzc_cmp_error_message ${RET_CODE}
     return $?
