@@ -159,6 +159,12 @@ function _pzc_common_pcmp()
 
   local _PZC_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/${CMP_PROJECT}/config.json.in"
 
+  # Si le preset config n'existe pas, on n'en a pas besoin, on prend le generic.
+  if [[ ! -e "${_PZC_TEMPLATE_PRESET_PATH}" ]]
+  then
+    _PZC_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/generic/config.json.in"
+  fi
+
   _pzc_common_configure_preset "${_PZC_TEMPLATE_PRESET_PATH}" "${_PZC_TMP_PRESET_PATH}"
   local RET_CODE=$?
   if [[ ${RET_CODE} != 0 ]]
@@ -330,6 +336,12 @@ function _pzc_common_ipcmp()
   _pzc_info "Creation of installation user preset in build dir (${_PZC_TMP_INSTALL_PRESET_PATH})..."
 
   local _PZC_EMPTY_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/${CMP_PROJECT}/install.json.in"
+
+  # Si le preset install n'existe pas, on n'en a pas besoin, on prend le generic.
+  if [[ ! -e "${_PZC_EMPTY_TEMPLATE_PRESET_PATH}" ]]
+  then
+    _PZC_EMPTY_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/generic/install.json.in"
+  fi
 
   sed \
     -e "s|@PZC_CMP_SOURCE_DIR@|${CMP_SOURCE_DIR}|g" \
