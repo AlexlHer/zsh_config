@@ -435,9 +435,15 @@ function saveipcmpgg()
 
 function configcmp()
 {
+  local _PZC_CMP_VARIANT="_"
+  if [[ -v 1 ]]
+  then
+    _PZC_CMP_VARIANT=$1
+  fi
+
   _pzc_info "Configure CMake Project: ${CMP_PROJECT_NAME}..."
 
-  _pzc_common_generate_and_configcmp 0
+  _pzc_common_generate_and_configcmp "${_PZC_CMP_VARIANT}"
   local RET_CODE=$?
   if [[ ${RET_CODE} != 0 ]]
   then
@@ -453,7 +459,7 @@ function configcmpgpu()
 {
   _pzc_info "Configure CMake Project GPU: ${CMP_PROJECT_NAME}..."
 
-  _pzc_common_generate_and_configcmp 1
+  _pzc_common_generate_and_configcmp "gpu"
   local RET_CODE=$?
   if [[ ${RET_CODE} != 0 ]]
   then
@@ -566,6 +572,7 @@ function clearcmp()
 
   _pzc_pensil_begin
   _pzc_ecal_eval "cd ${CMP_BUILD_DIR}/.."
+  # _pzc_ecal_eval "rm -f ${CMP_SOURCE_DIR}/CMakeUserPresets.json"
   _pzc_ecal_eval "rm -r ${CMP_BUILD_DIR}"
   _pzc_ecal_eval "rm -r ${CMP_INSTALL_DIR}"
   _pzc_ecal_eval "mkdir ${CMP_BUILD_DIR}"

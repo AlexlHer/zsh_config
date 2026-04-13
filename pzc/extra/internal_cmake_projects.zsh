@@ -404,6 +404,7 @@ function _pzc_common_find_project()
 
   if [[ -e "${_PZC_SOURCE_PRESET}" ]]
   then
+    _pzc_info "To reload project detection, remove '${CMP_SOURCE_DIR}/CMakeUserPresets.json' file."
     CMP_PROJECT=$(jq -r '.vendor.pzc.cmpProject' ${_PZC_SOURCE_PRESET})
     return 0
   fi
@@ -609,6 +610,12 @@ function _pzc_common_initcmp()
 #! \return 13 Preset de configuration utilisateur 1/2 non trouvé
 function _pzc_common_configcmp()
 {
+  if [[ ! -v 1 ]]
+  then
+    _pzc_debug "First param not found"
+    return 2
+  fi
+
   if [[ ! -v CMP_BUILD_DIR ]]
   then
     return 10
@@ -635,15 +642,15 @@ function _pzc_common_configcmp()
   _pzc_pensil_begin
 
 
-  if [[ -v 1 ]] && [[ ${1} == "1" ]]
+  if [[ ${1} == "_" ]]
   then
-      echo "cmake \\"
-      echo "  -S ${CMP_SOURCE_DIR} \\"
-      echo "  --preset ${CMP_BUILD_TYPE}_gpu"
+    echo "cmake \\"
+    echo "  -S ${CMP_SOURCE_DIR} \\"
+    echo "  --preset ${CMP_BUILD_TYPE}"
   else
-      echo "cmake \\"
-      echo "  -S ${CMP_SOURCE_DIR} \\"
-      echo "  --preset ${CMP_BUILD_TYPE}"
+    echo "cmake \\"
+    echo "  -S ${CMP_SOURCE_DIR} \\"
+    echo "  --preset ${CMP_BUILD_TYPE}_${1}"
   fi
 
 
@@ -654,15 +661,15 @@ function _pzc_common_configcmp()
 
   _pzc_pensil_end
 
-  if [[ -v 1 ]] && [[ ${1} == "1" ]]
+  if [[ ${1} == "_" ]]
   then
     cmake \
       -S ${CMP_SOURCE_DIR} \
-      --preset "${CMP_BUILD_TYPE}_gpu"
+      --preset "${CMP_BUILD_TYPE}"
   else
     cmake \
       -S ${CMP_SOURCE_DIR} \
-      --preset "${CMP_BUILD_TYPE}"
+      --preset "${CMP_BUILD_TYPE}_${1}"
   fi
 
 
