@@ -486,7 +486,12 @@ function bicmp()
   then
     _pzc_info "CMakeCache.txt not found. Calling 'configcmp' before build..."
 
-    _pzc_common_generate_and_configcmp 0
+    local _PZC_CMP_VARIANT="_"
+    if [[ -v 1 ]]
+    then
+      _PZC_CMP_VARIANT=$1
+    fi
+    _pzc_common_generate_and_configcmp ${_PZC_CMP_VARIANT}
     local RET_CODE=$?
     if [[ ${RET_CODE} != 0 ]]
     then
