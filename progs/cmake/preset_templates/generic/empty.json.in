@@ -6,18 +6,38 @@
     "patch": 0
   },
   "vendor": {
+    "$comment": [
+      "Initialisation part for PZC. You can edit it.",
+      "Call 'initarc'/'initap'/'initcmp' and 'clearcmp' to update paths in configurePresets part.",
+      "Call 'savepcmp' to save this file."
+    ],
     "pzc": {
+      "cmpSourceDir": "@PZC_CMP_SOURCE_DIR@",
+      "cmpBuildDir": "@PZC_CMP_BUILD_DIR@",
+      "cmpInstallDir": "@PZC_CMP_INSTALL_DIR@",
+      @PZC_CMP_OTHER_VAR@
+      "cmpDependencies": [],
       "pzcPresetsVersion": [7,6,0]
     }
   },
+  "include": ["@CMP_BUILD_DIR@/generated_default_@CMP_PROJECT_NAME@_@CMP_DIR_BUILD_TYPE@.json"],
   "configurePresets": [
     {
-      "name": "@CMP_PROJECT_NAME@_@CMP_BUILD_TYPE@_@CMP_VARIANT@",
-      "description": "Import @CMP_PROJECT_NAME@ @CMP_DIR_BUILD_TYPE@",
+      "name": "@CMP_BUILD_TYPE@",
+      "description": "Build @CMP_PROJECT_NAME@",
+      "inherits" : ["PZC_@CMP_BUILD_TYPE@"],
 
-      "$comment": "You can add PROJECT_ROOT CMake variable here.",
+      "$comment": "You can copy variables from PZC preset to override it.",
       "cacheVariables": {
-        "HDF5_ROOT": "@CMP_INSTALL_DIR@"
+      }
+    },
+    {
+      "name": "@CMP_BUILD_TYPE@_gpu",
+      "description": "Build @CMP_PROJECT_NAME@ for GPU",
+      "inherits" : ["PZC_@CMP_BUILD_TYPE@_gpu"],
+
+      "$comment": "You can copy variables from PZC preset to override it.",
+      "cacheVariables": {
       }
     }
   ],
@@ -38,6 +58,14 @@
     "CMP_CMAKE_LINKER_TYPE :             Name of the linker (mold or null)                          (example: /usr/bin/mold)",
     "CMP_CMAKE_C_COMPILER :              Path of the C compiler                                     (example: /usr/bin/gcc)",
     "CMP_CMAKE_CXX_COMPILER :            Path of the C++ compiler                                   (example: /usr/bin/g++)",
-    "CMP_CMAKE_PREFIX_PATH :             (paths or empty string)                                    (example: /home/user/install/install_mpich/check)"
+    "CMP_GPU_HOST_COMPILER :             Path of the C++ compiler used with GPU compiler            (example: /usr/bin/g++13)",
+    "CMP_CMAKE_PREFIX_PATH :             (paths or empty string)                                    (example: /home/user/install/install_mpich/check)",
+    "CMP_CMAKE_CUDA_COMPILER :           Path of the CUDA compiler (path or null)                   (example: /usr/bin/nvcc)",
+    "CMP_CMAKE_CUDA_FLAGS :              Flags for the CUDA compiler (flags or null)                (example: null)",
+    "CMP_CMAKE_CUDA_ARCHITECTURES :      Target architectures (arch or null)                        (example: 89)",
+    "CMP_CMAKE_SYCL_COMPILER :           Path of the SYCL compiler (path or null)                   (example: /usr/bin/adaptivecpp)",
+    "CMP_ARCANE_BUILD_TYPE :             Arcane-compatible build type (Debug/Check/Release)         (example: Check)",
+    "CMP_ARCANE_CXX_SYCL_FLAGS :         Flags passed to SYCL (Arcane-specific)                     (example: --acpp-targets=cuda:sm_89)",
+    "CMP_ARCANE_ACCELERATOR_MODE :       (CUDA/SYCL)                                                (example: CUDA)"
   ]
 }

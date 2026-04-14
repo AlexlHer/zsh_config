@@ -11,7 +11,7 @@
   "configurePresets": [
     {
       "name": "PZC_@CMP_BUILD_TYPE@",
-      "description": "Build @CMP_PROJECT_NAME@ @CMP_DIR_BUILD_TYPE@",
+      "description": "Build @CMP_PROJECT_NAME@",
       "hidden" : true,
       "binaryDir": "@CMP_BUILD_DIR@",
       "installDir": "@CMP_INSTALL_DIR@",
@@ -28,7 +28,7 @@
     },
     {
       "name": "PZC_@CMP_BUILD_TYPE@_gpu",
-      "description": "Build @CMP_PROJECT_NAME@ @CMP_DIR_BUILD_TYPE@ for GPU",
+      "description": "Build @CMP_PROJECT_NAME@ for GPU",
       "hidden" : true,
       "binaryDir": "@CMP_BUILD_DIR@",
       "installDir": "@CMP_INSTALL_DIR@",

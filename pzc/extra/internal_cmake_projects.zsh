@@ -99,6 +99,7 @@ function _pzc_common_configure_preset()
   fi
 
   sed \
+    -e "s|@CMP_PROJECT@|${CMP_PROJECT}|g" \
     -e "s|@CMP_PROJECT_NAME@|${CMP_PROJECT_NAME}|g" \
     -e "s|@CMP_SOURCE_DIR@|${CMP_SOURCE_DIR}|g" \
     -e "s|@CMP_BUILD_DIR@|${CMP_BUILD_DIR}|g" \
@@ -202,7 +203,13 @@ function _pzc_common_pcmp()
 
   _pzc_info "Creation of configuration user preset in build dir (${_PZC_TMP_USER_PRESET_PATH})..."
 
-  local _PZC_EMPTY_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/empty.json.in"
+  local _PZC_EMPTY_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/${CMP_PROJECT}/empty.json.in"
+
+  # Si le preset empty n'existe pas, on n'en a pas besoin, on prend le generic.
+  if [[ ! -e "${_PZC_EMPTY_TEMPLATE_PRESET_PATH}" ]]
+  then
+    _PZC_EMPTY_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/generic/empty.json.in"
+  fi
 
   sed \
     -e "s|@PZC_CMP_SOURCE_DIR@|${CMP_SOURCE_DIR}|g" \
