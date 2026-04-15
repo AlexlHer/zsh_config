@@ -878,7 +878,7 @@ function _pzc_common_bidep()
 
     _pzc_info "Configure CMake Project: ${CMP_PROJECT_NAME}..."
 
-    _pzc_common_generate_and_configcmp 0
+    _pzc_common_generate_and_configcmp ${var3}
     local RET_CODE=$?
     if [[ ${RET_CODE} != 0 ]]
     then
