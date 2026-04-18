@@ -432,7 +432,7 @@ function _pzc_common_find_project()
 
   CMP_PROJECT="generic"
 
-  jq -r '.projects | to_entries[] | .key as $p | .value[] | "\($p)\t\(.)"' ${_PZC_FIND_PROJECT_JSON} | while IFS=$'\t' read -r PROJECT_NAME FILE_PATH; do
+  jq -r '.projects[] | .name as $p | .find_files[] | "\($p)\t\(.)"' ${_PZC_FIND_PROJECT_JSON} | while IFS=$'\t' read -r PROJECT_NAME FILE_PATH; do
     _pzc_debug "Search ${FILE_PATH}"
 
     if [[ -e "${CMP_SOURCE_DIR}/${FILE_PATH}" ]]

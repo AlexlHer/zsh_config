@@ -1,7 +1,13 @@
 {
   "pzcVersion": [7,6,0],
-  "projects": {
-    "arcane": ["arcane/version"],
-    "hdf5": ["src/H5.c"]
-  }
+  "projects": [
+    {
+      "name": "arcane",
+      "find_files": ["arcane/version"]
+    },
+    {
+      "name": "hdf5",
+      "find_files": ["src/H5.c"]
+    }
+  ]
 }
