@@ -602,14 +602,14 @@ function adepcmp()
     return $?
   fi
 
-  if [[ ! -v 1 ]] || [[ ! -v 2 ]] || [[ ! -v 3 ]]
+  if [[ ! -v 1 ]] || [[ ! -v 2 ]] || [[ ! -v 3 ]] || [[ ! -v 4 ]]
   then
-    _pzc_info "adepcmp [dependency project name] [dependency build type OR '_'] [dependency variant name OR '_']"
+    _pzc_info "adepcmp [dependency project name] [dependency build type OR '_'] [dependency variant name OR '_'] [preset variant name OR '_']"
     return 0
   fi
   
 
-  _pzc_common_depcmp ${1} ${2} ${3} 1
+  _pzc_common_depcmp ${1} ${2} ${3} ${4} 1
   local RET_CODE=$?
   if [[ ${RET_CODE} != 0 ]]
   then
@@ -629,14 +629,14 @@ function rdepcmp()
     return $?
   fi
 
-  if [[ ! -v 1 ]] || [[ ! -v 2 ]] || [[ ! -v 3 ]]
+  if [[ ! -v 1 ]] || [[ ! -v 2 ]] || [[ ! -v 3 ]] || [[ ! -v 4 ]]
   then
-    _pzc_info "rdepcmp [dependency project name] [dependency build type OR '_'] [dependency variant name OR '_']"
+    _pzc_info "rdepcmp [dependency project name] [dependency build type OR '_'] [dependency variant name OR '_'] [preset variant name OR '_']"
     return 0
   fi
   
 
-  _pzc_common_depcmp ${1} ${2} ${3} 2
+  _pzc_common_depcmp ${1} ${2} ${3} ${4} 2
   local RET_CODE=$?
   if [[ ${RET_CODE} != 0 ]]
   then

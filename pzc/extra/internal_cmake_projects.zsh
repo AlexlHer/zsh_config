@@ -425,6 +425,11 @@ function _pzc_common_find_project()
   then
     _pzc_info "To reload project detection, remove '${CMP_SOURCE_DIR}/CMakeUserPresets.json' file."
     CMP_PROJECT=$(jq -r '.vendor.pzc.cmpProject' ${_PZC_SOURCE_PRESET})
+    if [[ ${CMP_PROJECT} == "null" ]]
+    then
+      _pzc_error "An error occurred while detecting the project. Remove '${CMP_SOURCE_DIR}/CMakeUserPresets.json' file and try again."
+      return 1
+    fi
     return 0
   fi
 
@@ -832,15 +837,15 @@ function _pzc_common_depcmp()
     return 13
   fi
 
-  if [[ -v 4 ]]
+  if [[ -v 5 ]]
   then
-    if [[ ${4} == 1 ]]
+    if [[ ${5} == 1 ]]
     then
       # Ajout
       jq \
         ".vendor.pzc.cmpDependencies = (.vendor.pzc.cmpDependencies + [[\"${ADD_CMP_PROJECT_NAME}\", \"${ADD_CMP_BUILD_TYPE}\", \"${ADD_CMP_VARIANT}\", \"${ADD_CMP_PRESET_VARIANT}\"]] | unique)" \
         "${_PZC_TMP_USER_PRESET_PATH}" > "${_PZC_TMP_USER_PRESET_PATH}.tmp"
-    elif [[ ${4} == 2 ]]
+    elif [[ ${5} == 2 ]]
     then
       # Suppression
       jq \
@@ -848,7 +853,7 @@ function _pzc_common_depcmp()
         "${_PZC_TMP_USER_PRESET_PATH}" > "${_PZC_TMP_USER_PRESET_PATH}.tmp"
     fi
   else
-    _pzc_debug "Argument 4 not found"
+    _pzc_debug "Argument 5 not found"
     return 2
   fi
 
