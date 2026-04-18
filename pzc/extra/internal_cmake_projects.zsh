@@ -820,7 +820,7 @@ function _pzc_common_depcmp()
 
   if [[ -v 4 ]] && [[ ${4} != "_" ]] && [[ ${4} != "none" ]]
   then
-    local ADD_CMP_PRESET_VARIANT=${3}
+    local ADD_CMP_PRESET_VARIANT=${4}
   else
     local ADD_CMP_PRESET_VARIANT="_"
   fi
