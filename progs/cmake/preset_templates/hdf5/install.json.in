@@ -7,7 +7,7 @@
   },
   "vendor": {
     "pzc": {
-      "pzcPresetsVersion": [7,4,0]
+      "pzcPresetsVersion": [7,6,0]
     }
   },
   "configurePresets": [
@@ -17,14 +17,15 @@
 
       "$comment": "You can add PROJECT_ROOT CMake variable here.",
       "cacheVariables": {
-        "Arcane_ROOT": "@CMP_INSTALL_DIR@"
+        "HDF5_ROOT": "@CMP_INSTALL_DIR@"
       }
     }
   ],
   "$comment": [
     "Available PZC @variables@ to use in this file:",
     "",
-    "CMP_PROJECT_NAME :                  Name of the project. Commonly the repo name folder         (example: hdf5)",
+    "CMP_PROJECT :                       Name of the project (if detected, otherwise 'generic')     (example: hdf5)",
+    "CMP_PROJECT_NAME :                  Name of the repo folder                                    (example: hdf5)",
     "CMP_SOURCE_DIR :                    Location of the sources                                    (example: /home/user/work/hdf5)",
     "CMP_BUILD_DIR :                     Location of the build dir                                  (example: /home/user/build/build_hdf5/check_hdf5mpi)",
     "CMP_INSTALL_DIR :                   Location of the install dir                                (example: /home/user/install/install_hdf5/check_hdf5mpi)",
@@ -37,7 +38,6 @@
     "CMP_CMAKE_LINKER_TYPE :             Name of the linker (mold or null)                          (example: /usr/bin/mold)",
     "CMP_CMAKE_C_COMPILER :              Path of the C compiler                                     (example: /usr/bin/gcc)",
     "CMP_CMAKE_CXX_COMPILER :            Path of the C++ compiler                                   (example: /usr/bin/g++)",
-    "CMP_CMAKE_PREFIX_PATH :             (paths or empty string)                                    (example: /home/user/install/install_mpich/check)",
-    "CMP_ARCANE_BUILD_TYPE :             Arcane-compatible build type (Debug/Check/Release)         (example: Check)"
+    "CMP_CMAKE_PREFIX_PATH :             (paths or empty string)                                    (example: /home/user/install/install_mpich/check)"
   ]
 }

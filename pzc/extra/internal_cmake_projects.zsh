@@ -39,6 +39,7 @@ function _pzc_common_configure_preset()
   then
     local PZC_TO_CONFIG=${1}
   else
+    _pzc_debug "Error"
     return 11
   fi
 
@@ -46,6 +47,7 @@ function _pzc_common_configure_preset()
   then
     local PZC_TARGET=${2}
   else
+    _pzc_debug "Error"
     return 12
   fi
 
@@ -60,7 +62,6 @@ function _pzc_common_configure_preset()
 
   if [[ ${PZC_GPU_AVAILABLE} = 1 ]]
   then
-    local _PZC_TEMPLATE_NAME="${_PZC_TEMPLATE_NAME}_gpu"
 
     if [[ "${PZC_GPU_DEFAULT_COMPILER}" == "NVCC" ]]
     then
@@ -100,6 +101,7 @@ function _pzc_common_configure_preset()
   fi
 
   sed \
+    -e "s|@CMP_PROJECT@|${CMP_PROJECT}|g" \
     -e "s|@CMP_PROJECT_NAME@|${CMP_PROJECT_NAME}|g" \
     -e "s|@CMP_SOURCE_DIR@|${CMP_SOURCE_DIR}|g" \
     -e "s|@CMP_BUILD_DIR@|${CMP_BUILD_DIR}|g" \
@@ -141,11 +143,13 @@ function _pzc_common_pcmp()
 {
   if [[ ! -v CMP_SOURCE_DIR ]]
   then
+    _pzc_debug "Error"
     return 10
   fi
 
   if [[ ! -v CMP_PROJECT_TYPE ]]
   then
+    _pzc_debug "Error"
     return 10
   fi
 
@@ -158,20 +162,20 @@ function _pzc_common_pcmp()
 
   _pzc_info "Creation of default configuration preset in build dir (${_PZC_TMP_PRESET_PATH})..."
 
+  local _PZC_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/${CMP_PROJECT}/config.json.in"
 
-  if [[ ${CMP_PROJECT_TYPE} = 2 ]]
+  # Si le preset config n'existe pas, on n'en a pas besoin, on prend le generic.
+  if [[ ! -e "${_PZC_TEMPLATE_PRESET_PATH}" ]]
   then
-    local _PZC_TEMPLATE_NAME="framework"
-  else
-    local _PZC_TEMPLATE_NAME="generic"
+    _PZC_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/generic/config.json.in"
   fi
-  local _PZC_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/${_PZC_TEMPLATE_NAME}.json.in"
 
   _pzc_common_configure_preset "${_PZC_TEMPLATE_PRESET_PATH}" "${_PZC_TMP_PRESET_PATH}"
-  if [[ $? != 0 ]]
+  local RET_CODE=$?
+  if [[ ${RET_CODE} != 0 ]]
   then
     _pzc_debug "Error _pzc_common_configure_preset"
-    return $?
+    return ${RET_CODE}
   fi
 
   if [[ -e "${_PZC_TMP_USER_PRESET_PATH}" ]]
@@ -203,7 +207,13 @@ function _pzc_common_pcmp()
 
   _pzc_info "Creation of configuration user preset in build dir (${_PZC_TMP_USER_PRESET_PATH})..."
 
-  local _PZC_EMPTY_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/empty.json.in"
+  local _PZC_EMPTY_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/${CMP_PROJECT}/empty.json.in"
+
+  # Si le preset empty n'existe pas, on n'en a pas besoin, on prend le generic.
+  if [[ ! -e "${_PZC_EMPTY_TEMPLATE_PRESET_PATH}" ]]
+  then
+    _PZC_EMPTY_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/generic/empty.json.in"
+  fi
 
   sed \
     -e "s|@PZC_CMP_SOURCE_DIR@|${CMP_SOURCE_DIR}|g" \
@@ -215,7 +225,7 @@ function _pzc_common_pcmp()
 
   if [[ ${CMP_PROJECT_TYPE} = 3 ]]
   then
-    _pzc_common_depcmp framework @ ${CMP_VARIANT} 1
+    _pzc_common_depcmp framework @ @CMP_VARIANT@ 1
     return $?
   fi
 }
@@ -232,36 +242,31 @@ function _pzc_common_generate_user_preset()
 {
   if [[ ! -v CMP_SOURCE_DIR ]]
   then
+    _pzc_debug "Error"
     return 10
   fi
 
   if [[ ! -v CMP_PROJECT_TYPE ]]
   then
+    _pzc_debug "Error"
     return 10
   fi
-
-  if [[ ${CMP_PROJECT_TYPE} = 2 ]]
-  then
-    local _PZC_TEMPLATE_NAME="framework"
-  else
-    local _PZC_TEMPLATE_NAME="generic"
-  fi
-
 
   local _PZC_TMP_USER_PRESET_PATH="${CMP_BUILD_DIR}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
   local _PZC_TMP_GEN_USER_PRESET_PATH="${CMP_BUILD_DIR}/generated_user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
 
   _pzc_info "Generation of final configuration user preset in build dir (${_PZC_TMP_GEN_USER_PRESET_PATH})..."
   _pzc_common_configure_preset "${_PZC_TMP_USER_PRESET_PATH}" "${_PZC_TMP_GEN_USER_PRESET_PATH}"
-  if [[ $? != 0 ]]
+  local RET_CODE=$?
+  if [[ ${RET_CODE} != 0 ]]
   then
     _pzc_debug "Error _pzc_common_configure_preset"
-    return $?
+    return ${RET_CODE}
   fi
 
-  jq -r '.vendor.pzc.cmpDependencies[] | @tsv' "${_PZC_TMP_GEN_USER_PRESET_PATH}" | while read -r var1 var2 var3
+  jq -r '.vendor.pzc.cmpDependencies[] | @tsv' "${_PZC_TMP_GEN_USER_PRESET_PATH}" | while read -r var1 var2 var3 var4
   do
-    _pzc_info "Add dependency -- Name : ${var1} -- Type : ${var2} -- Variant : ${var3}"
+    _pzc_info "Add dependency -- Name : ${var1} -- Type : ${var2} -- Variant : ${var3} -- Preset : ${var4}"
 
     local _PZC_TYPE_BUILD_DIR="${var2}"
     if [[ ${var3} != "_" ]]
@@ -299,11 +304,13 @@ function _pzc_common_ipcmp()
 {
   if [[ ! -v CMP_SOURCE_DIR ]]
   then
+    _pzc_debug "Error"
     return 10
   fi
 
   if [[ ! -v CMP_PROJECT_TYPE ]]
   then
+    _pzc_debug "Error"
     return 10
   fi
 
@@ -343,14 +350,13 @@ function _pzc_common_ipcmp()
 
   _pzc_info "Creation of installation user preset in build dir (${_PZC_TMP_INSTALL_PRESET_PATH})..."
 
-  if [[ ${CMP_PROJECT_TYPE} = 2 ]]
-  then
-    local _PZC_TEMPLATE_NAME="install_framework"
-  else
-    local _PZC_TEMPLATE_NAME="install"
-  fi
+  local _PZC_EMPTY_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/${CMP_PROJECT}/install.json.in"
 
-  local _PZC_EMPTY_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/${_PZC_TEMPLATE_NAME}.json.in"
+  # Si le preset install n'existe pas, on n'en a pas besoin, on prend le generic.
+  if [[ ! -e "${_PZC_EMPTY_TEMPLATE_PRESET_PATH}" ]]
+  then
+    _PZC_EMPTY_TEMPLATE_PRESET_PATH="${PZC_PZC_DIR}/progs/cmake/preset_templates/generic/install.json.in"
+  fi
 
   sed \
     -e "s|@PZC_CMP_SOURCE_DIR@|${CMP_SOURCE_DIR}|g" \
@@ -374,11 +380,13 @@ function _pzc_common_generate_install_preset()
 {
   if [[ ! -v CMP_SOURCE_DIR ]]
   then
+    _pzc_debug "Error"
     return 10
   fi
 
   if [[ ! -v CMP_PROJECT_TYPE ]]
   then
+    _pzc_debug "Error"
     return 10
   fi
 
@@ -389,9 +397,11 @@ function _pzc_common_generate_install_preset()
   _pzc_info "Generation of final installation user preset in build dir (${_PZC_TMP_GEN_INSTALL_PRESET_PATH})..."
 
   _pzc_common_configure_preset "${_PZC_TMP_INSTALL_PRESET_PATH}" "${_PZC_TMP_GEN_INSTALL_PRESET_PATH}"
-  if [[ $? != 0 ]]
+  local RET_CODE=$?
+  if [[ ${RET_CODE} != 0 ]]
   then
-    return $?
+    _pzc_debug "Error"
+    return ${RET_CODE}
   fi
 }
 
@@ -399,6 +409,41 @@ function _pzc_common_generate_install_preset()
 
 # ---------------------------------------------------------------
 # ----------------------- Init functions ------------------------
+# ---------------------------------------------------------------
+
+function _pzc_common_find_project()
+{
+  if [[ ! -v CMP_PROJECT_TYPE ]]
+  then
+    _pzc_debug "Error"
+    return 10
+  fi
+
+  local _PZC_SOURCE_PRESET="${CMP_SOURCE_DIR}/CMakeUserPresets.json"
+
+  if [[ -e "${_PZC_SOURCE_PRESET}" ]]
+  then
+    _pzc_info "To reload project detection, remove '${CMP_SOURCE_DIR}/CMakeUserPresets.json' file."
+    CMP_PROJECT=$(jq -r '.vendor.pzc.cmpProject' ${_PZC_SOURCE_PRESET})
+    return 0
+  fi
+
+  local _PZC_FIND_PROJECT_JSON="${PZC_PZC_DIR}/progs/cmake/preset_templates/find_project.json"
+
+  CMP_PROJECT="generic"
+
+  jq -r '.projects[] | .name as $p | .find_files[] | "\($p)\t\(.)"' ${_PZC_FIND_PROJECT_JSON} | while IFS=$'\t' read -r PROJECT_NAME FILE_PATH; do
+    _pzc_debug "Search ${FILE_PATH}"
+
+    if [[ -e "${CMP_SOURCE_DIR}/${FILE_PATH}" ]]
+    then
+      CMP_PROJECT="$PROJECT_NAME"
+      break
+    fi
+  done
+}
+
+# ---------------------------------------------------------------
 # ---------------------------------------------------------------
 
 #! \brief Fonction permettant d'initaliser le projet. Appel obligatoire pour pouvoir utiliser les autres fonctions.
@@ -415,6 +460,7 @@ function _pzc_common_initcmp()
 {
   if [[ ! -v CMP_PROJECT_TYPE ]]
   then
+    _pzc_debug "Error"
     return 10
   fi
 
@@ -552,6 +598,15 @@ function _pzc_common_initcmp()
     fi
   fi
 
+  _pzc_common_find_project
+  local RET_CODE=$?
+  if [[ ${RET_CODE} != 0 ]]
+  then
+    _pzc_debug "Error"
+    return ${RET_CODE}
+  fi
+
+  _pzc_info "Detected project: ${CMP_PROJECT}"
 
   mkdir -p "${CMP_BUILD_DIR}"
   mkdir -p "${CMP_INSTALL_DIR}"
@@ -576,40 +631,50 @@ function _pzc_common_initcmp()
 #! \return 13 Preset de configuration utilisateur 1/2 non trouvé
 function _pzc_common_configcmp()
 {
+  if [[ ! -v 1 ]]
+  then
+    _pzc_debug "First param not found"
+    return 2
+  fi
+
   if [[ ! -v CMP_BUILD_DIR ]]
   then
+    _pzc_debug "Error"
     return 10
   fi
 
   local _PZC_TMP_USER_PRESET_PATH="${CMP_BUILD_DIR}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
   if [[ ! -e "${_PZC_TMP_USER_PRESET_PATH}" ]]
   then
+    _pzc_debug "Error"
     return 13
   fi
 
   local _PZC_TMP_GEN_USER_PRESET_PATH="${CMP_BUILD_DIR}/generated_user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
 
   _pzc_common_generate_user_preset
-  if [[ $? != 0 ]]
+  local RET_CODE=$?
+  if [[ ${RET_CODE} != 0 ]]
   then
-    return $?
+    _pzc_debug "Error"
+    return ${RET_CODE}
   fi
 
   _pzc_info "Generation of CMakeUserPresets.json in ${CMP_PROJECT_NAME} source..."
-  echo "{\"version\": 4,\"include\": [\"${_PZC_TMP_GEN_USER_PRESET_PATH}\"]}" > "${CMP_SOURCE_DIR}/CMakeUserPresets.json"
+  echo "{\"version\":4,\"vendor\":{\"pzc\": {\"cmpProject\":\"${CMP_PROJECT}\"}},\"include\":[\"${_PZC_TMP_GEN_USER_PRESET_PATH}\"]}" > "${CMP_SOURCE_DIR}/CMakeUserPresets.json"
 
   _pzc_pensil_begin
 
 
-  if [[ -v 1 ]] && [[ ${1} == "1" ]]
+  if [[ ${1} == "_" ]]
   then
-      echo "cmake \\"
-      echo "  -S ${CMP_SOURCE_DIR} \\"
-      echo "  --preset ${CMP_BUILD_TYPE}_gpu"
+    echo "cmake \\"
+    echo "  -S ${CMP_SOURCE_DIR} \\"
+    echo "  --preset ${CMP_BUILD_TYPE}"
   else
-      echo "cmake \\"
-      echo "  -S ${CMP_SOURCE_DIR} \\"
-      echo "  --preset ${CMP_BUILD_TYPE}"
+    echo "cmake \\"
+    echo "  -S ${CMP_SOURCE_DIR} \\"
+    echo "  --preset ${CMP_BUILD_TYPE}_${1}"
   fi
 
 
@@ -620,15 +685,15 @@ function _pzc_common_configcmp()
 
   _pzc_pensil_end
 
-  if [[ -v 1 ]] && [[ ${1} == "1" ]]
+  if [[ ${1} == "_" ]]
   then
     cmake \
       -S ${CMP_SOURCE_DIR} \
-      --preset "${CMP_BUILD_TYPE}_gpu"
+      --preset "${CMP_BUILD_TYPE}"
   else
     cmake \
       -S ${CMP_SOURCE_DIR} \
-      --preset "${CMP_BUILD_TYPE}"
+      --preset "${CMP_BUILD_TYPE}_${1}"
   fi
 
 
@@ -661,25 +726,32 @@ function _pzc_common_generate_and_configcmp()
     _pzc_info "Configuration user preset not found. Generation..."
 
     _pzc_common_pcmp
-    if [[ $? != 0 ]]
+    local RET_CODE2=$?
+    if [[ ${RET_CODE2} != 0 ]]
     then
-      return $?
+      _pzc_debug "Error"
+      return ${RET_CODE2}
     fi
 
     _pzc_common_ipcmp
-    if [[ $? != 0 ]]
+    local RET_CODE2=$?
+    if [[ ${RET_CODE2} != 0 ]]
     then
-      return $?
+      _pzc_debug "Error"
+      return ${RET_CODE2}
     fi
 
     _pzc_common_configcmp $1
-    if [[ $? != 0 ]]
+    local RET_CODE2=$?
+    if [[ ${RET_CODE2} != 0 ]]
     then
-      return $?
+      _pzc_debug "Error"
+      return ${RET_CODE2}
     fi
 
   elif [[ $RET_CODE != 0 ]]
   then
+    _pzc_debug "Error"
     return $RET_CODE
   fi
 }
@@ -708,6 +780,7 @@ function _pzc_common_depcmp()
 {
   if [[ ! -v CMP_PROJECT_TYPE ]]
   then
+    _pzc_debug "Error"
     return 10
   fi
 
@@ -745,9 +818,17 @@ function _pzc_common_depcmp()
     local ADD_CMP_VARIANT="_"
   fi
 
+  if [[ -v 4 ]] && [[ ${4} != "_" ]] && [[ ${4} != "none" ]]
+  then
+    local ADD_CMP_PRESET_VARIANT=${4}
+  else
+    local ADD_CMP_PRESET_VARIANT="_"
+  fi
+
   local _PZC_TMP_USER_PRESET_PATH="${CMP_BUILD_DIR}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
   if [[ ! -e "${_PZC_TMP_USER_PRESET_PATH}" ]]
   then
+    _pzc_debug "Error"
     return 13
   fi
 
@@ -757,13 +838,13 @@ function _pzc_common_depcmp()
     then
       # Ajout
       jq \
-        ".vendor.pzc.cmpDependencies = (.vendor.pzc.cmpDependencies + [[\"${ADD_CMP_PROJECT_NAME}\", \"${ADD_CMP_BUILD_TYPE}\", \"${ADD_CMP_VARIANT}\"]] | unique)" \
+        ".vendor.pzc.cmpDependencies = (.vendor.pzc.cmpDependencies + [[\"${ADD_CMP_PROJECT_NAME}\", \"${ADD_CMP_BUILD_TYPE}\", \"${ADD_CMP_VARIANT}\", \"${ADD_CMP_PRESET_VARIANT}\"]] | unique)" \
         "${_PZC_TMP_USER_PRESET_PATH}" > "${_PZC_TMP_USER_PRESET_PATH}.tmp"
     elif [[ ${4} == 2 ]]
     then
       # Suppression
       jq \
-        ".vendor.pzc.cmpDependencies -= [[\"${ADD_CMP_PROJECT_NAME}\", \"${ADD_CMP_BUILD_TYPE}\", \"${ADD_CMP_VARIANT}\"]]" \
+        ".vendor.pzc.cmpDependencies -= [[\"${ADD_CMP_PROJECT_NAME}\", \"${ADD_CMP_BUILD_TYPE}\", \"${ADD_CMP_VARIANT}\", \"${ADD_CMP_PRESET_VARIANT}\"]]" \
         "${_PZC_TMP_USER_PRESET_PATH}" > "${_PZC_TMP_USER_PRESET_PATH}.tmp"
     fi
   else
@@ -787,19 +868,23 @@ function _pzc_common_bidep()
 {
   if [[ ! -v CMP_PROJECT_TYPE ]]
   then
+    _pzc_debug "Error"
     return 10
   fi
 
   # On génère le preset de configuration user 2/2 pour avoir les cmpDependencies 2/2.
   _pzc_common_generate_user_preset
-  if [[ $? != 0 ]]
+  local RET_CODE=$?
+  if [[ ${RET_CODE} != 0 ]]
   then
-    return $?
+    _pzc_debug "Error"
+    return ${RET_CODE}
   fi
 
   local _PZC_TMP_GEN_USER_PRESET_PATH="${CMP_BUILD_DIR}/generated_user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
   if [[ ! -e "${_PZC_TMP_GEN_USER_PRESET_PATH}" ]]
   then
+    _pzc_debug "Error"
     return 14
   fi
 
@@ -808,10 +893,10 @@ function _pzc_common_bidep()
   local ACTUAL_CMP_BUILD_TYPE=${CMP_BUILD_TYPE}
   local ACTUAL_CMP_VARIANT=${CMP_VARIANT}
 
-  jq -r '.vendor.pzc.cmpDependencies[] | @tsv' "${_PZC_TMP_GEN_USER_PRESET_PATH}" | while read -r var1 var2 var3
+  jq -r '.vendor.pzc.cmpDependencies[] | @tsv' "${_PZC_TMP_GEN_USER_PRESET_PATH}" | while read -r var1 var2 var3 var4
   do
     echo ""
-    _pzc_info "Build and install dependency -- Name : ${var1} -- Type : ${var2} -- Variant : ${var3}"
+    _pzc_info "Build and install dependency -- Name : ${var1} -- Type : ${var2} -- Variant : ${var3} -- Preset : ${var4}"
     echo ""
 
     # Aujourd'hui, framework est un nom réservé désignant Arcane framework (donc CMP_PROJECT_TYPE=2).
@@ -826,7 +911,7 @@ function _pzc_common_bidep()
 
     _pzc_info "Configure CMake Project: ${CMP_PROJECT_NAME}..."
 
-    _pzc_common_generate_and_configcmp 0
+    _pzc_common_generate_and_configcmp ${var4}
     local RET_CODE=$?
     if [[ ${RET_CODE} != 0 ]]
     then
@@ -842,13 +927,34 @@ function _pzc_common_bidep()
 
     if [[ $? != 0 ]]
     then
+      _pzc_debug "Error"
       return 1
     fi
 
     _pzc_info "${CMP_PROJECT_NAME} is installed in dir: \"${CMP_INSTALL_DIR}\""
     _pzc_common_generate_install_preset
-    if [[ $? != 0 ]]
+    local RET_CODE=$?
+    if [[ ${RET_CODE} = 11 ]]
     then
+      _pzc_info "Installation user preset not found. Generation..."
+
+      _pzc_common_ipcmp
+      local RET_CODE2=$?
+      if [[ ${RET_CODE2} != 0 ]]
+      then
+        return ${RET_CODE2}
+      fi
+
+      _pzc_common_generate_install_preset
+      local RET_CODE2=$?
+      if [[ ${RET_CODE2} != 0 ]]
+      then
+        return ${RET_CODE2}
+      fi
+
+    elif [[ ${RET_CODE} != 0 ]]
+    then
+      _pzc_cmp_error_message ${RET_CODE}
       return $?
     fi
 

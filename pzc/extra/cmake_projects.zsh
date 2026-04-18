@@ -34,7 +34,7 @@ function _pzc_cmp_error_message()
   _pzc_debug "Error code : ${1}"
   if [[ ! -v 1 ]] || [[ ${1} == 2 ]] || [[ ${1} == 11 ]] || [[ ${1} == 12 ]]
   then
-    _pzc_error "Internal error"
+    _pzc_error "Internal error (code ${1})"
     return 1
 
   elif [[ ${1} == 1 ]] || [[ ${1} == 16 ]]
@@ -58,7 +58,7 @@ function _pzc_cmp_error_message()
 
   elif [[ ${1} == 15 ]]
   then
-    _pzc_error "Installation user preset not found. Call 'configcmp' or 'ipcmp' command before."
+    _pzc_error "Installation user preset not found. Call 'configcmp' or 'pcmp' command before."
     return 1
 
   fi
@@ -113,13 +113,7 @@ function pcmp()
     _pzc_cmp_error_message ${RET_CODE}
     return $?
   fi
-}
 
-# ---------------------------------------------------------------
-# ---------------------------------------------------------------
-
-function ipcmp()
-{
   _pzc_common_ipcmp
   local RET_CODE=$?
   if [[ ${RET_CODE} != 0 ]]
@@ -180,6 +174,7 @@ function editipcmp()
   then
     _pzc_info "Install preset not found (${_PZC_TMP_INSTALL_PRESET_PATH}). Generation..."
 
+    _pzc_common_ipcmp
     local RET_CODE=$?
     if [[ ${RET_CODE} != 0 ]]
     then
@@ -440,9 +435,15 @@ function saveipcmpgg()
 
 function configcmp()
 {
+  local _PZC_CMP_VARIANT="_"
+  if [[ -v 1 ]]
+  then
+    _PZC_CMP_VARIANT=$1
+  fi
+
   _pzc_info "Configure CMake Project: ${CMP_PROJECT_NAME}..."
 
-  _pzc_common_generate_and_configcmp 0
+  _pzc_common_generate_and_configcmp "${_PZC_CMP_VARIANT}"
   local RET_CODE=$?
   if [[ ${RET_CODE} != 0 ]]
   then
@@ -458,7 +459,7 @@ function configcmpgpu()
 {
   _pzc_info "Configure CMake Project GPU: ${CMP_PROJECT_NAME}..."
 
-  _pzc_common_generate_and_configcmp 1
+  _pzc_common_generate_and_configcmp "gpu"
   local RET_CODE=$?
   if [[ ${RET_CODE} != 0 ]]
   then
@@ -485,7 +486,12 @@ function bicmp()
   then
     _pzc_info "CMakeCache.txt not found. Calling 'configcmp' before build..."
 
-    _pzc_common_generate_and_configcmp 0
+    local _PZC_CMP_VARIANT="_"
+    if [[ -v 1 ]]
+    then
+      _PZC_CMP_VARIANT=$1
+    fi
+    _pzc_common_generate_and_configcmp ${_PZC_CMP_VARIANT}
     local RET_CODE=$?
     if [[ ${RET_CODE} != 0 ]]
     then
@@ -510,7 +516,27 @@ function bicmp()
 
   _pzc_common_generate_install_preset
   local RET_CODE=$?
-  if [[ ${RET_CODE} != 0 ]]
+  if [[ ${RET_CODE} = 11 ]]
+  then
+    _pzc_info "Installation user preset not found. Generation..."
+
+    _pzc_common_ipcmp
+    local RET_CODE2=$?
+    if [[ ${RET_CODE2} != 0 ]]
+    then
+      _pzc_debug "Error"
+      return ${RET_CODE2}
+    fi
+
+    _pzc_common_generate_install_preset
+    local RET_CODE2=$?
+    if [[ ${RET_CODE2} != 0 ]]
+    then
+      _pzc_debug "Error"
+      return ${RET_CODE2}
+    fi
+
+  elif [[ ${RET_CODE} != 0 ]]
   then
     _pzc_cmp_error_message ${RET_CODE}
     return $?
@@ -553,6 +579,7 @@ function clearcmp()
 
   _pzc_pensil_begin
   _pzc_ecal_eval "cd ${CMP_BUILD_DIR}/.."
+  # _pzc_ecal_eval "rm -f ${CMP_SOURCE_DIR}/CMakeUserPresets.json"
   _pzc_ecal_eval "rm -r ${CMP_BUILD_DIR}"
   _pzc_ecal_eval "rm -r ${CMP_INSTALL_DIR}"
   _pzc_ecal_eval "mkdir ${CMP_BUILD_DIR}"

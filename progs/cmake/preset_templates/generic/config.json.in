@@ -11,7 +11,7 @@
   "configurePresets": [
     {
       "name": "PZC_@CMP_BUILD_TYPE@",
-      "description": "Build Arcane @CMP_DIR_BUILD_TYPE@",
+      "description": "Build @CMP_PROJECT_NAME@",
       "hidden" : true,
       "binaryDir": "@CMP_BUILD_DIR@",
       "installDir": "@CMP_INSTALL_DIR@",
@@ -23,17 +23,12 @@
         "CMAKE_CXX_COMPILER_LAUNCHER": "@CMP_CMAKE_C_CXX_COMPILER_LAUNCHER@",
         "CMAKE_BUILD_TYPE": "@CMP_CMAKE_BUILD_TYPE@",
         "CMAKE_C_COMPILER": "@CMP_CMAKE_C_COMPILER@",
-        "CMAKE_CXX_COMPILER": "@CMP_CMAKE_CXX_COMPILER@",
-        "ARCANE_BUILD_TYPE": "@CMP_ARCANE_BUILD_TYPE@",
-        "ARCCORE_BUILD_MODE": "@CMP_ARCANE_BUILD_TYPE@",
-        "ARCCORE_CXX_STANDARD": "23",
-        "BIG_TEST": "TRUE",
-        "ARCANEFRAMEWORK_BUILD_COMPONENTS": "Arcane"
+        "CMAKE_CXX_COMPILER": "@CMP_CMAKE_CXX_COMPILER@"
       }
     },
     {
       "name": "PZC_@CMP_BUILD_TYPE@_gpu",
-      "description": "Build Arcane @CMP_DIR_BUILD_TYPE@ for GPU",
+      "description": "Build @CMP_PROJECT_NAME@ for GPU",
       "hidden" : true,
       "binaryDir": "@CMP_BUILD_DIR@",
       "installDir": "@CMP_INSTALL_DIR@",
@@ -46,17 +41,10 @@
         "CMAKE_BUILD_TYPE": "@CMP_CMAKE_BUILD_TYPE@",
         "CMAKE_C_COMPILER": "@CMP_CMAKE_C_COMPILER@",
         "CMAKE_CXX_COMPILER": "@CMP_GPU_HOST_COMPILER@",
-        "ARCANE_BUILD_TYPE": "@CMP_ARCANE_BUILD_TYPE@",
-        "ARCCORE_BUILD_MODE": "@CMP_ARCANE_BUILD_TYPE@",
-        "ARCCORE_CXX_STANDARD": "20",
-        "BIG_TEST": "TRUE",
-        "ARCANEFRAMEWORK_BUILD_COMPONENTS": "Arcane",
-        "ARCANE_ACCELERATOR_MODE": "@CMP_ARCANE_ACCELERATOR_MODE@",
         "CMAKE_CUDA_COMPILER": "@CMP_CMAKE_CUDA_COMPILER@",
         "CMAKE_CUDA_FLAGS": "@CMP_CMAKE_CUDA_FLAGS@",
         "CMAKE_CUDA_ARCHITECTURES": "@CMP_CMAKE_CUDA_ARCHITECTURES@",
-        "CMAKE_SYCL_COMPILER": "@CMP_CMAKE_SYCL_COMPILER@",
-        "ARCANE_CXX_SYCL_FLAGS": "@CMP_ARCANE_CXX_SYCL_FLAGS@"
+        "CMAKE_SYCL_COMPILER": "@CMP_CMAKE_SYCL_COMPILER@"
       }
     }
   ]

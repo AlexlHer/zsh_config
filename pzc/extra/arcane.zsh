@@ -202,7 +202,7 @@ function savepap()
 function configarc()
 {
   _pzc_warning "Deprecated function : use 'configcmp' instead."
-  configcmp
+  configcmp $1
   return $?
 }
 
@@ -212,7 +212,7 @@ function configarc()
 function configarcgpu()
 {
   _pzc_warning "Deprecated function : use 'configcmpgpu' instead."
-  configcmpgpu
+  configcmpgpu "gpu"
   return $?
 }
 
@@ -222,7 +222,7 @@ function configarcgpu()
 function configap()
 {
   _pzc_warning "Deprecated function : use 'configcmp' instead."
-  configcmp
+  configcmp $1
   return $?
 }
 
@@ -232,7 +232,7 @@ function configap()
 function configapgpu()
 {
   _pzc_warning "Deprecated function : use 'configcmpgpu' instead."
-  configcmpgpu
+  configcmpgpu "gpu"
   return $?
 }
 
