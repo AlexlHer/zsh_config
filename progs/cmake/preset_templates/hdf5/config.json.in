@@ -30,17 +30,11 @@
       "name": "PZC_@CMP_BUILD_TYPE@_mt",
       "description": "Build @CMP_PROJECT_NAME@ multithread and threadsafe",
       "hidden" : true,
+      "inherits" : ["PZC_@CMP_BUILD_TYPE@"],
       "binaryDir": "@CMP_BUILD_DIR@",
       "installDir": "@CMP_INSTALL_DIR@",
       "generator": "@CMP_CMAKE_GENERATOR@",
       "cacheVariables": {
-        "CMAKE_PREFIX_PATH": "@CMP_CMAKE_PREFIX_PATH@",
-        "CMAKE_LINKER_TYPE": "@CMP_CMAKE_LINKER_TYPE@",
-        "CMAKE_C_COMPILER_LAUNCHER": "@CMP_CMAKE_C_CXX_COMPILER_LAUNCHER@",
-        "CMAKE_CXX_COMPILER_LAUNCHER": "@CMP_CMAKE_C_CXX_COMPILER_LAUNCHER@",
-        "CMAKE_BUILD_TYPE": "@CMP_CMAKE_BUILD_TYPE@",
-        "CMAKE_C_COMPILER": "@CMP_CMAKE_C_COMPILER@",
-        "CMAKE_CXX_COMPILER": "@CMP_CMAKE_CXX_COMPILER@",
         "HDF5_ENABLE_CONCURRENCY": "ON",
         "HDF5_BUILD_HL_LIB": "OFF"
       }
@@ -49,17 +43,11 @@
       "name": "PZC_@CMP_BUILD_TYPE@_mpi",
       "description": "Build @CMP_PROJECT_NAME@ with MPI support",
       "hidden" : true,
+      "inherits" : ["PZC_@CMP_BUILD_TYPE@"],
       "binaryDir": "@CMP_BUILD_DIR@",
       "installDir": "@CMP_INSTALL_DIR@",
       "generator": "@CMP_CMAKE_GENERATOR@",
       "cacheVariables": {
-        "CMAKE_PREFIX_PATH": "@CMP_CMAKE_PREFIX_PATH@",
-        "CMAKE_LINKER_TYPE": "@CMP_CMAKE_LINKER_TYPE@",
-        "CMAKE_C_COMPILER_LAUNCHER": "@CMP_CMAKE_C_CXX_COMPILER_LAUNCHER@",
-        "CMAKE_CXX_COMPILER_LAUNCHER": "@CMP_CMAKE_C_CXX_COMPILER_LAUNCHER@",
-        "CMAKE_BUILD_TYPE": "@CMP_CMAKE_BUILD_TYPE@",
-        "CMAKE_C_COMPILER": "@CMP_CMAKE_C_COMPILER@",
-        "CMAKE_CXX_COMPILER": "@CMP_CMAKE_CXX_COMPILER@",
         "HDF5_ENABLE_PARALLEL": "ON"
       }
     }
