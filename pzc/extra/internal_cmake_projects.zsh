@@ -39,6 +39,7 @@ function _pzc_common_configure_preset()
   then
     local PZC_TO_CONFIG=${1}
   else
+    _pzc_debug "Error"
     return 11
   fi
 
@@ -46,6 +47,7 @@ function _pzc_common_configure_preset()
   then
     local PZC_TARGET=${2}
   else
+    _pzc_debug "Error"
     return 12
   fi
 
@@ -141,11 +143,13 @@ function _pzc_common_pcmp()
 {
   if [[ ! -v CMP_SOURCE_DIR ]]
   then
+    _pzc_debug "Error"
     return 10
   fi
 
   if [[ ! -v CMP_PROJECT_TYPE ]]
   then
+    _pzc_debug "Error"
     return 10
   fi
 
@@ -238,11 +242,13 @@ function _pzc_common_generate_user_preset()
 {
   if [[ ! -v CMP_SOURCE_DIR ]]
   then
+    _pzc_debug "Error"
     return 10
   fi
 
   if [[ ! -v CMP_PROJECT_TYPE ]]
   then
+    _pzc_debug "Error"
     return 10
   fi
 
@@ -258,9 +264,9 @@ function _pzc_common_generate_user_preset()
     return ${RET_CODE}
   fi
 
-  jq -r '.vendor.pzc.cmpDependencies[] | @tsv' "${_PZC_TMP_GEN_USER_PRESET_PATH}" | while read -r var1 var2 var3
+  jq -r '.vendor.pzc.cmpDependencies[] | @tsv' "${_PZC_TMP_GEN_USER_PRESET_PATH}" | while read -r var1 var2 var3 var4
   do
-    _pzc_info "Add dependency -- Name : ${var1} -- Type : ${var2} -- Variant : ${var3}"
+    _pzc_info "Add dependency -- Name : ${var1} -- Type : ${var2} -- Variant : ${var3} -- Preset : ${var4}"
 
     local _PZC_TYPE_BUILD_DIR="${var2}"
     if [[ ${var3} != "_" ]]
@@ -298,11 +304,13 @@ function _pzc_common_ipcmp()
 {
   if [[ ! -v CMP_SOURCE_DIR ]]
   then
+    _pzc_debug "Error"
     return 10
   fi
 
   if [[ ! -v CMP_PROJECT_TYPE ]]
   then
+    _pzc_debug "Error"
     return 10
   fi
 
@@ -372,11 +380,13 @@ function _pzc_common_generate_install_preset()
 {
   if [[ ! -v CMP_SOURCE_DIR ]]
   then
+    _pzc_debug "Error"
     return 10
   fi
 
   if [[ ! -v CMP_PROJECT_TYPE ]]
   then
+    _pzc_debug "Error"
     return 10
   fi
 
@@ -390,6 +400,7 @@ function _pzc_common_generate_install_preset()
   local RET_CODE=$?
   if [[ ${RET_CODE} != 0 ]]
   then
+    _pzc_debug "Error"
     return ${RET_CODE}
   fi
 }
@@ -404,6 +415,7 @@ function _pzc_common_find_project()
 {
   if [[ ! -v CMP_PROJECT_TYPE ]]
   then
+    _pzc_debug "Error"
     return 10
   fi
 
@@ -448,6 +460,7 @@ function _pzc_common_initcmp()
 {
   if [[ ! -v CMP_PROJECT_TYPE ]]
   then
+    _pzc_debug "Error"
     return 10
   fi
 
@@ -589,6 +602,7 @@ function _pzc_common_initcmp()
   local RET_CODE=$?
   if [[ ${RET_CODE} != 0 ]]
   then
+    _pzc_debug "Error"
     return ${RET_CODE}
   fi
 
@@ -625,12 +639,14 @@ function _pzc_common_configcmp()
 
   if [[ ! -v CMP_BUILD_DIR ]]
   then
+    _pzc_debug "Error"
     return 10
   fi
 
   local _PZC_TMP_USER_PRESET_PATH="${CMP_BUILD_DIR}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
   if [[ ! -e "${_PZC_TMP_USER_PRESET_PATH}" ]]
   then
+    _pzc_debug "Error"
     return 13
   fi
 
@@ -640,6 +656,7 @@ function _pzc_common_configcmp()
   local RET_CODE=$?
   if [[ ${RET_CODE} != 0 ]]
   then
+    _pzc_debug "Error"
     return ${RET_CODE}
   fi
 
@@ -712,6 +729,7 @@ function _pzc_common_generate_and_configcmp()
     local RET_CODE2=$?
     if [[ ${RET_CODE2} != 0 ]]
     then
+      _pzc_debug "Error"
       return ${RET_CODE2}
     fi
 
@@ -719,6 +737,7 @@ function _pzc_common_generate_and_configcmp()
     local RET_CODE2=$?
     if [[ ${RET_CODE2} != 0 ]]
     then
+      _pzc_debug "Error"
       return ${RET_CODE2}
     fi
 
@@ -726,11 +745,13 @@ function _pzc_common_generate_and_configcmp()
     local RET_CODE2=$?
     if [[ ${RET_CODE2} != 0 ]]
     then
+      _pzc_debug "Error"
       return ${RET_CODE2}
     fi
 
   elif [[ $RET_CODE != 0 ]]
   then
+    _pzc_debug "Error"
     return $RET_CODE
   fi
 }
@@ -759,6 +780,7 @@ function _pzc_common_depcmp()
 {
   if [[ ! -v CMP_PROJECT_TYPE ]]
   then
+    _pzc_debug "Error"
     return 10
   fi
 
@@ -796,9 +818,17 @@ function _pzc_common_depcmp()
     local ADD_CMP_VARIANT="_"
   fi
 
+  if [[ -v 4 ]] && [[ ${4} != "_" ]] && [[ ${4} != "none" ]]
+  then
+    local ADD_CMP_PRESET_VARIANT=${3}
+  else
+    local ADD_CMP_PRESET_VARIANT="_"
+  fi
+
   local _PZC_TMP_USER_PRESET_PATH="${CMP_BUILD_DIR}/user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
   if [[ ! -e "${_PZC_TMP_USER_PRESET_PATH}" ]]
   then
+    _pzc_debug "Error"
     return 13
   fi
 
@@ -808,13 +838,13 @@ function _pzc_common_depcmp()
     then
       # Ajout
       jq \
-        ".vendor.pzc.cmpDependencies = (.vendor.pzc.cmpDependencies + [[\"${ADD_CMP_PROJECT_NAME}\", \"${ADD_CMP_BUILD_TYPE}\", \"${ADD_CMP_VARIANT}\"]] | unique)" \
+        ".vendor.pzc.cmpDependencies = (.vendor.pzc.cmpDependencies + [[\"${ADD_CMP_PROJECT_NAME}\", \"${ADD_CMP_BUILD_TYPE}\", \"${ADD_CMP_VARIANT}\", \"${ADD_CMP_PRESET_VARIANT}\"]] | unique)" \
         "${_PZC_TMP_USER_PRESET_PATH}" > "${_PZC_TMP_USER_PRESET_PATH}.tmp"
     elif [[ ${4} == 2 ]]
     then
       # Suppression
       jq \
-        ".vendor.pzc.cmpDependencies -= [[\"${ADD_CMP_PROJECT_NAME}\", \"${ADD_CMP_BUILD_TYPE}\", \"${ADD_CMP_VARIANT}\"]]" \
+        ".vendor.pzc.cmpDependencies -= [[\"${ADD_CMP_PROJECT_NAME}\", \"${ADD_CMP_BUILD_TYPE}\", \"${ADD_CMP_VARIANT}\", \"${ADD_CMP_PRESET_VARIANT}\"]]" \
         "${_PZC_TMP_USER_PRESET_PATH}" > "${_PZC_TMP_USER_PRESET_PATH}.tmp"
     fi
   else
@@ -838,6 +868,7 @@ function _pzc_common_bidep()
 {
   if [[ ! -v CMP_PROJECT_TYPE ]]
   then
+    _pzc_debug "Error"
     return 10
   fi
 
@@ -846,12 +877,14 @@ function _pzc_common_bidep()
   local RET_CODE=$?
   if [[ ${RET_CODE} != 0 ]]
   then
+    _pzc_debug "Error"
     return ${RET_CODE}
   fi
 
   local _PZC_TMP_GEN_USER_PRESET_PATH="${CMP_BUILD_DIR}/generated_user_${CMP_PROJECT_NAME}_${TYPE_BUILD_DIR}.json"
   if [[ ! -e "${_PZC_TMP_GEN_USER_PRESET_PATH}" ]]
   then
+    _pzc_debug "Error"
     return 14
   fi
 
@@ -860,10 +893,10 @@ function _pzc_common_bidep()
   local ACTUAL_CMP_BUILD_TYPE=${CMP_BUILD_TYPE}
   local ACTUAL_CMP_VARIANT=${CMP_VARIANT}
 
-  jq -r '.vendor.pzc.cmpDependencies[] | @tsv' "${_PZC_TMP_GEN_USER_PRESET_PATH}" | while read -r var1 var2 var3
+  jq -r '.vendor.pzc.cmpDependencies[] | @tsv' "${_PZC_TMP_GEN_USER_PRESET_PATH}" | while read -r var1 var2 var3 var4
   do
     echo ""
-    _pzc_info "Build and install dependency -- Name : ${var1} -- Type : ${var2} -- Variant : ${var3}"
+    _pzc_info "Build and install dependency -- Name : ${var1} -- Type : ${var2} -- Variant : ${var3} -- Preset : ${var4}"
     echo ""
 
     # Aujourd'hui, framework est un nom réservé désignant Arcane framework (donc CMP_PROJECT_TYPE=2).
@@ -878,7 +911,7 @@ function _pzc_common_bidep()
 
     _pzc_info "Configure CMake Project: ${CMP_PROJECT_NAME}..."
 
-    _pzc_common_generate_and_configcmp ${var3}
+    _pzc_common_generate_and_configcmp ${var4}
     local RET_CODE=$?
     if [[ ${RET_CODE} != 0 ]]
     then
@@ -894,15 +927,35 @@ function _pzc_common_bidep()
 
     if [[ $? != 0 ]]
     then
+      _pzc_debug "Error"
       return 1
     fi
 
     _pzc_info "${CMP_PROJECT_NAME} is installed in dir: \"${CMP_INSTALL_DIR}\""
     _pzc_common_generate_install_preset
     local RET_CODE=$?
-    if [[ ${RET_CODE} != 0 ]]
+    if [[ ${RET_CODE} = 11 ]]
     then
-      return ${RET_CODE}
+      _pzc_info "Installation user preset not found. Generation..."
+
+      _pzc_common_ipcmp
+      local RET_CODE2=$?
+      if [[ ${RET_CODE2} != 0 ]]
+      then
+        return ${RET_CODE2}
+      fi
+
+      _pzc_common_generate_install_preset
+      local RET_CODE2=$?
+      if [[ ${RET_CODE2} != 0 ]]
+      then
+        return ${RET_CODE2}
+      fi
+
+    elif [[ ${RET_CODE} != 0 ]]
+    then
+      _pzc_cmp_error_message ${RET_CODE}
+      return $?
     fi
 
   done

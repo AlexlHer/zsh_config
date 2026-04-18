@@ -34,7 +34,7 @@ function _pzc_cmp_error_message()
   _pzc_debug "Error code : ${1}"
   if [[ ! -v 1 ]] || [[ ${1} == 2 ]] || [[ ${1} == 11 ]] || [[ ${1} == 12 ]]
   then
-    _pzc_error "Internal error"
+    _pzc_error "Internal error (code ${1})"
     return 1
 
   elif [[ ${1} == 1 ]] || [[ ${1} == 16 ]]
@@ -524,6 +524,7 @@ function bicmp()
     local RET_CODE2=$?
     if [[ ${RET_CODE2} != 0 ]]
     then
+      _pzc_debug "Error"
       return ${RET_CODE2}
     fi
 
@@ -531,6 +532,7 @@ function bicmp()
     local RET_CODE2=$?
     if [[ ${RET_CODE2} != 0 ]]
     then
+      _pzc_debug "Error"
       return ${RET_CODE2}
     fi
 
