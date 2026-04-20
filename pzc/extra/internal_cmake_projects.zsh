@@ -225,7 +225,7 @@ function _pzc_common_pcmp()
 
   if [[ ${CMP_PROJECT_TYPE} = 3 ]]
   then
-    _pzc_common_depcmp framework @ @CMP_VARIANT@ 1
+    _pzc_common_depcmp framework @ @CMP_VARIANT@ _ 1
     return $?
   fi
 }
