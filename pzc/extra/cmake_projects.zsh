@@ -517,9 +517,11 @@ function bicmp()
   fi
 
   cmake --build ${CMP_BUILD_DIR} --target install
-  if [[ $? != 0 ]]
+  if [[ $? == 1 ]]
   then
-    return 1
+    _pzc_warning "Target 'install' invalid, build all without install..."
+    cmake --build ${CMP_BUILD_DIR}
+    return $?
   fi
 
   _pzc_info "${CMP_PROJECT_NAME} is installed in dir: \"${CMP_INSTALL_DIR}\""
