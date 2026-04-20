@@ -857,6 +857,65 @@ fi
 
 
 # ---------------------------------------------------------------
+# ---------------------------- Yazi -----------------------------
+# ---------------------------------------------------------------
+
+if [[ ${_PZC_YAZI_AVAILABLE} = 1 ]]
+then
+
+  if [[ -v PZC_YAZI_BIN ]] && [[ -e ${PZC_YAZI_BIN} ]]
+  then
+    _pzc_debug "PZC_YAZI_BIN = ${PZC_YAZI_BIN} (user defined)"
+    alias yazi='${PZC_YAZI_BIN}'
+    _pzc_debug "Define alias yazi"
+
+  elif [[ -v PZC_YAZI_BIN ]]
+  then
+    _pzc_warning "Your yazi bin is not found. Search an other."
+    _pzc_debug "PZC_YAZI_BIN = ${PZC_YAZI_BIN} (unset)"
+    unset PZC_YAZI_BIN
+
+  fi
+
+  if [[ ! -v PZC_YAZI_BIN ]]
+  then
+
+    if [[ -x "$(command -v yazi)" ]]
+    then
+      PZC_YAZI_BIN=yazi
+      _PZC_YAZI_AVAILABLE=1
+      _pzc_debug "Yazi found in PATH"
+
+    else
+
+      if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
+      then
+        PZC_YAZI_BIN=$(mise which --raw -E ${HOST} -C "${ENVI_DIR}/pzc/progs/mise" yazi 2&>/dev/null)
+      fi
+
+      if [[ -n ${PZC_YAZI_BIN} ]] && [[ -e ${PZC_YAZI_BIN} ]]
+      then
+        _PZC_YAZI_AVAILABLE=1
+        _pzc_debug "PZC_YAZI_BIN = ${PZC_YAZI_BIN} (with Mise-en-place)"
+        alias yazi='${PZC_YAZI_BIN}'
+        _pzc_debug "Define alias yazi"
+
+      else
+        _PZC_YAZI_AVAILABLE=0
+        _pzc_warning "Yazi is not installed (https://github.com/sxyazi/yazi). You can install yazi with Mise-en-place with the command 'pzc_install_yazi' or disable yazi search in pzcrc."
+
+      fi
+    fi
+  fi
+
+else
+  _pzc_debug "Yazi disabled."
+
+fi
+
+
+
+# ---------------------------------------------------------------
 # --------------------------- Python ----------------------------
 # ---------------------------------------------------------------
 
@@ -1211,6 +1270,40 @@ then
     }
   fi
 
+
+  # ------------------------
+  # --------- Yazi ---------
+  # ------------------------
+
+  if [[ ${_PZC_YAZI_AVAILABLE} = 0 ]]
+  then
+    _pzc_debug "Define pzc_install_yazi function"
+    pzc_install_yazi()
+    {
+      _pzc_info "Installing Yazi with Mise-en-place..."
+
+      _pzc_coal_eval "${PZC_MISE_BIN} install yazi"
+
+      if [[ $? = 0 ]]
+      then
+        _pzc_info "Enabling Yazi..."
+        _pzc_coal_eval "sed -i 's/local _PZC_YAZI_AVAILABLE=0/local _PZC_YAZI_AVAILABLE=1/g' ${PZC_PZC_CONFIG_FILE}"
+
+        _pzc_info "Update PZC's mise.toml..."
+        _pzc_coal_eval "${PZC_MISE_BIN} use -p \"${ENVI_DIR}/pzc/progs/mise/mise.${HOST}.toml\" yazi"
+
+        if [[ ! -n ${_PZC_PKG_RESTART} ]] || [[ ${_PZC_PKG_RESTART} = 1 ]]
+        then
+          _pzc_info "Reloading ZSH..."
+          exec zsh
+        fi
+      else
+        _pzc_error "Error with Mise-en-place."
+      fi
+    }
+  fi
+
+
   pzc_install_all()
   {
     local _PZC_PKG_RESTART=0
@@ -1223,6 +1316,7 @@ then
     pzc_install_cmake
     pzc_install_atuin
     pzc_install_fzf
+    pzc_install_yazi
 
     _pzc_info "Reloading ZSH..."
     exec zsh

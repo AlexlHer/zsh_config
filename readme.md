@@ -43,3 +43,4 @@ git stash pop
 - fzf (https://github.com/junegunn/fzf)
 - mise-en-place (https://github.com/jdx/mise)
 - spack (https://github.com/spack/spack)
+- yazi (https://github.com/sxyazi/yazi)

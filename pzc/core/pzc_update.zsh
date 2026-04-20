@@ -655,6 +655,30 @@ _pzc_update_pzcrc_700()
   ' ${_PZC_OUTPUT_FILE_TMP} > ${_PZC_OUTPUT_FILE}
 }
 
+_pzc_update_pzcrc_790()
+{
+  awk '/# ------------- PYTHON -------------/ {
+    print "# -------------- YAZI --------------"
+    print "# ----------------------------------"
+    print "# [TODO] If you want to use yazi, set this variable to 1."
+    print "local _PZC_YAZI_AVAILABLE=1"
+    print ""
+    print "# [TODO] Uncomment and complete if you have a custom installation of yazi (which is not in PATH)."
+    print "#PZC_YAZI_BIN="
+    print ""
+    print ""
+    print "# ----------------------------------"
+    print "# ------------- PYTHON -------------"
+    next
+  } 
+  /local _PZC_CONFIG_VERSION=\(7 0 0\)/ {
+    print "local _PZC_CONFIG_VERSION=(7 9 0)"
+    next
+  }
+  1
+  ' ${_PZC_OUTPUT_FILE_TMP} > ${_PZC_OUTPUT_FILE}
+}
+
 _pzc_launch_pzc_update()
 {
   mv ${PZC_PZC_CONFIG_FILE} ${PZC_PZC_CONFIG_FILE}.old
@@ -666,6 +690,12 @@ _pzc_launch_pzc_update()
   if [[ ${_PZC_CONFIG_VERSION[1]} -eq 5 ]]
   then
     _pzc_info "Updating from .zshrc file (PZC v5 or lower) to v6.0.0 pzcrc file..."
+    _pzc_pensil_begin
+    echo "Changelog pzcrc configuration file (v6.0.0)"
+    echo "----"
+    echo "Initial pzcrc config file. Welcome to PZC v6 !"
+    _pzc_pensil_end
+
     _pzc_update_pzcrc_5
     _PZC_CONFIG_VERSION=(6 0 0)
   else
@@ -675,6 +705,12 @@ _pzc_launch_pzc_update()
   if [[ ${_PZC_CONFIG_VERSION[1]} -eq 6 ]] && [[ ${_PZC_CONFIG_VERSION[2]} -eq 0 ]] && [[ ${_PZC_CONFIG_VERSION[3]} -eq 0 ]]
   then
     _pzc_info "Updating from v6.0.0 pzcrc file to v6.2.0 pzcrc file..."
+    _pzc_pensil_begin
+    echo "Changelog pzcrc configuration file (v6.0.0 -> v6.2.0)"
+    echo "----"
+    echo "Add Atuin (https://github.com/atuinsh/atuin) support."
+    _pzc_pensil_end
+
     mv ${_PZC_OUTPUT_FILE} ${_PZC_OUTPUT_FILE_TMP}
     _pzc_update_pzcrc_620
     rm ${_PZC_OUTPUT_FILE_TMP}
@@ -684,6 +720,12 @@ _pzc_launch_pzc_update()
   if [[ ${_PZC_CONFIG_VERSION[1]} -eq 6 ]] && [[ ${_PZC_CONFIG_VERSION[2]} -eq 2 ]] && [[ ${_PZC_CONFIG_VERSION[3]} -eq 0 ]]
   then
     _pzc_info "Updating from v6.2.0 pzcrc file to v6.4.0 pzcrc file..."
+    _pzc_pensil_begin
+    echo "Changelog pzcrc configuration file (v6.2.0 -> v6.4.0)"
+    echo "----"
+    echo "Add Atuin config file path and a config file in PZC."
+    _pzc_pensil_end
+
     mv ${_PZC_OUTPUT_FILE} ${_PZC_OUTPUT_FILE_TMP}
     _pzc_update_pzcrc_640
     rm ${_PZC_OUTPUT_FILE_TMP}
@@ -693,6 +735,12 @@ _pzc_launch_pzc_update()
   if [[ ${_PZC_CONFIG_VERSION[1]} -eq 6 ]] && [[ ${_PZC_CONFIG_VERSION[2]} -eq 4 ]] && [[ ${_PZC_CONFIG_VERSION[3]} -eq 0 ]]
   then
     _pzc_info "Updating from v6.4.0 pzcrc file to v6.6.0 pzcrc file..."
+    _pzc_pensil_begin
+    echo "Changelog pzcrc configuration file (v6.4.0 -> v6.6.0)"
+    echo "----"
+    echo "Add FZF (https://github.com/junegunn/fzf) support."
+    _pzc_pensil_end
+
     mv ${_PZC_OUTPUT_FILE} ${_PZC_OUTPUT_FILE_TMP}
     _pzc_update_pzcrc_660
     rm ${_PZC_OUTPUT_FILE_TMP}
@@ -702,10 +750,31 @@ _pzc_launch_pzc_update()
   if [[ ${_PZC_CONFIG_VERSION[1]} -eq 6 ]] && [[ ${_PZC_CONFIG_VERSION[2]} -eq 6 ]] && [[ ${_PZC_CONFIG_VERSION[3]} -eq 0 ]]
   then
     _pzc_info "Updating from v6.6.0 pzcrc file to v7.0.0 pzcrc file..."
+    _pzc_pensil_begin
+    echo "Changelog pzcrc configuration file (v6.6.0 -> v7.0.0)"
+    echo "----"
+    echo "Add Mise-en-place (https://github.com/jdx/mise) and Spack (https://github.com/spack/spack) support."
+    _pzc_pensil_end
+
     mv ${_PZC_OUTPUT_FILE} ${_PZC_OUTPUT_FILE_TMP}
     _pzc_update_pzcrc_700
     rm ${_PZC_OUTPUT_FILE_TMP}
     _PZC_CONFIG_VERSION=(7 0 0)
+  fi
+
+  if [[ ${_PZC_CONFIG_VERSION[1]} -eq 7 ]] && [[ ${_PZC_CONFIG_VERSION[2]} -eq 0 ]] && [[ ${_PZC_CONFIG_VERSION[3]} -eq 0 ]]
+  then
+    _pzc_info "Updating from v7.0.0 pzcrc file to v7.9.0 pzcrc file..."
+    _pzc_pensil_begin
+    echo "Changelog pzcrc configuration file (v7.0.0 -> v7.9.0)"
+    echo "----"
+    echo "Add Yazi file manager (https://github.com/sxyazi/yazi) ! Available on Mise-en-place."
+    _pzc_pensil_end
+
+    mv ${_PZC_OUTPUT_FILE} ${_PZC_OUTPUT_FILE_TMP}
+    _pzc_update_pzcrc_790
+    rm ${_PZC_OUTPUT_FILE_TMP}
+    _PZC_CONFIG_VERSION=(7 9 0)
   fi
 
   _pzc_info "Update done. Restarting zsh..."

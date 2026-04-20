@@ -7,7 +7,7 @@
 # ----------------------------------
 # ------ Config file version -------
 # ----------------------------------
-local _PZC_CONFIG_VERSION=(7 0 0)
+local _PZC_CONFIG_VERSION=(7 9 0)
 
 # ----------------------------------
 # ------- Log verbose level --------
@@ -213,6 +213,16 @@ local _PZC_FZF_AVAILABLE=1
 
 # [TODO] Uncomment and complete if you have a custom installation of fzf (which is not in PATH).
 #PZC_FZF_BIN=
+
+
+# ----------------------------------
+# -------------- YAZI --------------
+# ----------------------------------
+# [TODO] If you want to use yazi, set this variable to 1.
+local _PZC_YAZI_AVAILABLE=1
+
+# [TODO] Uncomment and complete if you have a custom installation of yazi (which is not in PATH).
+#PZC_YAZI_BIN=
 
 
 # ----------------------------------
