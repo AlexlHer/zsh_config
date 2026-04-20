@@ -33,12 +33,27 @@
 # -------------------------- Aliases ----------------------------
 # ---------------------------------------------------------------
 
-alias clonearc='_pzc_coal_eval "mkdir -p ${WORK_DIR}/arcane" ; \
-                _pzc_coal_eval "cd ${WORK_DIR}/arcane" ; \
+alias clonearc='_pzc_coal_eval "cd ${WORK_DIR}" ; \
                 _pzc_coal_eval "git clone --recurse-submodules https://github.com/arcaneframework/framework" ; \
                 gitarc'
 
 function gitarc()
+{
+  local CMP_SOURCE_DIR="${WORK_DIR}/framework"
+  if [[ -v 1 ]]
+  then
+    # TODO : Regex
+    if [[ ${1} == "1" ]]
+    then
+      CMP_SOURCE_DIR="${WORK_DIR}/framework_wt1"
+    else
+      CMP_SOURCE_DIR="${WORK_DIR}/framework_${1}"
+    fi
+  fi
+  _pzc_coal_eval "cd ${CMP_SOURCE_DIR}"
+}
+
+function ogitarc()
 {
   local CMP_SOURCE_DIR="${WORK_DIR}/arcane/framework"
   if [[ -v 1 ]]
@@ -68,6 +83,8 @@ function initarc()
   else
     CMP_PROJECT_NAME=framework
   fi
+
+  _pzc_warning "Deprecated function : use 'initcmp ${CMP_PROJECT_NAME} ${1} ${2}' instead."
 
   _pzc_info "Setting up Arcane Framework development environment: ${CMP_PROJECT_NAME}"
 

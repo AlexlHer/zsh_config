@@ -523,14 +523,7 @@ function _pzc_common_initcmp()
   # Enfin, si un preset de configuration user 1/2 est trouvé dans le chemin du build dir déjà défini (par défaut ou
   # grâce au preset typé), il sera utilisé pour remplacer les valeurs déjà définies.
 
-  # Valeurs par défaut.
-  if [[ ${CMP_PROJECT_TYPE} = 2 ]]
-  then
-    # Pour compatibilité avec l'existant.
-    CMP_SOURCE_DIR="${WORK_DIR}/arcane/${CMP_PROJECT_NAME}"
-  else
-    CMP_SOURCE_DIR="${WORK_DIR}/${CMP_PROJECT_NAME}"
-  fi
+  CMP_SOURCE_DIR="${WORK_DIR}/${CMP_PROJECT_NAME}"
   CMP_BUILD_DIR="${BUILD_DIR}/build_${CMP_PROJECT_NAME}/${TYPE_BUILD_DIR}"
   CMP_INSTALL_DIR="${INSTALL_DIR}/install_${CMP_PROJECT_NAME}/${TYPE_BUILD_DIR}"
 
@@ -904,13 +897,7 @@ function _pzc_common_bidep()
     _pzc_info "Build and install dependency -- Name : ${var1} -- Type : ${var2} -- Variant : ${var3} -- Preset : ${var4}"
     echo ""
 
-    # Aujourd'hui, framework est un nom réservé désignant Arcane framework (donc CMP_PROJECT_TYPE=2).
-    if [[ ${var1} == "framework" ]]
-    then
-      CMP_PROJECT_TYPE=2
-    else
-      CMP_PROJECT_TYPE=1
-    fi
+    CMP_PROJECT_TYPE=1
 
     _pzc_common_initcmp ${var1} ${var2} ${var3}
 
