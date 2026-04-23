@@ -77,6 +77,8 @@ then
     export PZC_CMAKE_LINKER_TYPE="null"
 
   fi
+else
+  export PZC_CMAKE_LINKER_TYPE="null"
 fi
 
 

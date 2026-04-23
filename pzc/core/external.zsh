@@ -558,7 +558,10 @@ then
       if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
       then
         _PZC_MOLD_PATH=$(mise which --raw -E ${HOST} -C "${ENVI_DIR}/pzc/progs/mise" mold 2&>/dev/null)
-        _PZC_MOLD_PATH=$(dirname "${_PZC_MOLD_PATH}")
+        if [[ -n ${_PZC_MOLD_PATH} ]]
+        then
+          _PZC_MOLD_PATH=$(dirname "${_PZC_MOLD_PATH}")
+        fi
       fi
 
       if [[ -n ${_PZC_MOLD_PATH} ]] && [[ -e ${_PZC_MOLD_PATH} ]]
@@ -615,7 +618,10 @@ then
       if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
       then
         _PZC_NINJA_PATH=$(mise which --raw -E ${HOST} -C "${ENVI_DIR}/pzc/progs/mise" ninja 2&>/dev/null)
-        _PZC_NINJA_PATH=$(dirname "${_PZC_NINJA_PATH}")
+        if [[ -n ${_PZC_NINJA_PATH} ]]
+        then
+          _PZC_NINJA_PATH=$(dirname "${_PZC_NINJA_PATH}")
+        fi
       fi
 
       if [[ -n ${_PZC_NINJA_PATH} ]] && [[ -e ${_PZC_NINJA_PATH} ]]
@@ -672,7 +678,10 @@ then
       if [[ ${_PZC_MISE_AVAILABLE} = 1 ]]
       then
         _PZC_CMAKE_PATH=$(mise which --raw -E ${HOST} -C "${ENVI_DIR}/pzc/progs/mise" cmake 2&>/dev/null)
-        _PZC_CMAKE_PATH=$(dirname "${_PZC_CMAKE_PATH}")
+        if [[ -n ${_PZC_CMAKE_PATH} ]]
+        then
+          _PZC_CMAKE_PATH=$(dirname "${_PZC_CMAKE_PATH}")
+        fi
       fi
 
       if [[ -n ${_PZC_CMAKE_PATH} ]] && [[ -e ${_PZC_CMAKE_PATH} ]]

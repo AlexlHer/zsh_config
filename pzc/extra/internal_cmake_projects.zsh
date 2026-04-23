@@ -668,10 +668,12 @@ function _pzc_common_configcmp()
   then
     echo "cmake \\"
     echo "  -S ${CMP_SOURCE_DIR} \\"
+    echo "  --log-level=VERBOSE \\"
     echo "  --preset ${CMP_BUILD_TYPE}"
   else
     echo "cmake \\"
     echo "  -S ${CMP_SOURCE_DIR} \\"
+    echo "  --log-level=VERBOSE \\"
     echo "  --preset ${CMP_BUILD_TYPE}_${1}"
   fi
 
@@ -687,10 +689,12 @@ function _pzc_common_configcmp()
   then
     cmake \
       -S ${CMP_SOURCE_DIR} \
+      --log-level=VERBOSE \
       --preset "${CMP_BUILD_TYPE}"
   else
     cmake \
       -S ${CMP_SOURCE_DIR} \
+      --log-level=VERBOSE \
       --preset "${CMP_BUILD_TYPE}_${1}"
   fi
 
